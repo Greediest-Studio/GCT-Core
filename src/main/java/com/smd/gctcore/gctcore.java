@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = "gctcore", name = "Gct Core", version = "1.0.15")
+@Mod(modid = "gctcore", name = "Gct Core", version = "1.0.16")
 public class gctcore {
 
     public static final String MODID = "gctcore";

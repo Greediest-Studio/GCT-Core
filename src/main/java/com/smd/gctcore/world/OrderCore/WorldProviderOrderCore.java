@@ -2,11 +2,10 @@ package com.smd.gctcore.world.OrderCore;
 
 import com.smd.gctcore.world.chunks.ChunkGeneratorOrderCore;
 
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.init.Biomes;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.biome.BiomeProviderSingle;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -138,7 +137,12 @@ public class WorldProviderOrderCore extends WorldProvider {
 
     @Override
     public boolean canDoRainSnowIce(net.minecraft.world.chunk.Chunk chunk) {
-        // 禁用雨雪
         return false;
+    }
+
+    @Override
+    public void init () {
+        this.biomeProvider = new BiomeProviderSingle(Biomes.VOID);
+        this.hasSkyLight = true;
     }
 }

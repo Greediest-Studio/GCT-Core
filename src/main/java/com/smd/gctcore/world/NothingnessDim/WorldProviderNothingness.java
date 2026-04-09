@@ -2,8 +2,10 @@ package com.smd.gctcore.world.NothingnessDim;
 
 import com.smd.gctcore.world.chunks.ChunkGeneratorNothingness;
 
+import net.minecraft.init.Biomes;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
+import net.minecraft.world.biome.BiomeProviderSingle;
 import net.minecraft.world.gen.IChunkGenerator;
 
 public class WorldProviderNothingness extends WorldProvider {
@@ -37,5 +39,11 @@ public class WorldProviderNothingness extends WorldProvider {
     @Override
     public float getCloudHeight(){
         return 255;
+    }
+
+    @Override
+    protected void init() {
+        this.biomeProvider = new BiomeProviderSingle(Biomes.VOID);
+        this.hasSkyLight = true;
     }
 }

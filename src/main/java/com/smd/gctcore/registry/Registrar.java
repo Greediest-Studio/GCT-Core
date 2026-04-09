@@ -1,16 +1,11 @@
 package com.smd.gctcore.registry;
 
-import WayofTime.bloodmagic.core.RegistrarBloodMagic;
-import WayofTime.bloodmagic.item.ItemBloodOrb;
-import WayofTime.bloodmagic.orb.BloodOrb;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.entity.EntityReversedAlfMaster;
 import com.smd.gctcore.init.GctItems;
 import WayofTime.bloodmagic.client.IMeshProvider;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
