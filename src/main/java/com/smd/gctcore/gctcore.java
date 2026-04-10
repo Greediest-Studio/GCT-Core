@@ -9,7 +9,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = "gctcore", name = "Gct Core", version = "1.0.16")
+@Mod(modid = "gctcore", name = "Gct Core", version = "1.0.17")
 public class gctcore {
 
     @SidedProxy(
