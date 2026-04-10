@@ -1,5 +1,5 @@
 {
-  "package": "com.smd.gctcore.mixin.gctaby",
+  "package": "com.smd.gctcore.common.mixin.gctaby",
   "required": true,
   "refmap": "mixins.gctcore.refmap.json",
   "target": "@env(DEFAULT)",

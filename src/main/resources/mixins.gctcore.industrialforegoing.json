@@ -1,5 +1,5 @@
 {
-  "package": "com.smd.gctcore.mixin.industrialforegoing",
+  "package": "com.smd.gctcore.common.mixin.industrialforegoing",
   "required": true,
   "refmap": "mixins.gctcore.refmap.json",
   "target": "@env(DEFAULT)",

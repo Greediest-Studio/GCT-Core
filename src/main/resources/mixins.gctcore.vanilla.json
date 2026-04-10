@@ -1,5 +1,5 @@
 {
-  "package": "com.smd.gctcore.mixin.damageparticle",
+  "package": "com.smd.gctcore.common.mixin.damageparticle",
   "required": true,
   "refmap": "mixins.gctcore.refmap.json",
   "target": "@env(DEFAULT)",

@@ -1,7 +1,7 @@
 {
   "required": false,
   "minVersion": "0.8",
-  "package": "com.smd.gctcore.mixin.thaumicconcilium",
+  "package": "com.smd.gctcore.common.mixin.thaumicconcilium",
   "compatibilityLevel": "JAVA_8",
   "refmap": "mixins.gctcore.refmap.json",
   "mixins": [

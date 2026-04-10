@@ -1,5 +1,5 @@
 {
-  "package": "com.smd.gctcore.mixin.extrabotany",
+  "package": "com.smd.gctcore.common.mixin.extrabotany",
   "required": true,
   "refmap": "mixins.gctcore.refmap.json",
   "target": "@env(DEFAULT)",

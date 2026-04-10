@@ -1,5 +1,5 @@
 {
-  "package": "com.smd.gctcore.mixin.triumph",
+  "package": "com.smd.gctcore.common.mixin.triumph",
   "required": true,
   "refmap": "mixins.gctcore.refmap.json",
   "target": "@env(DEFAULT)",

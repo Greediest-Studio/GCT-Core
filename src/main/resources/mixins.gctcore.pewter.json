@@ -1,5 +1,5 @@
 {
-  "package": "com.smd.gctcore.mixin.pewter",
+  "package": "com.smd.gctcore.common.mixin.pewter",
   "required": true,
   "refmap": "mixins.gctcore.refmap.json",
   "target": "@env(DEFAULT)",

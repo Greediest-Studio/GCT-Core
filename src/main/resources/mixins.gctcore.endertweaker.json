@@ -1,5 +1,5 @@
 {
-  "package": "com.smd.gctcore.mixin.endertweaker",
+  "package": "com.smd.gctcore.common.mixin.endertweaker",
   "required": true,
   "refmap": "mixins.gctcore.refmap.json",
   "target": "@env(DEFAULT)",

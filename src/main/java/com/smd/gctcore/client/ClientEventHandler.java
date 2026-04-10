@@ -1,6 +1,7 @@
 package com.smd.gctcore.client;
 
-import com.smd.gctcore.ModPotions;
+import com.smd.gctcore.common.misc.PotionsItemRegistry;
+import com.smd.gctcore.gctcore;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -11,10 +12,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod.EventBusSubscriber(modid = "gctcore", value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = gctcore.MODID, value = Side.CLIENT)
 public class ClientEventHandler {
 
-    private static final ResourceLocation OVERLAY = new ResourceLocation("gctcore", "textures/overlay/sukhavati_render_overlay.png");
+    private static final ResourceLocation OVERLAY = new ResourceLocation(gctcore.MODID, "textures/overlay/sukhavati_render_overlay.png");
 
     @SubscribeEvent
     public static void onRenderOverlay(RenderGameOverlayEvent.Post event) {
@@ -23,9 +24,9 @@ public class ClientEventHandler {
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.player == null) return;
 
-        if (ModPotions.sukhavati == null) return; // not yet registered
+        if (PotionsItemRegistry.SUKHAVATI == null) return; // not yet registered
 
-        if (!((EntityLivingBase)mc.player).isPotionActive(ModPotions.sukhavati)) return;
+        if (!((EntityLivingBase)mc.player).isPotionActive(PotionsItemRegistry.SUKHAVATI)) return;
 
         ScaledResolution sr = new ScaledResolution(mc);
         int width = sr.getScaledWidth();
