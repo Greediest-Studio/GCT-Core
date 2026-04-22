@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-@Mixin(targets = "com.ejektaflex.pewter.logic.MaterialRegistrar", remap = false)
+@Mixin(value = com.ejektaflex.pewter.logic.MaterialRegistrar.class, remap = false)
 public class MixinMaterialRegistrar {
 
     @Inject(method = "makeFluid", at = @At("HEAD"), cancellable = true, remap = false)
