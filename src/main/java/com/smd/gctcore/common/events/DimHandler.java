@@ -1,8 +1,6 @@
 package com.smd.gctcore.common.events;
 
 import com.smd.gctcore.Tags;
-import com.smd.gctcore.common.world.OrderCore.OrderCoreSkyRenderer;
-import net.minecraft.world.WorldProvider;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -27,13 +25,6 @@ public class DimHandler {
             event.setGreen(0.0f);
             event.setBlue(0.0f);
             // 注意：不调用setCanceled()，因为FogColors事件不可取消
-        }
-    }
-
-    // 这个方法将在WorldProvider中调用
-    public static void setSkyRenderer(WorldProvider provider) {
-        if (provider.getDimension() == 103) {
-            provider.setSkyRenderer(new OrderCoreSkyRenderer());
         }
     }
 }

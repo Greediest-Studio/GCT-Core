@@ -13,5 +13,6 @@ public class MixinJeiInformationContainer {
      * @reason 删除描述
      */
     @Overwrite(remap = false)
-    public void onRun(IModRegistry r) {}
+    public void onRun(IModRegistry r) {
+    }
 }

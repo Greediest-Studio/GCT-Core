@@ -1,14 +1,14 @@
 package com.smd.gctcore.common.config;
 
+import com.smd.gctcore.Tags;
 import com.smd.gctcore.common.misc.moretcon.BedrockBlockChecker;
-import com.smd.gctcore.gctcore;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Config(modid = "gctcore")
+@Config(modid = Tags.MOD_ID)
 @Config.LangKey("gctcore.config.title")
 public class GctCoreConfig {
 
@@ -69,12 +69,12 @@ public class GctCoreConfig {
         public double maxPerkEffect = -1;
     }
 
-    @Mod.EventBusSubscriber(modid = gctcore.MODID)
+    @Mod.EventBusSubscriber(modid = Tags.MOD_ID)
     private static class EventHandler {
         @SubscribeEvent
         public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-            if (event.getModID().equals("gctcore")) {
-                ConfigManager.sync("gctcore", Config.Type.INSTANCE);
+            if (event.getModID().equals(Tags.MOD_ID)) {
+                ConfigManager.sync(Tags.MOD_ID, Config.Type.INSTANCE);
                 // Refresh bedrock block checker cache when config changes
                 BedrockBlockChecker.markDirty();
             }

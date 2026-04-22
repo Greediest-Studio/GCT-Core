@@ -6,7 +6,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import slimeknights.tconstruct.library.client.model.ModelHelper;
 
 import java.io.IOException;
@@ -17,28 +16,19 @@ public class MixinModelHelper {
 
     @Inject(
             method = "getReaderForResource(Lnet/minecraft/util/ResourceLocation;Lnet/minecraft/client/resources/IResourceManager;)Ljava/io/Reader;",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/resources/IResourceManager;getResource(Lnet/minecraft/util/ResourceLocation;)Lnet/minecraft/client/resources/IResource;",
-                    remap = true
-            ),
-            locals = LocalCapture.CAPTURE_FAILHARD,
-            require = 1,
+            at = @At("HEAD"),
             cancellable = true
     )
-    private static void suppressMissingModifierModels(
-            ResourceLocation location,
-            IResourceManager resourceManager,
-            CallbackInfoReturnable<Reader> cir,
-            ResourceLocation file
-    ) {
-        // 检查是否是修饰符模型文件
+    private static void suppressMissingModifierModels(ResourceLocation location,
+                                                      IResourceManager resourceManager,
+                                                      CallbackInfoReturnable<Reader> cir) {
+
+        ResourceLocation file = new ResourceLocation(location.getNamespace(), location.getPath() + ".json");
+
         if (file.getPath().contains("modifiers/")) {
             try {
-                // 尝试获取资源
                 resourceManager.getResource(file);
             } catch (IOException e) {
-                // 忽略修饰符模型文件不存在的异常
                 cir.setReturnValue(null);
             }
         }

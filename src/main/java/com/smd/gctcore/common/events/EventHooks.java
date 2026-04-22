@@ -38,10 +38,11 @@ public class EventHooks {
     }
 
     @SubscribeEvent
-    @SideOnly(Side.SERVER)
-    public void blockBreakSpeed(PlayerEvent.BreakSpeed event){
-        if(!event.getEntityPlayer().onGround && (event.getEntityPlayer().capabilities.isFlying)){
-            event.setNewSpeed(event.getOriginalSpeed() * 5);
+    public void blockBreakSpeed(PlayerEvent.BreakSpeed event) {
+        if (!event.getEntityPlayer().world.isRemote) {
+            if (!event.getEntityPlayer().onGround && (event.getEntityPlayer().capabilities.isFlying)) {
+                event.setNewSpeed(event.getOriginalSpeed() * 5);
+            }
         }
     }
 

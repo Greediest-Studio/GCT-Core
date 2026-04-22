@@ -5,9 +5,7 @@ import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.Minecraft;
 
 @Pseudo
 @Mixin(targets = "net.mcreator.gctmobs.gui.GuiKabalahBuilder$GuiWindow", remap = false)

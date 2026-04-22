@@ -10,7 +10,6 @@ import com.smd.gctcore.common.world.CrimsonTempleGenerator;
 import com.smd.gctcore.common.world.NothingnessDim.DimensionTypeNothingness;
 import com.smd.gctcore.common.world.OrderCore.DimensionTypeOrderCore;
 import com.smd.gctcore.common.world.ShadowberryCaveGenerator;
-import net.minecraft.entity.Entity;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;

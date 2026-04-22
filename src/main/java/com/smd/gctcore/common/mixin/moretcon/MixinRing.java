@@ -26,7 +26,7 @@ public abstract class MixinRing {
                 }
             }
             if (count == 0) return false;
-            return player.getEntityWorld().getWorldTime() % (count * count) == 0;
+            return player.getEntityWorld().getWorldTime() % ((long) count * count) == 0;
         }
         return false;
     }

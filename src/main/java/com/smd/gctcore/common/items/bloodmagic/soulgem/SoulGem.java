@@ -1,6 +1,6 @@
 package com.smd.gctcore.common.items.bloodmagic.soulgem;
 
-import com.smd.gctcore.gctcore;
+import com.smd.gctcore.Tags;
 import com.smd.gctcore.common.items.bloodmagic.MeshDefinition.CustomMeshDefinitionSoulGem;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.util.ITooltipFlag;
@@ -60,7 +60,7 @@ public  class SoulGem extends Item implements IDemonWillGem, IMeshProvider,IMult
         super();
 
         setRegistryName("soul_gem");
-        setTranslationKey(gctcore.MODID + ".ItemSoulGem.");
+        setTranslationKey(Tags.MOD_ID + ".ItemSoulGem.");
         setHasSubtypes(true);
         setMaxStackSize(1);
         setCreativeTab(BloodMagic.TAB_BM);
@@ -208,7 +208,7 @@ public  class SoulGem extends Item implements IDemonWillGem, IMeshProvider,IMult
         double filled = PlayerDemonWillHandler.addDemonWill(type, player, drain, stack);
         this.drainWill(type, stack, filled, true);
 
-        return new ActionResult<ItemStack>(EnumActionResult.PASS, stack);
+        return new ActionResult<>(EnumActionResult.PASS, stack);
     }
 
     @Override
@@ -237,7 +237,6 @@ public  class SoulGem extends Item implements IDemonWillGem, IMeshProvider,IMult
             return;
 
         EnumDemonWillType type = this.getCurrentType(stack);
-        int metadata = stack.getItemDamage();
         tooltip.add(TextHelper.localize("tooltip.bloodmagic.soulgem." + names[stack.getItemDamage()]));
         tooltip.add(TextHelper.localize("tooltip.bloodmagic.will", getWill(type, stack)));
         tooltip.add(TextHelper.localizeEffect("tooltip.bloodmagic.currentType." + getCurrentType(stack).getName().toLowerCase()));

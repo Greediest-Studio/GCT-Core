@@ -1,5 +1,6 @@
 package com.smd.gctcore.common.entity;
 
+import com.smd.gctcore.Tags;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -16,7 +17,7 @@ public class EntityRenders {
                 ) {
                     @Override
                     protected ResourceLocation getEntityTexture(EntityReversedAlfMaster entity) {
-                        return new ResourceLocation("gctcore", "textures/entity/reversed_alf_master.png");
+                        return new ResourceLocation(Tags.MOD_ID, "textures/entity/reversed_alf_master.png");
                     }
                 }
         );

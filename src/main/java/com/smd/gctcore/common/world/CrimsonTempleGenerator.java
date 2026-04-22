@@ -29,7 +29,7 @@ public class CrimsonTempleGenerator implements IWorldGenerator {
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
         if (world == null) return;
-        String dimName = world.provider.getDimensionType().getName();
+
         int dimId = world.provider.getDimension();
 
         
