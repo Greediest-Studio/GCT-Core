@@ -1,13 +1,14 @@
 {
-  "package": "com.smd.gctcore.common.mixin.damageparticle",
+  "package": "com.smd.gctcore.common.mixin.vanilla",
   "required": true,
   "refmap": "mixins.gctcore.refmap.json",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8.5",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinEntityPlayer",
-    "MixinEntity"
+    "damageparticle.MixinEntityPlayer",
+    "damageparticle.MixinEntity",
+    "entity.MixinEntityWither"
   ],
   "server": [],
   "client": []

@@ -1,4 +1,4 @@
-package com.smd.gctcore.common.mixin.damageparticle;
+package com.smd.gctcore.common.mixin.vanilla.damageparticle;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumParticleTypes;
