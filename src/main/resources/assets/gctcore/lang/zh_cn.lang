@@ -47,6 +47,11 @@ tooltip.bloodmagic.infSoulGem=真的能存满吗？
 
 info.gct.energy=充能
 
+modifier.erase_command.name=命令删除
+modifier.erase_command.desc=§o以命令主宰万物！\n§r对凋灵风暴造成巨额伤害！
+modifier.levelingdamage.name=等级伤害
+modifier.levelingdamage.desc=§o我要变得更强！§r\n§f随着工具等级的提升获得越来越高的攻击力。
+tooltip.damage_increase=§9武器伤害加成：%s%%
 
 message.crimson_anchor.found=§c一股血腥能量逸出，指向了§f(%d, %d, %d)§c的位置。
 message.crimson_anchor.notfound=§c一股血腥能量逸出，但很快又回去了。
