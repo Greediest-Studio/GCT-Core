@@ -10,8 +10,6 @@ import com.smd.gctcore.common.world.CrimsonTempleGenerator;
 import com.smd.gctcore.common.world.NothingnessDim.DimensionTypeNothingness;
 import com.smd.gctcore.common.world.OrderCore.DimensionTypeOrderCore;
 import com.smd.gctcore.common.world.ShadowberryCaveGenerator;
-import com.smd.gctcore.common.modifiers.TraitEraseCommand;
-import com.smd.gctcore.common.modifiers.TraitLevelingDamage;
 
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
@@ -22,9 +20,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class CommonProxy {
-
-    public static TraitEraseCommand TRAIT_ERASE_COMMAND;
-    public static TraitLevelingDamage TRAIT_LEVELING_DAMAGE;
 
     public void preInit(FMLPreInitializationEvent event) {
         PotionsItemRegistry.init();
@@ -47,19 +42,9 @@ public class CommonProxy {
         //注册世界生成器
         GameRegistry.registerWorldGenerator(new CrimsonTempleGenerator(), 0);
         GameRegistry.registerWorldGenerator(new ShadowberryCaveGenerator(), 0);
-
-        //注册匠魂强化
-        if (Loader.isModLoaded("tconstruct")) {
-            TRAIT_ERASE_COMMAND = new TraitEraseCommand();
-            TRAIT_LEVELING_DAMAGE = new TraitLevelingDamage();
-        }
     }
 
     public void init(FMLInitializationEvent event) {
-        if (Loader.isModLoaded("tconstruct")) {
-            if (TRAIT_ERASE_COMMAND != null) TRAIT_ERASE_COMMAND.initItem();
-            if (TRAIT_LEVELING_DAMAGE != null) TRAIT_LEVELING_DAMAGE.initItem();
-        }
     }
 
     public void postInit(FMLPostInitializationEvent event) {
