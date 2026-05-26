@@ -42,6 +42,22 @@ public class GctCoreConfig {
         public boolean treatAsSoftBedrock = true;
     }
 
+    @Config.Comment("Smeltery accelerator integration (replaces SimpleSmelteryAccelerator)")
+    @Config.Name("Smeltery Integration")
+    public static SmelteryIntegration smelteryIntegration = new SmelteryIntegration();
+
+    public static class SmelteryIntegration {
+
+        @Config.Comment({
+                "Multiplier for TileSmeltery processing speed.",
+        })
+        @Config.Name("Smeltery Multiplier")
+        @Config.RangeInt(min = 1, max = 100)
+        public int smelteryMultiplier = 4;
+    }
+
+
+
     @Config.Comment("AbyssalCraft")
     @Config.Name("AbyssalCraft")
     public static AbyssalCraft abyssalCraftIntegration = new AbyssalCraft();
