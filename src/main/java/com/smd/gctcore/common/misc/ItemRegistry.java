@@ -2,6 +2,8 @@ package com.smd.gctcore.common.misc;
 
 import com.smd.gctcore.common.items.CrimsonAnchorItem;
 import com.smd.gctcore.common.items.bloodmagic.soulgem.SoulGem;
+import com.smd.gctcore.common.items.botania.ItemAlfSpark;
+import com.smd.gctcore.common.items.botania.ItemGaiaSpark;
 import com.smd.gctcore.common.items.draconicevolution.ChaoticFluxCapacitor;
 import com.smd.gctcore.common.items.draconicevolution.FrostburnFluxCapacitor;
 import com.smd.gctcore.common.items.draconicevolution.OrderedFluxCapacitor;
@@ -16,6 +18,8 @@ public class ItemRegistry {
     public static FrostburnFluxCapacitor FROSTBURN_FLUX_CAPACITOR;
     public static Item ITEM_SOUL_GEM;
     public static Item CRIMSON_ANCHOR;
+    public static Item ALF_SPARK;
+    public static Item GAIA_SPARK;
 
     public static void init() {
         CHAOTIC_FLUX_CAPACITOR = new ChaoticFluxCapacitor();
@@ -23,6 +27,8 @@ public class ItemRegistry {
         FROSTBURN_FLUX_CAPACITOR = new FrostburnFluxCapacitor();
         ITEM_SOUL_GEM = new SoulGem();
         CRIMSON_ANCHOR = new CrimsonAnchorItem();
+        ALF_SPARK = new ItemAlfSpark();
+        GAIA_SPARK = new ItemGaiaSpark();
     }
 
     @SubscribeEvent
@@ -32,7 +38,9 @@ public class ItemRegistry {
                 ORDERED_FLUX_CAPACITOR,
                 FROSTBURN_FLUX_CAPACITOR,
                 ITEM_SOUL_GEM,
-                CRIMSON_ANCHOR
+                CRIMSON_ANCHOR,
+                ALF_SPARK,
+                GAIA_SPARK
         );
     }
 }

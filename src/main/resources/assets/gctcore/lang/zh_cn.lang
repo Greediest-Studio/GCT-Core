@@ -26,6 +26,11 @@ item.gctcore.chaotic_flux_capacitor.name=通量容器-MK3
 item.gctcore.ordered_flux_capacitor.name=通量容器-MK4
 item.gctcore.frostburn_flux_capacitor.name=通量容器-MK5
 item.gctcore.crimson_anchor.name=§4血腥朝圣之锚
+item.gctcore.alf_spark.name=精灵火花
+item.gctcore.gaia_spark.name=盖亚火花
+
+entity.alf_spark.name=精灵火花
+entity.gaia_spark.name=盖亚火花
 
 tooltip.bloodmagic.will=意志质量：%1$,.2f
 tooltip.bloodmagic.currentType.default=蕴含：原生意志

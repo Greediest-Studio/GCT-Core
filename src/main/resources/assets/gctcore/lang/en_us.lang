@@ -5,6 +5,12 @@ key.gctcore.mining_speed_minus=ReducedDiggingSpeed
 
 hud.mining_speed=miningMultiplier：%sx
 
+item.gctcore.alf_spark.name=Alf Spark
+item.gctcore.gaia_spark.name=Gaia Spark
+
+entity.alf_spark.name=Alf Spark
+entity.gaia_spark.name=Gaia Spark
+
 item.gctcore.ItemSoulGem.realInfinite.name=Real InfiniteGem Tartaric Gem
 item.gctcore.ItemSoulGem.improved.name=ImprovedGem Tartaric Gem
 item.gctcore.ItemSoulGem.concentra.name=ConcentraGem Tartaric Gem

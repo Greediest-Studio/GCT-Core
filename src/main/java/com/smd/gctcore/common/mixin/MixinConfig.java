@@ -17,6 +17,7 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.ageofminecraft.json", "ageofminecraft");
         addModdedMixinCFG("mixins.gctcore.tconstruct.json", "tconstruct");
         addModdedMixinCFG("mixins.gctcore.enderstorage.json", "enderstorage");
+        addModdedMixinCFG("mixins.gctcore.botania.json", "botania");
         addModdedMixinCFG("mixins.gctcore.extrabotany.json", "extrabotany");
         addModdedMixinCFG("mixins.gctcore.abyssalcraft.json", "abyssalcraft");
         addModdedMixinCFG("mixins.gctcore.moretcon.json", "moretcon");

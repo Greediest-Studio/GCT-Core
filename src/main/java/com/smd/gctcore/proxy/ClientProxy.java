@@ -10,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -55,11 +56,27 @@ public class ClientProxy extends CommonProxy {
     public static class ModelRegistration {
 
         @SubscribeEvent
+        public static void registerItemColors(ColorHandlerEvent.Item event) {
+            // 精灵火花 #C0CCE0
+            event.getItemColors().registerItemColorHandler(
+                    (stack, tintIndex) -> tintIndex == 0 ? 0xC0CCE0 : -1,
+                    ItemRegistry.ALF_SPARK
+            );
+            // 盖亚火花 #97808B
+            event.getItemColors().registerItemColorHandler(
+                    (stack, tintIndex) -> tintIndex == 0 ? 0x97808B : -1,
+                    ItemRegistry.GAIA_SPARK
+            );
+        }
+
+        @SubscribeEvent
         public static void registerModels(ModelRegistryEvent event) {
             registerItemModel(ItemRegistry.CHAOTIC_FLUX_CAPACITOR);
             registerItemModel(ItemRegistry.ORDERED_FLUX_CAPACITOR);
             registerItemModel(ItemRegistry.FROSTBURN_FLUX_CAPACITOR);
             registerItemModel(ItemRegistry.CRIMSON_ANCHOR);
+            registerItemModel(ItemRegistry.ALF_SPARK);
+            registerItemModel(ItemRegistry.GAIA_SPARK);
             registerSoulGemMeshModel();
         }
 
