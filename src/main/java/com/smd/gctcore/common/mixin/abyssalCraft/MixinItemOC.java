@@ -16,10 +16,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ItemOC.class)
 public class MixinItemOC {
     @Inject(
-            method = "func_77659_a",
+            method = "onItemRightClick",
             at = @At("HEAD"),
-            cancellable = true,
-            remap = false
+            cancellable = true
     )
     private void injectOblivionCatalyst(World world, EntityPlayer player, EnumHand hand, CallbackInfoReturnable<ActionResult<ItemStack>> cir) {
         ItemStack stack = player.getHeldItem(hand);

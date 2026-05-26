@@ -6,7 +6,7 @@ import net.minecraft.scoreboard.Team;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
-@Mixin(value = EntityFriendlyCreature.class, remap = false)
+@Mixin(value = EntityFriendlyCreature.class)
 public abstract class MixinEntityFriendlyCreature {
 
     /**
@@ -16,7 +16,7 @@ public abstract class MixinEntityFriendlyCreature {
      * @reason Summoner mobs should never ignore player damage.
      */
     @Overwrite
-    public boolean func_184191_r(Entity entity) {
+    public boolean isOnSameTeam(Entity entity) {
         return false;
     }
 
@@ -26,8 +26,8 @@ public abstract class MixinEntityFriendlyCreature {
      * @author Gct-Core
      * @reason Summoner mobs must be damageable by all attackers.
      */
-    @Overwrite
-    public Team func_96124_cp() {
+    @Overwrite(remap = false)
+    public Team getTeam() {
         return null;
     }
 }

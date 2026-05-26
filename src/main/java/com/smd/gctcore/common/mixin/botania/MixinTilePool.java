@@ -22,7 +22,7 @@ public abstract class MixinTilePool extends TileEntity {
     @Shadow
     public int manaCap;
 
-    @Inject(method = "func_73660_a()V", at = @At("HEAD"), remap = false)
+    @Inject(method = "update()V", at = @At("HEAD"), remap = false)
     private void gctcore$initFabulousManaCap(CallbackInfo ci) {
         if (this.manaCap == -1) {
             PoolVariant variant = this.world.getBlockState(this.pos)
