@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "gctcore:raw_quartz"
+    },
+    {
+      "item": "gctcore:raw_quartz"
+    }
+  ],
+  "result": {
+    "item": "gctcore:shaped_quartz"
+  }
+}

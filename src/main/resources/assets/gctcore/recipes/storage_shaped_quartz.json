@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "QQQ",
+    "QQQ",
+    "QQQ"
+  ],
+  "key": {
+    "Q": {
+      "item": "gctcore:shaped_quartz"
+    }
+  },
+  "result": {
+    "item": "gctcore:storage_shaped_quartz"
+  }
+}

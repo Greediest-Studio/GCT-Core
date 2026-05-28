@@ -2,6 +2,9 @@ package com.smd.gctcore.proxy;
 
 import com.smd.gctcore.common.events.EventHooks;
 import com.smd.gctcore.common.events.MoreTconBedrockHandler;
+import com.smd.gctcore.common.integration.astralsorcery.RadiantQuartzLiquefaction;
+import com.smd.gctcore.common.integration.top.GctTopPlugin;
+import com.smd.gctcore.common.misc.BlockRegistry;
 import com.smd.gctcore.common.misc.EntityRegistrar;
 import com.smd.gctcore.common.misc.ItemRegistry;
 import com.smd.gctcore.common.misc.PotionsItemRegistry;
@@ -15,6 +18,7 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -23,13 +27,16 @@ public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
         PotionsItemRegistry.init();
+        BlockRegistry.init();
         ItemRegistry.init();
         EntityRegistrar.init();
         // 注册事件监听器
         MinecraftForge.EVENT_BUS.register(new EventHooks());
+        MinecraftForge.EVENT_BUS.register(new BlockRegistry());
         MinecraftForge.EVENT_BUS.register(new ItemRegistry());
         MinecraftForge.EVENT_BUS.register(new PotionsItemRegistry());
         MinecraftForge.EVENT_BUS.register(new EntityRegistrar());
+        BlockRegistry.registerTileEntities();
         // MoreTcon 基岩挖掘限制，仅在 moretcon 存在时注册
         if (Loader.isModLoaded("moretcon")) {
             MinecraftForge.EVENT_BUS.register(new MoreTconBedrockHandler());
@@ -45,6 +52,12 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent event) {
+        if (Loader.isModLoaded("theoneprobe")) {
+            FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", GctTopPlugin.class.getName());
+        }
+        if (Loader.isModLoaded("astralsorcery")) {
+            RadiantQuartzLiquefaction.init();
+        }
     }
 
     public void postInit(FMLPostInitializationEvent event) {

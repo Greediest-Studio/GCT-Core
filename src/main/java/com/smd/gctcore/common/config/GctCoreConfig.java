@@ -16,6 +16,23 @@ public class GctCoreConfig {
     @Config.Name("Moartcon Integration")
     public static MoreTconIntegration moreTconIntegration = new MoreTconIntegration();
 
+    @Config.Comment("Radiant resonator settings")
+    @Config.Name("Radiant Resonator")
+    public static RadiantResonator radiantResonator = new RadiantResonator();
+
+    public static class RadiantResonator {
+
+        @Config.Comment("Maximum radiant resonators each player can place")
+        @Config.Name("Resonator Limit")
+        @Config.RangeInt(min = 1, max = 1024)
+        public int resonatorLimit = 3;
+
+        @Config.Comment("Ticks required to generate one raw quartz cluster")
+        @Config.Name("Resonator Tick Time")
+        @Config.RangeInt(min = 1)
+        public int resonatorTickTime = 6000;
+    }
+
     public static class MoreTconIntegration {
         
         @Config.Comment({

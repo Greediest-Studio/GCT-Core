@@ -65,3 +65,18 @@ effect.sukhavati=极乐净土
 
 entity.reversed_alf_master.name=反·精灵长老
 
+tile.gctcore.radiant_resonator.name=辉耀谐振台
+tile.gctcore.raw_quartz_cluster.name=粗辉耀石英簇
+tile.gctcore.storage_shaped_quartz.name=已雕琢的辉耀石英块
+item.gctcore.raw_quartz.name=粗辉耀石英
+item.gctcore.shaped_quartz.name=已雕琢的辉耀石英
+tooltip.gctcore.radiant_resonator=上方无遮挡时，随时间生成粗辉耀石英簇。
+tooltip.gctcore.raw_quartz=一种辉耀材料。
+tooltip.gctcore.shaped_quartz=一种已雕琢的辉耀材料。
+tooltip.gctcore.storage_shaped_quartz=已雕琢辉耀石英制成的装饰方块。
+jei.gctcore.resonator=每 %.1f 分钟
+top.gctcore.resonator.progress=进度:
+top.gctcore.resonator.status.resonating=谐振中
+top.gctcore.resonator.status.offline=离线
+top.gctcore.resonator.status.obstruction=被阻挡
+top.gctcore.resonator.status.harvestable=可收获

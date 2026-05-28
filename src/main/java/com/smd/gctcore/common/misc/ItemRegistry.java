@@ -1,6 +1,8 @@
 package com.smd.gctcore.common.misc;
 
 import com.smd.gctcore.common.items.CrimsonAnchorItem;
+import com.smd.gctcore.common.items.RawQuartzItem;
+import com.smd.gctcore.common.items.ShapedQuartzItem;
 import com.smd.gctcore.common.items.bloodmagic.soulgem.SoulGem;
 import com.smd.gctcore.common.items.botania.ItemAlfSpark;
 import com.smd.gctcore.common.items.botania.ItemGaiaSpark;
@@ -20,6 +22,8 @@ public class ItemRegistry {
     public static Item CRIMSON_ANCHOR;
     public static Item ALF_SPARK;
     public static Item GAIA_SPARK;
+    public static Item RAW_QUARTZ;
+    public static Item SHAPED_QUARTZ;
 
     public static void init() {
         CHAOTIC_FLUX_CAPACITOR = new ChaoticFluxCapacitor();
@@ -29,6 +33,8 @@ public class ItemRegistry {
         CRIMSON_ANCHOR = new CrimsonAnchorItem();
         ALF_SPARK = new ItemAlfSpark();
         GAIA_SPARK = new ItemGaiaSpark();
+        RAW_QUARTZ = new RawQuartzItem();
+        SHAPED_QUARTZ = new ShapedQuartzItem();
     }
 
     @SubscribeEvent
@@ -40,7 +46,9 @@ public class ItemRegistry {
                 ITEM_SOUL_GEM,
                 CRIMSON_ANCHOR,
                 ALF_SPARK,
-                GAIA_SPARK
+                GAIA_SPARK,
+                RAW_QUARTZ,
+                SHAPED_QUARTZ
         );
     }
 }

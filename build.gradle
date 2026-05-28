@@ -160,6 +160,7 @@ dependencies {
     compileOnly rfg.deobf("curse.maven:thaumcraft-223628:2629023")
     compileOnly rfg.deobf("curse.maven:ageofminecraft-247133:2849572")
     compileOnly rfg.deobf("curse.maven:iceandfire-264231:2939529")
+    compileOnly rfg.deobf("curse.maven:the-one-probe-community-edition-885670:7718301")
     compileOnly rfg.deobf("CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.698")
     //eio相关依赖
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])

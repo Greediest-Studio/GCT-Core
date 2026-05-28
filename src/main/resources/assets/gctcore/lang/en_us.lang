@@ -64,3 +64,19 @@ entity.reversed_alf_master.name=Reversed Alf Master
 
 message.crimson_anchor.found=§c A Bloody Energy Escaped And Pointed§f(%d, %d, %d)§c location。
 message.crimson_anchor.notfound=§c A Bloody Energy Escaped But Soon WentBack。
+
+tile.gctcore.radiant_resonator.name=Radiant Resonator
+tile.gctcore.raw_quartz_cluster.name=Raw Radiant Quartz Cluster
+tile.gctcore.storage_shaped_quartz.name=Shaped Radiant Quartz Block
+item.gctcore.raw_quartz.name=Raw Radiant Quartz
+item.gctcore.shaped_quartz.name=Shaped Radiant Quartz
+tooltip.gctcore.radiant_resonator=Generates Raw Radiant Quartz Cluster over time if the block above is open.
+tooltip.gctcore.raw_quartz=A radiant material.
+tooltip.gctcore.shaped_quartz=A shaped radiant material.
+tooltip.gctcore.storage_shaped_quartz=A decorative block made from shaped radiant quartz.
+jei.gctcore.resonator=Every %.1f minutes
+top.gctcore.resonator.progress=Progress:
+top.gctcore.resonator.status.resonating=Resonating
+top.gctcore.resonator.status.offline=Offline
+top.gctcore.resonator.status.obstruction=Obstructed
+top.gctcore.resonator.status.harvestable=Harvestable

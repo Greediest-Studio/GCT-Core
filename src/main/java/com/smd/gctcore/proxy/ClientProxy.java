@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.common.entity.EntityRenders;
 import com.smd.gctcore.common.events.MiningSpeedHandler;
+import com.smd.gctcore.common.misc.BlockRegistry;
 import com.smd.gctcore.common.misc.ItemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -13,6 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -30,6 +32,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
+        OBJLoader.INSTANCE.addDomain(Tags.MOD_ID);
 
         // 注册事件监听器
         MinecraftForge.EVENT_BUS.register(this);
@@ -77,6 +80,11 @@ public class ClientProxy extends CommonProxy {
             registerItemModel(ItemRegistry.CRIMSON_ANCHOR);
             registerItemModel(ItemRegistry.ALF_SPARK);
             registerItemModel(ItemRegistry.GAIA_SPARK);
+            registerItemModel(ItemRegistry.RAW_QUARTZ);
+            registerItemModel(ItemRegistry.SHAPED_QUARTZ);
+            registerBlockModel(BlockRegistry.RADIANT_RESONATOR);
+            registerBlockModel(BlockRegistry.RAW_QUARTZ_CLUSTER);
+            registerBlockModel(BlockRegistry.STORAGE_SHAPED_QUARTZ);
             registerSoulGemMeshModel();
         }
 
