@@ -1,0 +1,12 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "com.smd.gctcore.common.mixin.whimcraft",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "mixins.gctcore.refmap.json",
+  "mixins": [
+    "MixinAdapterTC6Crucible"
+  ],
+  "client": [],
+  "server": []
+}

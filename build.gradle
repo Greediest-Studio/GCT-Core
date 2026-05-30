@@ -277,6 +277,7 @@ jar {
     from(provider{ configurations.embed.collect {it.isDirectory() ? it : zipTree(it)} })
     // Exclude compile-time stubs from the final jar
     exclude 'com/ejektaflex/pewter/**'
+    exclude 'com/xinyihl/whimcraft/**'
     exclude 'slimeknights/toolleveling/**'
 }
 

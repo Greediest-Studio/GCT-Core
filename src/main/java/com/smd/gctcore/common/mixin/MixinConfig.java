@@ -33,6 +33,7 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.endertweaker.json","endertweaker");
         addModdedMixinCFG("mixins.gctcore.thaumicadditions.json","thaumicadditions");
         addModdedMixinCFG("mixins.gctcore.simplesmelteryaccelerator.json","simplesmelteryaccelerator");
+        addModdedMixinCFG("mixins.gctcore.whimcraft.json", "whimcraft");
     }
 
     @Override
