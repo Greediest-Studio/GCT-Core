@@ -1,7 +1,6 @@
 package com.smd.gctcore.common.blocks;
 
 import com.smd.gctcore.common.config.GctCoreConfig;
-import com.smd.gctcore.common.misc.BlockRegistry;
 import com.smd.gctcore.common.tile.RadiantResonatorTileEntity;
 import com.smd.gctcore.common.world.RadiantResonatorData;
 import net.minecraft.block.Block;

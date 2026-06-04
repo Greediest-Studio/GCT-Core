@@ -4,10 +4,8 @@ import com.smd.gctcore.common.events.EventHooks;
 import com.smd.gctcore.common.events.MoreTconBedrockHandler;
 import com.smd.gctcore.common.integration.astralsorcery.RadiantQuartzLiquefaction;
 import com.smd.gctcore.common.integration.top.GctTopPlugin;
-import com.smd.gctcore.common.misc.BlockRegistry;
-import com.smd.gctcore.common.misc.EntityRegistrar;
-import com.smd.gctcore.common.misc.ItemRegistry;
-import com.smd.gctcore.common.misc.PotionsItemRegistry;
+import com.smd.gctcore.misc.*;
+import com.smd.gctcore.common.integration.mmce.MMCE_BuilderTaskManager;
 import com.smd.gctcore.common.world.AirportDim.DimensionTypeAirport;
 import com.smd.gctcore.common.world.CrimsonTempleGenerator;
 import com.smd.gctcore.common.world.NothingnessDim.DimensionTypeNothingness;
@@ -30,15 +28,17 @@ public class CommonProxy {
         BlockRegistry.init();
         ItemRegistry.init();
         EntityRegistrar.init();
+
         // 注册事件监听器
         MinecraftForge.EVENT_BUS.register(new EventHooks());
         MinecraftForge.EVENT_BUS.register(new BlockRegistry());
         MinecraftForge.EVENT_BUS.register(new ItemRegistry());
         MinecraftForge.EVENT_BUS.register(new PotionsItemRegistry());
         MinecraftForge.EVENT_BUS.register(new EntityRegistrar());
+        MinecraftForge.EVENT_BUS.register(new MMCE_BuilderTaskManager());
         BlockRegistry.registerTileEntities();
         // MoreTcon 基岩挖掘限制，仅在 moretcon 存在时注册
-        if (Loader.isModLoaded("moretcon")) {
+        if (Mods.MORETCON.isLoading()) {
             MinecraftForge.EVENT_BUS.register(new MoreTconBedrockHandler());
         }
 
@@ -52,10 +52,10 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent event) {
-        if (Loader.isModLoaded("theoneprobe")) {
+        if (Mods.TOP.isLoading()) {
             FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", GctTopPlugin.class.getName());
         }
-        if (Loader.isModLoaded("astralsorcery")) {
+        if (Mods.AS.isLoading()) {
             RadiantQuartzLiquefaction.init();
         }
     }

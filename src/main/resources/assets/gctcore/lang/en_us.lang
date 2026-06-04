@@ -1,16 +1,16 @@
-key.gctcore.categories=Gct Core
 
+key.gctcore.categories=Gct Core
 key.gctcore.mining_speed_add=MiningSpeedIncreased
 key.gctcore.mining_speed_minus=ReducedDiggingSpeed
 
 hud.mining_speed=miningMultiplier：%sx
 
-item.gctcore.alf_spark.name=Alf Spark
-item.gctcore.gaia_spark.name=Gaia Spark
-
 entity.alf_spark.name=Alf Spark
 entity.gaia_spark.name=Gaia Spark
+entity.reversed_alf_master.name=Reversed Alf Master
 
+item.gctcore.alf_spark.name=Alf Spark
+item.gctcore.gaia_spark.name=Gaia Spark
 item.gctcore.ItemSoulGem.realInfinite.name=Real InfiniteGem Tartaric Gem
 item.gctcore.ItemSoulGem.improved.name=ImprovedGem Tartaric Gem
 item.gctcore.ItemSoulGem.concentra.name=ConcentraGem Tartaric Gem
@@ -20,7 +20,6 @@ item.gctcore.ItemSoulGem.origin.name=OriginGem Tartaric Gem
 item.gctcore.ItemSoulGem.primordial.name=PrimordialGem Tartaric Gem
 item.gctcore.ItemSoulGem.eternal.name=EternalGem Tartaric Gem
 item.gctcore.ItemSoulGem.infinite.name=InfiniteGem Tartaric Gem
-
 item.bloodmagic.orb.eldritch.name=Evilmagic Blood Orb
 item.bloodmagic.orb.murder.name=CurseAbyss Blood Orb
 item.bloodmagic.orb.origin.name=origin Blood Orb
@@ -28,10 +27,12 @@ item.bloodmagic.orb.truth.name=truth Blood Orb
 item.bloodmagic.orb.endless.name=endless Blood Orb
 item.bloodmagic.orb.the_end.name=the_end Blood Orb
 item.gctcore.crimson_anchor.name=§4AnchorOfABloodyPilgrimage
-
 item.gctcore.chaotic_flux_capacitor.name=Chaotic Flux Capacitor
 item.gctcore.ordered_flux_capacitor.name=Ordered Flux Capacitor
 item.gctcore.frostburn_flux_capacitor.name=Frostburn Flux Capacitor
+item.gctcore.raw_quartz.name=Raw Radiant Quartz
+item.gctcore.shaped_quartz.name=Shaped Radiant Quartz
+item.gctcore.mmce_builder_tool.name=MMCE Structure Builder
 
 tooltip.bloodmagic.will=Will Quality: %1$,.2f
 tooltip.bloodmagic.currentBaseType.default=Raw
@@ -44,7 +45,6 @@ tooltip.bloodmagic.currentType.corrosive=Contains: Corrosive Will
 tooltip.bloodmagic.currentType.destructive=Contains: Destructive Will
 tooltip.bloodmagic.currentType.vengeful=Contains: Vengeful Will
 tooltip.bloodmagic.currentType.steadfast=Contains: Steadfast Will
-
 tooltip.bloodmagic.soulgem.improved=The product of technology.
 tooltip.bloodmagic.soulgem.concentra=Forged through brutal compression.
 tooltip.bloodmagic.soulgem.pure=Can soul gems really be distilled?
@@ -55,28 +55,53 @@ tooltip.bloodmagic.soulgem.eternal=Do we really have to keep going?
 tooltip.bloodmagic.soulgem.infinite=Truly infinite?
 tooltip.bloodmagic.soulgem.realInfinite=The pinnacle of arcane and technological mastery.
 tooltip.bloodmagic.infSoulGem=Can it really be filled completely?
+tooltip.gctcore.mmce_builder_tool.1=Right click to configure automatic MMCE assembly.
+tooltip.gctcore.mmce_builder_tool.2=Dynamic length: %d
+tooltip.gctcore.mmce_builder_tool.3=Sneak right click an MMCE controller to assemble it.
+tooltip.gctcore.radiant_resonator=Generates Raw Radiant Quartz Cluster over time if the block above is open.
+tooltip.gctcore.raw_quartz=A radiant material.
+tooltip.gctcore.shaped_quartz=A shaped radiant material.
+tooltip.gctcore.storage_shaped_quartz=A decorative block made from shaped radiant quartz.
 
 info.gct.energy=Energy
 
 effect.sukhavati=Sukhavati
 
-entity.reversed_alf_master.name=Reversed Alf Master
-
-message.crimson_anchor.found=§c A Bloody Energy Escaped And Pointed§f(%d, %d, %d)§c location。
-message.crimson_anchor.notfound=§c A Bloody Energy Escaped But Soon WentBack。
-
 tile.gctcore.radiant_resonator.name=Radiant Resonator
 tile.gctcore.raw_quartz_cluster.name=Raw Radiant Quartz Cluster
 tile.gctcore.storage_shaped_quartz.name=Shaped Radiant Quartz Block
-item.gctcore.raw_quartz.name=Raw Radiant Quartz
-item.gctcore.shaped_quartz.name=Shaped Radiant Quartz
-tooltip.gctcore.radiant_resonator=Generates Raw Radiant Quartz Cluster over time if the block above is open.
-tooltip.gctcore.raw_quartz=A radiant material.
-tooltip.gctcore.shaped_quartz=A shaped radiant material.
-tooltip.gctcore.storage_shaped_quartz=A decorative block made from shaped radiant quartz.
+
 jei.gctcore.resonator=Every %.1f minutes
+
 top.gctcore.resonator.progress=Progress:
 top.gctcore.resonator.status.resonating=Resonating
 top.gctcore.resonator.status.offline=Offline
 top.gctcore.resonator.status.obstruction=Obstructed
 top.gctcore.resonator.status.harvestable=Harvestable
+
+gui.gctcore.mmce_builder.title=MMCE Structure Builder
+gui.gctcore.mmce_builder.use_ae_items=Use AE items from wireless terminal
+gui.gctcore.mmce_builder.use_ae_fluids=Use AE fluids from wireless terminal
+gui.gctcore.mmce_builder.dynamic_length=Dynamic length
+gui.gctcore.mmce_builder.on=ON
+gui.gctcore.mmce_builder.off=OFF
+
+message.gctcore.mmce_builder.no_controller=Target block is not an MMCE controller.
+message.gctcore.mmce_builder.no_machine=No machine definition was found for this controller.
+message.gctcore.mmce_builder.already_running=This controller is already being assembled.
+message.gctcore.mmce_builder.started=Assembly started.
+message.gctcore.mmce_builder.cancelled=Assembly cancelled.
+message.gctcore.mmce_builder.success=Assembly complete.
+message.gctcore.mmce_builder.missing_summary_header=Missing materials:
+message.gctcore.mmce_builder.missing_item_entry=- %sx %s
+message.gctcore.mmce_builder.missing_fluid_entry=- %smb %s
+message.gctcore.mmce_builder.cannot_replace=Cannot place at %s; target is not replaceable.
+message.gctcore.mmce_builder.too_high=Cannot place at %s; target is outside build height.
+message.gctcore.mmce_builder.blocked_suppressed=Further blocked-position messages are suppressed for this assembly.
+message.gctcore.mmce_builder.ae_no_terminal=AE extraction failed: no usable linked wireless terminal was found in inventory or baubles.
+message.gctcore.mmce_builder.ae_inaccessible=AE extraction failed: wireless network is out of range, inactive, or missing extract permission.
+message.gctcore.mmce_builder.ae_no_storage=AE extraction failed: wireless network storage cache is unavailable.
+message.gctcore.mmce_builder.ae_missing=AE extraction failed: network does not contain enough matching materials.
+message.gctcore.mmce_builder.ae_extract_failed=AE extraction failed for an unknown AE storage reason.
+message.crimson_anchor.found=§c A Bloody Energy Escaped And Pointed§f(%d, %d, %d)§c location。
+message.crimson_anchor.notfound=§c A Bloody Energy Escaped But Soon WentBack。

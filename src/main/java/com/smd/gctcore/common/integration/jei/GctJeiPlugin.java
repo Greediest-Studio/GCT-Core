@@ -3,7 +3,7 @@ package com.smd.gctcore.common.integration.jei;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.common.integration.jei.quartz.QuartzCategory;
 import com.smd.gctcore.common.integration.jei.quartz.QuartzWrapper;
-import com.smd.gctcore.common.misc.BlockRegistry;
+import com.smd.gctcore.misc.BlockRegistry;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;

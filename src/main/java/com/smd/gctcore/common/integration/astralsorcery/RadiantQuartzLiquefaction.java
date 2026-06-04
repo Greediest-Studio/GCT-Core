@@ -1,6 +1,6 @@
 package com.smd.gctcore.common.integration.astralsorcery;
 
-import com.smd.gctcore.common.misc.ItemRegistry;
+import com.smd.gctcore.misc.ItemRegistry;
 import hellfirepvp.astralsorcery.common.base.WellLiquefaction;
 import hellfirepvp.astralsorcery.common.lib.BlocksAS;
 import net.minecraft.item.ItemStack;

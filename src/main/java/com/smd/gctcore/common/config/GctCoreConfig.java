@@ -1,7 +1,7 @@
 package com.smd.gctcore.common.config;
 
 import com.smd.gctcore.Tags;
-import com.smd.gctcore.common.misc.moretcon.BedrockBlockChecker;
+import com.smd.gctcore.misc.moretcon.BedrockBlockChecker;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;

@@ -1,4 +1,4 @@
-package com.smd.gctcore.common.misc;
+package com.smd.gctcore.misc;
 
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.common.blocks.RadiantResonatorBlock;

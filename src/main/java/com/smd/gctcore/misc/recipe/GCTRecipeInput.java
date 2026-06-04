@@ -1,4 +1,4 @@
-package com.smd.gctcore.common.misc.recipe;
+package com.smd.gctcore.misc.recipe;
 
 import crazypants.enderio.base.recipe.IRecipeInput;
 import net.minecraft.item.ItemStack;

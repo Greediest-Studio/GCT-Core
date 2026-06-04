@@ -2,7 +2,7 @@ package com.smd.gctcore.common.events;
 
 import com.existingeevee.moretcon.other.MixinEarlyAccessor;
 import com.existingeevee.moretcon.traits.ModTraits;
-import com.smd.gctcore.common.misc.moretcon.BedrockBlockChecker;
+import com.smd.gctcore.misc.moretcon.BedrockBlockChecker;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

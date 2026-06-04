@@ -1,6 +1,6 @@
 package com.smd.gctcore.common.blocks;
 
-import com.smd.gctcore.common.misc.ItemRegistry;
+import com.smd.gctcore.misc.ItemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;

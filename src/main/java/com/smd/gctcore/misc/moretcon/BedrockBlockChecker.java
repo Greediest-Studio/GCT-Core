@@ -1,4 +1,4 @@
-package com.smd.gctcore.common.misc.moretcon;
+package com.smd.gctcore.misc.moretcon;
 
 import com.smd.gctcore.common.config.GctCoreConfig;
 import net.minecraft.block.Block;

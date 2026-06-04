@@ -1,12 +1,10 @@
 package com.smd.gctcore.client;
 
 import com.smd.gctcore.Tags;
-import com.smd.gctcore.common.misc.PotionsItemRegistry;
-import com.smd.gctcore.gctcore;
+import com.smd.gctcore.misc.PotionsItemRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.Mod;

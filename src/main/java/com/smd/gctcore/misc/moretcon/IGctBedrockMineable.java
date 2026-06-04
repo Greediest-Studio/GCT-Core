@@ -1,4 +1,4 @@
-package com.smd.gctcore.common.misc.moretcon;
+package com.smd.gctcore.misc.moretcon;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;

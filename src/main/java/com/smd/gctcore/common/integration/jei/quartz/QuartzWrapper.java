@@ -1,7 +1,7 @@
 package com.smd.gctcore.common.integration.jei.quartz;
 
 import com.smd.gctcore.common.config.GctCoreConfig;
-import com.smd.gctcore.common.misc.ItemRegistry;
+import com.smd.gctcore.misc.ItemRegistry;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;

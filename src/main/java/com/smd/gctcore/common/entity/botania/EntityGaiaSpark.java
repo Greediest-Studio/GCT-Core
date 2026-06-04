@@ -1,6 +1,6 @@
 package com.smd.gctcore.common.entity.botania;
 
-import com.smd.gctcore.common.misc.ItemRegistry;
+import com.smd.gctcore.misc.ItemRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 

@@ -2,7 +2,7 @@ package com.smd.gctcore.common.tile;
 
 import com.smd.gctcore.common.blocks.RawQuartzClusterBlock;
 import com.smd.gctcore.common.config.GctCoreConfig;
-import com.smd.gctcore.common.misc.BlockRegistry;
+import com.smd.gctcore.misc.BlockRegistry;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;

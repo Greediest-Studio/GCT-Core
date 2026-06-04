@@ -5,8 +5,8 @@ import com.google.common.collect.Sets;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.common.entity.EntityRenders;
 import com.smd.gctcore.common.events.MiningSpeedHandler;
-import com.smd.gctcore.common.misc.BlockRegistry;
-import com.smd.gctcore.common.misc.ItemRegistry;
+import com.smd.gctcore.misc.BlockRegistry;
+import com.smd.gctcore.misc.ItemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -82,6 +82,7 @@ public class ClientProxy extends CommonProxy {
             registerItemModel(ItemRegistry.GAIA_SPARK);
             registerItemModel(ItemRegistry.RAW_QUARTZ);
             registerItemModel(ItemRegistry.SHAPED_QUARTZ);
+            registerItemModel(ItemRegistry.MMCE_BUILDER_TOOL);
             registerBlockModel(BlockRegistry.RADIANT_RESONATOR);
             registerBlockModel(BlockRegistry.RAW_QUARTZ_CLUSTER);
             registerBlockModel(BlockRegistry.STORAGE_SHAPED_QUARTZ);

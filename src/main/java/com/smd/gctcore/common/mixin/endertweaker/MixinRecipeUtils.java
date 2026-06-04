@@ -1,7 +1,7 @@
 package com.smd.gctcore.common.mixin.endertweaker;
 
 import com.enderio.core.common.util.NNList;
-import com.smd.gctcore.common.misc.recipe.GCTRecipeInput;
+import com.smd.gctcore.misc.recipe.GCTRecipeInput;
 import crafttweaker.api.item.IIngredient;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import crazypants.enderio.base.recipe.IRecipeInput;
