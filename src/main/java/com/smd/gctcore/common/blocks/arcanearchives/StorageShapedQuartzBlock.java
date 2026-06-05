@@ -1,4 +1,4 @@
-package com.smd.gctcore.common.blocks;
+package com.smd.gctcore.common.blocks.arcanearchives;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

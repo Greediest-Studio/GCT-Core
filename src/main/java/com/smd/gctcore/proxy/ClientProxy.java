@@ -74,17 +74,18 @@ public class ClientProxy extends CommonProxy {
 
         @SubscribeEvent
         public static void registerModels(ModelRegistryEvent event) {
-            registerItemModel(ItemRegistry.CHAOTIC_FLUX_CAPACITOR);
-            registerItemModel(ItemRegistry.ORDERED_FLUX_CAPACITOR);
-            registerItemModel(ItemRegistry.FROSTBURN_FLUX_CAPACITOR);
+            registerItemModel(ItemRegistry.CHAOTIC_FLUX_CAPACITOR, "dragonevolution/chaotic_flux_capacitor");
+            registerItemModel(ItemRegistry.ORDERED_FLUX_CAPACITOR, "dragonevolution/ordered_flux_capacitor");
+            registerItemModel(ItemRegistry.FROSTBURN_FLUX_CAPACITOR, "dragonevolution/frostburn_flux_capacitor");
             registerItemModel(ItemRegistry.CRIMSON_ANCHOR);
-            registerItemModel(ItemRegistry.ALF_SPARK);
-            registerItemModel(ItemRegistry.GAIA_SPARK);
-            registerItemModel(ItemRegistry.RAW_QUARTZ);
-            registerItemModel(ItemRegistry.SHAPED_QUARTZ);
+            registerItemModel(ItemRegistry.ALF_SPARK, "botania/alf_spark");
+            registerItemModel(ItemRegistry.GAIA_SPARK, "botania/gaia_spark");
+            registerItemModel(ItemRegistry.RAW_QUARTZ, "arcanearchives/raw_quartz");
+            registerItemModel(ItemRegistry.SHAPED_QUARTZ, "arcanearchives/shaped_quartz");
             registerItemModel(ItemRegistry.MMCE_BUILDER_TOOL);
             registerBlockModel(BlockRegistry.RADIANT_RESONATOR);
             registerBlockModel(BlockRegistry.RAW_QUARTZ_CLUSTER);
+            registerBlockModel(BlockRegistry.STORAGE_RAW_QUARTZ);
             registerBlockModel(BlockRegistry.STORAGE_SHAPED_QUARTZ);
             registerSoulGemMeshModel();
         }
@@ -95,6 +96,10 @@ public class ClientProxy extends CommonProxy {
 
         private static void registerItemModel(Item item) {
             ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory"));
+        }
+
+        private static void registerItemModel(Item item, String modelPath) {
+            ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(new ResourceLocation(Tags.MOD_ID, modelPath), "inventory"));
         }
         
         private static void registerSoulGemMeshModel() {

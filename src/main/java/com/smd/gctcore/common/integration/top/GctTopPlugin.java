@@ -1,6 +1,6 @@
 package com.smd.gctcore.common.integration.top;
 
-import com.smd.gctcore.common.blocks.RadiantResonatorBlock;
+import com.smd.gctcore.common.blocks.arcanearchives.RadiantResonatorBlock;
 import com.smd.gctcore.common.tile.RadiantResonatorTileEntity;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;

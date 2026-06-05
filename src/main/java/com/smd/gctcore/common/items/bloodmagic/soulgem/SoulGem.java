@@ -68,7 +68,7 @@ public  class SoulGem extends Item implements IDemonWillGem, IMeshProvider,IMult
 
     @Override
     public ResourceLocation getCustomLocation() {
-        return null;
+        return new ResourceLocation(Tags.MOD_ID, "bloodmagic/soul_gem");
     }
 
     @Override

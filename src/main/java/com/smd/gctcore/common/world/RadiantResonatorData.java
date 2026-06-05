@@ -1,6 +1,6 @@
 package com.smd.gctcore.common.world;
 
-import com.smd.gctcore.common.blocks.RadiantResonatorBlock;
+import com.smd.gctcore.common.blocks.arcanearchives.RadiantResonatorBlock;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
