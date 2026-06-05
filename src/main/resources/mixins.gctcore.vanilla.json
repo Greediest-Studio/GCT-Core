@@ -8,7 +8,8 @@
   "mixins": [
     "damageparticle.MixinEntityPlayer",
     "damageparticle.MixinEntity",
-    "entity.MixinEntityWither"
+    "entity.MixinEntityWither",
+    "world.MixinWorldControllerDebug"
   ],
   "server": [],
   "client": []

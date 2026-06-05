@@ -6,6 +6,9 @@ import appeng.api.config.SecurityPermissions;
 import appeng.api.features.IWirelessTermHandler;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridNode;
+import appeng.api.networking.crafting.ICraftingGrid;
+import appeng.api.networking.crafting.ICraftingJob;
+import appeng.api.networking.crafting.ICraftingLink;
 import appeng.api.networking.security.ISecurityGrid;
 import appeng.api.networking.storage.IStorageGrid;
 import appeng.api.storage.IMEMonitor;
@@ -20,6 +23,7 @@ import appeng.util.Platform;
 import appeng.util.item.AEItemStack;
 import baubles.api.BaublesApi;
 import baubles.api.cap.IBaublesItemHandler;
+import com.glodblock.github.common.item.fake.FakeFluids;
 import com.smd.gctcore.common.util.MMCEBuilderUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -27,10 +31,14 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public final class Ae2AssemblyExtractor {
 
     private static final int DIAGNOSTIC_INTERVAL_TICKS = 100;
+    private static final int CRAFTING_JOB_TIMEOUT_MILLIS = 50;
 
     private Ae2AssemblyExtractor() {
     }
@@ -124,6 +132,83 @@ public final class Ae2AssemblyExtractor {
         return false;
     }
 
+    public static ICraftingLink requestItemCraft(EntityPlayer player, ItemStack required) {
+        if (required.isEmpty()) {
+            return null;
+        }
+        IAEItemStack request = AEItemStack.fromItemStack(required);
+        if (request == null) {
+            return null;
+        }
+        request.setStackSize(required.getCount());
+        return requestCraft(player, request);
+    }
+
+    public static ICraftingLink requestFluidCraft(EntityPlayer player, FluidStack required) {
+        if (required == null || required.amount <= 0) {
+            return null;
+        }
+        IAEItemStack request = FakeFluids.packFluid2AEDrops(required.copy());
+        if (request == null) {
+            return null;
+        }
+        request.setStackSize(required.amount);
+        return requestCraft(player, request);
+    }
+
+    private static ICraftingLink requestCraft(EntityPlayer player, IAEItemStack request) {
+        List<WirelessTerminalAccess> terminals = findWirelessTerminals(player);
+        if (terminals.isEmpty()) {
+            sendDiagnostic(player, "message.gctcore.mmce_builder.ae_no_terminal");
+            return null;
+        }
+        boolean inaccessibleNetwork = false;
+        boolean craftingMissing = false;
+        boolean craftingUnavailable = false;
+        for (WirelessTerminalAccess terminal : terminals) {
+            IGridNode node = terminal.guiObject.getActionableNode();
+            if (!isAccessible(player, node, SecurityPermissions.CRAFT)) {
+                inaccessibleNetwork = true;
+                continue;
+            }
+            IGrid grid = node.getGrid();
+            ICraftingGrid craftingGrid = grid.getCache(ICraftingGrid.class);
+            if (craftingGrid == null) {
+                craftingMissing = true;
+                continue;
+            }
+            Future<ICraftingJob> futureJob = null;
+            try {
+                PlayerSource source = new PlayerSource(player, terminal.guiObject);
+                futureJob = craftingGrid.beginCraftingJob(player.world, grid, source, request.copy(), null);
+                ICraftingJob job = futureJob.get(CRAFTING_JOB_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+                if (job == null || job.isSimulation()) {
+                    craftingUnavailable = true;
+                    continue;
+                }
+                ICraftingLink link = craftingGrid.submitJob(job, null, null, true, source);
+                if (link != null) {
+                    terminal.guiObject.saveChanges();
+                    sendDiagnostic(player, "message.gctcore.mmce_builder.ae_craft_requested");
+                    return link;
+                }
+                craftingUnavailable = true;
+            } catch (TimeoutException e) {
+                if (futureJob != null) {
+                    futureJob.cancel(true);
+                }
+                craftingUnavailable = true;
+            } catch (Exception e) {
+                if (futureJob != null) {
+                    futureJob.cancel(true);
+                }
+                craftingUnavailable = true;
+            }
+        }
+        reportCraftingFailure(player, inaccessibleNetwork, craftingMissing, craftingUnavailable);
+        return null;
+    }
+
     private static List<WirelessTerminalAccess> findWirelessTerminals(EntityPlayer player) {
         List<WirelessTerminalAccess> terminals = new ArrayList<>();
         for (int i = 0; i < player.inventory.mainInventory.size(); i++) {
@@ -176,6 +261,18 @@ public final class Ae2AssemblyExtractor {
             sendDiagnostic(player, "message.gctcore.mmce_builder.ae_missing");
         } else {
             sendDiagnostic(player, "message.gctcore.mmce_builder.ae_extract_failed");
+        }
+    }
+
+    private static void reportCraftingFailure(EntityPlayer player, boolean inaccessibleNetwork, boolean craftingMissing, boolean craftingUnavailable) {
+        if (inaccessibleNetwork) {
+            sendDiagnostic(player, "message.gctcore.mmce_builder.ae_craft_inaccessible");
+        } else if (craftingMissing) {
+            sendDiagnostic(player, "message.gctcore.mmce_builder.ae_no_crafting");
+        } else if (craftingUnavailable) {
+            sendDiagnostic(player, "message.gctcore.mmce_builder.ae_uncraftable");
+        } else {
+            sendDiagnostic(player, "message.gctcore.mmce_builder.ae_craft_failed");
         }
     }
 

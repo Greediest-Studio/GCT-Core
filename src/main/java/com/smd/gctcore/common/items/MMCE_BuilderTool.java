@@ -62,7 +62,7 @@ public class MMCE_BuilderTool extends Item implements IGuiHolder<PlayerInventory
         if (!world.isRemote && player instanceof EntityPlayerMP) {
             ItemStack stack = player.getHeldItem(hand);
             MMCE_BuilderService.start((EntityPlayerMP) player, pos, MMCE_BuilderConfig.useAeItems(stack),
-                    MMCE_BuilderConfig.useAeFluids(stack), MMCE_BuilderConfig.dynamicLength(stack),
+                    MMCE_BuilderConfig.useAeFluids(stack), MMCE_BuilderConfig.craftMissing(stack), MMCE_BuilderConfig.dynamicLength(stack),
                     MMCE_BuilderConfig.TICK_INTERVAL, MMCE_BuilderConfig.OPERATIONS_PER_TICK);
         }
         return EnumActionResult.SUCCESS;
@@ -83,7 +83,7 @@ public class MMCE_BuilderTool extends Item implements IGuiHolder<PlayerInventory
                     : new com.cleanroommc.modularui.widgets.slot.ModularSlot(inv, index));
         }
 
-        ModularPanel panel = ModularPanel.defaultPanel("gct_mmce_builder", 176, 96);
+        ModularPanel panel = ModularPanel.defaultPanel("gct_mmce_builder", 176, 118);
         panel.child(Flow.column().margin(7).widthRel(1f).heightRel(1f)
                 .child(new TextWidget<>(IKey.lang("gui.gctcore.mmce_builder.title")).height(12).widthRel(1f))
                 .child(row("gui.gctcore.mmce_builder.use_ae_items", new ToggleButton()
@@ -93,6 +93,11 @@ public class MMCE_BuilderTool extends Item implements IGuiHolder<PlayerInventory
                         .overlay(true, IKey.lang("gui.gctcore.mmce_builder.on"))))
                 .child(row("gui.gctcore.mmce_builder.use_ae_fluids", new ToggleButton()
                         .value(SyncHandlers.bool(() -> MMCE_BuilderConfig.useAeFluids(stack), val -> MMCE_BuilderConfig.setUseAeFluids(stack, val)))
+                        .size(18, 18)
+                        .overlay(false, IKey.lang("gui.gctcore.mmce_builder.off"))
+                        .overlay(true, IKey.lang("gui.gctcore.mmce_builder.on"))))
+                .child(row("gui.gctcore.mmce_builder.craft_missing", new ToggleButton()
+                        .value(SyncHandlers.bool(() -> MMCE_BuilderConfig.craftMissing(stack), val -> MMCE_BuilderConfig.setCraftMissing(stack, val)))
                         .size(18, 18)
                         .overlay(false, IKey.lang("gui.gctcore.mmce_builder.off"))
                         .overlay(true, IKey.lang("gui.gctcore.mmce_builder.on"))))

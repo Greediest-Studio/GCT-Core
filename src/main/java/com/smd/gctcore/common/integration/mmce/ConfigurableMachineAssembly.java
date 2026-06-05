@@ -3,6 +3,7 @@ package com.smd.gctcore.common.integration.mmce;
 import com.smd.gctcore.common.util.MMCEBuilderUtils;
 import com.smd.gctcore.common.util.MessageLimiter;
 import com.smd.gctcore.misc.Mods;
+import appeng.api.networking.crafting.ICraftingLink;
 import hellfirepvp.modularmachinery.ModularMachinery;
 import ink.ikx.mmce.common.assembly.MachineAssembly;
 import ink.ikx.mmce.common.utils.StructureIngredient;
@@ -31,16 +32,20 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
 
     private final boolean useAeItems;
     private final boolean useAeFluids;
+    private final boolean craftMissing;
     private final int tickInterval;
     private final int operationsPerTick;
     private final MessageLimiter blockedReportLimiter = new MessageLimiter(MAX_MISSING_REPORTS);
     private final List<MissingItemEntry> missingItems = new ArrayList<>();
     private final List<MissingFluidEntry> missingFluids = new ArrayList<>();
+    private final List<RequestedItemCraft> craftRequestedItems = new ArrayList<>();
+    private final List<RequestedFluidCraft> craftRequestedFluids = new ArrayList<>();
 
-    public ConfigurableMachineAssembly(World world, BlockPos ctrlPos, EntityPlayer player, StructureIngredient ingredient, boolean useAeItems, boolean useAeFluids, int tickInterval, int operationsPerTick) {
+    public ConfigurableMachineAssembly(World world, BlockPos ctrlPos, EntityPlayer player, StructureIngredient ingredient, boolean useAeItems, boolean useAeFluids, boolean craftMissing, int tickInterval, int operationsPerTick) {
         super(world, ctrlPos, player, ingredient);
         this.useAeItems = useAeItems;
         this.useAeFluids = useAeFluids;
+        this.craftMissing = craftMissing;
         this.tickInterval = tickInterval;
         this.operationsPerTick = operationsPerTick;
     }
@@ -75,6 +80,9 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
 
         Tuple<ItemStack, IBlockState> consumed = consumeFirstAvailableItem(ingredient.ingredientList());
         if (consumed == null) {
+            if (shouldWaitForItemCraft(ingredient.ingredientList().get(0).getFirst())) {
+                return;
+            }
             addMissingItem(ingredient.ingredientList().get(0).getFirst());
             iterator.remove();
             return;
@@ -85,6 +93,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
         if (!placeAssemblyBlock(realPos, state)) {
             getPlayer().inventory.addItemStackToInventory(required);
         } else {
+            clearRequestedItemCraft(required);
             getWorld().playSound(null, realPos, SoundEvents.BLOCK_STONE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
             applyTileNbt(realPos, state, ingredient);
         }
@@ -102,6 +111,9 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
 
         Tuple<FluidStack, IBlockState> consumed = consumeFirstAvailableFluid(ingredient.ingredientList());
         if (consumed == null) {
+            if (shouldWaitForFluidCraft(ingredient.ingredientList().get(0).getFirst())) {
+                return;
+            }
             addMissingFluid(ingredient.ingredientList().get(0).getFirst());
             iterator.remove();
             return;
@@ -110,6 +122,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
         IBlockState state = consumed.getSecond();
 
         if (placeAssemblyBlock(realPos, state)) {
+            clearRequestedFluidCraft(required);
             getWorld().playSound(null, realPos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
         iterator.remove();
@@ -159,6 +172,44 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
             return true;
         }
         return useAeFluids && Mods.AE2.isLoading() && Ae2AssemblyExtractor.extractFluid(getPlayer(), required);
+    }
+
+    private boolean shouldWaitForItemCraft(ItemStack required) {
+        if (!useAeItems || !craftMissing || !Mods.AE2.isLoading()) {
+            return false;
+        }
+        CraftRequestState state = getItemCraftState(required);
+        if (state == CraftRequestState.WAITING || state == CraftRequestState.FINISHED) {
+            return true;
+        }
+        if (state == CraftRequestState.CANCELED) {
+            return false;
+        }
+        ICraftingLink link = Ae2AssemblyExtractor.requestItemCraft(getPlayer(), required);
+        if (link != null) {
+            craftRequestedItems.add(new RequestedItemCraft(required, link));
+            return true;
+        }
+        return false;
+    }
+
+    private boolean shouldWaitForFluidCraft(FluidStack required) {
+        if (!useAeFluids || !craftMissing || !Mods.AE2.isLoading()) {
+            return false;
+        }
+        CraftRequestState state = getFluidCraftState(required);
+        if (state == CraftRequestState.WAITING || state == CraftRequestState.FINISHED) {
+            return true;
+        }
+        if (state == CraftRequestState.CANCELED) {
+            return false;
+        }
+        ICraftingLink link = Ae2AssemblyExtractor.requestFluidCraft(getPlayer(), required);
+        if (link != null) {
+            craftRequestedFluids.add(new RequestedFluidCraft(required, link));
+            return true;
+        }
+        return false;
     }
 
     private void applyTileNbt(BlockPos realPos, IBlockState state, StructureIngredient.ItemIngredient ingredient) {
@@ -215,6 +266,72 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
         missingFluids.add(new MissingFluidEntry(required));
     }
 
+    private CraftRequestState getItemCraftState(ItemStack required) {
+        Iterator<RequestedItemCraft> iterator = craftRequestedItems.iterator();
+        while (iterator.hasNext()) {
+            RequestedItemCraft entry = iterator.next();
+            if (ItemStack.areItemsEqual(entry.stack, required) && ItemStack.areItemStackTagsEqual(entry.stack, required)) {
+                if (entry.link.isCanceled()) {
+                    iterator.remove();
+                    return CraftRequestState.CANCELED;
+                }
+                if (entry.link.isDone()) {
+                    iterator.remove();
+                    return CraftRequestState.FINISHED;
+                }
+                return CraftRequestState.WAITING;
+            }
+        }
+        return CraftRequestState.NONE;
+    }
+
+    private CraftRequestState getFluidCraftState(FluidStack required) {
+        if (required == null) {
+            return CraftRequestState.NONE;
+        }
+        Iterator<RequestedFluidCraft> iterator = craftRequestedFluids.iterator();
+        while (iterator.hasNext()) {
+            RequestedFluidCraft entry = iterator.next();
+            if (entry.fluid.isFluidEqual(required)) {
+                if (entry.link.isCanceled()) {
+                    iterator.remove();
+                    return CraftRequestState.CANCELED;
+                }
+                if (entry.link.isDone()) {
+                    iterator.remove();
+                    return CraftRequestState.FINISHED;
+                }
+                return CraftRequestState.WAITING;
+            }
+        }
+        return CraftRequestState.NONE;
+    }
+
+    private void clearRequestedItemCraft(ItemStack required) {
+        Iterator<RequestedItemCraft> iterator = craftRequestedItems.iterator();
+        while (iterator.hasNext()) {
+            RequestedItemCraft entry = iterator.next();
+            if (ItemStack.areItemsEqual(entry.stack, required) && ItemStack.areItemStackTagsEqual(entry.stack, required)) {
+                iterator.remove();
+                return;
+            }
+        }
+    }
+
+    private void clearRequestedFluidCraft(FluidStack required) {
+        if (required == null) {
+            return;
+        }
+        Iterator<RequestedFluidCraft> iterator = craftRequestedFluids.iterator();
+        while (iterator.hasNext()) {
+            RequestedFluidCraft entry = iterator.next();
+            if (entry.fluid.isFluidEqual(required)) {
+                iterator.remove();
+                return;
+            }
+        }
+    }
+
     private boolean replaceCheck(BlockPos realPos) {
         if (getWorld().isOutsideBuildHeight(realPos)) {
             reportBlocked(realPos, "message.gctcore.mmce_builder.too_high");
@@ -254,5 +371,33 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
             this.fluid = fluid.copy();
             this.amount = fluid.amount;
         }
+    }
+
+    private static final class RequestedItemCraft {
+        private final ItemStack stack;
+        private final ICraftingLink link;
+
+        private RequestedItemCraft(ItemStack stack, ICraftingLink link) {
+            this.stack = stack.copy();
+            this.stack.setCount(1);
+            this.link = link;
+        }
+    }
+
+    private static final class RequestedFluidCraft {
+        private final FluidStack fluid;
+        private final ICraftingLink link;
+
+        private RequestedFluidCraft(FluidStack fluid, ICraftingLink link) {
+            this.fluid = fluid.copy();
+            this.link = link;
+        }
+    }
+
+    private enum CraftRequestState {
+        NONE,
+        WAITING,
+        FINISHED,
+        CANCELED
     }
 }

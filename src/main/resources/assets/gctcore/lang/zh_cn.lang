@@ -81,14 +81,15 @@ top.gctcore.resonator.status.offline=离线
 top.gctcore.resonator.status.obstruction=被阻挡
 top.gctcore.resonator.status.harvestable=可收获
 
-gui.gctcore.mmce_builder.title=MMCE结构搭建工具
+gui.gctcore.mmce_builder.title=MMCE搭建工具
 gui.gctcore.mmce_builder.use_ae_items=通过无线终端调用AE物品
 gui.gctcore.mmce_builder.use_ae_fluids=通过无线终端调用AE流体
+gui.gctcore.mmce_builder.craft_missing=缺失时自动合成AE材料
 gui.gctcore.mmce_builder.dynamic_length=动态结构长度
 gui.gctcore.mmce_builder.on=开
 gui.gctcore.mmce_builder.off=关
 
-message.gctcore.mmce_builder.no_controller=改方块不是控制器
+message.gctcore.mmce_builder.no_controller=该方块不是控制器
 message.gctcore.mmce_builder.no_machine=没有找到该控制器的机器定义
 message.gctcore.mmce_builder.already_running=该控制器已经在搭建中
 message.gctcore.mmce_builder.started=已开始搭建
@@ -102,6 +103,11 @@ message.gctcore.mmce_builder.ae_inaccessible=无线网络超出范围、未激�
 message.gctcore.mmce_builder.ae_no_storage=无线网络存储缓存不可用
 message.gctcore.mmce_builder.ae_missing=网络内没有足够的匹配材料
 message.gctcore.mmce_builder.ae_extract_failed=AE存储返回了未知失败。
+message.gctcore.mmce_builder.ae_craft_requested=已提交合成请求
+message.gctcore.mmce_builder.ae_craft_inaccessible=合成失败：无线网络超出范围、未激活或缺少权限
+message.gctcore.mmce_builder.ae_no_crafting=合成失败：合成网络不可用。
+message.gctcore.mmce_builder.ae_uncraftable=合成失败：没有可启动的合成任务。
+message.gctcore.mmce_builder.ae_craft_failed=合成返回了未知失败。
 message.gctcore.mmce_builder.missing_summary_header=缺失材料列表：
 message.gctcore.mmce_builder.missing_item_entry=- %sx %s
 message.gctcore.mmce_builder.missing_fluid_entry=- %smb %stooltip.bloodmagic.currentBaseType.default=Raw
