@@ -1,8 +1,11 @@
 package com.smd.gctcore.common.integration.mmce;
 
 import com.smd.gctcore.common.util.MMCEBuilderUtils;
+import hellfirepvp.modularmachinery.common.tiles.base.TileMultiblockMachineController;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -20,9 +23,9 @@ public class MMCE_BuilderTaskManager {
         TASKS.add(task);
     }
 
-    public static boolean hasTask(BlockPos pos) {
+    public static boolean hasTask(World world, BlockPos pos) {
         for (ConfigurableMachineAssembly task : TASKS) {
-            if (task.getCtrlPos().equals(pos)) {
+            if (task.getWorld().provider.getDimension() == world.provider.getDimension() && task.getCtrlPos().equals(pos)) {
                 return true;
             }
         }
@@ -60,6 +63,18 @@ public class MMCE_BuilderTaskManager {
                 iterator.remove();
                 task.reportMissingMaterials();
                 MMCEBuilderUtils.sendTranslation(player, "message.gctcore.mmce_builder.success");
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onWorldTick(TickEvent.WorldTickEvent event) {
+        if (event.phase == TickEvent.Phase.START || event.world.isRemote) {
+            return;
+        }
+        for (TileEntity tile : event.world.loadedTileEntityList) {
+            if (tile instanceof TileMultiblockMachineController) {
+                MMCE_ControllerDebug.checkTickState(event.world, tile.getPos(), (TileMultiblockMachineController) tile);
             }
         }
     }

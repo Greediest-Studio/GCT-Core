@@ -8,6 +8,9 @@ public final class MMCE_BuilderConfig {
 
     private static final String TAG_USE_AE_ITEMS = "gct_mmce_use_ae_items";
     private static final String TAG_USE_AE_FLUIDS = "gct_mmce_use_ae_fluids";
+    private static final String TAG_CRAFT_MISSING = "gct_mmce_craft_missing";
+    private static final String TAG_LEGACY_CRAFT_MISSING_ITEMS = "gct_mmce_craft_missing_items";
+    private static final String TAG_LEGACY_CRAFT_MISSING_FLUIDS = "gct_mmce_craft_missing_fluids";
     private static final String TAG_DYNAMIC_LENGTH = "gct_mmce_dynamic_length";
     private static final int DEFAULT_DYNAMIC_LENGTH = 1;
     private static final int MAX_DYNAMIC_LENGTH = 4096;
@@ -31,6 +34,21 @@ public final class MMCE_BuilderConfig {
 
     public static void setUseAeFluids(ItemStack stack, boolean value) {
         getTag(stack).setBoolean(TAG_USE_AE_FLUIDS, value);
+    }
+
+    public static boolean craftMissing(ItemStack stack) {
+        NBTTagCompound tag = getTag(stack);
+        if (tag.hasKey(TAG_CRAFT_MISSING)) {
+            return tag.getBoolean(TAG_CRAFT_MISSING);
+        }
+        return tag.getBoolean(TAG_LEGACY_CRAFT_MISSING_ITEMS) || tag.getBoolean(TAG_LEGACY_CRAFT_MISSING_FLUIDS);
+    }
+
+    public static void setCraftMissing(ItemStack stack, boolean value) {
+        NBTTagCompound tag = getTag(stack);
+        tag.setBoolean(TAG_CRAFT_MISSING, value);
+        tag.removeTag(TAG_LEGACY_CRAFT_MISSING_ITEMS);
+        tag.removeTag(TAG_LEGACY_CRAFT_MISSING_FLUIDS);
     }
 
     public static int dynamicLength(ItemStack stack) {

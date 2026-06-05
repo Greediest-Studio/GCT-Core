@@ -20,7 +20,7 @@ public final class MMCE_BuilderService {
     private MMCE_BuilderService() {
     }
 
-    public static void start(EntityPlayerMP player, BlockPos pos, boolean useAeItems, boolean useAeFluids, int dynamicLength, int tickInterval, int operationsPerTick) {
+    public static void start(EntityPlayerMP player, BlockPos pos, boolean useAeItems, boolean useAeFluids, boolean craftMissing, int dynamicLength, int tickInterval, int operationsPerTick) {
         World world = player.world;
         TileEntity tile = world.getTileEntity(pos);
         Block block = world.getBlockState(pos).getBlock();
@@ -41,7 +41,7 @@ public final class MMCE_BuilderService {
             return;
         }
 
-        if (MMCE_BuilderTaskManager.hasTask(pos)) {
+        if (MMCE_BuilderTaskManager.hasTask(world, pos)) {
             MMCEBuilderUtils.sendTranslation(player, "message.gctcore.mmce_builder.already_running");
             return;
         }
@@ -52,11 +52,11 @@ public final class MMCE_BuilderService {
 
         StructureIngredient ingredient = StructureIngredient.of(world, pos, machinePattern);
         if (player.isCreative()) {
-            new ConfigurableMachineAssembly(world, pos, player, ingredient, false, false, 1, Integer.MAX_VALUE).assemblyCreative();
+            new ConfigurableMachineAssembly(world, pos, player, ingredient, false, false, false, 1, Integer.MAX_VALUE).assemblyCreative();
             return;
         }
 
-        MMCE_BuilderTaskManager.addTask(new ConfigurableMachineAssembly(world, pos, player, ingredient, useAeItems, useAeFluids, tickInterval, operationsPerTick));
+        MMCE_BuilderTaskManager.addTask(new ConfigurableMachineAssembly(world, pos, player, ingredient, useAeItems, useAeFluids, craftMissing, tickInterval, operationsPerTick));
         MMCEBuilderUtils.sendTranslation(player, "message.gctcore.mmce_builder.started");
     }
 }
