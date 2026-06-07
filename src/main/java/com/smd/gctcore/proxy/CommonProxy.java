@@ -3,6 +3,7 @@ package com.smd.gctcore.proxy;
 import com.smd.gctcore.common.events.EventHooks;
 import com.smd.gctcore.common.events.MoreTconBedrockHandler;
 import com.smd.gctcore.common.integration.astralsorcery.RadiantQuartzLiquefaction;
+import com.smd.gctcore.common.integration.botania.DaisyPlacer;
 import com.smd.gctcore.common.integration.top.GctTopPlugin;
 import com.smd.gctcore.misc.*;
 import com.smd.gctcore.common.integration.mmce.MMCE_BuilderTaskManager;
@@ -36,6 +37,11 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new PotionsItemRegistry());
         MinecraftForge.EVENT_BUS.register(new EntityRegistrar());
         MinecraftForge.EVENT_BUS.register(new MMCE_BuilderTaskManager());
+
+        if(Loader.isModLoaded("botania")){
+            MinecraftForge.EVENT_BUS.register(new DaisyPlacer());
+        }
+
         BlockRegistry.registerTileEntities();
         // MoreTcon 基岩挖掘限制，仅在 moretcon 存在时注册
         if (Mods.MORETCON.isLoading()) {

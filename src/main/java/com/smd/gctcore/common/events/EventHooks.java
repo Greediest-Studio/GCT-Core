@@ -51,7 +51,9 @@ public class EventHooks {
     public static void onCommandEvent(CommandEvent event) {
         ICommand command = event.getCommand();
 
-        if (!(command instanceof CommandDifficulty || command instanceof CommandGameRule)) return;
+        if (!(command instanceof CommandDifficulty || command instanceof CommandGameRule)) {
+            return;
+        }
 
         ICommandSender sender = event.getSender();
         boolean isDedicated = sender.getServer().isDedicatedServer();
