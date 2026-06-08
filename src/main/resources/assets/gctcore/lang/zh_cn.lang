@@ -54,10 +54,13 @@ tooltip.bloodmagic.infSoulGem=真的能存满吗？
 tooltip.gctcore.radiant_resonator=上方无遮挡时，随时间生成粗辉耀石英簇。
 tooltip.gctcore.raw_quartz=一种辉耀材料。
 tooltip.gctcore.shaped_quartz=一种已雕琢的辉耀材料。
+tooltip.gctcore.storage_raw_quartz=未雕琢辉耀石英制成的装饰方块。
 tooltip.gctcore.storage_shaped_quartz=已雕琢辉耀石英制成的装饰方块。
 tooltip.gctcore.mmce_builder_tool.1=右键打开自动搭建配置界面。
-tooltip.gctcore.mmce_builder_tool.2=动态结构长度：%d
-tooltip.gctcore.mmce_builder_tool.3=潜行右键MMCE控制器直接开始搭建。
+tooltip.gctcore.mmce_builder_tool.2=通过无线终端调用AE物品：%d
+tooltip.gctcore.mmce_builder_tool.3=通过无线终端调用AE流体：%d
+tooltip.gctcore.mmce_builder_tool.4=动态结构长度：%d
+tooltip.gctcore.mmce_builder_tool.5=潜行右键MMCE控制器直接开始搭建。
 
 message.crimson_anchor.found=§c一股血腥能量逸出，指向了§f(%d, %d, %d)§c的位置。
 message.crimson_anchor.notfound=§c一股血腥能量逸出，但很快又回去了。
@@ -68,6 +71,7 @@ entity.reversed_alf_master.name=反·精灵长老
 
 tile.gctcore.radiant_resonator.name=辉耀谐振台
 tile.gctcore.raw_quartz_cluster.name=粗辉耀石英簇
+tile.gctcore.storage_raw_quartz.name=未雕琢的辉耀石英块
 tile.gctcore.storage_shaped_quartz.name=已雕琢的辉耀石英块
 
 jei.gctcore.resonator=每 %.1f 分钟
@@ -106,4 +110,9 @@ message.gctcore.mmce_builder.ae_uncraftable=合成失败：没有可启动的合
 message.gctcore.mmce_builder.ae_craft_failed=合成返回了未知失败。
 message.gctcore.mmce_builder.missing_summary_header=缺失材料列表：
 message.gctcore.mmce_builder.missing_item_entry=- %sx %s
-message.gctcore.mmce_builder.missing_fluid_entry=- %smb %s
+message.gctcore.mmce_builder.missing_fluid_entry=- %smb %stooltip.bloodmagic.currentBaseType.default=Raw
+tooltip.bloodmagic.currentBaseType.default=原生
+tooltip.bloodmagic.currentBaseType.corrosive=腐蚀
+tooltip.bloodmagic.currentBaseType.destructive=破坏
+tooltip.bloodmagic.currentBaseType.vengeful=复仇
+tooltip.bloodmagic.currentBaseType.steadfast=坚毅

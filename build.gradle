@@ -161,6 +161,7 @@ dependencies {
     //eio相关依赖
     compileOnly fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation rfg.deobf("curse.maven:Konkrete-410295:4514895")
     implementation rfg.deobf("CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.698")
     implementation rfg.deobf("curse.maven:Mantle-74924:2713386")
     implementation rfg.deobf("curse.maven:baubles-227083:2518667")
@@ -180,7 +181,7 @@ dependencies {
     implementation rfg.deobf("curse.maven:ae2-extended-life-570458:6302098")
     implementation rfg.deobf("curse.maven:mmce-817377:6945422")
     implementation rfg.deobf("curse.maven:geckolib-388172:4020277")
-    implementation rfg.deobf ("curse.maven:AE2FluidCraftReworkUnofficial-1404390:7742544")
+    implementation rfg.deobf("curse.maven:AE2FluidCraftReworkUnofficial-1404390:7742544")
 
     runtimeOnly "curse.maven:guide-api-228832:2645992"
 

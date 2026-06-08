@@ -1,6 +1,6 @@
 package com.smd.gctcore.common.tile;
 
-import com.smd.gctcore.common.blocks.RawQuartzClusterBlock;
+import com.smd.gctcore.common.blocks.arcanearchives.RawQuartzClusterBlock;
 import com.smd.gctcore.common.config.GctCoreConfig;
 import com.smd.gctcore.misc.BlockRegistry;
 import net.minecraft.block.state.IBlockState;

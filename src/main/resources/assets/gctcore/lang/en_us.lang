@@ -56,11 +56,14 @@ tooltip.bloodmagic.soulgem.infinite=Truly infinite?
 tooltip.bloodmagic.soulgem.realInfinite=The pinnacle of arcane and technological mastery.
 tooltip.bloodmagic.infSoulGem=Can it really be filled completely?
 tooltip.gctcore.mmce_builder_tool.1=Right click to configure automatic MMCE assembly.
-tooltip.gctcore.mmce_builder_tool.2=Dynamic length: %d
-tooltip.gctcore.mmce_builder_tool.3=Sneak right click an MMCE controller to assemble it.
+tooltip.gctcore.mmce_builder_tool.2=Use AE items from wireless terminal: %d
+tooltip.gctcore.mmce_builder_tool.3=Use AE fluids from wireless terminal: %d
+tooltip.gctcore.mmce_builder_tool.4=Dynamic length: %d
+tooltip.gctcore.mmce_builder_tool.5=Sneak right click an MMCE controller to assemble it.
 tooltip.gctcore.radiant_resonator=Generates Raw Radiant Quartz Cluster over time if the block above is open.
 tooltip.gctcore.raw_quartz=A radiant material.
 tooltip.gctcore.shaped_quartz=A shaped radiant material.
+tooltip.gctcore.storage_raw_quartz=A decorative block made from raw radiant quartz.
 tooltip.gctcore.storage_shaped_quartz=A decorative block made from shaped radiant quartz.
 
 info.gct.energy=Energy
@@ -69,6 +72,7 @@ effect.sukhavati=Sukhavati
 
 tile.gctcore.radiant_resonator.name=Radiant Resonator
 tile.gctcore.raw_quartz_cluster.name=Raw Radiant Quartz Cluster
+tile.gctcore.storage_raw_quartz.name=Raw Radiant Quartz Block
 tile.gctcore.storage_shaped_quartz.name=Shaped Radiant Quartz Block
 
 jei.gctcore.resonator=Every %.1f minutes

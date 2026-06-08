@@ -124,7 +124,9 @@ public class MMCE_BuilderTool extends Item implements IGuiHolder<PlayerInventory
     @Override
     public void addInformation(@NotNull ItemStack stack, @Nullable World worldIn, List<String> tooltip, @NotNull ITooltipFlag flagIn) {
         tooltip.add(I18n.translateToLocal("tooltip.gctcore.mmce_builder_tool.1"));
-        tooltip.add(I18n.translateToLocalFormatted("tooltip.gctcore.mmce_builder_tool.2", MMCE_BuilderConfig.dynamicLength(stack)));
-        tooltip.add(I18n.translateToLocal("tooltip.gctcore.mmce_builder_tool.3"));
+        tooltip.add(I18n.translateToLocalFormatted("tooltip.gctcore.mmce_builder_tool.2", MMCE_BuilderConfig.useAeItems(stack) ? "True" : "False"));
+        tooltip.add(I18n.translateToLocalFormatted("tooltip.gctcore.mmce_builder_tool.3", MMCE_BuilderConfig.useAeFluids(stack) ? "True" : "False"));
+        tooltip.add(I18n.translateToLocalFormatted("tooltip.gctcore.mmce_builder_tool.4", MMCE_BuilderConfig.dynamicLength(stack)));
+        tooltip.add(I18n.translateToLocal("tooltip.gctcore.mmce_builder_tool.5"));
     }
 }

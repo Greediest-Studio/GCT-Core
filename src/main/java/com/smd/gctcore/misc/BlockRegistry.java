@@ -1,9 +1,10 @@
 package com.smd.gctcore.misc;
 
 import com.smd.gctcore.Tags;
-import com.smd.gctcore.common.blocks.RadiantResonatorBlock;
-import com.smd.gctcore.common.blocks.RawQuartzClusterBlock;
-import com.smd.gctcore.common.blocks.StorageShapedQuartzBlock;
+import com.smd.gctcore.common.blocks.arcanearchives.RadiantResonatorBlock;
+import com.smd.gctcore.common.blocks.arcanearchives.RawQuartzClusterBlock;
+import com.smd.gctcore.common.blocks.arcanearchives.StorageRawQuartzBlock;
+import com.smd.gctcore.common.blocks.arcanearchives.StorageShapedQuartzBlock;
 import com.smd.gctcore.common.tile.RadiantResonatorTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -16,11 +17,13 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class BlockRegistry {
     public static RadiantResonatorBlock RADIANT_RESONATOR;
     public static RawQuartzClusterBlock RAW_QUARTZ_CLUSTER;
+    public static StorageRawQuartzBlock STORAGE_RAW_QUARTZ;
     public static StorageShapedQuartzBlock STORAGE_SHAPED_QUARTZ;
 
     public static void init() {
         RADIANT_RESONATOR = new RadiantResonatorBlock();
         RAW_QUARTZ_CLUSTER = new RawQuartzClusterBlock();
+        STORAGE_RAW_QUARTZ = new StorageRawQuartzBlock();
         STORAGE_SHAPED_QUARTZ = new StorageShapedQuartzBlock();
     }
 
@@ -33,6 +36,7 @@ public class BlockRegistry {
         event.getRegistry().registerAll(
                 RADIANT_RESONATOR,
                 RAW_QUARTZ_CLUSTER,
+                STORAGE_RAW_QUARTZ,
                 STORAGE_SHAPED_QUARTZ
         );
     }
@@ -42,6 +46,7 @@ public class BlockRegistry {
         event.getRegistry().registerAll(
                 new ItemBlock(RADIANT_RESONATOR).setRegistryName(RADIANT_RESONATOR.getRegistryName()),
                 new ItemBlock(RAW_QUARTZ_CLUSTER).setRegistryName(RAW_QUARTZ_CLUSTER.getRegistryName()),
+                new ItemBlock(STORAGE_RAW_QUARTZ).setRegistryName(STORAGE_RAW_QUARTZ.getRegistryName()),
                 new ItemBlock(STORAGE_SHAPED_QUARTZ).setRegistryName(STORAGE_SHAPED_QUARTZ.getRegistryName())
         );
     }

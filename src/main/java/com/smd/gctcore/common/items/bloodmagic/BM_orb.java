@@ -25,27 +25,27 @@ public class BM_orb {
         IForgeRegistry<BloodOrb> registry = event.getRegistry();
 
         registry.register(ELDRITCH.withModel(new ModelResourceLocation(new ResourceLocation(
-                        Tags.MOD_ID, "eldritch_orb"), "inventory"))
+                        Tags.MOD_ID, "bloodmagic/eldritch_orb"), "inventory"))
                 .setRegistryName("eldritch"));
 
         registry.register(MURDER.withModel(new ModelResourceLocation(new ResourceLocation(
-                        Tags.MOD_ID, "murder_orb"), "inventory"))
+                        Tags.MOD_ID, "bloodmagic/murder_orb"), "inventory"))
                 .setRegistryName("murder"));
 
         registry.register(ORIGIN.withModel(new ModelResourceLocation(new ResourceLocation(
-                        Tags.MOD_ID, "origin_orb"), "inventory"))
+                        Tags.MOD_ID, "bloodmagic/origin_orb"), "inventory"))
                 .setRegistryName("origin"));
 
         registry.register(TRUTH.withModel(new ModelResourceLocation(new ResourceLocation(
-                        Tags.MOD_ID, "truth_orb"), "inventory"))
+                        Tags.MOD_ID, "bloodmagic/truth_orb"), "inventory"))
                 .setRegistryName("truth"));
 
         registry.register(ENDLESS.withModel(new ModelResourceLocation(new ResourceLocation(
-                        Tags.MOD_ID, "endless_orb"), "inventory"))
+                        Tags.MOD_ID, "bloodmagic/endless_orb"), "inventory"))
                 .setRegistryName("endless"));
 
         registry.register(THE_END.withModel(new ModelResourceLocation(new ResourceLocation(
-                        Tags.MOD_ID, "the_end_orb"), "inventory"))
+                        Tags.MOD_ID, "bloodmagic/the_end_orb"), "inventory"))
                 .setRegistryName("the_end"));
     }
 }

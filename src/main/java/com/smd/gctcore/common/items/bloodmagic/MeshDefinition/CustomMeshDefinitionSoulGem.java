@@ -3,7 +3,6 @@ package com.smd.gctcore.common.items.bloodmagic.MeshDefinition;
 import WayofTime.bloodmagic.soul.EnumDemonWillType;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.common.items.bloodmagic.soulgem.SoulGem;
-import com.smd.gctcore.gctcore;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemStack;
@@ -24,8 +23,8 @@ public class CustomMeshDefinitionSoulGem implements ItemMeshDefinition {
             int metadata = stack.getItemDamage();
             String variantName = SoulGem.names[metadata].toLowerCase() + "_" + type.getName().toLowerCase();
 
-            return new ModelResourceLocation(new ResourceLocation(Tags.MOD_ID, "soul_gem"), "type=" + variantName);
+            return new ModelResourceLocation(new ResourceLocation(Tags.MOD_ID, "bloodmagic/soul_gem"), "type=" + variantName);
         }
-        return new ModelResourceLocation(new ResourceLocation(Tags.MOD_ID, "soul_gem"), "type=improved_default");
+        return new ModelResourceLocation(new ResourceLocation(Tags.MOD_ID, "bloodmagic/soul_gem"), "type=improved_default");
     }
 }
