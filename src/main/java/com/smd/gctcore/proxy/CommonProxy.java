@@ -5,6 +5,7 @@ import com.smd.gctcore.common.events.MoreTconBedrockHandler;
 import com.smd.gctcore.common.integration.astralsorcery.RadiantQuartzLiquefaction;
 import com.smd.gctcore.common.integration.botania.DaisyPlacer;
 import com.smd.gctcore.common.integration.top.GctTopPlugin;
+import com.smd.gctcore.common.network.GctNetworkHandler;
 import com.smd.gctcore.misc.*;
 import com.smd.gctcore.common.integration.mmce.MMCE_BuilderTaskManager;
 import com.smd.gctcore.common.world.AirportDim.DimensionTypeAirport;
@@ -25,11 +26,12 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent event) {
+        GctNetworkHandler.init();
         PotionsItemRegistry.init();
         BlockRegistry.init();
         ItemRegistry.init();
         EntityRegistrar.init();
-
+        BlockRegistry.registerTileEntities();
         // 注册事件监听器
         MinecraftForge.EVENT_BUS.register(new EventHooks());
         MinecraftForge.EVENT_BUS.register(new BlockRegistry());
@@ -37,12 +39,9 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new PotionsItemRegistry());
         MinecraftForge.EVENT_BUS.register(new EntityRegistrar());
         MinecraftForge.EVENT_BUS.register(new MMCE_BuilderTaskManager());
-
-        if(Loader.isModLoaded("botania")){
+        if(Mods.BOT.isLoading()){
             MinecraftForge.EVENT_BUS.register(new DaisyPlacer());
         }
-
-        BlockRegistry.registerTileEntities();
         // MoreTcon 基岩挖掘限制，仅在 moretcon 存在时注册
         if (Mods.MORETCON.isLoading()) {
             MinecraftForge.EVENT_BUS.register(new MoreTconBedrockHandler());

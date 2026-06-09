@@ -17,14 +17,14 @@ import java.util.UUID;
 
 public class MMCE_BuilderTaskManager {
 
-    private static final List<ConfigurableMachineAssembly> TASKS = new ArrayList<>();
+    private static final List<MMCE_BuilderTask> TASKS = new ArrayList<>();
 
-    public static void addTask(ConfigurableMachineAssembly task) {
+    public static void addTask(MMCE_BuilderTask task) {
         TASKS.add(task);
     }
 
     public static boolean hasTask(World world, BlockPos pos) {
-        for (ConfigurableMachineAssembly task : TASKS) {
+        for (MMCE_BuilderTask task : TASKS) {
             if (task.getWorld().provider.getDimension() == world.provider.getDimension() && task.getCtrlPos().equals(pos)) {
                 return true;
             }
@@ -41,28 +41,33 @@ public class MMCE_BuilderTaskManager {
 
         long worldTime = player.world.getTotalWorldTime();
         UUID playerId = player.getGameProfile().getId();
-        Iterator<ConfigurableMachineAssembly> iterator = TASKS.iterator();
+        Iterator<MMCE_BuilderTask> iterator = TASKS.iterator();
         while (iterator.hasNext()) {
-            ConfigurableMachineAssembly task = iterator.next();
+            MMCE_BuilderTask task = iterator.next();
             if (!playerId.equals(task.getPlayer().getGameProfile().getId())) {
                 continue;
             }
             if (task.isControllerInvalid()) {
                 iterator.remove();
-                task.reportMissingMaterials();
-                MMCEBuilderUtils.sendTranslation(player, "message.gctcore.mmce_builder.cancelled");
+                task.report();
+                MMCEBuilderUtils.sendTranslation(player, task.getCancelledMessageKey());
                 continue;
             }
             if (worldTime % task.getTickInterval() != 0) {
                 continue;
             }
-            for (int i = 0; i < task.getOperationsPerTick() && !task.isCompleted(); i++) {
-                task.assembly(true);
+            task.beginBatch();
+            try {
+                for (int i = 0; i < task.getOperationsPerTick() && !task.isCompleted(); i++) {
+                    task.tick();
+                }
+            } finally {
+                task.endBatch();
             }
             if (task.isCompleted()) {
                 iterator.remove();
-                task.reportMissingMaterials();
-                MMCEBuilderUtils.sendTranslation(player, "message.gctcore.mmce_builder.success");
+                task.report();
+                MMCEBuilderUtils.sendTranslation(player, task.getSuccessMessageKey());
             }
         }
     }

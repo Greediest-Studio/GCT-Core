@@ -21,12 +21,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ConfigurableMachineAssembly extends MachineAssembly {
+public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE_BuilderTask {
 
     private static final int MAX_MISSING_REPORTS = 8;
 
@@ -40,6 +41,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
     private final List<MissingFluidEntry> missingFluids = new ArrayList<>();
     private final List<RequestedItemCraft> craftRequestedItems = new ArrayList<>();
     private final List<RequestedFluidCraft> craftRequestedFluids = new ArrayList<>();
+    private List<IFluidHandlerItem> batchFluidHandlers;
 
     public ConfigurableMachineAssembly(World world, BlockPos ctrlPos, EntityPlayer player, StructureIngredient ingredient, boolean useAeItems, boolean useAeFluids, boolean craftMissing, int tickInterval, int operationsPerTick) {
         super(world, ctrlPos, player, ingredient);
@@ -56,6 +58,36 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
 
     public int getOperationsPerTick() {
         return operationsPerTick;
+    }
+
+    @Override
+    public void beginBatch() {
+        batchFluidHandlers = null;
+    }
+
+    @Override
+    public void endBatch() {
+        batchFluidHandlers = null;
+    }
+
+    @Override
+    public void tick() {
+        assembly(true);
+    }
+
+    @Override
+    public void report() {
+        reportMissingMaterials();
+    }
+
+    @Override
+    public String getCancelledMessageKey() {
+        return "message.gctcore.mmce_builder.cancelled";
+    }
+
+    @Override
+    public String getSuccessMessageKey() {
+        return "message.gctcore.mmce_builder.success";
     }
 
     @Override
@@ -142,9 +174,8 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
 
     private Tuple<ItemStack, IBlockState> consumeFirstAvailableItem(List<Tuple<ItemStack, IBlockState>> candidates) {
         for (Tuple<ItemStack, IBlockState> tuple : candidates) {
-            ItemStack required = tuple.getFirst().copy();
-            if (consumeItem(required)) {
-                return new Tuple<>(required, tuple.getSecond());
+            if (consumeItem(tuple.getFirst())) {
+                return tuple;
             }
         }
         return null;
@@ -152,26 +183,32 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
 
     private Tuple<FluidStack, IBlockState> consumeFirstAvailableFluid(List<Tuple<FluidStack, IBlockState>> candidates) {
         for (Tuple<FluidStack, IBlockState> tuple : candidates) {
-            FluidStack required = tuple.getFirst().copy();
-            if (consumeFluid(required)) {
-                return new Tuple<>(required, tuple.getSecond());
+            if (consumeFluid(tuple.getFirst())) {
+                return tuple;
             }
         }
         return null;
     }
 
     private boolean consumeItem(ItemStack required) {
-        if (MachineAssembly.consumeInventoryItem(required.copy(), getPlayer().inventory.mainInventory)) {
+        if (MachineAssembly.consumeInventoryItem(required, getPlayer().inventory.mainInventory)) {
             return true;
         }
         return useAeItems && Mods.AE2.isLoading() && Ae2AssemblyExtractor.extractItem(getPlayer(), required);
     }
 
     private boolean consumeFluid(FluidStack required) {
-        if (MachineAssembly.consumeInventoryFluid(required.copy(), MMCEBuilderUtils.getFluidHandlerItems(getPlayer().inventory.mainInventory))) {
+        if (MachineAssembly.consumeInventoryFluid(required, getBatchFluidHandlers())) {
             return true;
         }
         return useAeFluids && Mods.AE2.isLoading() && Ae2AssemblyExtractor.extractFluid(getPlayer(), required);
+    }
+
+    private List<IFluidHandlerItem> getBatchFluidHandlers() {
+        if (batchFluidHandlers == null) {
+            batchFluidHandlers = MMCEBuilderUtils.getFluidHandlerItems(getPlayer().inventory.mainInventory);
+        }
+        return batchFluidHandlers;
     }
 
     private boolean shouldWaitForItemCraft(ItemStack required) {
@@ -245,7 +282,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
             return;
         }
         for (MissingItemEntry entry : missingItems) {
-            if (ItemStack.areItemsEqual(entry.stack, required) && ItemStack.areItemStackTagsEqual(entry.stack, required)) {
+            if (MMCEBuilderUtils.areItemStacksEqual(entry.stack, required)) {
                 entry.amount += required.getCount();
                 return;
             }
@@ -258,7 +295,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
             return;
         }
         for (MissingFluidEntry entry : missingFluids) {
-            if (entry.fluid.isFluidEqual(required)) {
+            if (MMCEBuilderUtils.areFluidsEqual(entry.fluid, required)) {
                 entry.amount += required.amount;
                 return;
             }
@@ -270,7 +307,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
         Iterator<RequestedItemCraft> iterator = craftRequestedItems.iterator();
         while (iterator.hasNext()) {
             RequestedItemCraft entry = iterator.next();
-            if (ItemStack.areItemsEqual(entry.stack, required) && ItemStack.areItemStackTagsEqual(entry.stack, required)) {
+            if (MMCEBuilderUtils.areItemStacksEqual(entry.stack, required)) {
                 if (entry.link.isCanceled()) {
                     iterator.remove();
                     return CraftRequestState.CANCELED;
@@ -292,7 +329,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
         Iterator<RequestedFluidCraft> iterator = craftRequestedFluids.iterator();
         while (iterator.hasNext()) {
             RequestedFluidCraft entry = iterator.next();
-            if (entry.fluid.isFluidEqual(required)) {
+            if (MMCEBuilderUtils.areFluidsEqual(entry.fluid, required)) {
                 if (entry.link.isCanceled()) {
                     iterator.remove();
                     return CraftRequestState.CANCELED;
@@ -311,7 +348,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
         Iterator<RequestedItemCraft> iterator = craftRequestedItems.iterator();
         while (iterator.hasNext()) {
             RequestedItemCraft entry = iterator.next();
-            if (ItemStack.areItemsEqual(entry.stack, required) && ItemStack.areItemStackTagsEqual(entry.stack, required)) {
+            if (MMCEBuilderUtils.areItemStacksEqual(entry.stack, required)) {
                 iterator.remove();
                 return;
             }
@@ -325,7 +362,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly {
         Iterator<RequestedFluidCraft> iterator = craftRequestedFluids.iterator();
         while (iterator.hasNext()) {
             RequestedFluidCraft entry = iterator.next();
-            if (entry.fluid.isFluidEqual(required)) {
+            if (MMCEBuilderUtils.areFluidsEqual(entry.fluid, required)) {
                 iterator.remove();
                 return;
             }

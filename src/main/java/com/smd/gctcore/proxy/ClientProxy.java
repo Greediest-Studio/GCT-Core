@@ -1,6 +1,7 @@
 package com.smd.gctcore.proxy;
 
 import WayofTime.bloodmagic.client.IMeshProvider;
+import com.cleanroommc.modularui.ModularUIConfig;
 import com.google.common.collect.Sets;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.common.entity.EntityRenders;

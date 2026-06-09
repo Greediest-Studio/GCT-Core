@@ -6,7 +6,8 @@ public enum Mods {
     TOP("theoneprobe"),
     AS("astralsorcery"),
     AE2("appliedenergistics2"),
-    MORETCON("moretcon");
+    MORETCON("moretcon"),
+    BOT("botania");
 
     public final String modid;
 

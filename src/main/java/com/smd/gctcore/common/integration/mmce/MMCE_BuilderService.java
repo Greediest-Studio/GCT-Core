@@ -20,7 +20,7 @@ public final class MMCE_BuilderService {
     private MMCE_BuilderService() {
     }
 
-    public static void start(EntityPlayerMP player, BlockPos pos, boolean useAeItems, boolean useAeFluids, boolean craftMissing, int dynamicLength, int tickInterval, int operationsPerTick) {
+    public static void start(EntityPlayerMP player, BlockPos pos, boolean useAeItems, boolean useAeFluids, boolean craftMissing, boolean disassembleMode, int dynamicLength, int tickInterval, int operationsPerTick) {
         World world = player.world;
         TileEntity tile = world.getTileEntity(pos);
         Block block = world.getBlockState(pos).getBlock();
@@ -49,6 +49,13 @@ public final class MMCE_BuilderService {
         EnumFacing controllerFacing = world.getBlockState(pos).getValue(BlockController.FACING);
         BlockArray machinePattern = new BlockArray(BlockArrayCache.getBlockArrayCache(machine.getPattern(), controllerFacing));
         MMCEBuilderUtils.appendDynamicPatterns(machine, machinePattern, controllerFacing, dynamicLength);
+
+        if (disassembleMode) {
+            DisassemblyIngredient.Plan plan = MMCEBuilderUtils.createDisassemblyPlan(machinePattern);
+            MMCE_BuilderTaskManager.addTask(new ConfigurableMachineDisassembly(world, pos, player, plan, useAeItems, useAeFluids, tickInterval, operationsPerTick));
+            MMCEBuilderUtils.sendTranslation(player, "message.gctcore.mmce_builder.disassembly_started");
+            return;
+        }
 
         StructureIngredient ingredient = StructureIngredient.of(world, pos, machinePattern);
         if (player.isCreative()) {
