@@ -9,6 +9,7 @@ public final class MMCE_BuilderConfig {
     private static final String TAG_USE_AE_ITEMS = "gct_mmce_use_ae_items";
     private static final String TAG_USE_AE_FLUIDS = "gct_mmce_use_ae_fluids";
     private static final String TAG_CRAFT_MISSING = "gct_mmce_craft_missing";
+    private static final String TAG_DISASSEMBLE_MODE = "gct_mmce_disassemble_mode";
     private static final String TAG_LEGACY_CRAFT_MISSING_ITEMS = "gct_mmce_craft_missing_items";
     private static final String TAG_LEGACY_CRAFT_MISSING_FLUIDS = "gct_mmce_craft_missing_fluids";
     private static final String TAG_DYNAMIC_LENGTH = "gct_mmce_dynamic_length";
@@ -49,6 +50,14 @@ public final class MMCE_BuilderConfig {
         tag.setBoolean(TAG_CRAFT_MISSING, value);
         tag.removeTag(TAG_LEGACY_CRAFT_MISSING_ITEMS);
         tag.removeTag(TAG_LEGACY_CRAFT_MISSING_FLUIDS);
+    }
+
+    public static boolean disassembleMode(ItemStack stack) {
+        return getTag(stack).getBoolean(TAG_DISASSEMBLE_MODE);
+    }
+
+    public static void setDisassembleMode(ItemStack stack, boolean value) {
+        getTag(stack).setBoolean(TAG_DISASSEMBLE_MODE, value);
     }
 
     public static int dynamicLength(ItemStack stack) {

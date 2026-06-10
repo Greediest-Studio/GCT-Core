@@ -3,6 +3,7 @@ package com.smd.gctcore.common.items;
 import com.cleanroommc.modularui.api.IGuiHolder;
 import com.cleanroommc.modularui.api.drawable.IKey;
 import com.cleanroommc.modularui.drawable.GuiTextures;
+import com.cleanroommc.modularui.factory.GuiData;
 import com.cleanroommc.modularui.factory.GuiFactories;
 import com.cleanroommc.modularui.factory.PlayerInventoryGuiData;
 import com.cleanroommc.modularui.factory.inventory.InventoryTypes;
@@ -19,6 +20,8 @@ import com.cleanroommc.modularui.widgets.layout.Flow;
 import com.cleanroommc.modularui.widgets.textfield.TextFieldWidget;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.common.integration.mmce.*;
+import com.smd.gctcore.common.network.GctNetworkHandler;
+import com.smd.gctcore.common.network.PacketMMCEBuilderConfig;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -38,7 +41,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class MMCE_BuilderTool extends Item implements IGuiHolder<PlayerInventoryGuiData> {
+public class MMCE_BuilderTool extends Item implements IGuiHolder<GuiData> {
 
     public MMCE_BuilderTool() {
         setTranslationKey(Tags.MOD_ID + ".mmce_builder_tool");
@@ -62,42 +65,63 @@ public class MMCE_BuilderTool extends Item implements IGuiHolder<PlayerInventory
         if (!world.isRemote && player instanceof EntityPlayerMP) {
             ItemStack stack = player.getHeldItem(hand);
             MMCE_BuilderService.start((EntityPlayerMP) player, pos, MMCE_BuilderConfig.useAeItems(stack),
-                    MMCE_BuilderConfig.useAeFluids(stack), MMCE_BuilderConfig.craftMissing(stack), MMCE_BuilderConfig.dynamicLength(stack),
-                    MMCE_BuilderConfig.TICK_INTERVAL, MMCE_BuilderConfig.OPERATIONS_PER_TICK);
+                    MMCE_BuilderConfig.useAeFluids(stack), MMCE_BuilderConfig.craftMissing(stack), MMCE_BuilderConfig.disassembleMode(stack),
+                    MMCE_BuilderConfig.dynamicLength(stack), MMCE_BuilderConfig.TICK_INTERVAL, MMCE_BuilderConfig.OPERATIONS_PER_TICK);
         }
         return EnumActionResult.SUCCESS;
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public ModularScreen createScreen(PlayerInventoryGuiData data, ModularPanel mainPanel) {
+    public ModularScreen createScreen(GuiData data, ModularPanel mainPanel) {
         return new ModularScreen(Tags.MOD_ID, mainPanel);
     }
 
     @Override
-    public ModularPanel buildUI(PlayerInventoryGuiData data, PanelSyncManager syncManager, UISettings settings) {
-        ItemStack stack = data.getUsedItemStack();
-        if (data.getInventoryType() == InventoryTypes.PLAYER) {
-            syncManager.bindPlayerInventory(data.getPlayer(), (inv, index) -> index == data.getSlotIndex()
+    public ModularPanel buildUI(GuiData data, PanelSyncManager syncManager, UISettings settings) {
+        if (!(data instanceof PlayerInventoryGuiData)) {
+            return ModularPanel.defaultPanel("gct_mmce_builder", 176, 140);
+        }
+        PlayerInventoryGuiData inventoryData = (PlayerInventoryGuiData) data;
+        ItemStack stack = inventoryData.getUsedItemStack();
+        if (inventoryData.getInventoryType() == InventoryTypes.PLAYER) {
+            syncManager.bindPlayerInventory(inventoryData.getPlayer(), (inv, index) -> index == inventoryData.getSlotIndex()
                     ? new com.cleanroommc.modularui.widgets.slot.ModularSlot(inv, index).accessibility(false, false)
                     : new com.cleanroommc.modularui.widgets.slot.ModularSlot(inv, index));
         }
 
-        ModularPanel panel = ModularPanel.defaultPanel("gct_mmce_builder", 176, 118);
+        ModularPanel panel = ModularPanel.defaultPanel("gct_mmce_builder", 176, 140);
         panel.child(Flow.column().margin(7).widthRel(1f).heightRel(1f)
                 .child(new TextWidget<>(IKey.lang("gui.gctcore.mmce_builder.title")).height(12).widthRel(1f))
+                .child(row("gui.gctcore.mmce_builder.disassemble_mode", new ToggleButton()
+                        .value(SyncHandlers.bool(() -> MMCE_BuilderConfig.disassembleMode(stack), val -> {
+                            MMCE_BuilderConfig.setDisassembleMode(stack, val);
+                            syncConfigToServer(inventoryData, stack);
+                        }))
+                        .size(18, 18)
+                        .overlay(false, IKey.lang("gui.gctcore.mmce_builder.off"))
+                        .overlay(true, IKey.lang("gui.gctcore.mmce_builder.on"))))
                 .child(row("gui.gctcore.mmce_builder.use_ae_items", new ToggleButton()
-                        .value(SyncHandlers.bool(() -> MMCE_BuilderConfig.useAeItems(stack), val -> MMCE_BuilderConfig.setUseAeItems(stack, val)))
+                        .value(SyncHandlers.bool(() -> MMCE_BuilderConfig.useAeItems(stack), val -> {
+                            MMCE_BuilderConfig.setUseAeItems(stack, val);
+                            syncConfigToServer(inventoryData, stack);
+                        }))
                         .size(18, 18)
                         .overlay(false, IKey.lang("gui.gctcore.mmce_builder.off"))
                         .overlay(true, IKey.lang("gui.gctcore.mmce_builder.on"))))
                 .child(row("gui.gctcore.mmce_builder.use_ae_fluids", new ToggleButton()
-                        .value(SyncHandlers.bool(() -> MMCE_BuilderConfig.useAeFluids(stack), val -> MMCE_BuilderConfig.setUseAeFluids(stack, val)))
+                        .value(SyncHandlers.bool(() -> MMCE_BuilderConfig.useAeFluids(stack), val -> {
+                            MMCE_BuilderConfig.setUseAeFluids(stack, val);
+                            syncConfigToServer(inventoryData, stack);
+                        }))
                         .size(18, 18)
                         .overlay(false, IKey.lang("gui.gctcore.mmce_builder.off"))
                         .overlay(true, IKey.lang("gui.gctcore.mmce_builder.on"))))
                 .child(row("gui.gctcore.mmce_builder.craft_missing", new ToggleButton()
-                        .value(SyncHandlers.bool(() -> MMCE_BuilderConfig.craftMissing(stack), val -> MMCE_BuilderConfig.setCraftMissing(stack, val)))
+                        .value(SyncHandlers.bool(() -> MMCE_BuilderConfig.craftMissing(stack), val -> {
+                            MMCE_BuilderConfig.setCraftMissing(stack, val);
+                            syncConfigToServer(inventoryData, stack);
+                        }))
                         .size(18, 18)
                         .overlay(false, IKey.lang("gui.gctcore.mmce_builder.off"))
                         .overlay(true, IKey.lang("gui.gctcore.mmce_builder.on"))))
@@ -108,6 +132,7 @@ public class MMCE_BuilderTool extends Item implements IGuiHolder<PlayerInventory
                             } catch (NumberFormatException ignored) {
                                 MMCE_BuilderConfig.setDynamicLength(stack, 1);
                             }
+                            syncConfigToServer(inventoryData, stack);
                         }))
                         .setNumbers(0, 4096)
                         .background(GuiTextures.DISPLAY_SMALL)
@@ -121,12 +146,25 @@ public class MMCE_BuilderTool extends Item implements IGuiHolder<PlayerInventory
                 .child(control);
     }
 
+    private void syncConfigToServer(PlayerInventoryGuiData data, ItemStack stack) {
+        if (!data.getPlayer().world.isRemote) {
+            return;
+        }
+        GctNetworkHandler.CHANNEL.sendToServer(new PacketMMCEBuilderConfig(data.getSlotIndex(),
+                MMCE_BuilderConfig.useAeItems(stack),
+                MMCE_BuilderConfig.useAeFluids(stack),
+                MMCE_BuilderConfig.craftMissing(stack),
+                MMCE_BuilderConfig.disassembleMode(stack),
+                MMCE_BuilderConfig.dynamicLength(stack)));
+    }
+
     @Override
     public void addInformation(@NotNull ItemStack stack, @Nullable World worldIn, List<String> tooltip, @NotNull ITooltipFlag flagIn) {
         tooltip.add(I18n.translateToLocal("tooltip.gctcore.mmce_builder_tool.1"));
         tooltip.add(I18n.translateToLocalFormatted("tooltip.gctcore.mmce_builder_tool.2", MMCE_BuilderConfig.useAeItems(stack) ? "True" : "False"));
         tooltip.add(I18n.translateToLocalFormatted("tooltip.gctcore.mmce_builder_tool.3", MMCE_BuilderConfig.useAeFluids(stack) ? "True" : "False"));
         tooltip.add(I18n.translateToLocalFormatted("tooltip.gctcore.mmce_builder_tool.4", MMCE_BuilderConfig.dynamicLength(stack)));
-        tooltip.add(I18n.translateToLocal("tooltip.gctcore.mmce_builder_tool.5"));
+        tooltip.add(I18n.translateToLocalFormatted("tooltip.gctcore.mmce_builder_tool.5", MMCE_BuilderConfig.disassembleMode(stack) ? "True" : "False"));
+        tooltip.add(I18n.translateToLocal("tooltip.gctcore.mmce_builder_tool.6"));
     }
 }

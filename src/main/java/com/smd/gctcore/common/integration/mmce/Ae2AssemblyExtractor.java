@@ -132,6 +132,120 @@ public final class Ae2AssemblyExtractor {
         return false;
     }
 
+    public static boolean canInsertItem(EntityPlayer player, ItemStack stack) {
+        return insertItem(player, stack, Actionable.SIMULATE, false).isEmpty();
+    }
+
+    public static ItemStack insertItem(EntityPlayer player, ItemStack stack) {
+        return insertItem(player, stack, Actionable.MODULATE, true);
+    }
+
+    public static boolean canInsertFluid(EntityPlayer player, FluidStack stack) {
+        return insertFluid(player, stack, Actionable.SIMULATE, false) == null;
+    }
+
+    public static FluidStack insertFluid(EntityPlayer player, FluidStack stack) {
+        return insertFluid(player, stack, Actionable.MODULATE, true);
+    }
+
+    private static ItemStack insertItem(EntityPlayer player, ItemStack stack, Actionable mode, boolean diagnose) {
+        if (stack.isEmpty()) {
+            return ItemStack.EMPTY;
+        }
+        IAEItemStack toInsert = AEItemStack.fromItemStack(stack.copy());
+        if (toInsert == null) {
+            return stack.copy();
+        }
+        toInsert.setStackSize(stack.getCount());
+        List<WirelessTerminalAccess> terminals = findWirelessTerminals(player);
+        if (terminals.isEmpty()) {
+            if (diagnose) {
+                sendDiagnostic(player, "message.gctcore.mmce_builder.ae_no_terminal");
+            }
+            return stack.copy();
+        }
+        boolean inaccessibleNetwork = false;
+        boolean storageMissing = false;
+        IAEItemStack remaining = toInsert.copy();
+        for (WirelessTerminalAccess terminal : terminals) {
+            IGridNode node = terminal.guiObject.getActionableNode();
+            if (!isAccessible(player, node, SecurityPermissions.INJECT)) {
+                inaccessibleNetwork = true;
+                continue;
+            }
+            IGrid grid = node.getGrid();
+            IStorageGrid storageGrid = grid.getCache(IStorageGrid.class);
+            if (storageGrid == null) {
+                storageMissing = true;
+                continue;
+            }
+            IMEMonitor<IAEItemStack> monitor = storageGrid.getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class));
+            remaining = Platform.poweredInsert(terminal.guiObject, monitor, remaining.copy(), new PlayerSource(player, terminal.guiObject), mode);
+            if (remaining == null || remaining.getStackSize() <= 0) {
+                if (mode == Actionable.MODULATE) {
+                    terminal.guiObject.saveChanges();
+                }
+                return ItemStack.EMPTY;
+            }
+            if (mode == Actionable.MODULATE) {
+                terminal.guiObject.saveChanges();
+            }
+        }
+        if (diagnose) {
+            reportInsertionFailure(player, inaccessibleNetwork, storageMissing);
+        }
+        return remaining == null ? ItemStack.EMPTY : remaining.createItemStack();
+    }
+
+    private static FluidStack insertFluid(EntityPlayer player, FluidStack stack, Actionable mode, boolean diagnose) {
+        if (stack == null || stack.amount <= 0) {
+            return null;
+        }
+        IAEFluidStack toInsert = AEFluidStack.fromFluidStack(stack.copy());
+        if (toInsert == null) {
+            return stack.copy();
+        }
+        toInsert.setStackSize(stack.amount);
+        List<WirelessTerminalAccess> terminals = findWirelessTerminals(player);
+        if (terminals.isEmpty()) {
+            if (diagnose) {
+                sendDiagnostic(player, "message.gctcore.mmce_builder.ae_no_terminal");
+            }
+            return stack.copy();
+        }
+        boolean inaccessibleNetwork = false;
+        boolean storageMissing = false;
+        IAEFluidStack remaining = toInsert.copy();
+        for (WirelessTerminalAccess terminal : terminals) {
+            IGridNode node = terminal.guiObject.getActionableNode();
+            if (!isAccessible(player, node, SecurityPermissions.INJECT)) {
+                inaccessibleNetwork = true;
+                continue;
+            }
+            IGrid grid = node.getGrid();
+            IStorageGrid storageGrid = grid.getCache(IStorageGrid.class);
+            if (storageGrid == null) {
+                storageMissing = true;
+                continue;
+            }
+            IMEMonitor<IAEFluidStack> monitor = storageGrid.getInventory(AEApi.instance().storage().getStorageChannel(IFluidStorageChannel.class));
+            remaining = Platform.poweredInsert(terminal.guiObject, monitor, remaining.copy(), new PlayerSource(player, terminal.guiObject), mode);
+            if (remaining == null || remaining.getStackSize() <= 0) {
+                if (mode == Actionable.MODULATE) {
+                    terminal.guiObject.saveChanges();
+                }
+                return null;
+            }
+            if (mode == Actionable.MODULATE) {
+                terminal.guiObject.saveChanges();
+            }
+        }
+        if (diagnose) {
+            reportInsertionFailure(player, inaccessibleNetwork, storageMissing);
+        }
+        return remaining == null ? null : remaining.getFluidStack();
+    }
+
     public static ICraftingLink requestItemCraft(EntityPlayer player, ItemStack required) {
         if (required.isEmpty()) {
             return null;
@@ -261,6 +375,16 @@ public final class Ae2AssemblyExtractor {
             sendDiagnostic(player, "message.gctcore.mmce_builder.ae_missing");
         } else {
             sendDiagnostic(player, "message.gctcore.mmce_builder.ae_extract_failed");
+        }
+    }
+
+    private static void reportInsertionFailure(EntityPlayer player, boolean inaccessibleNetwork, boolean storageMissing) {
+        if (inaccessibleNetwork) {
+            sendDiagnostic(player, "message.gctcore.mmce_builder.ae_insert_inaccessible");
+        } else if (storageMissing) {
+            sendDiagnostic(player, "message.gctcore.mmce_builder.ae_no_storage");
+        } else {
+            sendDiagnostic(player, "message.gctcore.mmce_builder.ae_insert_failed");
         }
     }
 
