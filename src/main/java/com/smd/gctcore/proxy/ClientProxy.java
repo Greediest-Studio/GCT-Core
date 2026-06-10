@@ -84,6 +84,7 @@ public class ClientProxy extends CommonProxy {
             registerItemModel(ItemRegistry.RAW_QUARTZ, "arcanearchives/raw_quartz");
             registerItemModel(ItemRegistry.SHAPED_QUARTZ, "arcanearchives/shaped_quartz");
             registerItemModel(ItemRegistry.MMCE_BUILDER_TOOL);
+            registerItemModel(ItemRegistry.BIRD_OF_EDWIN);
             registerBlockModel(BlockRegistry.RADIANT_RESONATOR);
             registerBlockModel(BlockRegistry.RAW_QUARTZ_CLUSTER);
             registerBlockModel(BlockRegistry.STORAGE_RAW_QUARTZ);
