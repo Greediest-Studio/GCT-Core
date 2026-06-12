@@ -31,6 +31,7 @@ item.gctcore.gaia_spark.name=盖亚火花
 item.gctcore.raw_quartz.name=粗辉耀石英
 item.gctcore.shaped_quartz.name=已雕琢的辉耀石英
 item.gctcore.mmce_builder_tool.name=MMCE搭建工具
+item.gctcore.bird_of_edwin.name=mc_Edwin的鸟
 
 entity.alf_spark.name=精灵火花
 entity.gaia_spark.name=盖亚火花
@@ -62,6 +63,8 @@ tooltip.gctcore.mmce_builder_tool.3=通过无线终端调用AE流体：%d
 tooltip.gctcore.mmce_builder_tool.4=动态结构长度：%d
 tooltip.gctcore.mmce_builder_tool.5=拆卸模式：%s
 tooltip.gctcore.mmce_builder_tool.6=潜行右键MMCE控制器执行当前模式。
+tooltip.gctcore.bird_of_edwin.1=贪婪2作者mc_Edwin的鸟
+tooltip.gctcore.bird_of_edwin.2=——by 诺言
 
 message.crimson_anchor.found=§c一股血腥能量逸出，指向了§f(%d, %d, %d)§c的位置。
 message.crimson_anchor.notfound=§c一股血腥能量逸出，但很快又回去了。

@@ -37,6 +37,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new BlockRegistry());
         MinecraftForge.EVENT_BUS.register(new ItemRegistry());
         MinecraftForge.EVENT_BUS.register(new PotionsItemRegistry());
+        MinecraftForge.EVENT_BUS.register(new SoundRegistry());
         MinecraftForge.EVENT_BUS.register(new EntityRegistrar());
         MinecraftForge.EVENT_BUS.register(new MMCE_BuilderTaskManager());
         if(Mods.BOT.isLoading()){

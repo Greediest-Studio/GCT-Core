@@ -33,6 +33,7 @@ item.gctcore.frostburn_flux_capacitor.name=Frostburn Flux Capacitor
 item.gctcore.raw_quartz.name=Raw Radiant Quartz
 item.gctcore.shaped_quartz.name=Shaped Radiant Quartz
 item.gctcore.mmce_builder_tool.name=MMCE Structure Builder
+item.gctcore.bird_of_edwin.name=mc_Edwin's Bird
 
 tooltip.bloodmagic.will=Will Quality: %1$,.2f
 tooltip.bloodmagic.currentBaseType.default=Raw
@@ -66,6 +67,8 @@ tooltip.gctcore.raw_quartz=A radiant material.
 tooltip.gctcore.shaped_quartz=A shaped radiant material.
 tooltip.gctcore.storage_raw_quartz=A decorative block made from raw radiant quartz.
 tooltip.gctcore.storage_shaped_quartz=A decorative block made from shaped radiant quartz.
+tooltip.gctcore.bird_of_edwin.1=The bird of Greed 2 author mc_Edwin
+tooltip.gctcore.bird_of_edwin.2=--by Nuoyan
 
 info.gct.energy=Energy
 

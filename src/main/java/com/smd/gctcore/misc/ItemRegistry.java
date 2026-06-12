@@ -23,6 +23,7 @@ public class ItemRegistry {
     public static Item RAW_QUARTZ;
     public static Item SHAPED_QUARTZ;
     public static Item MMCE_BUILDER_TOOL;
+    public static Item BIRD_OF_EDWIN;
 
     public static void init() {
         CHAOTIC_FLUX_CAPACITOR = new ChaoticFluxCapacitor();
@@ -35,6 +36,7 @@ public class ItemRegistry {
         RAW_QUARTZ = new RawQuartzItem();
         SHAPED_QUARTZ = new ShapedQuartzItem();
         MMCE_BUILDER_TOOL = new MMCE_BuilderTool();
+        BIRD_OF_EDWIN = new BirdOfEdwin();
     }
 
     @SubscribeEvent
@@ -49,7 +51,8 @@ public class ItemRegistry {
                 GAIA_SPARK,
                 RAW_QUARTZ,
                 SHAPED_QUARTZ,
-                MMCE_BUILDER_TOOL
+                MMCE_BUILDER_TOOL,
+                BIRD_OF_EDWIN
         );
     }
 }
