@@ -5,7 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "mixins.gctcore.refmap.json",
   "mixins": [
-    "MixinAdapterTC6EssentiaBridge",
+    "MixinAdapterTC6GuguAspectBridge",
     "MixinAdapterTC6Crucible"
   ],
   "client": [],

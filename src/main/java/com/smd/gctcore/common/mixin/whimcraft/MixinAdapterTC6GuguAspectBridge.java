@@ -7,15 +7,15 @@ import com.xinyihl.whimcraft.common.integration.adapter.tc6.AdapterTC6InfusionMa
 import com.xinyihl.whimcraft.common.integration.adapter.tc6.AdapterTC6Smelter;
 import hellfirepvp.modularmachinery.common.crafting.helper.ComponentRequirement;
 import hellfirepvp.modularmachinery.common.crafting.requirement.type.RequirementType;
-import hellfirepvp.modularmachinery.common.lib.RegistriesMM;
 import hellfirepvp.modularmachinery.common.machine.IOType;
-import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import thaumcraft.api.aspects.Aspect;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -29,15 +29,19 @@ import java.lang.reflect.Method;
         },
         remap = false
 )
-public abstract class MixinAdapterTC6EssentiaBridge {
+public abstract class MixinAdapterTC6GuguAspectBridge {
 
     @Unique
-    private static final ResourceLocation GCTCORE$MMCE_ADDONS_ESSENTIA_TYPE =
-            new ResourceLocation("modularmachineryaddons", "essentia");
+    private static final String GCTCORE$GUGU_REQUIREMENTS =
+            "com.warmthdawn.mod.gugu_utils.modularmachenary.MMRequirements";
 
     @Unique
-    private static final String GCTCORE$MMCE_ADDONS_ESSENTIA_REQUIREMENT =
-            "github.alecsio.mmceaddons.common.hatch.thaumcraft.ae2.essentia.RequirementEssentia";
+    private static final String GCTCORE$GUGU_ASPECT_INPUT =
+            "com.warmthdawn.mod.gugu_utils.modularmachenary.requirements.RequirementAspect";
+
+    @Unique
+    private static final String GCTCORE$GUGU_ASPECT_OUTPUT =
+            "com.warmthdawn.mod.gugu_utils.modularmachenary.requirements.RequirementAspectOutput";
 
     @Redirect(
             method = "lambda$null$0",
@@ -48,8 +52,8 @@ public abstract class MixinAdapterTC6EssentiaBridge {
             remap = false,
             require = 0
     )
-    private static RequirementType<?, ?> gctcore$getEssentiaRequirementType0() {
-        return gctcore$getEssentiaRequirementType();
+    private static RequirementType<?, ?> gctcore$getAspectRequirementType0() {
+        return gctcore$getAspectRequirementType();
     }
 
     @Redirect(
@@ -61,8 +65,8 @@ public abstract class MixinAdapterTC6EssentiaBridge {
             remap = false,
             require = 0
     )
-    private static RequirementType<?, ?> gctcore$getEssentiaRequirementType1() {
-        return gctcore$getEssentiaRequirementType();
+    private static RequirementType<?, ?> gctcore$getAspectRequirementType1() {
+        return gctcore$getAspectRequirementType();
     }
 
     @Redirect(
@@ -74,8 +78,8 @@ public abstract class MixinAdapterTC6EssentiaBridge {
             remap = false,
             require = 0
     )
-    private static RequirementType<?, ?> gctcore$getEssentiaRequirementType3() {
-        return gctcore$getEssentiaRequirementType();
+    private static RequirementType<?, ?> gctcore$getAspectRequirementType3() {
+        return gctcore$getAspectRequirementType();
     }
 
     @Redirect(
@@ -87,8 +91,8 @@ public abstract class MixinAdapterTC6EssentiaBridge {
             remap = false,
             require = 0
     )
-    private static ComponentRequirement<?, ?> gctcore$getEssentiaRequirement0(IOType actionType, int amount, Aspect aspect) {
-        return gctcore$getEssentiaRequirement(actionType, amount, aspect);
+    private static ComponentRequirement<?, ?> gctcore$getAspectRequirement0(IOType actionType, int amount, Aspect aspect) {
+        return gctcore$getAspectRequirement(actionType, amount, aspect);
     }
 
     @Redirect(
@@ -100,8 +104,8 @@ public abstract class MixinAdapterTC6EssentiaBridge {
             remap = false,
             require = 0
     )
-    private static ComponentRequirement<?, ?> gctcore$getEssentiaRequirement1(IOType actionType, int amount, Aspect aspect) {
-        return gctcore$getEssentiaRequirement(actionType, amount, aspect);
+    private static ComponentRequirement<?, ?> gctcore$getAspectRequirement1(IOType actionType, int amount, Aspect aspect) {
+        return gctcore$getAspectRequirement(actionType, amount, aspect);
     }
 
     @Redirect(
@@ -113,31 +117,43 @@ public abstract class MixinAdapterTC6EssentiaBridge {
             remap = false,
             require = 0
     )
-    private static ComponentRequirement<?, ?> gctcore$getEssentiaRequirement3(IOType actionType, int amount, Aspect aspect) {
-        return gctcore$getEssentiaRequirement(actionType, amount, aspect);
+    private static ComponentRequirement<?, ?> gctcore$getAspectRequirement3(IOType actionType, int amount, Aspect aspect) {
+        return gctcore$getAspectRequirement(actionType, amount, aspect);
     }
 
     @Unique
-    private static RequirementType<?, ?> gctcore$getEssentiaRequirementType() {
-        RequirementType<?, ?> requirementType = RegistriesMM.REQUIREMENT_TYPE_REGISTRY.getValue(GCTCORE$MMCE_ADDONS_ESSENTIA_TYPE);
-        if (requirementType == null) {
-            throw new IllegalStateException("Missing MMCE Addons essentia requirement type: " + GCTCORE$MMCE_ADDONS_ESSENTIA_TYPE);
-        }
-        return requirementType;
-    }
-
-    @Unique
-    private static ComponentRequirement<?, ?> gctcore$getEssentiaRequirement(IOType actionType, int amount, Aspect aspect) {
+    private static RequirementType<?, ?> gctcore$getAspectRequirementType() {
         try {
-            Class<?> requirementClass = Class.forName(GCTCORE$MMCE_ADDONS_ESSENTIA_REQUIREMENT);
-            Method from = requirementClass.getMethod("from", IOType.class, String.class, int.class);
-            return (ComponentRequirement<?, ?>) from.invoke(null, actionType, aspect.getTag(), amount);
+            Class<?> requirements = Class.forName(GCTCORE$GUGU_REQUIREMENTS);
+            Field type = requirements.getField("REQUIREMENT_TYPE_ASPECT");
+            return (RequirementType<?, ?>) type.get(null);
         } catch (ClassNotFoundException e) {
-            throw new IllegalStateException("Missing MMCE Addons essentia requirement class: " + GCTCORE$MMCE_ADDONS_ESSENTIA_REQUIREMENT, e);
-        } catch (NoSuchMethodException | IllegalAccessException e) {
-            throw new IllegalStateException("Incompatible MMCE Addons essentia requirement API.", e);
+            throw new IllegalStateException("Missing gugu-utils requirement registry: " + GCTCORE$GUGU_REQUIREMENTS, e);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new IllegalStateException("Incompatible gugu-utils aspect requirement registry.", e);
+        }
+    }
+
+    @Unique
+    private static ComponentRequirement<?, ?> gctcore$getAspectRequirement(IOType actionType, int amount, Aspect aspect) {
+        try {
+            if (actionType == IOType.INPUT) {
+                Class<?> requirementClass = Class.forName(GCTCORE$GUGU_ASPECT_INPUT);
+                Method createInput = requirementClass.getMethod("createInput", int.class, Aspect.class);
+                return (ComponentRequirement<?, ?>) createInput.invoke(null, amount, aspect);
+            }
+            if (actionType == IOType.OUTPUT) {
+                Class<?> requirementClass = Class.forName(GCTCORE$GUGU_ASPECT_OUTPUT);
+                Constructor<?> constructor = requirementClass.getConstructor(int.class, Aspect.class);
+                return (ComponentRequirement<?, ?>) constructor.newInstance(amount, aspect);
+            }
+            throw new IllegalStateException("Unknown IOType: " + actionType);
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("Missing gugu-utils aspect requirement class.", e);
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {
+            throw new IllegalStateException("Incompatible gugu-utils aspect requirement API.", e);
         } catch (InvocationTargetException e) {
-            throw new IllegalStateException("Failed to create MMCE Addons essentia requirement.", e.getCause());
+            throw new IllegalStateException("Failed to create gugu-utils aspect requirement.", e.getCause());
         }
     }
 }
