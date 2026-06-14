@@ -20,10 +20,6 @@ public class GctCoreConfig {
     @Config.Name("Radiant Resonator")
     public static RadiantResonator radiantResonator = new RadiantResonator();
 
-    @Config.Comment("Debug tools for MMCE controller state changes")
-    @Config.Name("MMCE Debug")
-    public static MMCE_Debug mmceDebug = new MMCE_Debug();
-
     public static class RadiantResonator {
 
         @Config.Comment("Maximum radiant resonators each player can place")
@@ -35,28 +31,6 @@ public class GctCoreConfig {
         @Config.Name("Resonator Tick Time")
         @Config.RangeInt(min = 1)
         public int resonatorTickTime = 6000;
-    }
-
-    public static class MMCE_Debug {
-
-        @Config.Comment({
-                "Print MMCE controller state changes from the server tick event.",
-                "Use this to see formed/status/facing changes over time."
-        })
-        @Config.Name("Log Controller Tick State Changes")
-        public boolean logControllerTickStateChanges = true;
-
-        @Config.Comment({
-                "Print a stack trace when World#setBlockState changes an MMCE controller FACING or FORMED property.",
-                "Enable only while debugging; it can be noisy."
-        })
-        @Config.Name("Trace Controller Block State Changes")
-        public boolean traceControllerBlockStateChanges = true;
-
-        @Config.Comment("Maximum stack trace elements printed for MMCE controller block state changes.")
-        @Config.Name("Trace Stack Depth")
-        @Config.RangeInt(min = 4, max = 80)
-        public int traceStackDepth = 30;
     }
 
     public static class MoreTconIntegration {
