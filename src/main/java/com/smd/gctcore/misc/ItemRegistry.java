@@ -7,6 +7,7 @@ import com.smd.gctcore.common.items.botania.ItemGaiaSpark;
 import com.smd.gctcore.common.items.draconicevolution.ChaoticFluxCapacitor;
 import com.smd.gctcore.common.items.draconicevolution.FrostburnFluxCapacitor;
 import com.smd.gctcore.common.items.draconicevolution.OrderedFluxCapacitor;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -22,6 +23,7 @@ public class ItemRegistry {
     public static Item GAIA_SPARK;
     public static Item RAW_QUARTZ;
     public static Item SHAPED_QUARTZ;
+    public static Item APATHY_INGOT;
     public static Item MMCE_BUILDER_TOOL;
     public static Item BIRD_OF_EDWIN;
 
@@ -35,6 +37,10 @@ public class ItemRegistry {
         GAIA_SPARK = new ItemGaiaSpark();
         RAW_QUARTZ = new RawQuartzItem();
         SHAPED_QUARTZ = new ShapedQuartzItem();
+        APATHY_INGOT = new Item()
+                .setRegistryName("apathy_ingot")
+                .setTranslationKey("gctcore.apathy_ingot")
+                .setCreativeTab(CreativeTabs.MATERIALS);
         MMCE_BUILDER_TOOL = new MMCE_BuilderTool();
         BIRD_OF_EDWIN = new BirdOfEdwin();
     }
@@ -51,6 +57,7 @@ public class ItemRegistry {
                 GAIA_SPARK,
                 RAW_QUARTZ,
                 SHAPED_QUARTZ,
+                APATHY_INGOT,
                 MMCE_BUILDER_TOOL,
                 BIRD_OF_EDWIN
         );

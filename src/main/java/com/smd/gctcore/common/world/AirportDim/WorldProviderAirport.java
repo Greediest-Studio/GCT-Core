@@ -1,11 +1,10 @@
 package com.smd.gctcore.common.world.AirportDim;
 
-import com.smd.gctcore.common.world.chunks.ChunkGeneratorAirport;
-
 import net.minecraft.init.Biomes;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeProviderSingle;
+import net.minecraft.world.gen.ChunkGeneratorFlat;
 import net.minecraft.world.gen.IChunkGenerator;
 
 public class WorldProviderAirport extends WorldProvider {
@@ -33,7 +32,7 @@ public class WorldProviderAirport extends WorldProvider {
     }
     @Override
     public IChunkGenerator createChunkGenerator() {
-        return new ChunkGeneratorAirport(world);
+        return new ChunkGeneratorFlat(world, world.getSeed(), true, "3;2*7,3*1,1*2;1;");
     }
 
     @Override

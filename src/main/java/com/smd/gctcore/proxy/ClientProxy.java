@@ -10,6 +10,7 @@ import com.smd.gctcore.misc.BlockRegistry;
 import com.smd.gctcore.misc.ItemRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ColorHandlerEvent;
@@ -83,13 +84,70 @@ public class ClientProxy extends CommonProxy {
             registerItemModel(ItemRegistry.GAIA_SPARK, "botania/gaia_spark");
             registerItemModel(ItemRegistry.RAW_QUARTZ, "arcanearchives/raw_quartz");
             registerItemModel(ItemRegistry.SHAPED_QUARTZ, "arcanearchives/shaped_quartz");
+            registerItemModel(ItemRegistry.APATHY_INGOT);
             registerItemModel(ItemRegistry.MMCE_BUILDER_TOOL);
             registerItemModel(ItemRegistry.BIRD_OF_EDWIN);
             registerBlockModel(BlockRegistry.RADIANT_RESONATOR);
             registerBlockModel(BlockRegistry.RAW_QUARTZ_CLUSTER);
             registerBlockModel(BlockRegistry.STORAGE_RAW_QUARTZ);
             registerBlockModel(BlockRegistry.STORAGE_SHAPED_QUARTZ);
+            registerNilfheimBlockModels();
             registerSoulGemMeshModel();
+        }
+
+        private static void registerNilfheimBlockModels() {
+            registerBlockModel(BlockRegistry.RIMESTEEL_STONE);
+            registerBlockModel(BlockRegistry.BLACK_RIME_STONE);
+            registerBlockModel(BlockRegistry.MIST_CRYSTAL_STONE);
+            registerBlockModel(BlockRegistry.APATHY_ORE);
+            registerBlockModel(BlockRegistry.GLASSROCK);
+            registerBlockModel(BlockRegistry.ANCIENT_RUNESTONE);
+            registerBlockModel(BlockRegistry.EROSION_MOSS);
+            registerBlockModel(BlockRegistry.PERMAFROST);
+            registerBlockModel(BlockRegistry.ANCIENT_SNOW);
+            registerBlockModel(BlockRegistry.ASHEN_SOIL);
+            registerBlockModel(BlockRegistry.BOILING_MUD);
+            registerBlockModel(BlockRegistry.SOUL_ICE);
+            registerBlockModel(BlockRegistry.MISTWOOD_LOG);
+            registerBlockModel(BlockRegistry.DARKRUNED_LOG);
+            registerBlockModel(BlockRegistry.SNOWPINE_LOG);
+            registerBlockModel(BlockRegistry.MISTWOOD_PLANKS);
+            registerBlockModel(BlockRegistry.SNOWPINE_PLANKS);
+            registerBlockModel(BlockRegistry.MISTWOOD_SLAB);
+            registerBlockModel(BlockRegistry.SNOWPINE_SLAB);
+            registerBlockModel(BlockRegistry.MISTWOOD_STAIRS);
+            registerBlockModel(BlockRegistry.SNOWPINE_STAIRS);
+            registerBlockModel(BlockRegistry.MISTWOOD_FENCE);
+            registerBlockModel(BlockRegistry.SNOWPINE_FENCE);
+            registerBlockModel(BlockRegistry.MISTWOOD_FENCE_GATE);
+            registerBlockModel(BlockRegistry.SNOWPINE_FENCE_GATE);
+            registerBlockModel(BlockRegistry.POLISHED_RIMESTEEL);
+            registerBlockModel(BlockRegistry.RIMESTEEL_BRICKS);
+            registerBlockModel(BlockRegistry.CRACKED_RIMESTEEL_BRICKS);
+            registerBlockModel(BlockRegistry.CHISELED_RIMESTEEL);
+            registerBlockModel(BlockRegistry.RIMESTEEL_SLAB);
+            registerBlockModel(BlockRegistry.RIMESTEEL_STAIRS);
+            registerBlockModel(BlockRegistry.RIMESTEEL_WALL);
+            registerBlockModel(BlockRegistry.POLISHED_BLACK_RIME);
+            registerBlockModel(BlockRegistry.BLACK_RIME_BRICKS);
+            registerBlockModel(BlockRegistry.CRACKED_BLACK_RIME_BRICKS);
+            registerBlockModel(BlockRegistry.CHISELED_BLACK_RIME);
+            registerBlockModel(BlockRegistry.BLACK_RIME_SLAB);
+            registerBlockModel(BlockRegistry.BLACK_RIME_STAIRS);
+            registerBlockModel(BlockRegistry.BLACK_RIME_WALL);
+            registerBlockModel(BlockRegistry.MISTWOOD_LEAVES);
+            registerBlockModel(BlockRegistry.SNOWPINE_LEAVES);
+            ModelLoader.setCustomStateMapper(BlockRegistry.MISTWOOD_LEAVES, new StateMap.Builder().ignore(net.minecraft.block.BlockLeaves.CHECK_DECAY, net.minecraft.block.BlockLeaves.DECAYABLE).build());
+            ModelLoader.setCustomStateMapper(BlockRegistry.SNOWPINE_LEAVES, new StateMap.Builder().ignore(net.minecraft.block.BlockLeaves.CHECK_DECAY, net.minecraft.block.BlockLeaves.DECAYABLE).build());
+            registerBlockModel(BlockRegistry.MIST_FERN);
+            registerBlockModel(BlockRegistry.FROSTBOUND_VINE);
+            registerBlockModel(BlockRegistry.WEEPING_ICE_FLOWER);
+            registerBlockModel(BlockRegistry.MIST_LOTUS);
+            registerBlockModel(BlockRegistry.SOULFIRE_GRASS);
+            registerBlockModel(BlockRegistry.ASHEN_SHRUB);
+            registerBlockModel(BlockRegistry.GLOWING_CREEPER);
+            registerBlockModel(BlockRegistry.SHADOWBERRY_BUSH);
+            registerBlockModel(BlockRegistry.ASHEN_MUSHROOM);
         }
 
         private static void registerBlockModel(Block block) {

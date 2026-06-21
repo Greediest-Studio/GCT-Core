@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "normal": { "model": "gctcore:nilfheim/snowpine_leaves" },
+    "check_decay=false,decayable=false": { "model": "gctcore:nilfheim/snowpine_leaves" },
+    "check_decay=false,decayable=true": { "model": "gctcore:nilfheim/snowpine_leaves" },
+    "check_decay=true,decayable=false": { "model": "gctcore:nilfheim/snowpine_leaves" },
+    "check_decay=true,decayable=true": { "model": "gctcore:nilfheim/snowpine_leaves" }
+  }
+}

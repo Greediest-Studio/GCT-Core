@@ -2,6 +2,7 @@ package com.smd.gctcore.proxy;
 
 import com.smd.gctcore.common.events.EventHooks;
 import com.smd.gctcore.common.events.MoreTconBedrockHandler;
+import com.smd.gctcore.common.events.NilfheimErosionHandler;
 import com.smd.gctcore.common.integration.astralsorcery.RadiantQuartzLiquefaction;
 import com.smd.gctcore.common.integration.botania.DaisyPlacer;
 import com.smd.gctcore.common.integration.top.GctTopPlugin;
@@ -10,9 +11,11 @@ import com.smd.gctcore.misc.*;
 import com.smd.gctcore.common.integration.mmce.MMCE_BuilderTaskManager;
 import com.smd.gctcore.common.world.AirportDim.DimensionTypeAirport;
 import com.smd.gctcore.common.world.CrimsonTempleGenerator;
+import com.smd.gctcore.common.world.NilfheimDim.DimensionTypeNilfheim;
 import com.smd.gctcore.common.world.NothingnessDim.DimensionTypeNothingness;
 import com.smd.gctcore.common.world.OrderCore.DimensionTypeOrderCore;
 import com.smd.gctcore.common.world.ShadowberryCaveGenerator;
+import com.smd.gctcore.common.world.biome.nilfheim.NilfheimBiomes;
 
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
@@ -29,11 +32,13 @@ public class CommonProxy {
         GctNetworkHandler.init();
         PotionsItemRegistry.init();
         BlockRegistry.init();
+        NilfheimBiomes.init();
         ItemRegistry.init();
         EntityRegistrar.init();
         BlockRegistry.registerTileEntities();
         // 注册事件监听器
         MinecraftForge.EVENT_BUS.register(new EventHooks());
+        MinecraftForge.EVENT_BUS.register(new NilfheimErosionHandler());
         MinecraftForge.EVENT_BUS.register(new BlockRegistry());
         MinecraftForge.EVENT_BUS.register(new ItemRegistry());
         MinecraftForge.EVENT_BUS.register(new PotionsItemRegistry());
@@ -51,6 +56,7 @@ public class CommonProxy {
         DimensionManager.registerDimension(114514, DimensionTypeAirport.Airport);
         DimensionManager.registerDimension(-114514, DimensionTypeNothingness.nothingness);
         DimensionManager.registerDimension(103, DimensionTypeOrderCore.ordercore);
+        DimensionManager.registerDimension(NilfheimBiomes.DIMENSION_ID, DimensionTypeNilfheim.NILFHEIM);
 
         //注册世界生成器
         GameRegistry.registerWorldGenerator(new CrimsonTempleGenerator(), 0);
@@ -58,6 +64,8 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent event) {
+        NilfheimRecipes.init();
+
         if (Mods.TOP.isLoading()) {
             FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", GctTopPlugin.class.getName());
         }

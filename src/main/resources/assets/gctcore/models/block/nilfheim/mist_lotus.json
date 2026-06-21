@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "gctcore:blocks/nilfheim/mist_lotus"
+  }
+}

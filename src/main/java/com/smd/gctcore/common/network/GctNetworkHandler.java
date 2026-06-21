@@ -13,5 +13,6 @@ public final class GctNetworkHandler {
 
     public static void init() {
         CHANNEL.registerMessage(PacketMMCEBuilderConfig.class, PacketMMCEBuilderConfig.class, packetId++, Side.SERVER);
+        CHANNEL.registerMessage(PacketNilfheimErosion.class, PacketNilfheimErosion.class, packetId++, Side.CLIENT);
     }
 }
