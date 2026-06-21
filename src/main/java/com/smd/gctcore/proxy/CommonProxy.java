@@ -3,6 +3,7 @@ package com.smd.gctcore.proxy;
 import com.smd.gctcore.common.events.EventHooks;
 import com.smd.gctcore.common.events.MoreTconBedrockHandler;
 import com.smd.gctcore.common.events.NilfheimErosionHandler;
+import com.smd.gctcore.common.integration.WorldDimensionIntegrations;
 import com.smd.gctcore.common.integration.astralsorcery.RadiantQuartzLiquefaction;
 import com.smd.gctcore.common.integration.botania.DaisyPlacer;
 import com.smd.gctcore.common.integration.top.GctTopPlugin;
@@ -65,7 +66,7 @@ public class CommonProxy {
 
     public void init(FMLInitializationEvent event) {
         NilfheimRecipes.init();
-
+        WorldDimensionIntegrations.init();
         if (Mods.TOP.isLoading()) {
             FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", GctTopPlugin.class.getName());
         }
