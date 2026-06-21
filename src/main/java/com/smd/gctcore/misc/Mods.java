@@ -6,6 +6,7 @@ public enum Mods {
     TOP("theoneprobe"),
     AS("astralsorcery"),
     AE2("appliedenergistics2"),
+    NATURES_AURA("naturesaura"),
     MORETCON("moretcon"),
     BOT("botania");
 

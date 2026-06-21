@@ -7,6 +7,7 @@ import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeProviderSingle;
 import net.minecraft.world.gen.IChunkGenerator;
+import org.jetbrains.annotations.NotNull;
 
 public class WorldProviderAirport extends WorldProvider {
 
@@ -23,16 +24,16 @@ public class WorldProviderAirport extends WorldProvider {
     }
 
     @Override
-    public DimensionType getDimensionType() {
+    public @NotNull DimensionType getDimensionType() {
         return DimensionTypeAirport.Airport;
     }
 
     @Override
     public boolean canRespawnHere() {
-        return true;
+        return super.canRespawnHere();
     }
     @Override
-    public IChunkGenerator createChunkGenerator() {
+    public @NotNull IChunkGenerator createChunkGenerator() {
         return new ChunkGeneratorAirport(world);
     }
 

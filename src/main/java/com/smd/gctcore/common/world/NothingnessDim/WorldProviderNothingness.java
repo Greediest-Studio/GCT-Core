@@ -7,8 +7,9 @@ import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeProviderSingle;
 import net.minecraft.world.gen.IChunkGenerator;
+import org.jetbrains.annotations.NotNull;
 
-public class WorldProviderNothingness extends WorldProvider {
+public class WorldProviderNothingness extends WorldProvider{
 
     private static final long Freeze_time = 18000L;
     private boolean timeLocked = true;
@@ -23,16 +24,16 @@ public class WorldProviderNothingness extends WorldProvider {
     }
 
     @Override
-    public DimensionType getDimensionType() {
+    public @NotNull DimensionType getDimensionType() {
         return DimensionTypeNothingness.nothingness;
     }
 
     @Override
     public boolean canRespawnHere() {
-        return true;
+        return super.canRespawnHere();
     }
     @Override
-       public IChunkGenerator createChunkGenerator() {
+       public @NotNull IChunkGenerator createChunkGenerator() {
            return new ChunkGeneratorNothingness(world);
        }
 
