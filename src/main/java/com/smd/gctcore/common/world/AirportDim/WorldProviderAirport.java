@@ -31,6 +31,7 @@ public class WorldProviderAirport extends WorldProvider {
     public boolean canRespawnHere() {
         return super.canRespawnHere();
     }
+
     @Override
     public @NotNull IChunkGenerator createChunkGenerator() {
         return new ChunkGeneratorFlat(world, world.getSeed(), true, "3;2*7,3*1,1*2;1;");
@@ -43,7 +44,7 @@ public class WorldProviderAirport extends WorldProvider {
 
     @Override
     protected void init() {
-        this.biomeProvider = new BiomeProviderSingle(Biomes.PLAINS);
+        this.biomeProvider = new BiomeProviderSingle(Biomes.VOID);
         this.hasSkyLight = true;
     }
 }
