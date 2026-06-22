@@ -16,6 +16,7 @@ import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimStone;
 import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimStairs;
 import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimVine;
 import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimWall;
+import com.smd.gctcore.common.blocks.nilfheim.BlockShadowberryBush;
 import com.smd.gctcore.common.blocks.nilfheim.BlockSoulIce;
 import com.smd.gctcore.common.blocks.arcanearchives.RadiantResonatorBlock;
 import com.smd.gctcore.common.blocks.arcanearchives.RawQuartzClusterBlock;
@@ -97,7 +98,7 @@ public class BlockRegistry {
     public static BlockNilfheimPlant SOULFIRE_GRASS;
     public static BlockNilfheimPlant ASHEN_SHRUB;
     public static BlockNilfheimVine GLOWING_CREEPER;
-    public static BlockNilfheimPlant SHADOWBERRY_BUSH;
+    public static BlockShadowberryBush SHADOWBERRY_BUSH;
     public static BlockNilfheimPlant ASHEN_MUSHROOM;
 
     public static void init() {
@@ -175,7 +176,7 @@ public class BlockRegistry {
         SOULFIRE_GRASS = new BlockNilfheimPlant("soulfire_grass", 0.45F);
         ASHEN_SHRUB = new BlockNilfheimPlant("ashen_shrub", 0.0F);
         GLOWING_CREEPER = new BlockNilfheimVine("glowing_creeper", 0.5F);
-        SHADOWBERRY_BUSH = new BlockNilfheimPlant("shadowberry_bush", 0.15F);
+        SHADOWBERRY_BUSH = new BlockShadowberryBush();
         ASHEN_MUSHROOM = new BlockNilfheimPlant("ashen_mushroom", 0.2F);
     }
 

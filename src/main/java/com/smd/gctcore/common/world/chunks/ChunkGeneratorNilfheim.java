@@ -598,7 +598,7 @@ public class ChunkGeneratorNilfheim implements IChunkGenerator {
             if (rand.nextInt(3) == 0) placePlant(pos, BlockRegistry.SOULFIRE_GRASS.getDefaultState());
             if (rand.nextInt(6) == 0) placePlant(pos, BlockRegistry.ASHEN_SHRUB.getDefaultState());
         } else if (biome == NilfheimBiomes.GLIMMERING_HOLLOW) {
-            if (rand.nextInt(3) == 0) placePlant(pos, BlockRegistry.SHADOWBERRY_BUSH.getDefaultState());
+            if (rand.nextInt(3) == 0) placePlant(pos, BlockRegistry.SHADOWBERRY_BUSH.getRandomGrowthState(rand));
             if (rand.nextInt(5) == 0) hangVine(pos, BlockRegistry.GLOWING_CREEPER.getDefaultState(), 3 + rand.nextInt(7));
         } else if (biome == NilfheimBiomes.HVERGELMIR_THROAT) {
             if (rand.nextInt(5) == 0) placePlant(pos, BlockRegistry.ASHEN_MUSHROOM.getDefaultState());
