@@ -16,6 +16,7 @@ import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimStone;
 import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimStairs;
 import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimVine;
 import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimWall;
+import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimPortalCore;
 import com.smd.gctcore.common.blocks.nilfheim.BlockShadowberryBush;
 import com.smd.gctcore.common.blocks.nilfheim.BlockSoulIce;
 import com.smd.gctcore.common.blocks.arcanearchives.RadiantResonatorBlock;
@@ -23,6 +24,7 @@ import com.smd.gctcore.common.blocks.arcanearchives.RawQuartzClusterBlock;
 import com.smd.gctcore.common.blocks.arcanearchives.StorageRawQuartzBlock;
 import com.smd.gctcore.common.blocks.arcanearchives.StorageShapedQuartzBlock;
 import com.smd.gctcore.common.items.ItemBlockNilfheimWall;
+import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
 import com.smd.gctcore.common.tile.RadiantResonatorTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -100,6 +102,7 @@ public class BlockRegistry {
     public static BlockNilfheimVine GLOWING_CREEPER;
     public static BlockShadowberryBush SHADOWBERRY_BUSH;
     public static BlockNilfheimPlant ASHEN_MUSHROOM;
+    public static BlockNilfheimPortalCore NILFHEIM_PORTAL_CORE;
 
     public static void init() {
         FluidRegistry.enableUniversalBucket();
@@ -178,10 +181,12 @@ public class BlockRegistry {
         GLOWING_CREEPER = new BlockNilfheimVine("glowing_creeper", 0.5F);
         SHADOWBERRY_BUSH = new BlockShadowberryBush();
         ASHEN_MUSHROOM = new BlockNilfheimPlant("ashen_mushroom", 0.2F);
+        NILFHEIM_PORTAL_CORE = new BlockNilfheimPortalCore();
     }
 
     public static void registerTileEntities() {
         GameRegistry.registerTileEntity(RadiantResonatorTileEntity.class, new ResourceLocation(Tags.MOD_ID, "radiant_resonator"));
+        GameRegistry.registerTileEntity(NilfheimPortalTileEntity.class, new ResourceLocation(Tags.MOD_ID, "nilfheim_portal_core"));
     }
 
     @SubscribeEvent
@@ -245,7 +250,8 @@ public class BlockRegistry {
                 ASHEN_SHRUB,
                 GLOWING_CREEPER,
                 SHADOWBERRY_BUSH,
-                ASHEN_MUSHROOM
+                ASHEN_MUSHROOM,
+                NILFHEIM_PORTAL_CORE
         );
     }
 
@@ -310,7 +316,8 @@ public class BlockRegistry {
                 new ItemBlock(ASHEN_SHRUB).setRegistryName(ASHEN_SHRUB.getRegistryName()),
                 new ItemBlock(GLOWING_CREEPER).setRegistryName(GLOWING_CREEPER.getRegistryName()),
                 new ItemBlock(SHADOWBERRY_BUSH).setRegistryName(SHADOWBERRY_BUSH.getRegistryName()),
-                new ItemBlock(ASHEN_MUSHROOM).setRegistryName(ASHEN_MUSHROOM.getRegistryName())
+                new ItemBlock(ASHEN_MUSHROOM).setRegistryName(ASHEN_MUSHROOM.getRegistryName()),
+                new ItemBlock(NILFHEIM_PORTAL_CORE).setRegistryName(NILFHEIM_PORTAL_CORE.getRegistryName())
         );
         registerOreDictionary();
     }

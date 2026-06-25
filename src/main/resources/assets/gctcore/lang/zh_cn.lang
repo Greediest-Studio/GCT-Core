@@ -82,6 +82,7 @@ tile.gctcore.mistwood_log.name=雾木原木
 tile.gctcore.mistwood_planks.name=雾木木板
 tile.gctcore.mistwood_slab.name=雾木台阶
 tile.gctcore.mistwood_stairs.name=雾木楼梯
+tile.gctcore.nilfheim_portal_core.name=霜雾之门核心
 tile.gctcore.permafrost.name=永冻土
 tile.gctcore.polished_black_rime.name=磨制黑霜石
 tile.gctcore.polished_rimesteel.name=磨制霜钢石
@@ -185,6 +186,11 @@ message.gctcore.mmce_builder.started=已开始搭建
 message.gctcore.mmce_builder.success=搭建完成
 message.gctcore.mmce_builder.too_high=无法在 %s 放置方块，目标位置超出建筑高度
 
+message.gctcore.nilfheim_portal.activated=尼福尔海姆传送门已激活。
+message.gctcore.nilfheim_portal.invalid_structure=传送门结构不完整。
+message.gctcore.nilfheim_portal.missing_pylons=至少需要四座尼福尔海姆自然水晶与对应魔力池。
+message.gctcore.nilfheim_portal.not_enough_mana=魔力不足，无法开启尼福尔海姆传送门。
+
 # Integrations
 jei.gctcore.resonator=每 %.1f 分钟
 top.gctcore.resonator.progress=进度:
@@ -192,3 +198,4 @@ top.gctcore.resonator.status.harvestable=可收获
 top.gctcore.resonator.status.obstruction=被阻挡
 top.gctcore.resonator.status.offline=离线
 top.gctcore.resonator.status.resonating=谐振中
+item.gctcore.imaginative_snowball.name=冰雪幻象之珠

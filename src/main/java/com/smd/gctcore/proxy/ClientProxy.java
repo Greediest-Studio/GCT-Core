@@ -4,8 +4,10 @@ import WayofTime.bloodmagic.client.IMeshProvider;
 import com.cleanroommc.modularui.ModularUIConfig;
 import com.google.common.collect.Sets;
 import com.smd.gctcore.Tags;
+import com.smd.gctcore.client.render.tile.RenderNilfheimPortal;
 import com.smd.gctcore.common.entity.EntityRenders;
 import com.smd.gctcore.common.events.MiningSpeedHandler;
+import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
 import com.smd.gctcore.misc.BlockRegistry;
 import com.smd.gctcore.misc.ItemRegistry;
 import net.minecraft.block.Block;
@@ -15,6 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -45,6 +48,7 @@ public class ClientProxy extends CommonProxy {
 
         // 注册实体渲染器
         EntityRenders.registerEntityRenders();
+        ClientRegistry.bindTileEntitySpecialRenderer(NilfheimPortalTileEntity.class, new RenderNilfheimPortal());
     }
 
     @Override
@@ -85,6 +89,7 @@ public class ClientProxy extends CommonProxy {
             registerItemModel(ItemRegistry.RAW_QUARTZ, "arcanearchives/raw_quartz");
             registerItemModel(ItemRegistry.SHAPED_QUARTZ, "arcanearchives/shaped_quartz");
             registerItemModel(ItemRegistry.APATHY_INGOT);
+            registerItemModel(ItemRegistry.IMAGINATIVE_SNOWBALL);
             registerItemModel(ItemRegistry.MMCE_BUILDER_TOOL);
             registerItemModel(ItemRegistry.BIRD_OF_EDWIN);
             registerBlockModel(BlockRegistry.RADIANT_RESONATOR);
@@ -93,6 +98,11 @@ public class ClientProxy extends CommonProxy {
             registerBlockModel(BlockRegistry.STORAGE_SHAPED_QUARTZ);
             registerNilfheimBlockModels();
             registerSoulGemMeshModel();
+        }
+
+        @SubscribeEvent
+        public static void stitchTextures(TextureStitchEvent.Pre event) {
+            RenderNilfheimPortal.registerTextures(event);
         }
 
         private static void registerNilfheimBlockModels() {
@@ -148,6 +158,7 @@ public class ClientProxy extends CommonProxy {
             registerBlockModel(BlockRegistry.GLOWING_CREEPER);
             registerBlockModel(BlockRegistry.SHADOWBERRY_BUSH);
             registerBlockModel(BlockRegistry.ASHEN_MUSHROOM);
+            registerBlockModel(BlockRegistry.NILFHEIM_PORTAL_CORE);
         }
 
         private static void registerBlockModel(Block block) {
