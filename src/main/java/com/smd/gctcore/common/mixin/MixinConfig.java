@@ -35,6 +35,7 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.konkrete.json","konkrete");
         addModdedMixinCFG("mixins.gctcore.jei.json", "jei");
         addModdedMixinCFG("mixins.gctcore.dynamicdynamos.json", "dyndyn");
+        addModdedMixinCFG("mixins.gctcore.betterhurttimer.json", "betterhurttimer");
     }
 
     @Override
