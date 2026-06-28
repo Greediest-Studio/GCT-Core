@@ -247,26 +247,40 @@ public final class Ae2AssemblyExtractor {
     }
 
     public static ICraftingLink requestItemCraft(EntityPlayer player, ItemStack required) {
+        return requestItemCraft(player, required, required.isEmpty() ? 0 : required.getCount());
+    }
+
+    public static ICraftingLink requestItemCraft(EntityPlayer player, ItemStack required, long amount) {
         if (required.isEmpty()) {
+            return null;
+        }
+        if (amount <= 0) {
             return null;
         }
         IAEItemStack request = AEItemStack.fromItemStack(required);
         if (request == null) {
             return null;
         }
-        request.setStackSize(required.getCount());
+        request.setStackSize(amount);
         return requestCraft(player, request);
     }
 
     public static ICraftingLink requestFluidCraft(EntityPlayer player, FluidStack required) {
+        return requestFluidCraft(player, required, required == null ? 0 : required.amount);
+    }
+
+    public static ICraftingLink requestFluidCraft(EntityPlayer player, FluidStack required, long amount) {
         if (required == null || required.amount <= 0) {
+            return null;
+        }
+        if (amount <= 0) {
             return null;
         }
         IAEItemStack request = FakeFluids.packFluid2AEDrops(required.copy());
         if (request == null) {
             return null;
         }
-        request.setStackSize(required.amount);
+        request.setStackSize(amount);
         return requestCraft(player, request);
     }
 

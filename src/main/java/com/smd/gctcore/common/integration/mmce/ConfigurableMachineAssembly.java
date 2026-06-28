@@ -112,7 +112,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
 
         Tuple<ItemStack, IBlockState> consumed = consumeFirstAvailableItem(ingredient.ingredientList());
         if (consumed == null) {
-            if (shouldWaitForItemCraft(ingredient.ingredientList().get(0).getFirst())) {
+            if (shouldWaitForItemCraft(itemIngredient, ingredient.ingredientList().get(0).getFirst())) {
                 return;
             }
             addMissingItem(ingredient.ingredientList().get(0).getFirst());
@@ -143,7 +143,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
 
         Tuple<FluidStack, IBlockState> consumed = consumeFirstAvailableFluid(ingredient.ingredientList());
         if (consumed == null) {
-            if (shouldWaitForFluidCraft(ingredient.ingredientList().get(0).getFirst())) {
+            if (shouldWaitForFluidCraft(fluidIngredient, ingredient.ingredientList().get(0).getFirst())) {
                 return;
             }
             addMissingFluid(ingredient.ingredientList().get(0).getFirst());
@@ -211,7 +211,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
         return batchFluidHandlers;
     }
 
-    private boolean shouldWaitForItemCraft(ItemStack required) {
+    private boolean shouldWaitForItemCraft(List<StructureIngredient.ItemIngredient> remainingIngredients, ItemStack required) {
         if (!useAeItems || !craftMissing || !Mods.AE2.isLoading()) {
             return false;
         }
@@ -222,7 +222,8 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
         if (state == CraftRequestState.CANCELED) {
             return false;
         }
-        ICraftingLink link = Ae2AssemblyExtractor.requestItemCraft(getPlayer(), required);
+        long amount = countRemainingItems(remainingIngredients, required);
+        ICraftingLink link = Ae2AssemblyExtractor.requestItemCraft(getPlayer(), required, amount);
         if (link != null) {
             craftRequestedItems.add(new RequestedItemCraft(required, link));
             return true;
@@ -230,7 +231,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
         return false;
     }
 
-    private boolean shouldWaitForFluidCraft(FluidStack required) {
+    private boolean shouldWaitForFluidCraft(List<StructureIngredient.FluidIngredient> remainingIngredients, FluidStack required) {
         if (!useAeFluids || !craftMissing || !Mods.AE2.isLoading()) {
             return false;
         }
@@ -241,12 +242,41 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
         if (state == CraftRequestState.CANCELED) {
             return false;
         }
-        ICraftingLink link = Ae2AssemblyExtractor.requestFluidCraft(getPlayer(), required);
+        long amount = countRemainingFluids(remainingIngredients, required);
+        ICraftingLink link = Ae2AssemblyExtractor.requestFluidCraft(getPlayer(), required, amount);
         if (link != null) {
             craftRequestedFluids.add(new RequestedFluidCraft(required, link));
             return true;
         }
         return false;
+    }
+
+    private long countRemainingItems(List<StructureIngredient.ItemIngredient> remainingIngredients, ItemStack required) {
+        long amount = 0;
+        for (StructureIngredient.ItemIngredient ingredient : remainingIngredients) {
+            for (Tuple<ItemStack, IBlockState> candidate : ingredient.ingredientList()) {
+                ItemStack stack = candidate.getFirst();
+                if (MMCEBuilderUtils.areItemStacksEqual(stack, required)) {
+                    amount += stack.getCount();
+                    break;
+                }
+            }
+        }
+        return Math.max(amount, required.getCount());
+    }
+
+    private long countRemainingFluids(List<StructureIngredient.FluidIngredient> remainingIngredients, FluidStack required) {
+        long amount = 0;
+        for (StructureIngredient.FluidIngredient ingredient : remainingIngredients) {
+            for (Tuple<FluidStack, IBlockState> candidate : ingredient.ingredientList()) {
+                FluidStack fluid = candidate.getFirst();
+                if (MMCEBuilderUtils.areFluidsEqual(fluid, required)) {
+                    amount += fluid.amount;
+                    break;
+                }
+            }
+        }
+        return Math.max(amount, required == null ? 0 : required.amount);
     }
 
     private void applyTileNbt(BlockPos realPos, IBlockState state, StructureIngredient.ItemIngredient ingredient) {
