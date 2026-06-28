@@ -159,8 +159,15 @@ dependencies {
     compileOnly rfg.deobf("curse.maven:iceandfire-264231:2939529")
     compileOnly rfg.deobf("curse.maven:the-one-probe-community-edition-885670:7718301")
     compileOnly rfg.deobf("curse.maven:NaturesAura-306626:2882138")
+    compileOnly rfg.deobf("curse.maven:the-twilight-forest-227639:3051450")
     //eio相关依赖
-    compileOnly fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly fileTree(dir: 'libs', include: [
+            'EnderIO-1.12.2-5.3.72.jar',
+            'EnderCore-1.12.2-0.5.78.jar',
+            'EnderTweaker-1.12.2-1.2.3.jar',
+            'gct_mobs-1.0.0.jar'
+    ])
+    runtimeOnly fileTree(dir: 'libs', include: ['gct_mobs-1.0.0.jar'])
 
     implementation rfg.deobf("curse.maven:Konkrete-410295:4514895")
     implementation rfg.deobf("CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.698")
@@ -184,6 +191,7 @@ dependencies {
     implementation rfg.deobf("curse.maven:geckolib-388172:4020277")
     implementation rfg.deobf("curse.maven:AE2FluidCraftReworkUnofficial-1404390:7742544")
 
+    runtimeOnly rfg.deobf("curse.maven:the-twilight-forest-227639:3051450")
     runtimeOnly "curse.maven:guide-api-228832:2645992"
 
     if (propertyBool('use_asset_mover')) {
