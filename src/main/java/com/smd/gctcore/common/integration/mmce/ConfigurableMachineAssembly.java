@@ -1,9 +1,14 @@
 package com.smd.gctcore.common.integration.mmce;
 
+import appeng.api.config.Actionable;
+import appeng.api.networking.IGridNode;
+import appeng.api.networking.crafting.ICraftingLink;
+import appeng.api.storage.data.IAEItemStack;
+import appeng.container.implementations.ContainerCraftConfirm;
+import com.google.common.collect.ImmutableSet;
 import com.smd.gctcore.common.util.MMCEBuilderUtils;
 import com.smd.gctcore.common.util.MessageLimiter;
 import com.smd.gctcore.misc.Mods;
-import appeng.api.networking.crafting.ICraftingLink;
 import hellfirepvp.modularmachinery.ModularMachinery;
 import ink.ikx.mmce.common.assembly.MachineAssembly;
 import ink.ikx.mmce.common.utils.StructureIngredient;
@@ -22,14 +27,17 @@ import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE_BuilderTask {
+public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE_BuilderTask, MMCE_CraftingRequester {
 
     private static final int MAX_MISSING_REPORTS = 8;
+    private static final int CRAFTING_BUILD_INTERVAL_TICKS = 10;
+    private static final int FINISHED_CRAFT_GRACE_TICKS = 20;
 
     private final boolean useAeItems;
     private final boolean useAeFluids;
@@ -39,9 +47,24 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
     private final MessageLimiter blockedReportLimiter = new MessageLimiter(MAX_MISSING_REPORTS);
     private final List<MissingItemEntry> missingItems = new ArrayList<>();
     private final List<MissingFluidEntry> missingFluids = new ArrayList<>();
-    private final List<RequestedItemCraft> craftRequestedItems = new ArrayList<>();
-    private final List<RequestedFluidCraft> craftRequestedFluids = new ArrayList<>();
+    private final List<CraftableMissingEntry> craftableMissingEntries = new ArrayList<>();
+    private final List<ItemStack> craftedItemBuffer = new ArrayList<>();
+    private final List<FluidStack> craftedFluidBuffer = new ArrayList<>();
     private List<IFluidHandlerItem> batchFluidHandlers;
+    private Ae2AssemblyExtractor.CraftingGuiRequest activeCraftRequest;
+    private CraftableMissingEntry activeCraftEntry;
+    private long activeCraftRemaining;
+    private ICraftingLink activeCraftLink;
+    private IGridNode activeCraftNode;
+    private boolean activeCraftStarted;
+    private boolean waitingForCraftStart;
+    private long activeCraftOutputReceived;
+    private long finishedCraftGraceUntilTick;
+    private long lastCraftStateCheckTick = -1;
+    private boolean skippedMissingMaterials;
+    private boolean cancelled;
+    private boolean craftGuiOpened;
+    private int nextCraftableIndex;
 
     public ConfigurableMachineAssembly(World world, BlockPos ctrlPos, EntityPlayer player, StructureIngredient ingredient, boolean useAeItems, boolean useAeFluids, boolean craftMissing, int tickInterval, int operationsPerTick) {
         super(world, ctrlPos, player, ingredient);
@@ -50,6 +73,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
         this.craftMissing = craftMissing;
         this.tickInterval = tickInterval;
         this.operationsPerTick = operationsPerTick;
+        cacheInitialCraftingShortages();
     }
 
     public int getTickInterval() {
@@ -72,7 +96,83 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
 
     @Override
     public void tick() {
+        if (cancelled) {
+            return;
+        }
+        if (isAeCraftFlowActive()) {
+            updateActiveCraftState();
+            if (cancelled || waitingForCraftStart) {
+                return;
+            }
+            if (getWorld().getTotalWorldTime() % CRAFTING_BUILD_INTERVAL_TICKS != 0) {
+                return;
+            }
+        }
         assembly(true);
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return cancelled;
+    }
+
+    @Override
+    public void cancel() {
+        cancelled = true;
+        activeCraftRequest = null;
+        if (activeCraftLink != null && !activeCraftLink.isDone() && !activeCraftLink.isCanceled()) {
+            activeCraftLink.cancel();
+        }
+    }
+
+    @Override
+    public ImmutableSet<ICraftingLink> getRequestedJobs() {
+        return activeCraftLink == null ? ImmutableSet.of() : ImmutableSet.of(activeCraftLink);
+    }
+
+    @Override
+    public IAEItemStack injectCraftedItems(ICraftingLink link, IAEItemStack stack, Actionable mode) {
+        if (stack == null || stack.getStackSize() <= 0) {
+            return null;
+        }
+        if (activeCraftEntry == null || !stack.isSameType(activeCraftEntry.request)) {
+            return stack;
+        }
+        if (mode == Actionable.SIMULATE) {
+            return null;
+        }
+        if (activeCraftEntry.isFluid()) {
+            FluidStack fluid = activeCraftEntry.fluid.copy();
+            fluid.amount = (int) Math.min(Integer.MAX_VALUE, stack.getStackSize());
+            addCraftedFluidToBuffer(fluid);
+            activeCraftOutputReceived += stack.getStackSize();
+            return null;
+        }
+        ItemStack itemStack = stack.createItemStack();
+        if (!itemStack.isEmpty()) {
+            addCraftedItemToBuffer(itemStack);
+            activeCraftOutputReceived += stack.getStackSize();
+        }
+        return null;
+    }
+
+    @Override
+    public void jobStateChange(ICraftingLink link) {
+        if (link != null && link.isCanceled()) {
+            cancel();
+        }
+    }
+
+    @Override
+    public void gctcore$setCraftingLink(ICraftingLink link) {
+        activeCraftLink = link;
+        activeCraftStarted = link != null;
+        waitingForCraftStart = false;
+    }
+
+    @Override
+    public IGridNode getActionableNode() {
+        return activeCraftNode;
     }
 
     @Override
@@ -112,10 +212,10 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
 
         Tuple<ItemStack, IBlockState> consumed = consumeFirstAvailableItem(ingredient.ingredientList());
         if (consumed == null) {
-            if (shouldWaitForItemCraft(itemIngredient, ingredient.ingredientList().get(0).getFirst())) {
+            if (shouldWaitForItemCraft(ingredient.ingredientList().get(0).getFirst())) {
                 return;
             }
-            addMissingItem(ingredient.ingredientList().get(0).getFirst());
+            addMissingItemIfUntracked(ingredient.ingredientList().get(0).getFirst());
             iterator.remove();
             return;
         }
@@ -125,7 +225,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
         if (!placeAssemblyBlock(realPos, state)) {
             getPlayer().inventory.addItemStackToInventory(required);
         } else {
-            clearRequestedItemCraft(required);
+            clearRequestedCraft(required);
             getWorld().playSound(null, realPos, SoundEvents.BLOCK_STONE_PLACE, SoundCategory.BLOCKS, 1.0F, 1.0F);
             applyTileNbt(realPos, state, ingredient);
         }
@@ -143,10 +243,10 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
 
         Tuple<FluidStack, IBlockState> consumed = consumeFirstAvailableFluid(ingredient.ingredientList());
         if (consumed == null) {
-            if (shouldWaitForFluidCraft(fluidIngredient, ingredient.ingredientList().get(0).getFirst())) {
+            if (shouldWaitForFluidCraft(ingredient.ingredientList().get(0).getFirst())) {
                 return;
             }
-            addMissingFluid(ingredient.ingredientList().get(0).getFirst());
+            addMissingFluidIfUntracked(ingredient.ingredientList().get(0).getFirst());
             iterator.remove();
             return;
         }
@@ -154,7 +254,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
         IBlockState state = consumed.getSecond();
 
         if (placeAssemblyBlock(realPos, state)) {
-            clearRequestedFluidCraft(required);
+            clearRequestedCraft(required);
             getWorld().playSound(null, realPos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
         iterator.remove();
@@ -191,6 +291,22 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
     }
 
     private boolean consumeItem(ItemStack required) {
+        CraftableMissingEntry managedEntry = findManagedCraftableMissing(required);
+        if (managedEntry != null) {
+            if (consumeCraftedItemBuffer(required)) {
+                return true;
+            }
+            if (managedEntry.consumeDirect(required.getCount())) {
+                if (MachineAssembly.consumeInventoryItem(required, getPlayer().inventory.mainInventory)) {
+                    return true;
+                }
+                if (useAeItems && Mods.AE2.isLoading() && Ae2AssemblyExtractor.extractItem(getPlayer(), required)) {
+                    return true;
+                }
+                managedEntry.restoreDirect(required.getCount());
+            }
+            return false;
+        }
         if (MachineAssembly.consumeInventoryItem(required, getPlayer().inventory.mainInventory)) {
             return true;
         }
@@ -198,6 +314,22 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
     }
 
     private boolean consumeFluid(FluidStack required) {
+        CraftableMissingEntry managedEntry = findManagedCraftableMissing(required);
+        if (managedEntry != null) {
+            if (consumeCraftedFluidBuffer(required)) {
+                return true;
+            }
+            if (managedEntry.consumeDirect(required.amount)) {
+                if (MachineAssembly.consumeInventoryFluid(required, getBatchFluidHandlers())) {
+                    return true;
+                }
+                if (useAeFluids && Mods.AE2.isLoading() && Ae2AssemblyExtractor.extractFluid(getPlayer(), required)) {
+                    return true;
+                }
+                managedEntry.restoreDirect(required.amount);
+            }
+            return false;
+        }
         if (MachineAssembly.consumeInventoryFluid(required, getBatchFluidHandlers())) {
             return true;
         }
@@ -211,72 +343,321 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
         return batchFluidHandlers;
     }
 
-    private boolean shouldWaitForItemCraft(List<StructureIngredient.ItemIngredient> remainingIngredients, ItemStack required) {
-        if (!useAeItems || !craftMissing || !Mods.AE2.isLoading()) {
+    public void openCraftingGuiIfNeeded() {
+        if (craftGuiOpened || isAeCraftFlowActive() || nextCraftableIndex >= craftableMissingEntries.size()) {
+            return;
+        }
+        CraftableMissingEntry entry = craftableMissingEntries.get(nextCraftableIndex);
+        craftGuiOpened = true;
+        activeCraftEntry = entry;
+        activeCraftRemaining = entry.assemblyAmount;
+        activeCraftLink = null;
+        activeCraftNode = null;
+        activeCraftStarted = false;
+        waitingForCraftStart = true;
+        activeCraftRequest = Ae2AssemblyExtractor.openCraftConfirmGui(getPlayer(), entry.request.copy(), this);
+        if (activeCraftRequest != null) {
+            activeCraftNode = activeCraftRequest.getNode();
+            nextCraftableIndex++;
+            reportMissingMaterials();
+        } else {
+            resetActiveCraft(false);
+            craftGuiOpened = false;
+        }
+    }
+
+    private void cacheInitialCraftingShortages() {
+        if (!craftMissing || !Mods.AE2.isLoading()) {
+            return;
+        }
+        cacheInitialItemCraftingShortages();
+        cacheInitialFluidCraftingShortages();
+    }
+
+    private void cacheInitialItemCraftingShortages() {
+        List<RequiredItemEntry> requiredItems = collectRequiredItemEntries();
+        subtractPlayerInventory(requiredItems);
+        for (RequiredItemEntry entry : requiredItems) {
+            if (entry.amount <= 0) {
+                continue;
+            }
+            long afterPlayer = entry.amount;
+            long stored = useAeItems ? Ae2AssemblyExtractor.getStoredItemAmount(getPlayer(), entry.stack) : 0;
+            long storedUsed = Math.min(afterPlayer, stored);
+            long shortage = afterPlayer - storedUsed;
+            if (shortage <= 0) {
+                continue;
+            }
+            addMissingItem(entry.stack, shortage);
+            IAEItemStack request = Ae2AssemblyExtractor.toAeItemRequest(entry.stack, shortage);
+            if (request != null) {
+                long playerUsed = entry.totalAmount - afterPlayer;
+                craftableMissingEntries.add(CraftableMissingEntry.item(entry.stack, request, entry.amount, playerUsed + storedUsed));
+            }
+        }
+    }
+
+    private void cacheInitialFluidCraftingShortages() {
+        List<RequiredFluidEntry> requiredFluids = collectRequiredFluidEntries();
+        subtractPlayerFluids(requiredFluids);
+        for (RequiredFluidEntry entry : requiredFluids) {
+            if (entry.amount <= 0) {
+                continue;
+            }
+            long afterPlayer = entry.amount;
+            long stored = useAeFluids ? Ae2AssemblyExtractor.getStoredFluidAmount(getPlayer(), entry.fluid) : 0;
+            long storedUsed = Math.min(afterPlayer, stored);
+            long shortage = afterPlayer - storedUsed;
+            if (shortage <= 0) {
+                continue;
+            }
+            addMissingFluid(entry.fluid, shortage);
+            IAEItemStack request = Ae2AssemblyExtractor.toAeFluidRequest(entry.fluid, shortage);
+            if (request != null) {
+                long playerUsed = entry.totalAmount - afterPlayer;
+                craftableMissingEntries.add(CraftableMissingEntry.fluid(entry.fluid, request, entry.amount, playerUsed + storedUsed));
+            }
+        }
+    }
+
+    private List<RequiredItemEntry> collectRequiredItemEntries() {
+        List<RequiredItemEntry> requiredItems = new ArrayList<>();
+        for (StructureIngredient.ItemIngredient ingredient : getIngredient().itemIngredient()) {
+            if (ingredient.ingredientList().isEmpty()) {
+                continue;
+            }
+            ItemStack stack = ingredient.ingredientList().get(0).getFirst();
+            if (stack.isEmpty()) {
+                continue;
+            }
+            addRequiredItem(requiredItems, stack, stack.getCount());
+        }
+        return requiredItems;
+    }
+
+    private List<RequiredFluidEntry> collectRequiredFluidEntries() {
+        List<RequiredFluidEntry> requiredFluids = new ArrayList<>();
+        for (StructureIngredient.FluidIngredient ingredient : getIngredient().fluidIngredient()) {
+            if (ingredient.ingredientList().isEmpty()) {
+                continue;
+            }
+            FluidStack fluid = ingredient.ingredientList().get(0).getFirst();
+            if (fluid == null || fluid.amount <= 0) {
+                continue;
+            }
+            addRequiredFluid(requiredFluids, fluid, fluid.amount);
+        }
+        return requiredFluids;
+    }
+
+    private void subtractPlayerInventory(List<RequiredItemEntry> requiredItems) {
+        for (ItemStack inventoryStack : getPlayer().inventory.mainInventory) {
+            if (inventoryStack.isEmpty()) {
+                continue;
+            }
+            int remaining = inventoryStack.getCount();
+            for (RequiredItemEntry entry : requiredItems) {
+                if (remaining <= 0) {
+                    break;
+                }
+                if (!MMCEBuilderUtils.areItemStacksEqual(inventoryStack, entry.stack)) {
+                    continue;
+                }
+                long consumed = Math.min(entry.amount, remaining);
+                entry.amount -= consumed;
+                remaining -= consumed;
+            }
+        }
+    }
+
+    private void subtractPlayerFluids(List<RequiredFluidEntry> requiredFluids) {
+        for (IFluidHandlerItem handler : MMCEBuilderUtils.getFluidHandlerItems(getPlayer().inventory.mainInventory)) {
+            for (IFluidTankProperties property : handler.getTankProperties()) {
+                FluidStack contained = property.getContents();
+                if (contained == null || contained.amount <= 0) {
+                    continue;
+                }
+                int remaining = contained.amount;
+                for (RequiredFluidEntry entry : requiredFluids) {
+                    if (remaining <= 0) {
+                        break;
+                    }
+                    if (!MMCEBuilderUtils.areFluidsEqual(contained, entry.fluid)) {
+                        continue;
+                    }
+                    long consumed = Math.min(entry.amount, remaining);
+                    entry.amount -= consumed;
+                    remaining -= consumed;
+                }
+            }
+        }
+    }
+
+    private void addRequiredItem(List<RequiredItemEntry> requiredItems, ItemStack stack, long amount) {
+        for (RequiredItemEntry entry : requiredItems) {
+            if (MMCEBuilderUtils.areItemStacksEqual(entry.stack, stack)) {
+                entry.totalAmount += amount;
+                entry.amount += amount;
+                return;
+            }
+        }
+        requiredItems.add(new RequiredItemEntry(stack, amount));
+    }
+
+    private void addRequiredFluid(List<RequiredFluidEntry> requiredFluids, FluidStack fluid, long amount) {
+        for (RequiredFluidEntry entry : requiredFluids) {
+            if (MMCEBuilderUtils.areFluidsEqual(entry.fluid, fluid)) {
+                entry.totalAmount += amount;
+                entry.amount += amount;
+                return;
+            }
+        }
+        requiredFluids.add(new RequiredFluidEntry(fluid, amount));
+    }
+
+    private boolean shouldWaitForItemCraft(ItemStack required) {
+        if (required.isEmpty()) {
             return false;
         }
-        CraftRequestState state = getItemCraftState(required);
-        if (state == CraftRequestState.WAITING || state == CraftRequestState.FINISHED) {
-            return true;
+        if (isActiveCraft(required)) {
+            return shouldWaitForActiveCraft();
         }
-        if (state == CraftRequestState.CANCELED) {
-            return false;
-        }
-        long amount = countRemainingItems(remainingIngredients, required);
-        ICraftingLink link = Ae2AssemblyExtractor.requestItemCraft(getPlayer(), required, amount);
-        if (link != null) {
-            craftRequestedItems.add(new RequestedItemCraft(required, link));
+        if (isQueuedCraftableMissing(required)) {
+            openCraftingGuiIfNeeded();
             return true;
         }
         return false;
     }
 
-    private boolean shouldWaitForFluidCraft(List<StructureIngredient.FluidIngredient> remainingIngredients, FluidStack required) {
-        if (!useAeFluids || !craftMissing || !Mods.AE2.isLoading()) {
+    private boolean shouldWaitForFluidCraft(FluidStack required) {
+        if (required == null || required.amount <= 0) {
             return false;
         }
-        CraftRequestState state = getFluidCraftState(required);
-        if (state == CraftRequestState.WAITING || state == CraftRequestState.FINISHED) {
-            return true;
+        if (isActiveCraft(required)) {
+            return shouldWaitForActiveCraft();
         }
-        if (state == CraftRequestState.CANCELED) {
-            return false;
-        }
-        long amount = countRemainingFluids(remainingIngredients, required);
-        ICraftingLink link = Ae2AssemblyExtractor.requestFluidCraft(getPlayer(), required, amount);
-        if (link != null) {
-            craftRequestedFluids.add(new RequestedFluidCraft(required, link));
+        if (isQueuedCraftableMissing(required)) {
+            openCraftingGuiIfNeeded();
             return true;
         }
         return false;
     }
 
-    private long countRemainingItems(List<StructureIngredient.ItemIngredient> remainingIngredients, ItemStack required) {
-        long amount = 0;
-        for (StructureIngredient.ItemIngredient ingredient : remainingIngredients) {
-            for (Tuple<ItemStack, IBlockState> candidate : ingredient.ingredientList()) {
-                ItemStack stack = candidate.getFirst();
-                if (MMCEBuilderUtils.areItemStacksEqual(stack, required)) {
-                    amount += stack.getCount();
-                    break;
-                }
-            }
+    private boolean shouldWaitForActiveCraft() {
+        if (activeCraftRequest != null || waitingForCraftStart) {
+            return true;
         }
-        return Math.max(amount, required.getCount());
+        if (activeCraftStarted && getWorld().getTotalWorldTime() <= finishedCraftGraceUntilTick) {
+            return true;
+        }
+        if (activeCraftStarted) {
+            cancel();
+            return true;
+        }
+        return false;
     }
 
-    private long countRemainingFluids(List<StructureIngredient.FluidIngredient> remainingIngredients, FluidStack required) {
-        long amount = 0;
-        for (StructureIngredient.FluidIngredient ingredient : remainingIngredients) {
-            for (Tuple<FluidStack, IBlockState> candidate : ingredient.ingredientList()) {
-                FluidStack fluid = candidate.getFirst();
-                if (MMCEBuilderUtils.areFluidsEqual(fluid, required)) {
-                    amount += fluid.amount;
-                    break;
-                }
+    private boolean isQueuedCraftableMissing(ItemStack required) {
+        for (int i = nextCraftableIndex; i < craftableMissingEntries.size(); i++) {
+            if (craftableMissingEntries.get(i).matches(required)) {
+                return true;
             }
         }
-        return Math.max(amount, required == null ? 0 : required.amount);
+        return false;
+    }
+
+    private boolean isQueuedCraftableMissing(FluidStack required) {
+        for (int i = nextCraftableIndex; i < craftableMissingEntries.size(); i++) {
+            if (craftableMissingEntries.get(i).matches(required)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private CraftableMissingEntry findManagedCraftableMissing(ItemStack required) {
+        for (CraftableMissingEntry entry : craftableMissingEntries) {
+            if (entry.matches(required)) {
+                return entry;
+            }
+        }
+        return null;
+    }
+
+    private CraftableMissingEntry findManagedCraftableMissing(FluidStack required) {
+        for (CraftableMissingEntry entry : craftableMissingEntries) {
+            if (entry.matches(required)) {
+                return entry;
+            }
+        }
+        return null;
+    }
+
+    private boolean isActiveCraft(ItemStack required) {
+        return activeCraftEntry != null && activeCraftEntry.matches(required);
+    }
+
+    private boolean isActiveCraft(FluidStack required) {
+        return activeCraftEntry != null && activeCraftEntry.matches(required);
+    }
+
+    private boolean isAeCraftFlowActive() {
+        return activeCraftEntry != null && (activeCraftRequest != null || waitingForCraftStart || activeCraftStarted);
+    }
+
+    private void updateActiveCraftState() {
+        long now = getWorld().getTotalWorldTime();
+        if (lastCraftStateCheckTick == now) {
+            return;
+        }
+        lastCraftStateCheckTick = now;
+        if (activeCraftEntry == null) {
+            return;
+        }
+        if (activeCraftLink != null) {
+            if (activeCraftLink.isCanceled()) {
+                cancel();
+                return;
+            }
+            if (activeCraftLink.isDone()) {
+                if (activeCraftOutputReceived >= activeCraftEntry.request.getStackSize()) {
+                    resetActiveCraft(true);
+                    craftGuiOpened = false;
+                    openCraftingGuiIfNeeded();
+                    return;
+                }
+                if (finishedCraftGraceUntilTick == 0) {
+                    finishedCraftGraceUntilTick = now + FINISHED_CRAFT_GRACE_TICKS;
+                } else if (now > finishedCraftGraceUntilTick) {
+                    cancel();
+                }
+                return;
+            }
+        }
+        if (activeCraftRequest == null) {
+            return;
+        }
+        boolean confirmOpen = getPlayer().openContainer instanceof ContainerCraftConfirm;
+        if (confirmOpen) {
+            ContainerCraftConfirm confirm = (ContainerCraftConfirm) getPlayer().openContainer;
+            if (confirm.isSimulation() && confirm.getUsedBytes() > 0) {
+                cancel();
+                return;
+            }
+        }
+        if (activeCraftRequest.isRequesting()) {
+            activeCraftStarted = true;
+            waitingForCraftStart = false;
+            return;
+        }
+        if (!activeCraftStarted) {
+            if (!confirmOpen) {
+                cancel();
+            }
+            return;
+        }
+        activeCraftRequest = null;
+        finishedCraftGraceUntilTick = now + FINISHED_CRAFT_GRACE_TICKS;
     }
 
     private void applyTileNbt(BlockPos realPos, IBlockState state, StructureIngredient.ItemIngredient ingredient) {
@@ -293,6 +674,9 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
     }
 
     public void reportMissingMaterials() {
+        if (isCompleted() && !skippedMissingMaterials) {
+            return;
+        }
         if (missingItems.isEmpty() && missingFluids.isEmpty()) {
             return;
         }
@@ -308,94 +692,165 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
     }
 
     private void addMissingItem(ItemStack required) {
-        if (required.isEmpty()) {
+        addMissingItem(required, required.getCount());
+    }
+
+    private void addMissingItem(ItemStack required, long amount) {
+        if (required.isEmpty() || amount <= 0) {
             return;
         }
         for (MissingItemEntry entry : missingItems) {
             if (MMCEBuilderUtils.areItemStacksEqual(entry.stack, required)) {
-                entry.amount += required.getCount();
+                entry.amount += amount;
                 return;
             }
         }
-        missingItems.add(new MissingItemEntry(required));
+        missingItems.add(new MissingItemEntry(required, amount));
+    }
+
+    private void addMissingItemIfUntracked(ItemStack required) {
+        skippedMissingMaterials = true;
+        if (!hasMissingItem(required)) {
+            addMissingItem(required);
+        }
+    }
+
+    private boolean hasMissingItem(ItemStack required) {
+        if (required.isEmpty()) {
+            return false;
+        }
+        for (MissingItemEntry entry : missingItems) {
+            if (MMCEBuilderUtils.areItemStacksEqual(entry.stack, required)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void addMissingFluid(FluidStack required) {
-        if (required == null || required.amount <= 0) {
+        if (required == null) {
+            return;
+        }
+        addMissingFluid(required, required.amount);
+    }
+
+    private void addMissingFluid(FluidStack required, long amount) {
+        if (required == null || required.amount <= 0 || amount <= 0) {
             return;
         }
         for (MissingFluidEntry entry : missingFluids) {
             if (MMCEBuilderUtils.areFluidsEqual(entry.fluid, required)) {
-                entry.amount += required.amount;
+                entry.amount += amount;
                 return;
             }
         }
-        missingFluids.add(new MissingFluidEntry(required));
+        missingFluids.add(new MissingFluidEntry(required, amount));
     }
 
-    private CraftRequestState getItemCraftState(ItemStack required) {
-        Iterator<RequestedItemCraft> iterator = craftRequestedItems.iterator();
-        while (iterator.hasNext()) {
-            RequestedItemCraft entry = iterator.next();
-            if (MMCEBuilderUtils.areItemStacksEqual(entry.stack, required)) {
-                if (entry.link.isCanceled()) {
-                    iterator.remove();
-                    return CraftRequestState.CANCELED;
-                }
-                if (entry.link.isDone()) {
-                    iterator.remove();
-                    return CraftRequestState.FINISHED;
-                }
-                return CraftRequestState.WAITING;
-            }
+    private void addMissingFluidIfUntracked(FluidStack required) {
+        skippedMissingMaterials = true;
+        if (!hasMissingFluid(required)) {
+            addMissingFluid(required);
         }
-        return CraftRequestState.NONE;
     }
 
-    private CraftRequestState getFluidCraftState(FluidStack required) {
-        if (required == null) {
-            return CraftRequestState.NONE;
+    private boolean hasMissingFluid(FluidStack required) {
+        if (required == null || required.amount <= 0) {
+            return false;
         }
-        Iterator<RequestedFluidCraft> iterator = craftRequestedFluids.iterator();
-        while (iterator.hasNext()) {
-            RequestedFluidCraft entry = iterator.next();
+        for (MissingFluidEntry entry : missingFluids) {
             if (MMCEBuilderUtils.areFluidsEqual(entry.fluid, required)) {
-                if (entry.link.isCanceled()) {
-                    iterator.remove();
-                    return CraftRequestState.CANCELED;
-                }
-                if (entry.link.isDone()) {
-                    iterator.remove();
-                    return CraftRequestState.FINISHED;
-                }
-                return CraftRequestState.WAITING;
+                return true;
             }
         }
-        return CraftRequestState.NONE;
+        return false;
     }
 
-    private void clearRequestedItemCraft(ItemStack required) {
-        Iterator<RequestedItemCraft> iterator = craftRequestedItems.iterator();
-        while (iterator.hasNext()) {
-            RequestedItemCraft entry = iterator.next();
-            if (MMCEBuilderUtils.areItemStacksEqual(entry.stack, required)) {
-                iterator.remove();
-                return;
-            }
-        }
-    }
-
-    private void clearRequestedFluidCraft(FluidStack required) {
-        if (required == null) {
+    private void addCraftedItemToBuffer(ItemStack stack) {
+        if (stack.isEmpty()) {
             return;
         }
-        Iterator<RequestedFluidCraft> iterator = craftRequestedFluids.iterator();
-        while (iterator.hasNext()) {
-            RequestedFluidCraft entry = iterator.next();
-            if (MMCEBuilderUtils.areFluidsEqual(entry.fluid, required)) {
-                iterator.remove();
+        for (ItemStack buffered : craftedItemBuffer) {
+            if (MMCEBuilderUtils.areItemStacksEqual(buffered, stack)) {
+                buffered.grow(stack.getCount());
                 return;
             }
+        }
+        craftedItemBuffer.add(stack.copy());
+    }
+
+    private void addCraftedFluidToBuffer(FluidStack fluid) {
+        if (fluid == null || fluid.amount <= 0) {
+            return;
+        }
+        for (FluidStack buffered : craftedFluidBuffer) {
+            if (MMCEBuilderUtils.areFluidsEqual(buffered, fluid)) {
+                buffered.amount += fluid.amount;
+                return;
+            }
+        }
+        craftedFluidBuffer.add(fluid.copy());
+    }
+
+    private boolean consumeCraftedItemBuffer(ItemStack required) {
+        if (required.isEmpty()) {
+            return true;
+        }
+        for (Iterator<ItemStack> iterator = craftedItemBuffer.iterator(); iterator.hasNext(); ) {
+            ItemStack buffered = iterator.next();
+            if (!MMCEBuilderUtils.areItemStacksEqual(buffered, required) || buffered.getCount() < required.getCount()) {
+                continue;
+            }
+            buffered.shrink(required.getCount());
+            if (buffered.isEmpty()) {
+                iterator.remove();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean consumeCraftedFluidBuffer(FluidStack required) {
+        if (required == null || required.amount <= 0) {
+            return true;
+        }
+        for (Iterator<FluidStack> iterator = craftedFluidBuffer.iterator(); iterator.hasNext(); ) {
+            FluidStack buffered = iterator.next();
+            if (!MMCEBuilderUtils.areFluidsEqual(buffered, required) || buffered.amount < required.amount) {
+                continue;
+            }
+            buffered.amount -= required.amount;
+            if (buffered.amount <= 0) {
+                iterator.remove();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void clearRequestedCraft(ItemStack required) {
+        if (activeCraftEntry != null && activeCraftEntry.matches(required)) {
+            activeCraftRemaining -= required.getCount();
+        }
+    }
+
+    private void clearRequestedCraft(FluidStack required) {
+        if (activeCraftEntry != null && activeCraftEntry.matches(required)) {
+            activeCraftRemaining -= required.amount;
+        }
+    }
+
+    private void resetActiveCraft(boolean clearLink) {
+        activeCraftEntry = null;
+        activeCraftRequest = null;
+        activeCraftRemaining = 0;
+        activeCraftNode = null;
+        activeCraftStarted = false;
+        waitingForCraftStart = false;
+        activeCraftOutputReceived = 0;
+        finishedCraftGraceUntilTick = 0;
+        if (clearLink) {
+            activeCraftLink = null;
         }
     }
 
@@ -421,50 +876,100 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
 
     private static final class MissingItemEntry {
         private final ItemStack stack;
-        private int amount;
+        private long amount;
 
-        private MissingItemEntry(ItemStack stack) {
+        private MissingItemEntry(ItemStack stack, long amount) {
             this.stack = stack.copy();
             this.stack.setCount(1);
-            this.amount = stack.getCount();
+            this.amount = amount;
         }
     }
 
     private static final class MissingFluidEntry {
         private final FluidStack fluid;
-        private int amount;
+        private long amount;
 
-        private MissingFluidEntry(FluidStack fluid) {
+        private MissingFluidEntry(FluidStack fluid, long amount) {
             this.fluid = fluid.copy();
-            this.amount = fluid.amount;
+            this.amount = amount;
         }
     }
 
-    private static final class RequestedItemCraft {
+    private static final class RequiredItemEntry {
         private final ItemStack stack;
-        private final ICraftingLink link;
+        private long totalAmount;
+        private long amount;
 
-        private RequestedItemCraft(ItemStack stack, ICraftingLink link) {
+        private RequiredItemEntry(ItemStack stack, long amount) {
             this.stack = stack.copy();
             this.stack.setCount(1);
-            this.link = link;
+            this.totalAmount = amount;
+            this.amount = amount;
         }
     }
 
-    private static final class RequestedFluidCraft {
+    private static final class RequiredFluidEntry {
         private final FluidStack fluid;
-        private final ICraftingLink link;
+        private long totalAmount;
+        private long amount;
 
-        private RequestedFluidCraft(FluidStack fluid, ICraftingLink link) {
+        private RequiredFluidEntry(FluidStack fluid, long amount) {
             this.fluid = fluid.copy();
-            this.link = link;
+            this.totalAmount = amount;
+            this.amount = amount;
         }
     }
 
-    private enum CraftRequestState {
-        NONE,
-        WAITING,
-        FINISHED,
-        CANCELED
+    private static final class CraftableMissingEntry {
+        private final ItemStack item;
+        private final FluidStack fluid;
+        private final IAEItemStack request;
+        private final long assemblyAmount;
+        private long directRemaining;
+
+        private CraftableMissingEntry(ItemStack item, FluidStack fluid, IAEItemStack request, long assemblyAmount, long directAmount) {
+            this.item = item.isEmpty() ? ItemStack.EMPTY : item.copy();
+            if (!this.item.isEmpty()) {
+                this.item.setCount(1);
+            }
+            this.fluid = fluid == null ? null : fluid.copy();
+            this.request = request;
+            this.assemblyAmount = assemblyAmount;
+            this.directRemaining = directAmount;
+        }
+
+        private static CraftableMissingEntry item(ItemStack item, IAEItemStack request, long assemblyAmount, long directAmount) {
+            return new CraftableMissingEntry(item, null, request, assemblyAmount, directAmount);
+        }
+
+        private static CraftableMissingEntry fluid(FluidStack fluid, IAEItemStack request, long assemblyAmount, long directAmount) {
+            return new CraftableMissingEntry(ItemStack.EMPTY, fluid, request, assemblyAmount, directAmount);
+        }
+
+        private boolean isFluid() {
+            return fluid != null;
+        }
+
+        private boolean matches(ItemStack required) {
+            return !item.isEmpty() && MMCEBuilderUtils.areItemStacksEqual(item, required);
+        }
+
+        private boolean matches(FluidStack required) {
+            return fluid != null && MMCEBuilderUtils.areFluidsEqual(fluid, required);
+        }
+
+        private boolean consumeDirect(long amount) {
+            if (amount <= 0 || directRemaining < amount) {
+                return false;
+            }
+            directRemaining -= amount;
+            return true;
+        }
+
+        private void restoreDirect(long amount) {
+            if (amount > 0) {
+                directRemaining += amount;
+            }
+        }
     }
 }

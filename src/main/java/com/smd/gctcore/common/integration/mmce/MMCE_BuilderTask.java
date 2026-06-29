@@ -24,6 +24,12 @@ public interface MMCE_BuilderTask {
 
     boolean isCompleted();
 
+    default boolean isCancelled() {
+        return false;
+    }
+
+    default void cancel() {}
+
     void tick();
 
     void report();

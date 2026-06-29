@@ -51,6 +51,9 @@ public class MMCE_BuilderTool extends Item implements IGuiHolder<GuiData> {
 
     @Override
     public @NotNull ActionResult<ItemStack> onItemRightClick(World world, @NotNull EntityPlayer player, @NotNull EnumHand hand) {
+        if (!world.isRemote && player.isSneaking()) {
+            MMCE_BuilderTaskManager.cancelPlayerTask(player);
+        }
         if (world.isRemote && !player.isSneaking()) {
             GuiFactories.playerInventory().openFromHandClient(hand);
         }
@@ -63,6 +66,9 @@ public class MMCE_BuilderTool extends Item implements IGuiHolder<GuiData> {
             return EnumActionResult.PASS;
         }
         if (!world.isRemote && player instanceof EntityPlayerMP) {
+            if (MMCE_BuilderTaskManager.cancelPlayerTask(player)) {
+                return EnumActionResult.SUCCESS;
+            }
             ItemStack stack = player.getHeldItem(hand);
             MMCE_BuilderService.start((EntityPlayerMP) player, pos, MMCE_BuilderConfig.useAeItems(stack),
                     MMCE_BuilderConfig.useAeFluids(stack), MMCE_BuilderConfig.craftMissing(stack), MMCE_BuilderConfig.disassembleMode(stack),

@@ -63,7 +63,9 @@ public final class MMCE_BuilderService {
             return;
         }
 
-        MMCE_BuilderTaskManager.addTask(new ConfigurableMachineAssembly(world, pos, player, ingredient, useAeItems, useAeFluids, craftMissing, tickInterval, operationsPerTick));
+        ConfigurableMachineAssembly assembly = new ConfigurableMachineAssembly(world, pos, player, ingredient, useAeItems, useAeFluids, craftMissing, tickInterval, operationsPerTick);
+        MMCE_BuilderTaskManager.addTask(assembly);
+        assembly.openCraftingGuiIfNeeded();
         MMCEBuilderUtils.sendTranslation(player, "message.gctcore.mmce_builder.started");
     }
 }

@@ -34,6 +34,7 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.whimcraft.json", "whimcraft");
         addModdedMixinCFG("mixins.gctcore.konkrete.json","konkrete");
         addModdedMixinCFG("mixins.gctcore.jei.json", "jei");
+        addModdedMixinCFG("mixins.gctcore.ae2.json", "appliedenergistics2");
         addModdedMixinCFG("mixins.gctcore.dynamicdynamos.json", "dyndyn");
         addModdedMixinCFG("mixins.gctcore.betterhurttimer.json", "betterhurttimer");
         addMixinCFG("mixins.gctcore.twilightforest.json", () -> modLoaded("twilightforest") && modLoaded("gct_mobs"));

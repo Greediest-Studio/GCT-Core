@@ -48,7 +48,32 @@ public final class MMCEBuilderUtils {
     }
 
     public static void sendTranslation(EntityPlayer player, String key, Object... args) {
+        if (player == null) {
+            return;
+        }
+        if (player.world.isRemote) {
+            return;
+        }
+        String fingerprint = buildMessageFingerprint(key, args);
+        long now = player.world.getTotalWorldTime();
+        String lastFingerprint = player.getEntityData().getString("gct_mmce_builder_last_message");
+        long lastMessageTick = player.getEntityData().getLong("gct_mmce_builder_last_message_tick");
+        if (fingerprint.equals(lastFingerprint) && now - lastMessageTick <= 2) {
+            return;
+        }
+        player.getEntityData().setString("gct_mmce_builder_last_message", fingerprint);
+        player.getEntityData().setLong("gct_mmce_builder_last_message_tick", now);
         player.sendMessage(new TextComponentTranslation(key, args));
+    }
+
+    private static String buildMessageFingerprint(String key, Object... args) {
+        StringBuilder builder = new StringBuilder(key);
+        if (args != null) {
+            for (Object arg : args) {
+                builder.append('\u0001').append(arg);
+            }
+        }
+        return builder.toString();
     }
 
     public static String posToString(BlockPos pos) {

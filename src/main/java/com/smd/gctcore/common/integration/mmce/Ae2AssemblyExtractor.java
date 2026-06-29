@@ -16,6 +16,8 @@ import appeng.api.storage.channels.IFluidStorageChannel;
 import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.storage.data.IAEItemStack;
+import appeng.container.implementations.ContainerCraftConfirm;
+import appeng.core.sync.GuiBridge;
 import appeng.fluids.util.AEFluidStack;
 import appeng.helpers.WirelessTerminalGuiObject;
 import appeng.me.helpers.PlayerSource;
@@ -27,6 +29,7 @@ import com.glodblock.github.common.item.fake.FakeFluids;
 import com.smd.gctcore.common.util.MMCEBuilderUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.inventory.Container;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.ArrayList;
@@ -251,6 +254,10 @@ public final class Ae2AssemblyExtractor {
     }
 
     public static ICraftingLink requestItemCraft(EntityPlayer player, ItemStack required, long amount) {
+        return requestItemCraft(player, required, amount, true);
+    }
+
+    private static ICraftingLink requestItemCraft(EntityPlayer player, ItemStack required, long amount, boolean diagnose) {
         if (required.isEmpty()) {
             return null;
         }
@@ -262,7 +269,7 @@ public final class Ae2AssemblyExtractor {
             return null;
         }
         request.setStackSize(amount);
-        return requestCraft(player, request);
+        return requestCraft(player, request, diagnose);
     }
 
     public static ICraftingLink requestFluidCraft(EntityPlayer player, FluidStack required) {
@@ -281,13 +288,194 @@ public final class Ae2AssemblyExtractor {
             return null;
         }
         request.setStackSize(amount);
-        return requestCraft(player, request);
+        return requestCraft(player, request, true);
     }
 
-    private static ICraftingLink requestCraft(EntityPlayer player, IAEItemStack request) {
+    public static IAEItemStack toAeItemRequest(ItemStack required, long amount) {
+        if (required.isEmpty() || amount <= 0) {
+            return null;
+        }
+        IAEItemStack request = AEItemStack.fromItemStack(required);
+        if (request == null) {
+            return null;
+        }
+        request.setStackSize(amount);
+        return request;
+    }
+
+    public static IAEItemStack toAeFluidRequest(FluidStack required, long amount) {
+        if (required == null || required.amount <= 0 || amount <= 0) {
+            return null;
+        }
+        IAEItemStack request = FakeFluids.packFluid2AEDrops(required.copy());
+        if (request == null) {
+            return null;
+        }
+        request.setStackSize(amount);
+        return request;
+    }
+
+    public static long getStoredItemAmount(EntityPlayer player, ItemStack required) {
+        if (required.isEmpty()) {
+            return 0;
+        }
+        IAEItemStack request = AEItemStack.fromItemStack(required);
+        if (request == null) {
+            return 0;
+        }
+        request.setStackSize(1);
+        List<WirelessTerminalAccess> terminals = findWirelessTerminals(player);
+        for (WirelessTerminalAccess terminal : terminals) {
+            IGridNode node = terminal.guiObject.getActionableNode();
+            if (!isAccessible(player, node, SecurityPermissions.EXTRACT)) {
+                continue;
+            }
+            IGrid grid = node.getGrid();
+            IStorageGrid storageGrid = grid.getCache(IStorageGrid.class);
+            if (storageGrid == null) {
+                continue;
+            }
+            IMEMonitor<IAEItemStack> monitor = storageGrid.getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class));
+            IAEItemStack stored = monitor.getStorageList().findPrecise(request);
+            return stored == null ? 0 : stored.getStackSize();
+        }
+        return 0;
+    }
+
+    public static long getStoredFluidAmount(EntityPlayer player, FluidStack required) {
+        if (required == null || required.amount <= 0) {
+            return 0;
+        }
+        IAEFluidStack request = AEFluidStack.fromFluidStack(required.copy());
+        if (request == null) {
+            return 0;
+        }
+        request.setStackSize(1);
+        List<WirelessTerminalAccess> terminals = findWirelessTerminals(player);
+        for (WirelessTerminalAccess terminal : terminals) {
+            IGridNode node = terminal.guiObject.getActionableNode();
+            if (!isAccessible(player, node, SecurityPermissions.EXTRACT)) {
+                continue;
+            }
+            IGrid grid = node.getGrid();
+            IStorageGrid storageGrid = grid.getCache(IStorageGrid.class);
+            if (storageGrid == null) {
+                continue;
+            }
+            IMEMonitor<IAEFluidStack> monitor = storageGrid.getInventory(AEApi.instance().storage().getStorageChannel(IFluidStorageChannel.class));
+            IAEFluidStack stored = monitor.getStorageList().findPrecise(request);
+            return stored == null ? 0 : stored.getStackSize();
+        }
+        return 0;
+    }
+
+    public static boolean canCraftItem(EntityPlayer player, ItemStack required) {
+        if (required.isEmpty()) {
+            return false;
+        }
+        IAEItemStack request = AEItemStack.fromItemStack(required);
+        if (request == null) {
+            return false;
+        }
+        request.setStackSize(1);
+        List<WirelessTerminalAccess> terminals = findWirelessTerminals(player);
+        for (WirelessTerminalAccess terminal : terminals) {
+            IGridNode node = terminal.guiObject.getActionableNode();
+            if (!isAccessible(player, node, SecurityPermissions.CRAFT)) {
+                continue;
+            }
+            IGrid grid = node.getGrid();
+            ICraftingGrid craftingGrid = grid.getCache(ICraftingGrid.class);
+            if (craftingGrid != null && craftingGrid.canEmitFor(request)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean canCraftAeItem(EntityPlayer player, IAEItemStack request) {
+        if (request == null) {
+            return false;
+        }
+        IAEItemStack single = request.copy();
+        single.setStackSize(1);
+        List<WirelessTerminalAccess> terminals = findWirelessTerminals(player);
+        for (WirelessTerminalAccess terminal : terminals) {
+            IGridNode node = terminal.guiObject.getActionableNode();
+            if (!isAccessible(player, node, SecurityPermissions.CRAFT)) {
+                continue;
+            }
+            IGrid grid = node.getGrid();
+            ICraftingGrid craftingGrid = grid.getCache(ICraftingGrid.class);
+            if (craftingGrid != null && craftingGrid.canEmitFor(single)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static CraftingGuiRequest openCraftConfirmGui(EntityPlayer player, IAEItemStack request, MMCE_CraftingRequester requester) {
+        if (request == null || request.getStackSize() <= 0) {
+            return null;
+        }
         List<WirelessTerminalAccess> terminals = findWirelessTerminals(player);
         if (terminals.isEmpty()) {
             sendDiagnostic(player, "message.gctcore.mmce_builder.ae_no_terminal");
+            return null;
+        }
+        boolean inaccessibleNetwork = false;
+        boolean craftingMissing = false;
+        boolean craftingUnavailable = false;
+        for (WirelessTerminalAccess terminal : terminals) {
+            IGridNode node = terminal.guiObject.getActionableNode();
+            if (!isAccessible(player, node, SecurityPermissions.CRAFT)) {
+                inaccessibleNetwork = true;
+                continue;
+            }
+            IGrid grid = node.getGrid();
+            ICraftingGrid craftingGrid = grid.getCache(ICraftingGrid.class);
+            if (craftingGrid == null) {
+                craftingMissing = true;
+                continue;
+            }
+            Future<ICraftingJob> futureJob = null;
+            try {
+                PlayerSource source = new PlayerSource(player, terminal.guiObject);
+                futureJob = craftingGrid.beginCraftingJob(player.world, grid, source, request.copy(), null);
+                Platform.openGUI(player, terminal.guiObject.getInventorySlot(), GuiBridge.GUI_CRAFTING_CONFIRM, terminal.guiObject.isBaubleSlot());
+                Container openContainer = player.openContainer;
+                if (openContainer instanceof ContainerCraftConfirm) {
+                    ContainerCraftConfirm confirm = (ContainerCraftConfirm) openContainer;
+                    confirm.setAutoStart(false);
+                    confirm.setJob(futureJob);
+                    if (requester != null && confirm instanceof MMCE_CraftingConfirmBridge) {
+                        ((MMCE_CraftingConfirmBridge) confirm).gctcore$setRequester(requester);
+                    }
+                    terminal.guiObject.saveChanges();
+                    sendDiagnostic(player, "message.gctcore.mmce_builder.ae_craft_requested");
+                    return new CraftingGuiRequest(craftingGrid, node, request.copy());
+                }
+                if (futureJob != null) {
+                    futureJob.cancel(true);
+                }
+                craftingUnavailable = true;
+            } catch (Exception e) {
+                if (futureJob != null) {
+                    futureJob.cancel(true);
+                }
+                craftingUnavailable = true;
+            }
+        }
+        reportCraftingFailure(player, inaccessibleNetwork, craftingMissing, craftingUnavailable);
+        return null;
+    }
+
+    private static ICraftingLink requestCraft(EntityPlayer player, IAEItemStack request, boolean diagnose) {
+        List<WirelessTerminalAccess> terminals = findWirelessTerminals(player);
+        if (terminals.isEmpty()) {
+            if (diagnose) {
+                sendDiagnostic(player, "message.gctcore.mmce_builder.ae_no_terminal");
+            }
             return null;
         }
         boolean inaccessibleNetwork = false;
@@ -317,7 +505,9 @@ public final class Ae2AssemblyExtractor {
                 ICraftingLink link = craftingGrid.submitJob(job, null, null, true, source);
                 if (link != null) {
                     terminal.guiObject.saveChanges();
-                    sendDiagnostic(player, "message.gctcore.mmce_builder.ae_craft_requested");
+                    if (diagnose) {
+                        sendDiagnostic(player, "message.gctcore.mmce_builder.ae_craft_requested");
+                    }
                     return link;
                 }
                 craftingUnavailable = true;
@@ -333,7 +523,9 @@ public final class Ae2AssemblyExtractor {
                 craftingUnavailable = true;
             }
         }
-        reportCraftingFailure(player, inaccessibleNetwork, craftingMissing, craftingUnavailable);
+        if (diagnose) {
+            reportCraftingFailure(player, inaccessibleNetwork, craftingMissing, craftingUnavailable);
+        }
         return null;
     }
 
@@ -386,7 +578,7 @@ public final class Ae2AssemblyExtractor {
         } else if (storageMissing) {
             sendDiagnostic(player, "message.gctcore.mmce_builder.ae_no_storage");
         } else if (insufficientAmount) {
-            sendDiagnostic(player, "message.gctcore.mmce_builder.ae_missing");
+            return;
         } else {
             sendDiagnostic(player, "message.gctcore.mmce_builder.ae_extract_failed");
         }
@@ -428,6 +620,30 @@ public final class Ae2AssemblyExtractor {
 
         private WirelessTerminalAccess(WirelessTerminalGuiObject guiObject) {
             this.guiObject = guiObject;
+        }
+    }
+
+    public static final class CraftingGuiRequest {
+        private final ICraftingGrid craftingGrid;
+        private final IGridNode node;
+        private final IAEItemStack request;
+
+        private CraftingGuiRequest(ICraftingGrid craftingGrid, IGridNode node, IAEItemStack request) {
+            this.craftingGrid = craftingGrid;
+            this.node = node;
+            this.request = request;
+        }
+
+        public IGridNode getNode() {
+            return node;
+        }
+
+        public boolean isRequesting() {
+            return craftingGrid.isRequesting(request) || craftingGrid.requesting(request) > 0;
+        }
+
+        public long requesting() {
+            return craftingGrid.requesting(request);
         }
     }
 }

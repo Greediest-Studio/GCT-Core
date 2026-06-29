@@ -30,6 +30,23 @@ public class MMCE_BuilderTaskManager {
         return false;
     }
 
+    public static boolean cancelPlayerTask(EntityPlayer player) {
+        UUID playerId = player.getGameProfile().getId();
+        Iterator<MMCE_BuilderTask> iterator = TASKS.iterator();
+        while (iterator.hasNext()) {
+            MMCE_BuilderTask task = iterator.next();
+            if (!playerId.equals(task.getPlayer().getGameProfile().getId())) {
+                continue;
+            }
+            task.cancel();
+            iterator.remove();
+            task.report();
+            MMCEBuilderUtils.sendTranslation(player, task.getCancelledMessageKey());
+            return true;
+        }
+        return false;
+    }
+
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         EntityPlayer player = event.player;
@@ -51,6 +68,12 @@ public class MMCE_BuilderTaskManager {
                 MMCEBuilderUtils.sendTranslation(player, task.getCancelledMessageKey());
                 continue;
             }
+            if (task.isCancelled()) {
+                iterator.remove();
+                task.report();
+                MMCEBuilderUtils.sendTranslation(player, task.getCancelledMessageKey());
+                continue;
+            }
             if (worldTime % task.getTickInterval() != 0) {
                 continue;
             }
@@ -58,9 +81,18 @@ public class MMCE_BuilderTaskManager {
             try {
                 for (int i = 0; i < task.getOperationsPerTick() && !task.isCompleted(); i++) {
                     task.tick();
+                    if (task.isCancelled()) {
+                        break;
+                    }
                 }
             } finally {
                 task.endBatch();
+            }
+            if (task.isCancelled()) {
+                iterator.remove();
+                task.report();
+                MMCEBuilderUtils.sendTranslation(player, task.getCancelledMessageKey());
+                continue;
             }
             if (task.isCompleted()) {
                 iterator.remove();
