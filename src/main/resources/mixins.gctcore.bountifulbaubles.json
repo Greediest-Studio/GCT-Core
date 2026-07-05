@@ -1,15 +1,12 @@
 {
-  "package": "com.smd.gctcore.common.mixin.vanilla",
+  "package": "com.smd.gctcore.common.mixin.bountifulbaubles",
   "required": true,
   "refmap": "mixins.gctcore.refmap.json",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8.5",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "damageparticle.MixinEntityPlayer",
-    "damageparticle.MixinEntity",
-    "entity.MixinEntityWither",
-    "entity.EntityAccessor"
+    "MixinItemTrinketPotionCharm"
   ],
   "server": [],
   "client": []

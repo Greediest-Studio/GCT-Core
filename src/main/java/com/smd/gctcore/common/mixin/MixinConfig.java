@@ -13,6 +13,7 @@ public class MixinConfig implements ILateMixinLoader {
 
     static {
         addModdedMixinCFG("mixins.gctcore.aether.json", "aether_legacy");
+        addModdedMixinCFG("mixins.gctcore.bountifulbaubles.json", "bountifulbaubles");
         addModdedMixinCFG("mixins.gctcore.astralsorcery.json", "astralsorcery");
         addModdedMixinCFG("mixins.gctcore.tconstruct.json", "tconstruct");
         addModdedMixinCFG("mixins.gctcore.enderstorage.json", "enderstorage");
