@@ -1,7 +1,6 @@
 package com.smd.gctcore.proxy;
 
 import WayofTime.bloodmagic.client.IMeshProvider;
-import com.cleanroommc.modularui.ModularUIConfig;
 import com.google.common.collect.Sets;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.client.render.tile.RenderNilfheimPortal;
@@ -11,6 +10,7 @@ import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
 import com.smd.gctcore.misc.BlockRegistry;
 import com.smd.gctcore.misc.ItemRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLeaves;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.item.Item;
@@ -147,8 +147,8 @@ public class ClientProxy extends CommonProxy {
             registerBlockModel(BlockRegistry.BLACK_RIME_WALL);
             registerBlockModel(BlockRegistry.MISTWOOD_LEAVES);
             registerBlockModel(BlockRegistry.SNOWPINE_LEAVES);
-            ModelLoader.setCustomStateMapper(BlockRegistry.MISTWOOD_LEAVES, new StateMap.Builder().ignore(net.minecraft.block.BlockLeaves.CHECK_DECAY, net.minecraft.block.BlockLeaves.DECAYABLE).build());
-            ModelLoader.setCustomStateMapper(BlockRegistry.SNOWPINE_LEAVES, new StateMap.Builder().ignore(net.minecraft.block.BlockLeaves.CHECK_DECAY, net.minecraft.block.BlockLeaves.DECAYABLE).build());
+            ModelLoader.setCustomStateMapper(BlockRegistry.MISTWOOD_LEAVES, new StateMap.Builder().ignore(BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE).build());
+            ModelLoader.setCustomStateMapper(BlockRegistry.SNOWPINE_LEAVES, new StateMap.Builder().ignore(BlockLeaves.CHECK_DECAY, BlockLeaves.DECAYABLE).build());
             registerBlockModel(BlockRegistry.MIST_FERN);
             registerBlockModel(BlockRegistry.FROSTBOUND_VINE);
             registerBlockModel(BlockRegistry.WEEPING_ICE_FLOWER);

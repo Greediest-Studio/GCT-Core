@@ -1,7 +1,6 @@
 package com.smd.gctcore.common.mixin.triumph;
 
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

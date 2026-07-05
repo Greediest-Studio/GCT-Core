@@ -511,11 +511,6 @@ public final class Ae2AssemblyExtractor {
                     return link;
                 }
                 craftingUnavailable = true;
-            } catch (TimeoutException e) {
-                if (futureJob != null) {
-                    futureJob.cancel(true);
-                }
-                craftingUnavailable = true;
             } catch (Exception e) {
                 if (futureJob != null) {
                     futureJob.cancel(true);
@@ -577,8 +572,6 @@ public final class Ae2AssemblyExtractor {
             sendDiagnostic(player, "message.gctcore.mmce_builder.ae_inaccessible");
         } else if (storageMissing) {
             sendDiagnostic(player, "message.gctcore.mmce_builder.ae_no_storage");
-        } else if (insufficientAmount) {
-            return;
         } else {
             sendDiagnostic(player, "message.gctcore.mmce_builder.ae_extract_failed");
         }

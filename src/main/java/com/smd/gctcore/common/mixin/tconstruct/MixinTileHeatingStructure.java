@@ -2,7 +2,6 @@ package com.smd.gctcore.common.mixin.tconstruct;
 
 import com.smd.gctcore.common.config.GctCoreConfig;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

@@ -58,11 +58,7 @@ public class BedrockBlockChecker {
 
         // Check no-metadata match (matches all metadata)
         e = cachedEntries.get(blockId);
-        if (e != null) {
-            return true;
-        }
-
-        return false;
+        return e != null;
     }
 
     /**

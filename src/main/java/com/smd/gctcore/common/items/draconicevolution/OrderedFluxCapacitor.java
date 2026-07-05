@@ -14,6 +14,7 @@ import com.brandon3055.draconicevolution.integration.BaublesHelper;
 import com.brandon3055.draconicevolution.integration.ModHelper;
 import baubles.api.IBauble;
 import baubles.api.BaubleType;
+import com.smd.gctcore.Tags;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -46,7 +47,7 @@ public class OrderedFluxCapacitor extends ItemEnergyBase implements IInvCharge, 
     public OrderedFluxCapacitor() {
         setHasSubtypes(false);
         setMaxStackSize(1);
-        setTranslationKey("gctcore.ordered_flux_capacitor");
+        setTranslationKey(Tags.MOD_ID + ".ordered_flux_capacitor");
         setRegistryName("ordered_flux_capacitor");
         setCreativeTab(CreativeTabs.TOOLS);
     }

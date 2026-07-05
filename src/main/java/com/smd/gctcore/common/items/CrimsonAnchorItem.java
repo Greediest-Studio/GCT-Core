@@ -1,5 +1,6 @@
 package com.smd.gctcore.common.items;
 
+import com.smd.gctcore.Tags;
 import com.smd.gctcore.common.world.CrimsonTempleData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -14,7 +15,7 @@ import net.minecraft.world.World;
 public class CrimsonAnchorItem extends Item {
 
     public CrimsonAnchorItem() {
-        setTranslationKey("gctcore.crimson_anchor");
+        setTranslationKey(Tags.MOD_ID + ".crimson_anchor");
         setRegistryName("crimson_anchor");
         setMaxStackSize(1);
     }

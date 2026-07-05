@@ -1,5 +1,6 @@
 package com.smd.gctcore;
 
+import com.smd.gctcore.common.util.MaterialRenderingDebugHelper;
 import com.smd.gctcore.proxy.CommonProxy;
 import net.minecraftforge.fml.common.SidedProxy;
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +20,7 @@ public class gctcore {
 
     @SidedProxy(
             clientSide = "com.smd.gctcore.proxy.ClientProxy",
-            serverSide = "com.smd.gctcore.proxy.ServerProxy"
+            serverSide = "com.smd.gctcore.proxy.CommonProxy"
     )
     public static CommonProxy proxy;
 

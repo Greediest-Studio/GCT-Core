@@ -36,7 +36,7 @@ public class MixinTileAdvRechargePedestal extends TileRechargePedestal {
                 return false;
         }
 
-        ArrayList<Block> l = new ArrayList<Block>();
+        ArrayList<Block> l = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             if (!l.contains(world.getBlockState(BlockPosUtil.translateToBlockPos(pos, IterUtil.tick1(i) * 2, 2, IterUtil.tick2(i) * 2)).getBlock()))
                 l.add(world.getBlockState(BlockPosUtil.translateToBlockPos(pos, IterUtil.tick1(i) * 2, 2, IterUtil.tick2(i) * 2)).getBlock());

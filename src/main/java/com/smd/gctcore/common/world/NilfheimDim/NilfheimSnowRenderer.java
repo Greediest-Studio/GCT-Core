@@ -64,7 +64,7 @@ public class NilfheimSnowRenderer extends IRenderHandler {
                     continue;
                 }
 
-                random.setSeed((long) (x * x * 3121 + x * 45238971 ^ z * z * 418711 + z * 13761));
+                random.setSeed((long) x * x * 3121 + x * 45238971L ^ (long) z * z * 418711 + z * 13761L);
                 double driftU = random.nextDouble() + ticks * 0.01D * random.nextGaussian();
                 double driftV = random.nextDouble() + ticks * random.nextGaussian() * 0.001D;
                 double dx = x + 0.5D - entity.posX;

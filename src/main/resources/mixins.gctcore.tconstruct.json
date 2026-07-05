@@ -9,7 +9,8 @@
     "MixinToolHelper",
     "MixinModelHelper",
     "MixinTileHeatingStructure",
-    "MixinTileSmeltery"
+    "MixinTileSmeltery",
+    "MixinToolPart"
   ],
   "server": [],
   "client": []

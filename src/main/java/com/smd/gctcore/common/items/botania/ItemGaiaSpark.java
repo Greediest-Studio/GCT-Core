@@ -13,7 +13,6 @@ import net.minecraft.world.World;
 import vazkii.botania.api.internal.VanillaPacketDispatcher;
 import vazkii.botania.api.mana.IManaGivingItem;
 import vazkii.botania.api.mana.spark.ISparkAttachable;
-import vazkii.botania.api.mana.spark.ISparkEntity;
 
 import vazkii.botania.common.core.BotaniaCreativeTab;
 
@@ -43,7 +42,7 @@ public class ItemGaiaSpark extends Item implements IManaGivingItem {
                     EntityGaiaSpark spark = new EntityGaiaSpark(world);
                     spark.setPosition(pos.getX() + 0.5D, pos.getY() + 1.5D, pos.getZ() + 0.5D);
                     world.spawnEntity(spark);
-                    attach.attachSpark((ISparkEntity) spark);
+                    attach.attachSpark(spark);
                     VanillaPacketDispatcher.dispatchTEToNearbyPlayers(world, pos);
                 }
                 return EnumActionResult.SUCCESS;

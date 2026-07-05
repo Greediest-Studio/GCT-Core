@@ -1,6 +1,5 @@
 package com.smd.gctcore.common.mixin.ssa;
 
-import com.smd.gctcore.common.config.GctCoreConfig;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

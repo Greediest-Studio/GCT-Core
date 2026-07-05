@@ -25,7 +25,6 @@ public class MixinItemOC {
 
         if (GctCoreConfig.abyssalCraftIntegration.enableOblivionCatalystEffects) {
             cir.setReturnValue(new ActionResult<>(EnumActionResult.PASS, stack));
-            return;
         }
     }
 }
