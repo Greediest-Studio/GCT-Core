@@ -1,6 +1,5 @@
 package com.smd.gctcore;
 
-import com.smd.gctcore.common.util.MaterialRenderingDebugHelper;
 import com.smd.gctcore.proxy.CommonProxy;
 import net.minecraftforge.fml.common.SidedProxy;
 import org.apache.logging.log4j.LogManager;
