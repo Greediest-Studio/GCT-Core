@@ -117,6 +117,9 @@ repositories {
         url 'https://maven.cleanroommc.com'
     }
     maven {
+        url 'https://maven.cleanroommc.com'
+    }
+    maven {
         name 'CoFH Maven'
         url 'https://maven.covers1624.net'
     }
@@ -169,13 +172,14 @@ dependencies {
     ])
     runtimeOnly fileTree(dir: 'libs', include: ['gct_mobs-1.0.0.jar'])
 
+    implementation 'com.cleanroommc:configanytime:1.0'
     implementation rfg.deobf("curse.maven:Konkrete-410295:4514895")
     implementation rfg.deobf("CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.698")
     implementation rfg.deobf("curse.maven:Mantle-74924:2713386")
     implementation rfg.deobf("curse.maven:baubles-227083:2518667")
     implementation rfg.deobf("curse.maven:Botania-225643:3330934")
     implementation rfg.deobf("curse.maven:TConstruct-74072:2902483")
-    implementation rfg.deobf("curse.maven:Simple Smeltery Accelerator-326874:2746674")
+    implementation rfg.deobf("curse.maven:SimpleSmelteryAccelerator-326874:2746674")
     implementation rfg.deobf("curse.maven:redstone-flux-270789:2920436")
     implementation 'mezz:jei:4.31.2'
     implementation rfg.deobf("curse.maven:bloodmagic-224791:2822288")

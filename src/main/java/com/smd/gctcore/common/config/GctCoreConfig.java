@@ -1,5 +1,6 @@
 package com.smd.gctcore.common.config;
 
+import com.cleanroommc.configanytime.ConfigAnytime;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.misc.moretcon.BedrockBlockChecker;
 import net.minecraftforge.common.config.Config;
@@ -100,6 +101,10 @@ public class GctCoreConfig {
         @Config.Name("最大技能效率")
         @Config.RangeDouble(min = -1, max = 10)
         public double maxPerkEffect = -1;
+    }
+
+    static {
+        ConfigAnytime.register(GctCoreConfig.class);
     }
 
     @Mod.EventBusSubscriber(modid = Tags.MOD_ID)
