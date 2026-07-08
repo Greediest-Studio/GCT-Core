@@ -27,10 +27,6 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 () -> GCTMixinConfig.enableWitherLootMixin,
                 "entity.MixinEntityWither"
         );
-        addMixinGroup(
-                () -> GCTMixinConfig.enableLavaFogMixin,
-                "client.MixinEntityRenderer"
-        );
     }
 
     @Override

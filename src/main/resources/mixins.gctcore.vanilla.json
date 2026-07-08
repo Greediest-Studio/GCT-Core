@@ -13,7 +13,5 @@
     "entity.EntityAccessor"
   ],
   "server": [],
-  "client": [
-    "client.MixinEntityRenderer"
-  ]
+  "client": []
 }
