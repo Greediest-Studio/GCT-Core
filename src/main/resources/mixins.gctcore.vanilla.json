@@ -1,5 +1,6 @@
 {
   "package": "com.smd.gctcore.common.mixin.vanilla",
+  "plugin": "com.smd.gctcore.common.mixin.MixinPlugin",
   "required": true,
   "refmap": "mixins.gctcore.refmap.json",
   "target": "@env(DEFAULT)",

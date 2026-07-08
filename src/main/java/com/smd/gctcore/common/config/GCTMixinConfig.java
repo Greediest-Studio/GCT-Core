@@ -12,6 +12,21 @@ public class GCTMixinConfig {
     @Config.RequiresMcRestart
     public static boolean enableMixinItemToolSceptre = true;
 
+    @Config.Comment({"是否禁用伤害粒子"})
+    @Config.Name("Enable Damage Particle Mixin")
+    @Config.RequiresMcRestart
+    public static boolean enableDamageParticleMixin = true;
+
+    @Config.Comment({"是否启用凋零战利品表"})
+    @Config.Name("Enable Wither Loot Mixin")
+    @Config.RequiresMcRestart
+    public static boolean enableWitherLootMixin = true;
+
+    @Config.Comment({"是否启用熔岩视野修复"})
+    @Config.Name("Enable Lava Fog Mixin")
+    @Config.RequiresMcRestart
+    public static boolean enableLavaFogMixin = true;
+
     static {
         ConfigAnytime.register(GCTMixinConfig.class);
     }
