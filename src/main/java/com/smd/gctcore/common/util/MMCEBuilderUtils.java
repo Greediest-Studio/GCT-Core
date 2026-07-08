@@ -5,6 +5,7 @@ import com.smd.gctcore.common.integration.mmce.DisassemblyIngredient;
 import hellfirepvp.modularmachinery.common.machine.DynamicMachine;
 import hellfirepvp.modularmachinery.common.util.BlockArray;
 import ink.ikx.mmce.common.utils.FluidUtils;
+import ink.ikx.mmce.common.utils.StackUtils;
 import ink.ikx.mmce.common.utils.StructureIngredient;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
@@ -152,19 +153,56 @@ public final class MMCEBuilderUtils {
         return first != null && second != null && first.isFluidEqual(second);
     }
 
-    public static <T> Tuple<T, IBlockState> findMatchingCandidate(World world, BlockPos realPos, BlockArray.BlockInformation blockInformation, List<Tuple<T, IBlockState>> candidates) {
+    public static Tuple<ItemStack, IBlockState> findMatchingItemCandidate(World world, BlockPos realPos, BlockArray.BlockInformation blockInformation, List<Tuple<ItemStack, IBlockState>> candidates) {
         IBlockState current = world.getBlockState(realPos);
         if (current.getBlock() == Blocks.AIR) {
             return null;
         }
-        Block currentBlock = current.getBlock();
+
+        Tuple<ItemStack, IBlockState> matched = findMatchingCandidateByState(current, candidates);
+        if (matched != null) {
+            return matched;
+        }
+
+        if (blockInformation.matches(world, realPos, false)) {
+            ItemStack recovered = StackUtils.getStackFromBlockState(current, realPos, world);
+            return recovered.isEmpty() ? null : new Tuple<>(recovered, current);
+        }
+        return null;
+    }
+
+    public static Tuple<FluidStack, IBlockState> findMatchingFluidCandidate(World world, BlockPos realPos, BlockArray.BlockInformation blockInformation, List<Tuple<FluidStack, IBlockState>> candidates) {
+        IBlockState current = world.getBlockState(realPos);
+        if (current.getBlock() == Blocks.AIR) {
+            return null;
+        }
+
+        Tuple<FluidStack, IBlockState> matched = findMatchingCandidateByState(current, candidates);
+        if (matched != null) {
+            return matched;
+        }
+
+        if (blockInformation.matches(world, realPos, false)) {
+            FluidStack recovered = FluidUtils.getFluidStackFromBlockState(current);
+            return recovered == null ? null : new Tuple<>(recovered, current);
+        }
+        return null;
+    }
+
+    private static <T> Tuple<T, IBlockState> findMatchingCandidateByState(IBlockState current, List<Tuple<T, IBlockState>> candidates) {
         for (Tuple<T, IBlockState> candidate : candidates) {
-            if (currentBlock == candidate.getSecond().getBlock()) {
+            if (candidate.getSecond() == current || candidate.getSecond().equals(current)) {
                 return candidate;
             }
         }
-        if (blockInformation.matches(world, realPos, false)) {
-            return candidates.isEmpty() ? null : candidates.get(0);
+        Block currentBlock = current.getBlock();
+        int currentMeta = currentBlock.getMetaFromState(current);
+        for (Tuple<T, IBlockState> candidate : candidates) {
+            IBlockState candidateState = candidate.getSecond();
+            Block candidateBlock = candidateState.getBlock();
+            if (currentBlock == candidateBlock && currentMeta == candidateBlock.getMetaFromState(candidateState)) {
+                return candidate;
+            }
         }
         return null;
     }

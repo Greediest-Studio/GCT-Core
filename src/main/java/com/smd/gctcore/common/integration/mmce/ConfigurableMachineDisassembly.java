@@ -117,7 +117,7 @@ public class ConfigurableMachineDisassembly implements MMCE_BuilderTask {
             return;
         }
 
-        Tuple<ItemStack, IBlockState> matched = MMCEBuilderUtils.findMatchingCandidate(world, realPos, ingredient.blockInformation(), ingredient.candidates());
+        Tuple<ItemStack, IBlockState> matched = MMCEBuilderUtils.findMatchingItemCandidate(world, realPos, ingredient.blockInformation(), ingredient.candidates());
         if (matched == null) {
             iterator.remove();
             return;
@@ -159,7 +159,7 @@ public class ConfigurableMachineDisassembly implements MMCE_BuilderTask {
             return;
         }
 
-        Tuple<FluidStack, IBlockState> matched = MMCEBuilderUtils.findMatchingCandidate(world, realPos, ingredient.blockInformation(), ingredient.candidates());
+        Tuple<FluidStack, IBlockState> matched = MMCEBuilderUtils.findMatchingFluidCandidate(world, realPos, ingredient.blockInformation(), ingredient.candidates());
         if (matched == null) {
             iterator.remove();
             return;
