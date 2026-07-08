@@ -1,6 +1,6 @@
 package com.smd.gctcore.misc.moretcon;
 
-import com.smd.gctcore.common.config.GCTCoreConfig;
+import com.smd.gctcore.common.config.GCTCompatConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.ResourceLocation;
@@ -79,7 +79,7 @@ public class BedrockBlockChecker {
 
         ResourceLocation registryName = block.getRegistryName();
         if (registryName == null) {
-            return GCTCoreConfig.moreTconIntegration.treatAsSoftBedrock;
+            return GCTCompatConfig.moreTconIntegration.treatAsSoftBedrock;
         }
 
         String blockId = registryName.toString();
@@ -104,7 +104,7 @@ public class BedrockBlockChecker {
         }
 
         // fallback to global config
-        return GCTCoreConfig.moreTconIntegration.treatAsSoftBedrock;
+        return GCTCompatConfig.moreTconIntegration.treatAsSoftBedrock;
     }
 
     /**
@@ -120,7 +120,7 @@ public class BedrockBlockChecker {
     private static void refreshCache() {
         cachedEntries.clear();
         
-        String[] blocks = GCTCoreConfig.moreTconIntegration.bedrockLikeBlocks;
+        String[] blocks = GCTCompatConfig.moreTconIntegration.bedrockLikeBlocks;
         if (blocks == null || blocks.length == 0) {
             needsRefresh = false;
             return;

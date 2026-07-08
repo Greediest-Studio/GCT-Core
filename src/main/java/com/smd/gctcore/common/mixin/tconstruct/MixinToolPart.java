@@ -1,6 +1,6 @@
 package com.smd.gctcore.common.mixin.tconstruct;
 
-import com.smd.gctcore.common.config.GCTCoreConfig;
+import com.smd.gctcore.common.config.GCTCompatConfig;
 import com.smd.gctcore.gctcore;
 import org.spongepowered.asm.mixin.Mixin;
 import slimeknights.tconstruct.library.materials.Material;
@@ -37,7 +37,7 @@ public abstract class MixinToolPart implements IToolPart {
      * Cached as a Set for efficient lookup.
      */
     private static Set<String> getCustomStatTypes() {
-        return new HashSet<>(Arrays.asList(GCTCoreConfig.materialShaderFix.customStatTypes));
+        return new HashSet<>(Arrays.asList(GCTCompatConfig.materialShaderFix.customStatTypes));
     }
     
     /**
@@ -53,7 +53,7 @@ public abstract class MixinToolPart implements IToolPart {
     @Override
     public boolean canUseMaterialForRendering(Material mat) {
         // If the fix is disabled in config, use original behavior (call canUseMaterial)
-        if (!GCTCoreConfig.materialShaderFix.enableShaderFix) {
+        if (!GCTCompatConfig.materialShaderFix.enableShaderFix) {
             return this.canUseMaterial(mat);
         }
         
@@ -69,7 +69,7 @@ public abstract class MixinToolPart implements IToolPart {
         boolean hasStandard = this.hasAnyStandardStat(mat);
         
         // DEBUG logging if enabled
-        if (GCTCoreConfig.materialShaderFix.enableDebugLogging && usesCustom && hasStandard) {
+        if (GCTCompatConfig.materialShaderFix.enableDebugLogging && usesCustom && hasStandard) {
             gctcore.LOGGER.debug("Enabling {} rendering for custom part: {}", mat.identifier, this);
         }
         
@@ -105,7 +105,7 @@ public abstract class MixinToolPart implements IToolPart {
                 customType.substring(customType.lastIndexOf('.') + 1) : customType;
             
             if (unlocalizedName.contains(simpleType)) {
-                if (GCTCoreConfig.materialShaderFix.enableDebugLogging) {
+                if (GCTCompatConfig.materialShaderFix.enableDebugLogging) {
                     gctcore.LOGGER.debug("Part {} identified as custom stat type: {}", unlocalizedName, customType);
                 }
                 return true;
@@ -118,7 +118,7 @@ public abstract class MixinToolPart implements IToolPart {
                 if (pmt.isValidItem(thisPart)) {
                     for (String customType : customTypes) {
                         if (pmt.usesStat(customType)) {
-                            if (GCTCoreConfig.materialShaderFix.enableDebugLogging) {
+                            if (GCTCompatConfig.materialShaderFix.enableDebugLogging) {
                                 gctcore.LOGGER.debug("Part {} found in tool {} using custom stat: {}", unlocalizedName, tool.getIdentifier(), customType);
                             }
                             return true;

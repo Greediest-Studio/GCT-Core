@@ -1,7 +1,10 @@
 package com.smd.gctcore.common.events;
 
 import com.google.common.collect.BiMap;
+import com.smd.gctcore.common.config.GCTCoreConfig;
 import com.smd.gctcore.misc.ItemRegistry;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.command.CommandDifficulty;
 import net.minecraft.command.CommandGameRule;
@@ -12,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.dedicated.DedicatedServer;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -87,5 +91,19 @@ public class EventHooks {
 
         boolean allow = (isDedicated && isPlayer) || (!isDedicated && (isPlayerMP || isConsole));
         event.setCanceled(!allow);
+    }
+
+    @SideOnly(Side.CLIENT)
+    @SubscribeEvent
+    public void onRenderFog(EntityViewRenderEvent.FogDensity event) {
+        if(GCTCoreConfig.cleanwater.enableWater && event.getState().getMaterial() == Material.WATER) {
+            GlStateManager.setFog(GlStateManager.FogMode.EXP);
+            event.setDensity((float) GCTCoreConfig.cleanwater.fogDensityWater);
+            event.setCanceled(true);
+        } else if(GCTCoreConfig.cleanwater.enableLava && event.getState().getMaterial() == Material.LAVA) {
+            GlStateManager.setFog(GlStateManager.FogMode.EXP);
+            event.setDensity((float) GCTCoreConfig.cleanwater.fogDensityLava);
+            event.setCanceled(true);
+        }
     }
 }
