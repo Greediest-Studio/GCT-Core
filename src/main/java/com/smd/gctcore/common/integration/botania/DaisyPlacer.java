@@ -13,14 +13,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.botania.common.block.BlockFloatingSpecialFlower;
 import vazkii.botania.common.block.BlockSpecialFlower;
 import vazkii.botania.common.block.tile.TileSpecialFlower;
 
-@Mod.EventBusSubscriber
 public class DaisyPlacer {
+
     @SubscribeEvent
     public void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
 

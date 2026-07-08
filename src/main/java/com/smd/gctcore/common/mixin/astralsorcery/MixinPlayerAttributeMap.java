@@ -1,6 +1,6 @@
 package com.smd.gctcore.common.mixin.astralsorcery;
 
-import com.smd.gctcore.common.config.GctCoreConfig;
+import com.smd.gctcore.common.config.GCTCoreConfig;
 import hellfirepvp.astralsorcery.common.constellation.perk.PlayerAttributeMap;
 import hellfirepvp.astralsorcery.common.constellation.perk.attribute.AttributeTypeRegistry;
 import hellfirepvp.astralsorcery.common.constellation.perk.attribute.PerkAttributeModifier;
@@ -25,7 +25,7 @@ public abstract class MixinPlayerAttributeMap {
     private void onModifyValue(EntityPlayer player, PlayerProgress progress, String type, float value, CallbackInfoReturnable<Float> cir) {
 
         if (AttributeTypeRegistry.ATTR_TYPE_INC_PERK_EFFECT.equals(type)) {
-            float max = (float) GctCoreConfig.astralSorceryIntegration.maxPerkEffect;
+            float max = (float) GCTCoreConfig.astralSorceryIntegration.maxPerkEffect;
             if (max < 0) {
                 return;
             }
@@ -44,7 +44,7 @@ public abstract class MixinPlayerAttributeMap {
     )
     private void onGetModifier(EntityPlayer player, PlayerProgress progress, String type, Collection<PerkAttributeModifier.Mode> modes, CallbackInfoReturnable<Float> cir) {
         if (AttributeTypeRegistry.ATTR_TYPE_INC_PERK_EFFECT.equals(type)) {
-            float max = (float) GctCoreConfig.astralSorceryIntegration.maxPerkEffect;
+            float max = (float) GCTCoreConfig.astralSorceryIntegration.maxPerkEffect;
             if (max < 0) {
                 return;
             }

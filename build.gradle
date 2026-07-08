@@ -146,7 +146,7 @@ dependencies {
         }
     }
 
-    //implementation  mixin需要用什么自己开
+    compileOnly rfg.deobf("curse.maven:cyclic-239286:4075832")
     compileOnly rfg.deobf("curse.maven:aether-255308:6316434")
     compileOnly rfg.deobf("curse.maven:AstralSorcery-241721:3044416")
     compileOnly rfg.deobf("curse.maven:thermal-expansion-69163:2926431")
@@ -158,11 +158,11 @@ dependencies {
     compileOnly rfg.deobf("curse.maven:ToroHUD-303367:2624759")
     compileOnly rfg.deobf("curse.maven:ThaumicRestoration-300198:2999857")
     compileOnly rfg.deobf("curse.maven:thaumcraft-223628:2629023")
-    compileOnly rfg.deobf("curse.maven:ageofminecraft-247133:2849572")
-    compileOnly rfg.deobf("curse.maven:iceandfire-264231:2939529")
     compileOnly rfg.deobf("curse.maven:the-one-probe-community-edition-885670:7718301")
-    compileOnly rfg.deobf("curse.maven:NaturesAura-306626:2882138")
     compileOnly rfg.deobf("curse.maven:the-twilight-forest-227639:3051450")
+    compileOnly rfg.deobf("curse.maven:NaturesAura-306626:2882138")
+    compileOnly rfg.deobf("curse.maven:tinkersevolution-384589:8349133")
+
     //eio相关依赖
     compileOnly fileTree(dir: 'libs', include: [
             'EnderIO-1.12.2-5.3.72.jar',
@@ -170,9 +170,13 @@ dependencies {
             'EnderTweaker-1.12.2-1.2.3.jar',
             'gct_mobs-1.0.0.jar'
     ])
-    runtimeOnly fileTree(dir: 'libs', include: ['gct_mobs-1.0.0.jar'])
 
+    runtimeOnly fileTree(dir: 'libs', include: ['gct_mobs-1.0.0.jar'])
+    runtimeOnly "curse.maven:guide-api-228832:2645992"
+
+    implementation 'mezz:jei:4.31.2'
     implementation 'com.cleanroommc:configanytime:1.0'
+    implementation rfg.deobf("curse.maven:bountifulbaubles-313536:3568240")
     implementation rfg.deobf("curse.maven:Konkrete-410295:4514895")
     implementation rfg.deobf("CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.698")
     implementation rfg.deobf("curse.maven:Mantle-74924:2713386")
@@ -181,22 +185,18 @@ dependencies {
     implementation rfg.deobf("curse.maven:TConstruct-74072:2902483")
     implementation rfg.deobf("curse.maven:SimpleSmelteryAccelerator-326874:2746674")
     implementation rfg.deobf("curse.maven:redstone-flux-270789:2920436")
-    implementation 'mezz:jei:4.31.2'
     implementation rfg.deobf("curse.maven:bloodmagic-224791:2822288")
     implementation rfg.deobf("curse.maven:CodeChickenLib-242818:2779848")
     implementation rfg.deobf("curse.maven:draconic-evolution-223565:3431261")
     implementation rfg.deobf("curse.maven:brandons-core-231382:3408276")
-    implementation rfg.deobf("curse.maven:TinkersToolLeveling-250957:2630860")
-    implementation(rfg.deobf("com.cleanroommc:modularui:3.1.6")) {
-        exclude group: "mezz.jei", module: "jei_1.12.2"
-    }
     implementation rfg.deobf("curse.maven:ae2-extended-life-570458:6302098")
     implementation rfg.deobf("curse.maven:mmce-817377:6945422")
     implementation rfg.deobf("curse.maven:geckolib-388172:4020277")
     implementation rfg.deobf("curse.maven:AE2FluidCraftReworkUnofficial-1404390:7742544")
-
-    runtimeOnly rfg.deobf("curse.maven:the-twilight-forest-227639:3051450")
-    runtimeOnly "curse.maven:guide-api-228832:2645992"
+    implementation rfg.deobf("curse.maven:the-twilight-forest-227639:3051450")
+    implementation(rfg.deobf("com.cleanroommc:modularui:3.1.6")) {
+        exclude group: "mezz.jei", module: "jei_1.12.2"
+    }
 
     if (propertyBool('use_asset_mover')) {
         implementation "com.cleanroommc:assetmover:${propertyString('asset_mover_version')}"

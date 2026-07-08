@@ -34,11 +34,6 @@ dependencies {
     // Include OSXNarratorBlocker by default for the dev env, for M1+ Macs
     runtimeOnly 'com.cleanroommc:osxnarratorblocker:1.0'
 
-    implementation rfg.deobf("curse.maven:bountifulbaubles-313536:3568240")
-    implementation rfg.deobf("curse.maven:tinkersevolution-384589:8349133")
-    compileOnly rfg.deobf("curse.maven:cyclic-239286:4075832")
-
-
     // Example - Dependency descriptor:
     // 'com.google.code.gson:gson:2.8.6' << group: com.google.code.gson, name:gson, version:2.8.6
     // 'group:name:version:classifier' where classifier is optional

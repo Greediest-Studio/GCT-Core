@@ -9,9 +9,9 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Config(modid = Tags.MOD_ID)
+@Config(modid = Tags.MOD_ID, name = "GCTCore/GCTCore")
 @Config.LangKey("gctcore.config.title")
-public class GctCoreConfig {
+public class GCTCoreConfig {
 
     @Config.Comment("Integration with MoreTcon mod")
     @Config.Name("Moartcon Integration")
@@ -20,6 +20,22 @@ public class GctCoreConfig {
     @Config.Comment("Radiant resonator settings")
     @Config.Name("Radiant Resonator")
     public static RadiantResonator radiantResonator = new RadiantResonator();
+
+    @Config.Comment("MaterialShaderFix settings")
+    @Config.Name("MaterialShaderFix")
+    public static MaterialShaderFix materialShaderFix = new MaterialShaderFix();
+
+    @Config.Comment("Smeltery accelerator integration (replaces SimpleSmelteryAccelerator)")
+    @Config.Name("Smeltery Integration")
+    public static SmelteryIntegration smelteryIntegration = new SmelteryIntegration();
+
+    @Config.Comment("AbyssalCraft")
+    @Config.Name("AbyssalCraft")
+    public static AbyssalCraft abyssalCraftIntegration = new AbyssalCraft();
+
+    @Config.Comment("Astral Sorcery integration settings")
+    @Config.Name("Astral Sorcery")
+    public static AstralSorceryIntegration astralSorceryIntegration = new AstralSorceryIntegration();
 
     public static class RadiantResonator {
 
@@ -60,9 +76,42 @@ public class GctCoreConfig {
         public boolean treatAsSoftBedrock = true;
     }
 
-    @Config.Comment("Smeltery accelerator integration (replaces SimpleSmelteryAccelerator)")
-    @Config.Name("Smeltery Integration")
-    public static SmelteryIntegration smelteryIntegration = new SmelteryIntegration();
+    public static class MaterialShaderFix {
+
+        @Config.Comment({
+                "Enable the material shader fix for custom part types (laser_medium, battery_cell, tconevo.magic).",
+                "When enabled, materials with standard stats will render correctly on custom parts,",
+                "even if they don't have the custom stat types.",
+                "Disable this if you experience compatibility issues.",
+                "Note: Changing this requires a game restart to take effect."
+        })
+        @Config.Name("Enable Shader Fix")
+        @Config.RequiresMcRestart
+        public boolean enableShaderFix = true;
+
+        @Config.Comment({
+                "Enable detailed logging of which materials benefit from the shader fix.",
+                "Useful for debugging but can spam the log during startup."
+        })
+        @Config.Name("Enable Debug Logging")
+        @Config.RequiresMcRestart
+        public boolean enableDebugLogging = true;
+
+        @Config.Comment({
+                "Custom stat types to apply the shader fix for.",
+                "Default includes PlusTiC and Tinkers-Evolution stat types.",
+                "Add your own custom stat types here if needed."
+        })
+        @Config.Name("Custom Stat Types")
+        @Config.RequiresMcRestart
+        public String[] customStatTypes = {
+                "laser_medium",
+                "battery_cell",
+                "tconevo.magic",
+                "moretcon.explosive_charge"
+        };
+
+    }
 
     public static class SmelteryIntegration {
 
@@ -74,12 +123,6 @@ public class GctCoreConfig {
         public int smelteryMultiplier = 4;
     }
 
-
-
-    @Config.Comment("AbyssalCraft")
-    @Config.Name("AbyssalCraft")
-    public static AbyssalCraft abyssalCraftIntegration = new AbyssalCraft();
-
     public static class AbyssalCraft {
 
         @Config.Comment({
@@ -88,10 +131,6 @@ public class GctCoreConfig {
         @Config.Name("Enable Oblivion Catalyst Effects")
         public boolean enableOblivionCatalystEffects = true;
     }
-
-    @Config.Comment("Astral Sorcery integration settings")
-    @Config.Name("Astral Sorcery")
-    public static AstralSorceryIntegration astralSorceryIntegration = new AstralSorceryIntegration();
 
     public static class AstralSorceryIntegration {
 
@@ -104,7 +143,7 @@ public class GctCoreConfig {
     }
 
     static {
-        ConfigAnytime.register(GctCoreConfig.class);
+        ConfigAnytime.register(GCTCoreConfig.class);
     }
 
     @Mod.EventBusSubscriber(modid = Tags.MOD_ID)
@@ -113,7 +152,6 @@ public class GctCoreConfig {
         public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
             if (event.getModID().equals(Tags.MOD_ID)) {
                 ConfigManager.sync(Tags.MOD_ID, Config.Type.INSTANCE);
-                // Refresh bedrock block checker cache when config changes
                 BedrockBlockChecker.markDirty();
             }
         }

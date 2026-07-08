@@ -38,7 +38,7 @@ public class CommonProxy {
         EntityRegistrar.init();
         BlockRegistry.registerTileEntities();
         // 注册事件监听器
-        MinecraftForge.EVENT_BUS.register(new EventHooks());
+        MinecraftForge.EVENT_BUS.register(EventHooks.INSTANCE);
         MinecraftForge.EVENT_BUS.register(new NilfheimErosionHandler());
         MinecraftForge.EVENT_BUS.register(new BlockRegistry());
         MinecraftForge.EVENT_BUS.register(new ItemRegistry());

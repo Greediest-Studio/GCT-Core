@@ -1,6 +1,6 @@
 package com.smd.gctcore.common.mixin.tconstruct;
 
-import com.smd.gctcore.common.config.GctCoreConfig;
+import com.smd.gctcore.common.config.GCTCoreConfig;
 import net.minecraft.tileentity.TileEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
@@ -17,7 +17,7 @@ public class MixinTileSmeltery {
         if (te.getWorld() == null || te.getWorld().isRemote) return constant;
         if (!(te.getWorld().getBlockState(te.getPos().up()).getBlock() instanceof BlockSmelteryAccelerator)) return constant;
 
-        int multiplier = GctCoreConfig.smelteryIntegration.smelteryMultiplier;
+        int multiplier = GCTCoreConfig.smelteryIntegration.smelteryMultiplier;
         return multiplier > 1 ? constant * multiplier : constant;
 
     }

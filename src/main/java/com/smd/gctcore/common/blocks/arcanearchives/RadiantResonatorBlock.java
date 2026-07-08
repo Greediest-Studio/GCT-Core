@@ -1,6 +1,6 @@
 package com.smd.gctcore.common.blocks.arcanearchives;
 
-import com.smd.gctcore.common.config.GctCoreConfig;
+import com.smd.gctcore.common.config.GCTCoreConfig;
 import com.smd.gctcore.common.tile.RadiantResonatorTileEntity;
 import com.smd.gctcore.common.world.RadiantResonatorData;
 import net.minecraft.block.Block;
@@ -57,7 +57,7 @@ public class RadiantResonatorBlock extends Block {
         UUID owner = placer.getUniqueID();
         RadiantResonatorData data = RadiantResonatorData.get(world);
         data.prune(owner);
-        if (data.count(owner) >= GctCoreConfig.radiantResonator.resonatorLimit) {
+        if (data.count(owner) >= GCTCoreConfig.radiantResonator.resonatorLimit) {
             removeAndDrop(world, pos);
             return;
         }

@@ -1,6 +1,6 @@
 package com.smd.gctcore.common.util;
 
-import com.smd.gctcore.common.config.MaterialShaderFixConfig;
+import com.smd.gctcore.common.config.GCTCoreConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import slimeknights.tconstruct.library.TinkerRegistry;
@@ -33,7 +33,7 @@ public class MaterialRenderingDebugHelper {
      * Call this during post-initialization to see the effects.
      */
     public static void logMaterialShaderFixSummary() {
-        if (!MaterialShaderFixConfig.enableDebugLogging) {
+        if (!GCTCoreConfig.materialShaderFix.enableDebugLogging) {
             return;
         }
 
