@@ -117,9 +117,6 @@ repositories {
         url 'https://maven.cleanroommc.com'
     }
     maven {
-        url 'https://maven.cleanroommc.com'
-    }
-    maven {
         name 'CoFH Maven'
         url 'https://maven.covers1624.net'
     }
