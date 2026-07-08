@@ -153,9 +153,6 @@ public final class MMCEBuilderUtils {
     }
 
     public static <T> Tuple<T, IBlockState> findMatchingCandidate(World world, BlockPos realPos, BlockArray.BlockInformation blockInformation, List<Tuple<T, IBlockState>> candidates) {
-        if (blockInformation.matches(world, realPos, false)) {
-            return candidates.isEmpty() ? null : candidates.get(0);
-        }
         IBlockState current = world.getBlockState(realPos);
         if (current.getBlock() == Blocks.AIR) {
             return null;
@@ -165,6 +162,9 @@ public final class MMCEBuilderUtils {
             if (currentBlock == candidate.getSecond().getBlock()) {
                 return candidate;
             }
+        }
+        if (blockInformation.matches(world, realPos, false)) {
+            return candidates.isEmpty() ? null : candidates.get(0);
         }
         return null;
     }
