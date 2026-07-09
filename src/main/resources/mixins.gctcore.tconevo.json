@@ -1,12 +1,12 @@
 {
-  "package": "com.smd.gctcore.common.mixin.betterhurttimer",
+  "package": "com.smd.gctcore.common.mixin.tconevo",
   "required": true,
   "refmap": "mixins.gctcore.refmap.json",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8.5",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinEvents"
+    "MixinItemToolSceptre"
   ],
   "server": [],
   "client": []

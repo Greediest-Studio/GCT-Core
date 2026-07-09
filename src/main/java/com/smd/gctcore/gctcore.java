@@ -5,6 +5,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -19,23 +20,23 @@ public class gctcore {
 
     @SidedProxy(
             clientSide = "com.smd.gctcore.proxy.ClientProxy",
-            serverSide = "com.smd.gctcore.proxy.ServerProxy"
+            serverSide = "com.smd.gctcore.proxy.CommonProxy"
     )
     public static CommonProxy proxy;
 
     public static final Logger LOGGER = LogManager.getLogger(Tags.MOD_ID);
 
-    @Mod.EventHandler
+    @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         proxy.preInit(event);
     }
 
-    @Mod.EventHandler
+    @EventHandler
     public void init(FMLInitializationEvent event) {
         proxy.init(event);
     }
 
-    @Mod.EventHandler
+    @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
     }

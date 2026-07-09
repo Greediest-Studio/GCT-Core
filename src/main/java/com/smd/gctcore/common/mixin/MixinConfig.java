@@ -1,5 +1,6 @@
 package com.smd.gctcore.common.mixin;
 
+import com.smd.gctcore.common.config.GCTMixinConfig;
 import net.minecraftforge.fml.common.Loader;
 import zone.rong.mixinbooter.ILateMixinLoader;
 
@@ -13,6 +14,7 @@ public class MixinConfig implements ILateMixinLoader {
 
     static {
         addModdedMixinCFG("mixins.gctcore.aether.json", "aether_legacy");
+        addModdedMixinCFG("mixins.gctcore.bountifulbaubles.json", "bountifulbaubles");
         addModdedMixinCFG("mixins.gctcore.astralsorcery.json", "astralsorcery");
         addModdedMixinCFG("mixins.gctcore.tconstruct.json", "tconstruct");
         addModdedMixinCFG("mixins.gctcore.enderstorage.json", "enderstorage");
@@ -36,7 +38,10 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.jei.json", "jei");
         addModdedMixinCFG("mixins.gctcore.ae2.json", "appliedenergistics2");
         addModdedMixinCFG("mixins.gctcore.dynamicdynamos.json", "dyndyn");
-        addModdedMixinCFG("mixins.gctcore.betterhurttimer.json", "betterhurttimer");
+        addModdedMixinCFG("mixins.gctcore.cyclic.json", "cyclic");
+        if(GCTMixinConfig.enableMixinItemToolSceptre) {
+            addModdedMixinCFG("mixins.gctcore.tconevo.json", "tconevo");
+        }
         addMixinCFG("mixins.gctcore.twilightforest.json", () -> modLoaded("twilightforest") && modLoaded("gct_mobs"));
     }
 

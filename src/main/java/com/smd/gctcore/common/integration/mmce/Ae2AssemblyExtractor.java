@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 public final class Ae2AssemblyExtractor {
 
@@ -48,6 +47,18 @@ public final class Ae2AssemblyExtractor {
     }
 
     public static boolean extractItem(EntityPlayer player, ItemStack required) {
+        return extractItem(player, required, true);
+    }
+
+    public static boolean extractCraftedItem(EntityPlayer player, ItemStack required) {
+        return extractItem(player, required, false);
+    }
+
+    public static boolean extractItemSilently(EntityPlayer player, ItemStack required) {
+        return extractItem(player, required, false);
+    }
+
+    private static boolean extractItem(EntityPlayer player, ItemStack required, boolean diagnose) {
         if (required.isEmpty()) {
             return true;
         }
@@ -58,7 +69,9 @@ public final class Ae2AssemblyExtractor {
         request.setStackSize(required.getCount());
         List<WirelessTerminalAccess> terminals = findWirelessTerminals(player);
         if (terminals.isEmpty()) {
-            sendDiagnostic(player, "message.gctcore.mmce_builder.ae_no_terminal");
+            if (diagnose) {
+                sendDiagnostic(player, "message.gctcore.mmce_builder.ae_no_terminal");
+            }
             return false;
         }
         boolean inaccessibleNetwork = false;
@@ -88,11 +101,25 @@ public final class Ae2AssemblyExtractor {
                 return true;
             }
         }
-        reportExtractionFailure(player, inaccessibleNetwork, storageMissing, insufficientAmount);
+        if (diagnose) {
+            reportExtractionFailure(player, inaccessibleNetwork, storageMissing, insufficientAmount);
+        }
         return false;
     }
 
     public static boolean extractFluid(EntityPlayer player, FluidStack required) {
+        return extractFluid(player, required, true);
+    }
+
+    public static boolean extractCraftedFluid(EntityPlayer player, FluidStack required) {
+        return extractFluid(player, required, false);
+    }
+
+    public static boolean extractFluidSilently(EntityPlayer player, FluidStack required) {
+        return extractFluid(player, required, false);
+    }
+
+    private static boolean extractFluid(EntityPlayer player, FluidStack required, boolean diagnose) {
         if (required == null || required.amount <= 0) {
             return true;
         }
@@ -103,7 +130,9 @@ public final class Ae2AssemblyExtractor {
         request.setStackSize(required.amount);
         List<WirelessTerminalAccess> terminals = findWirelessTerminals(player);
         if (terminals.isEmpty()) {
-            sendDiagnostic(player, "message.gctcore.mmce_builder.ae_no_terminal");
+            if (diagnose) {
+                sendDiagnostic(player, "message.gctcore.mmce_builder.ae_no_terminal");
+            }
             return false;
         }
         boolean inaccessibleNetwork = false;
@@ -133,6 +162,9 @@ public final class Ae2AssemblyExtractor {
                 return true;
             }
         }
+        if (diagnose) {
+            reportExtractionFailure(player, inaccessibleNetwork, storageMissing, insufficientAmount);
+        }
         return false;
     }
 
@@ -144,12 +176,20 @@ public final class Ae2AssemblyExtractor {
         return insertItem(player, stack, Actionable.MODULATE, true);
     }
 
+    public static ItemStack insertCraftedItem(EntityPlayer player, ItemStack stack) {
+        return insertItem(player, stack, Actionable.MODULATE, false);
+    }
+
     public static boolean canInsertFluid(EntityPlayer player, FluidStack stack) {
         return insertFluid(player, stack, Actionable.SIMULATE, false) == null;
     }
 
     public static FluidStack insertFluid(EntityPlayer player, FluidStack stack) {
         return insertFluid(player, stack, Actionable.MODULATE, true);
+    }
+
+    public static FluidStack insertCraftedFluid(EntityPlayer player, FluidStack stack) {
+        return insertFluid(player, stack, Actionable.MODULATE, false);
     }
 
     private static ItemStack insertItem(EntityPlayer player, ItemStack stack, Actionable mode, boolean diagnose) {
@@ -387,7 +427,7 @@ public final class Ae2AssemblyExtractor {
             }
             IGrid grid = node.getGrid();
             ICraftingGrid craftingGrid = grid.getCache(ICraftingGrid.class);
-            if (craftingGrid != null && craftingGrid.canEmitFor(request)) {
+            if (craftingGrid != null && !craftingGrid.getCraftingFor(request, null, 0, player.world).isEmpty()) {
                 return true;
             }
         }
@@ -408,7 +448,7 @@ public final class Ae2AssemblyExtractor {
             }
             IGrid grid = node.getGrid();
             ICraftingGrid craftingGrid = grid.getCache(ICraftingGrid.class);
-            if (craftingGrid != null && craftingGrid.canEmitFor(single)) {
+            if (craftingGrid != null && !craftingGrid.getCraftingFor(single, null, 0, player.world).isEmpty()) {
                 return true;
             }
             if (craftingGrid == null) {
@@ -434,6 +474,10 @@ public final class Ae2AssemblyExtractor {
             }
         }
         return false;
+    }
+
+    public static CraftingAmountProbe startCraftingAmountProbe(EntityPlayer player, IAEItemStack request, long maxAmount) {
+        return new CraftingAmountProbe(player, request, maxAmount);
     }
 
     public static CraftingGuiRequest openCraftConfirmGui(EntityPlayer player, IAEItemStack request, MMCE_CraftingRequester requester) {
@@ -533,11 +577,6 @@ public final class Ae2AssemblyExtractor {
                     return link;
                 }
                 craftingUnavailable = true;
-            } catch (TimeoutException e) {
-                if (futureJob != null) {
-                    futureJob.cancel(true);
-                }
-                craftingUnavailable = true;
             } catch (Exception e) {
                 if (futureJob != null) {
                     futureJob.cancel(true);
@@ -600,7 +639,7 @@ public final class Ae2AssemblyExtractor {
         } else if (storageMissing) {
             sendDiagnostic(player, "message.gctcore.mmce_builder.ae_no_storage");
         } else if (insufficientAmount) {
-            return;
+            sendDiagnostic(player, "message.gctcore.mmce_builder.ae_missing");
         } else {
             sendDiagnostic(player, "message.gctcore.mmce_builder.ae_extract_failed");
         }
@@ -676,6 +715,157 @@ public final class Ae2AssemblyExtractor {
                 }
             }
             return null;
+        }
+    }
+
+    public static final class CraftingAmountProbe {
+        private final EntityPlayer player;
+        private final IAEItemStack request;
+        private final long maxAmount;
+        private long low;
+        private long high;
+        private long amount;
+        private long resultAmount;
+        private List<WirelessTerminalAccess> terminals;
+        private int terminalIndex;
+        private Future<ICraftingJob> futureJob;
+        private boolean fullProbeComplete;
+        private boolean done;
+
+        private CraftingAmountProbe(EntityPlayer player, IAEItemStack request, long maxAmount) {
+            this.player = player;
+            this.request = request == null ? null : request.copy();
+            this.maxAmount = maxAmount;
+            this.high = maxAmount;
+            if (request == null || maxAmount <= 0) {
+                done = true;
+            }
+        }
+
+        public boolean tick() {
+            if (done) {
+                return true;
+            }
+            Boolean probeResult = pollCurrentProbe();
+            if (probeResult == null) {
+                return false;
+            }
+            if (!fullProbeComplete) {
+                fullProbeComplete = true;
+                if (probeResult) {
+                    resultAmount = maxAmount;
+                    done = true;
+                    return true;
+                }
+                high = maxAmount - 1;
+            } else if (probeResult) {
+                low = amount;
+            } else {
+                high = amount - 1;
+            }
+            if (low >= high) {
+                resultAmount = low;
+                done = true;
+                return true;
+            }
+            return startAmountProbe(low + ((high - low + 1) / 2));
+        }
+
+        public long getAmount() {
+            return done ? resultAmount : 0;
+        }
+
+        public void cancel() {
+            if (futureJob != null && !futureJob.isDone()) {
+                futureJob.cancel(true);
+            }
+            futureJob = null;
+            terminals = null;
+            done = true;
+        }
+
+        private Boolean pollCurrentProbe() {
+            if (terminals == null) {
+                startAmountProbe(maxAmount);
+                return null;
+            }
+            while (true) {
+                if (futureJob == null && !startNextTerminalProbe()) {
+                    clearCurrentProbe();
+                    return false;
+                }
+                if (!futureJob.isDone()) {
+                    return null;
+                }
+                if (isSuccessfulProbe(futureJob)) {
+                    clearCurrentProbe();
+                    return true;
+                }
+                futureJob = null;
+                terminalIndex++;
+            }
+        }
+
+        private boolean startAmountProbe(long amount) {
+            if (amount <= 0) {
+                resultAmount = 0;
+                done = true;
+                return true;
+            }
+            this.amount = amount;
+            this.terminals = findWirelessTerminals(player);
+            this.terminalIndex = 0;
+            this.futureJob = null;
+            return false;
+        }
+
+        private boolean startNextTerminalProbe() {
+            IAEItemStack probe = request.copy();
+            probe.setStackSize(amount);
+            while (terminalIndex < terminals.size()) {
+                WirelessTerminalAccess terminal = terminals.get(terminalIndex);
+                IGridNode node = terminal.guiObject.getActionableNode();
+                if (!isAccessible(player, node, SecurityPermissions.CRAFT)) {
+                    terminalIndex++;
+                    continue;
+                }
+                IGrid grid = node.getGrid();
+                ICraftingGrid craftingGrid = grid.getCache(ICraftingGrid.class);
+                if (craftingGrid == null) {
+                    terminalIndex++;
+                    continue;
+                }
+                try {
+                    PlayerSource source = new PlayerSource(player, terminal.guiObject);
+                    futureJob = craftingGrid.beginCraftingJob(player.world, grid, source, probe.copy(), null);
+                    return true;
+                } catch (Exception ignored) {
+                    if (futureJob != null) {
+                        futureJob.cancel(true);
+                    }
+                    futureJob = null;
+                    terminalIndex++;
+                }
+            }
+            return false;
+        }
+
+        private boolean isSuccessfulProbe(Future<ICraftingJob> future) {
+            try {
+                ICraftingJob job = future.get();
+                return job != null && !job.isSimulation();
+            } catch (Exception ignored) {
+                if (!future.isDone()) {
+                    future.cancel(true);
+                }
+                return false;
+            }
+        }
+
+        private void clearCurrentProbe() {
+            futureJob = null;
+            terminals = null;
+            terminalIndex = 0;
         }
     }
 }

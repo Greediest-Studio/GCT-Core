@@ -1,8 +1,10 @@
 package com.smd.gctcore.common.events;
 
 import com.google.common.collect.BiMap;
-import com.smd.gctcore.Tags;
+import com.smd.gctcore.common.config.GCTCoreConfig;
 import com.smd.gctcore.misc.ItemRegistry;
+import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.command.CommandDifficulty;
 import net.minecraft.command.CommandGameRule;
@@ -13,12 +15,12 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.dedicated.DedicatedServer;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -26,8 +28,9 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Mod.EventBusSubscriber(modid = Tags.MOD_ID)
 public class EventHooks {
+
+    public static final EventHooks INSTANCE = new EventHooks();
 
     private static final String BIRD_OF_EDWIN_GIVEN = "gctcore:bird_of_edwin_given";
 
@@ -88,5 +91,19 @@ public class EventHooks {
 
         boolean allow = (isDedicated && isPlayer) || (!isDedicated && (isPlayerMP || isConsole));
         event.setCanceled(!allow);
+    }
+
+    @SideOnly(Side.CLIENT)
+    @SubscribeEvent
+    public void onRenderFog(EntityViewRenderEvent.FogDensity event) {
+        if(GCTCoreConfig.cleanwater.enableWater && event.getState().getMaterial() == Material.WATER) {
+            GlStateManager.setFog(GlStateManager.FogMode.EXP);
+            event.setDensity((float) GCTCoreConfig.cleanwater.fogDensityWater);
+            event.setCanceled(true);
+        } else if(GCTCoreConfig.cleanwater.enableLava && event.getState().getMaterial() == Material.LAVA) {
+            GlStateManager.setFog(GlStateManager.FogMode.EXP);
+            event.setDensity((float) GCTCoreConfig.cleanwater.fogDensityLava);
+            event.setCanceled(true);
+        }
     }
 }

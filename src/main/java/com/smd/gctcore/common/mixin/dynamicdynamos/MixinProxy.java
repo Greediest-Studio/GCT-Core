@@ -59,7 +59,7 @@ public abstract class MixinProxy {
                     int energyPerTick = gctcore$getEnergyPerTick(te);
                     Integer previousRate = this.lastTickRate.get(te);
 
-                    if (previousRate != null && previousRate.intValue() != energyPerTick) {
+                    if (previousRate != null && previousRate != energyPerTick) {
                         Chunk chunk = world.getChunk(te.getPos());
                         List<EntityPlayer> players = new ArrayList<>(world.playerEntities);
                         for (EntityPlayer player : players) {
@@ -93,7 +93,7 @@ public abstract class MixinProxy {
     @Unique
     private static int gctcore$getEnergyPerTick(TileEntity dynamo) {
         try {
-            return ((Integer) dynamo.getClass().getMethod("getInfoEnergyPerTick").invoke(dynamo)).intValue();
+            return (Integer) dynamo.getClass().getMethod("getInfoEnergyPerTick").invoke(dynamo);
         } catch (ReflectiveOperationException ignored) {
             return 0;
         }

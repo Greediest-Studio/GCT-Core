@@ -8,6 +8,7 @@ import com.smd.gctcore.common.integration.astralsorcery.RadiantQuartzLiquefactio
 import com.smd.gctcore.common.integration.botania.DaisyPlacer;
 import com.smd.gctcore.common.integration.top.GctTopPlugin;
 import com.smd.gctcore.common.network.GctNetworkHandler;
+import com.smd.gctcore.common.util.MaterialRenderingDebugHelper;
 import com.smd.gctcore.misc.*;
 import com.smd.gctcore.common.integration.mmce.MMCE_BuilderTaskManager;
 import com.smd.gctcore.common.world.AirportDim.DimensionTypeAirport;
@@ -20,7 +21,6 @@ import com.smd.gctcore.common.world.biome.nilfheim.NilfheimBiomes;
 
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -38,7 +38,7 @@ public class CommonProxy {
         EntityRegistrar.init();
         BlockRegistry.registerTileEntities();
         // 注册事件监听器
-        MinecraftForge.EVENT_BUS.register(new EventHooks());
+        MinecraftForge.EVENT_BUS.register(EventHooks.INSTANCE);
         MinecraftForge.EVENT_BUS.register(new NilfheimErosionHandler());
         MinecraftForge.EVENT_BUS.register(new BlockRegistry());
         MinecraftForge.EVENT_BUS.register(new ItemRegistry());
@@ -76,5 +76,6 @@ public class CommonProxy {
     }
 
     public void postInit(FMLPostInitializationEvent event) {
+        MaterialRenderingDebugHelper.logMaterialShaderFixSummary();
     }
 }

@@ -14,6 +14,7 @@ import com.brandon3055.draconicevolution.integration.BaublesHelper;
 import com.brandon3055.draconicevolution.integration.ModHelper;
 import baubles.api.IBauble;
 import baubles.api.BaubleType;
+import com.smd.gctcore.Tags;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
@@ -48,7 +49,7 @@ public class ChaoticFluxCapacitor extends ItemEnergyBase implements IInvCharge, 
     public ChaoticFluxCapacitor() {
         setHasSubtypes(false);
         setMaxStackSize(1);
-        setTranslationKey("gctcore.chaotic_flux_capacitor");
+        setTranslationKey(Tags.MOD_ID + ".chaotic_flux_capacitor");
         setRegistryName("chaotic_flux_capacitor");
         setCreativeTab(CreativeTabs.TOOLS);
     }

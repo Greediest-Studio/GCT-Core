@@ -1,7 +1,6 @@
 package com.smd.gctcore.common.potions;
 
 import com.smd.gctcore.Tags;
-import com.smd.gctcore.gctcore;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.ResourceLocation;
 

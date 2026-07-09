@@ -19,7 +19,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import vazkii.botania.api.mana.IManaItem;
 import vazkii.botania.api.mana.spark.ISparkAttachable;
 import vazkii.botania.api.mana.spark.ISparkEntity;
@@ -215,15 +214,15 @@ public abstract class EntityCustomSpark extends Entity implements ISparkEntity {
 
     private void particlesTowards(Entity e) {
         PacketHandler.sendToNearby(this.world, this,
-                (IMessage) new PacketBotaniaEffect(PacketBotaniaEffect.EffectType.SPARK_MANA_FLOW,
-                        this.posX, this.posY, this.posZ, new int[]{getEntityId(), e.getEntityId()}));
+                new PacketBotaniaEffect(PacketBotaniaEffect.EffectType.SPARK_MANA_FLOW,
+                        this.posX, this.posY, this.posZ, getEntityId(), e.getEntityId()));
     }
 
     public static void particleBeam(EntityPlayer player, Entity e1, Entity e2) {
         if (e1 != null && e2 != null && !e1.world.isRemote) {
             PacketHandler.sendTo((EntityPlayerMP) player,
-                    (IMessage) new PacketBotaniaEffect(PacketBotaniaEffect.EffectType.SPARK_NET_INDICATOR,
-                            e1.posX, e1.posY, e1.posZ, new int[]{e1.getEntityId(), e2.getEntityId()}));
+                    new PacketBotaniaEffect(PacketBotaniaEffect.EffectType.SPARK_NET_INDICATOR,
+                            e1.posX, e1.posY, e1.posZ, e1.getEntityId(), e2.getEntityId()));
         }
     }
 

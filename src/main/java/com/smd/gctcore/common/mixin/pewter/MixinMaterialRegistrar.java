@@ -43,7 +43,6 @@ public class MixinMaterialRegistrar {
                 fluidField.setAccessible(true);
                 fluidField.set(this, existing);
                 ci.cancel();
-                return;
             }
         } catch (Throwable t) {
             // If anything goes wrong, allow original logic to proceed

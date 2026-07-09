@@ -1,7 +1,7 @@
 package com.smd.gctcore.common.tile;
 
 import com.smd.gctcore.common.blocks.arcanearchives.RawQuartzClusterBlock;
-import com.smd.gctcore.common.config.GctCoreConfig;
+import com.smd.gctcore.common.config.GCTCompatConfig;
 import com.smd.gctcore.misc.BlockRegistry;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -37,7 +37,7 @@ public class RadiantResonatorTileEntity extends TileEntity implements ITickable 
             return;
         }
 
-        int ticksRequired = Math.max(1, GctCoreConfig.radiantResonator.resonatorTickTime);
+        int ticksRequired = Math.max(1, GCTCompatConfig.radiantResonator.resonatorTickTime);
         if (growth < ticksRequired) {
             growth++;
             markDirty();
@@ -67,7 +67,7 @@ public class RadiantResonatorTileEntity extends TileEntity implements ITickable 
     }
 
     public int getPercentageComplete() {
-        int ticksRequired = Math.max(1, GctCoreConfig.radiantResonator.resonatorTickTime);
+        int ticksRequired = Math.max(1, GCTCompatConfig.radiantResonator.resonatorTickTime);
         return (int) Math.floor(growth / (double) ticksRequired * 100.0D);
     }
 

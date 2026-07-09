@@ -56,7 +56,7 @@ public class GctJeiPlugin implements IModPlugin {
                 souls = tag.getDouble(Constants.NBT.SOULS);
             }
         }
-        return stack.getMetadata() + ":" + willType + ":" + Double.toString(souls);
+        return stack.getMetadata() + ":" + willType + ":" + souls;
     }
 
     private static void hideNonRawSoulGems(IModRegistry registry) {

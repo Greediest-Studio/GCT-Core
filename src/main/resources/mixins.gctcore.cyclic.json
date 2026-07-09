@@ -1,15 +1,12 @@
 {
-  "package": "com.smd.gctcore.common.mixin.moretcon",
+  "package": "com.smd.gctcore.common.mixin.cyclic",
   "required": true,
   "refmap": "mixins.gctcore.refmap.json",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8.5",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinRing",
-    "MixinGauntlet",
-    "MixinJeiInformationContainer",
-    "MixinGravitating"
+    "MixinEnchantMagnet"
   ],
   "server": [],
   "client": []

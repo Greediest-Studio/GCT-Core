@@ -1,8 +1,7 @@
 package com.smd.gctcore.common.mixin.tconstruct;
 
-import com.smd.gctcore.common.config.GctCoreConfig;
+import com.smd.gctcore.common.config.GCTCompatConfig;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,7 +18,7 @@ public class MixinTileHeatingStructure {
         if (te.getWorld() == null || te.getWorld().isRemote) return;
         if (!(te.getWorld().getBlockState(te.getPos().up()).getBlock() instanceof BlockSmelteryAccelerator)) return;
 
-        int multiplier = GctCoreConfig.smelteryIntegration.smelteryMultiplier;
+        int multiplier = GCTCompatConfig.smelteryIntegration.smelteryMultiplier;
         if (multiplier > 1) {
             cir.setReturnValue(cir.getReturnValueI() * multiplier);
         }

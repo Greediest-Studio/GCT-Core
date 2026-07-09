@@ -16,7 +16,7 @@ public class MixinRemovePiscesOcean {
         int[] ints = cir.getReturnValue();
         if (ints == null) return;
         try {
-            Biome pisces = (Biome)Biome.REGISTRY.getObject(new ResourceLocation("gct_mobs:pisces_ocean"));
+            Biome pisces = Biome.REGISTRY.getObject(new ResourceLocation("gct_mobs:pisces_ocean"));
             if (pisces == null) return;
             int piscesId = Biome.getIdForBiome(pisces);
             for (int i = 0; i < ints.length; i++) {
