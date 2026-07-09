@@ -6,6 +6,7 @@ import appeng.api.config.SecurityPermissions;
 import appeng.api.features.IWirelessTermHandler;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridNode;
+import appeng.api.networking.crafting.ICraftingCPU;
 import appeng.api.networking.crafting.ICraftingGrid;
 import appeng.api.networking.crafting.ICraftingJob;
 import appeng.api.networking.crafting.ICraftingLink;
@@ -394,7 +395,7 @@ public final class Ae2AssemblyExtractor {
     }
 
     public static boolean canCraftAeItem(EntityPlayer player, IAEItemStack request) {
-        if (request == null) {
+        if (request == null || request.getStackSize() <= 0) {
             return false;
         }
         IAEItemStack single = request.copy();
@@ -409,6 +410,27 @@ public final class Ae2AssemblyExtractor {
             ICraftingGrid craftingGrid = grid.getCache(ICraftingGrid.class);
             if (craftingGrid != null && craftingGrid.canEmitFor(single)) {
                 return true;
+            }
+            if (craftingGrid == null) {
+                continue;
+            }
+            Future<ICraftingJob> futureJob = null;
+            try {
+                PlayerSource source = new PlayerSource(player, terminal.guiObject);
+                futureJob = craftingGrid.beginCraftingJob(player.world, grid, source, request.copy(), null);
+                ICraftingJob job = futureJob.get(CRAFTING_JOB_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS);
+                if (job != null && !job.isSimulation()) {
+                    return true;
+                }
+            } catch (TimeoutException e) {
+                if (futureJob != null) {
+                    futureJob.cancel(true);
+                }
+                return true;
+            } catch (Exception e) {
+                if (futureJob != null) {
+                    futureJob.cancel(true);
+                }
             }
         }
         return false;
@@ -644,6 +666,16 @@ public final class Ae2AssemblyExtractor {
 
         public long requesting() {
             return craftingGrid.requesting(request);
+        }
+
+        public ICraftingCPU findCpuForRequest() {
+            for (ICraftingCPU cpu : craftingGrid.getCpus()) {
+                IAEItemStack output = cpu.getFinalOutput();
+                if (cpu.isBusy() && output != null && output.isSameType(request)) {
+                    return cpu;
+                }
+            }
+            return null;
         }
     }
 }

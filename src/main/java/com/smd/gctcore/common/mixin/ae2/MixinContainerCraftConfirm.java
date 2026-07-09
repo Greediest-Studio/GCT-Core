@@ -36,7 +36,7 @@ public abstract class MixinContainerCraftConfirm implements MMCE_CraftingConfirm
             remap = false
     )
     private ICraftingLink gctcore$submitMmceJob(ICraftingGrid craftingGrid, ICraftingJob job, ICraftingRequester originalRequester, ICraftingCPU cpu, boolean prioritizePower, IActionSource source) {
-        ICraftingLink link = craftingGrid.submitJob(job, gctcore$requester == null ? originalRequester : gctcore$requester, cpu, prioritizePower, source);
+        ICraftingLink link = craftingGrid.submitJob(job, gctcore$requester == null ? originalRequester : null, cpu, prioritizePower, source);
         if (gctcore$requester != null && link != null) {
             gctcore$requester.gctcore$setCraftingLink(link);
         }
