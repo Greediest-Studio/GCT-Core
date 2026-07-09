@@ -1228,7 +1228,7 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
         }
 
         private CraftReservation reserveCrafted(long amount) {
-            if (amount <= 0 || craftedRemaining < amount) {
+            if (!isCraftOutputReady() || amount <= 0 || craftedRemaining < amount) {
                 return null;
             }
             craftedRemaining -= amount;
@@ -1284,6 +1284,10 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
                 }
             }
             return false;
+        }
+
+        private boolean isCraftOutputReady() {
+            return done || link != null && link.isDone();
         }
 
         private boolean shouldThrottle() {
