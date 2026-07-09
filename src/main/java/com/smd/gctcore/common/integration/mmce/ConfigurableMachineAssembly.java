@@ -238,8 +238,10 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
         List<Tuple<ItemStack, IBlockState>> candidates = selectItemCandidatesForPosition(ingredient.pos(), ingredient.ingredientList());
         Tuple<ItemStack, IBlockState> consumed = consumeFirstAvailableItem(ingredient.pos(), candidates);
         if (consumed == null) {
-            ItemStack required = candidates.get(0).getFirst();
+            ItemStack required = selectRequirementItemStack(ingredient.pos(), candidates);
             if (shouldWaitForItemCraft(ingredient.pos(), required)) {
+                iterator.remove();
+                itemIngredient.add(ingredient);
                 return;
             }
             addMissingItem(required);
@@ -271,8 +273,10 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
         List<Tuple<FluidStack, IBlockState>> candidates = selectFluidCandidatesForPosition(ingredient.pos(), ingredient.ingredientList());
         Tuple<FluidStack, IBlockState> consumed = consumeFirstAvailableFluid(ingredient.pos(), candidates);
         if (consumed == null) {
-            FluidStack required = candidates.get(0).getFirst();
+            FluidStack required = selectRequirementFluidStack(ingredient.pos(), candidates);
             if (shouldWaitForFluidCraft(ingredient.pos(), required)) {
+                iterator.remove();
+                fluidIngredient.add(ingredient);
                 return;
             }
             addMissingFluid(required);
@@ -349,7 +353,8 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
 
     private Tuple<ItemStack, IBlockState> findCraftReservedItemCandidate(BlockPos relativePos, List<Tuple<ItemStack, IBlockState>> candidates) {
         for (Tuple<ItemStack, IBlockState> tuple : candidates) {
-            if (findManagedCraftableMissing(relativePos, tuple.getFirst()) != null) {
+            CraftableMissingEntry entry = findManagedCraftableMissing(relativePos, tuple.getFirst());
+            if (entry != null && entry.shouldReserveCandidate()) {
                 return tuple;
             }
         }
@@ -358,7 +363,8 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
 
     private Tuple<FluidStack, IBlockState> findCraftReservedFluidCandidate(BlockPos relativePos, List<Tuple<FluidStack, IBlockState>> candidates) {
         for (Tuple<FluidStack, IBlockState> tuple : candidates) {
-            if (findManagedCraftableMissing(relativePos, tuple.getFirst()) != null) {
+            CraftableMissingEntry entry = findManagedCraftableMissing(relativePos, tuple.getFirst());
+            if (entry != null && entry.shouldReserveCandidate()) {
                 return tuple;
             }
         }
@@ -542,18 +548,11 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
             if (ingredient.ingredientList().isEmpty()) {
                 continue;
             }
-            Tuple<ItemStack, IBlockState> casingCandidate = findMechanicalCasingCandidate(ingredient.ingredientList());
-            if (casingCandidate != null) {
-                addItemShortageIfNeeded(requiredItems, availableItems, casingCandidate.getFirst(), ingredient.pos());
+            ItemStack selected = selectRequirementItemStack(ingredient.pos(), ingredient.ingredientList(), availableItems);
+            if (selected.isEmpty()) {
                 continue;
             }
-
-            if (reserveFirstAvailableCandidate(availableItems, ingredient.ingredientList())) {
-                continue;
-            }
-
-            ItemStack firstCandidate = ingredient.ingredientList().get(0).getFirst();
-            addItemShortageIfNeeded(requiredItems, availableItems, firstCandidate, ingredient.pos());
+            addItemShortageIfNeeded(requiredItems, availableItems, selected, ingredient.pos());
         }
         return requiredItems;
     }
@@ -564,13 +563,79 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
             if (ingredient.ingredientList().isEmpty()) {
                 continue;
             }
-            FluidStack fluid = ingredient.ingredientList().get(0).getFirst();
+            FluidStack fluid = selectRequirementFluidStack(ingredient.pos(), ingredient.ingredientList());
             if (fluid == null || fluid.amount <= 0) {
                 continue;
             }
             addRequiredFluid(requiredFluids, fluid, fluid.amount, ingredient.pos());
         }
         return requiredFluids;
+    }
+
+    private ItemStack selectRequirementItemStack(BlockPos relativePos, List<Tuple<ItemStack, IBlockState>> candidates) {
+        return selectRequirementItemStack(relativePos, candidates, null);
+    }
+
+    private ItemStack selectRequirementItemStack(BlockPos relativePos, List<Tuple<ItemStack, IBlockState>> candidates, List<ItemAvailabilityEntry> availableItems) {
+        Tuple<ItemStack, IBlockState> casingCandidate = findMechanicalCasingCandidate(candidates);
+        if (casingCandidate != null) {
+            return casingCandidate.getFirst();
+        }
+        for (Tuple<ItemStack, IBlockState> candidate : candidates) {
+            ItemStack stack = candidate.getFirst();
+            if (stack.isEmpty()) {
+                continue;
+            }
+            long available = availableItems == null ? getStoredAvailableItemAmount(stack) : getAvailableItemAmount(availableItems, stack);
+            if (available >= stack.getCount()) {
+                return stack;
+            }
+        }
+        if (useAeItems && Mods.AE2.isLoading()) {
+            for (Tuple<ItemStack, IBlockState> candidate : candidates) {
+                ItemStack stack = candidate.getFirst();
+                IAEItemStack request = Ae2AssemblyExtractor.toAeItemRequest(stack, stack.isEmpty() ? 0 : stack.getCount());
+                if (request != null && Ae2AssemblyExtractor.canCraftAeItem(getPlayer(), request)) {
+                    return stack;
+                }
+            }
+        }
+        if (relativePos != null) {
+            for (Tuple<ItemStack, IBlockState> candidate : candidates) {
+                CraftableMissingEntry entry = findManagedCraftableMissing(relativePos, candidate.getFirst());
+                if (entry != null && entry.shouldReserveCandidate()) {
+                    return candidate.getFirst();
+                }
+            }
+        }
+        return candidates.isEmpty() ? ItemStack.EMPTY : candidates.get(0).getFirst();
+    }
+
+    private FluidStack selectRequirementFluidStack(BlockPos relativePos, List<Tuple<FluidStack, IBlockState>> candidates) {
+        for (Tuple<FluidStack, IBlockState> candidate : candidates) {
+            FluidStack fluid = candidate.getFirst();
+            if (fluid != null && fluid.amount > 0 && getStoredAvailableFluidAmount(fluid) >= fluid.amount) {
+                return fluid;
+            }
+        }
+        if (useAeFluids && Mods.AE2.isLoading()) {
+            for (Tuple<FluidStack, IBlockState> candidate : candidates) {
+                FluidStack fluid = candidate.getFirst();
+                IAEItemStack request = Ae2AssemblyExtractor.toAeFluidRequest(fluid, fluid == null ? 0 : fluid.amount);
+                if (request != null && Ae2AssemblyExtractor.canCraftAeItem(getPlayer(), request)) {
+                    return fluid;
+                }
+            }
+        }
+        if (relativePos != null) {
+            for (Tuple<FluidStack, IBlockState> candidate : candidates) {
+                CraftableMissingEntry entry = findManagedCraftableMissing(relativePos, candidate.getFirst());
+                if (entry != null && entry.shouldReserveCandidate()) {
+                    return candidate.getFirst();
+                }
+            }
+        }
+        return candidates.isEmpty() ? null : candidates.get(0).getFirst();
     }
 
     private boolean reserveFirstAvailableCandidate(List<ItemAvailabilityEntry> availableItems, List<Tuple<ItemStack, IBlockState>> candidates) {
@@ -625,11 +690,31 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
         return getPlayerItemAmount(stack) + (useAeItems ? Ae2AssemblyExtractor.getStoredItemAmount(getPlayer(), stack) : 0);
     }
 
+    private long getStoredAvailableFluidAmount(FluidStack fluid) {
+        return getPlayerFluidAmount(fluid) + (useAeFluids ? Ae2AssemblyExtractor.getStoredFluidAmount(getPlayer(), fluid) : 0);
+    }
+
     private long getPlayerItemAmount(ItemStack stack) {
         long amount = 0;
         for (ItemStack inventoryStack : getPlayer().inventory.mainInventory) {
             if (MMCEBuilderUtils.areItemStacksEqual(inventoryStack, stack)) {
                 amount += inventoryStack.getCount();
+            }
+        }
+        return amount;
+    }
+
+    private long getPlayerFluidAmount(FluidStack fluid) {
+        if (fluid == null || fluid.amount <= 0) {
+            return 0;
+        }
+        long amount = 0;
+        for (IFluidHandlerItem handler : MMCEBuilderUtils.getFluidHandlerItems(getPlayer().inventory.mainInventory)) {
+            for (IFluidTankProperties property : handler.getTankProperties()) {
+                FluidStack contained = property.getContents();
+                if (MMCEBuilderUtils.areFluidsEqual(contained, fluid)) {
+                    amount += contained.amount;
+                }
             }
         }
         return amount;
@@ -1119,6 +1204,11 @@ public class ConfigurableMachineAssembly extends MachineAssembly implements MMCE
             if (link != null && !link.isDone() && !link.isCanceled()) {
                 link.cancel();
             }
+        }
+
+        private boolean shouldReserveCandidate() {
+            return !skipped && !cancelled && (canOfferGui() || activeCraftGuiEntry == this || activeCraftAmountEntry == this
+                    || amountProbe != null || submitted || directRemaining > 0 || craftedRemaining > 0);
         }
 
         private boolean matches(ItemStack required) {
