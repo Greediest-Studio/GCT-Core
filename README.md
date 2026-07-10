@@ -4,3 +4,4 @@ WHAT-0.2
 BacoDifficulty-1.0.3
 moreloottables-1.12.0-0.1.0
 whoops-1.0.1
+Clear-Water-2.1
