@@ -7,9 +7,11 @@ import com.smd.gctcore.common.items.botania.ItemGaiaSpark;
 import com.smd.gctcore.common.items.draconicevolution.ChaoticFluxCapacitor;
 import com.smd.gctcore.common.items.draconicevolution.FrostburnFluxCapacitor;
 import com.smd.gctcore.common.items.draconicevolution.OrderedFluxCapacitor;
+import com.smd.gctcore.common.items.mekanism.ItemMiningLevelUpgrade;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ItemRegistry {
@@ -27,6 +29,7 @@ public class ItemRegistry {
     public static Item IMAGINATIVE_SNOWBALL;
     public static Item MMCE_BUILDER_TOOL;
     public static Item BIRD_OF_EDWIN;
+    public static Item MINING_LEVEL_UPGRADE;
 
     public static void init() {
         CHAOTIC_FLUX_CAPACITOR = new ChaoticFluxCapacitor();
@@ -45,6 +48,9 @@ public class ItemRegistry {
         IMAGINATIVE_SNOWBALL = new ImaginativeSnowballItem();
         MMCE_BUILDER_TOOL = new MMCE_BuilderTool();
         BIRD_OF_EDWIN = new BirdOfEdwin();
+        if (Loader.isModLoaded("mekanism")) {
+            MINING_LEVEL_UPGRADE = new ItemMiningLevelUpgrade();
+        }
     }
 
     @SubscribeEvent
@@ -64,5 +70,8 @@ public class ItemRegistry {
                 MMCE_BUILDER_TOOL,
                 BIRD_OF_EDWIN
         );
+        if (MINING_LEVEL_UPGRADE != null) {
+            event.getRegistry().register(MINING_LEVEL_UPGRADE);
+        }
     }
 }

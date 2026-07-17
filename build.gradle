@@ -159,6 +159,7 @@ dependencies {
     compileOnly rfg.deobf("curse.maven:the-twilight-forest-227639:3051450")
     compileOnly rfg.deobf("curse.maven:NaturesAura-306626:2882138")
     compileOnly rfg.deobf("curse.maven:tinkersevolution-384589:8349133")
+    compileOnly rfg.deobf("curse.maven:industrial-craft-242638:2755282")
 
     //eio相关依赖
     compileOnly fileTree(dir: 'libs', include: [
@@ -191,6 +192,7 @@ dependencies {
     implementation rfg.deobf("curse.maven:geckolib-388172:4020277")
     implementation rfg.deobf("curse.maven:AE2FluidCraftReworkUnofficial-1404390:7742544")
     implementation rfg.deobf("curse.maven:the-twilight-forest-227639:3051450")
+    implementation rfg.deobf("curse.maven:mekanism-ce-unofficial-840735:8411935")
     implementation(rfg.deobf("com.cleanroommc:modularui:3.1.6")) {
         exclude group: "mezz.jei", module: "jei_1.12.2"
     }

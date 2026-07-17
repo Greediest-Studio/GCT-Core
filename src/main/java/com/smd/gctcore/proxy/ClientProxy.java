@@ -92,6 +92,9 @@ public class ClientProxy extends CommonProxy {
             registerItemModel(ItemRegistry.IMAGINATIVE_SNOWBALL);
             registerItemModel(ItemRegistry.MMCE_BUILDER_TOOL);
             registerItemModel(ItemRegistry.BIRD_OF_EDWIN);
+            if (ItemRegistry.MINING_LEVEL_UPGRADE != null) {
+                registerItemModel(ItemRegistry.MINING_LEVEL_UPGRADE);
+            }
             registerBlockModel(BlockRegistry.RADIANT_RESONATOR);
             registerBlockModel(BlockRegistry.RAW_QUARTZ_CLUSTER);
             registerBlockModel(BlockRegistry.STORAGE_RAW_QUARTZ);

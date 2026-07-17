@@ -37,6 +37,10 @@ public class GCTCompatConfig {
     @Config.Name("Astral Sorcery")
     public static AstralSorceryIntegration astralSorceryIntegration = new AstralSorceryIntegration();
 
+    @Config.Comment("Mekanism CE balance patches (laser / digital miner harvest limits)")
+    @Config.Name("Mekanism Integration")
+    public static MekanismIntegration mekanismIntegration = new MekanismIntegration();
+
     public static class RadiantResonator {
 
         @Config.Comment("Maximum radiant resonators each player can place")
@@ -140,6 +144,36 @@ public class GCTCompatConfig {
         @Config.Name("最大技能效率")
         @Config.RangeDouble(min = -1, max = 10)
         public double maxPerkEffect = -1;
+    }
+
+    public static class MekanismIntegration {
+
+        @Config.Comment("Enable laser harvest-level restriction")
+        @Config.Name("Enable Laser Harvest Limit")
+        public boolean enableLaserHarvestLimit = true;
+
+        @Config.Comment({
+                "Maximum block harvest level lasers can break.",
+                "Blocks with a higher harvest level cannot be dug by lasers.",
+                "Vanilla reference: wood=0, stone=1, iron=2, diamond=3."
+        })
+        @Config.Name("Max Laser Harvest Level")
+        @Config.RangeInt(min = -1, max = 32)
+        public int maxLaserHarvestLevel = 4;
+
+        @Config.Comment({
+                "Enable Digital Miner harvest-level restriction.",
+                "Mining level comes from the installed gctcore:mining_level upgrade item NBT."
+        })
+        @Config.Name("Enable Digital Miner Harvest Limit")
+        public boolean enableDigitalMinerHarvestLimit = true;
+
+        @Config.Comment({
+                "NBT integer key on the mining-level upgrade item.",
+                "Example: {gctMiningLevel:3} allows mining blocks up to harvest level 3."
+        })
+        @Config.Name("Mining Level NBT Key")
+        public String miningLevelNbtKey = "gctMiningLevel";
     }
 
     static {

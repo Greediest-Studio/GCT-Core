@@ -34,6 +34,10 @@ public class CommonProxy {
         PotionsItemRegistry.init();
         BlockRegistry.init();
         NilfheimBiomes.init();
+        // Mekanism upgrade types must exist before upgrade items are constructed
+        if (Mods.MEKANISM.isLoading()) {
+            com.smd.gctcore.common.integration.mekanism.GctMekanismUpgrades.init();
+        }
         ItemRegistry.init();
         EntityRegistrar.init();
         BlockRegistry.registerTileEntities();

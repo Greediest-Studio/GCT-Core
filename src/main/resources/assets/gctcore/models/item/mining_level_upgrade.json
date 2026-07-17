@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gctcore:items/mining_level_upgrade"
+  }
+}

@@ -8,7 +8,8 @@ public enum Mods {
     AE2("appliedenergistics2"),
     NATURES_AURA("naturesaura"),
     MORETCON("moretcon"),
-    BOT("botania");
+    BOT("botania"),
+    MEKANISM("mekanism");
 
     public final String modid;
 
