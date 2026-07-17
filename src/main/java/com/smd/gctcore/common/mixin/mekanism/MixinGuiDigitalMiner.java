@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = GuiDigitalMiner.class, remap = false)
 public abstract class MixinGuiDigitalMiner {
 
-    private static final int LEVEL_TEXT_X = 13;
+    private static final int LEVEL_TEXT_X = 12;
     private static final int LEVEL_TEXT_Y = 50;
     private static final float LEVEL_TEXT_SCALE = 0.8F;
 
@@ -32,7 +32,7 @@ public abstract class MixinGuiDigitalMiner {
         if (tile instanceof DigitalMinerHarvestAccess) {
             level = ((DigitalMinerHarvestAccess) tile).gct$getMiningLevel();
         }
-        String text = "Level:" + level;
+        String text = "Level: " + level;
         int color = SpecialColors.TEXT_SCREEN.argb();
         GlStateManager.pushMatrix();
         GlStateManager.translate(LEVEL_TEXT_X, LEVEL_TEXT_Y, 0);
