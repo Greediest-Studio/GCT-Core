@@ -1,4 +1,4 @@
-package com.smd.gctcore.common.mixin.jei;
+package com.smd.gctcore.common.mixin.hei;
 
 import mezz.jei.util.StringUtil;
 import org.spongepowered.asm.mixin.Mixin;

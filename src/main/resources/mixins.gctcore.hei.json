@@ -1,11 +1,12 @@
 {
   "required": false,
   "minVersion": "0.8",
-  "package": "com.smd.gctcore.common.mixin.jei",
+  "package": "com.smd.gctcore.common.mixin.hei",
   "compatibilityLevel": "JAVA_8",
   "refmap": "mixins.gctcore.refmap.json",
   "mixins": [
-    "MixinStringUtil"
+    "MixinStringUtil",
+    "MixinAnvilRecipeMaker"
   ],
   "client": [],
   "server": []

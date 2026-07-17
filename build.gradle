@@ -171,7 +171,7 @@ dependencies {
     runtimeOnly fileTree(dir: 'libs', include: ['gct_mobs-1.0.0.jar'])
     runtimeOnly "curse.maven:guide-api-228832:2645992"
 
-    implementation 'mezz:jei:4.31.2'
+    implementation 'mezz:jei:4.32.0'
     implementation 'com.cleanroommc:configanytime:1.0'
     implementation rfg.deobf("curse.maven:bountifulbaubles-313536:3568240")
     implementation rfg.deobf("curse.maven:Konkrete-410295:4514895")
