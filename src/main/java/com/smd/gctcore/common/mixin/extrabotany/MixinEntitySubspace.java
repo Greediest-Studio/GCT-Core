@@ -78,15 +78,15 @@ public abstract class MixinEntitySubspace extends EntityThrowableCopy implements
     /**
      * @author Gct-Core
      * @reason Support custom spear damage and aim target for type-1 subspace projectiles.
-     * SRG: onUpdate
+     * SRG: func_70071_h_ (MCP: onUpdate)
      */
-    @Overwrite
+    @Overwrite(aliases = "onUpdate")
     public void func_70071_h_() {
         this.motionX = 0;
         this.motionY = 0;
         this.motionZ = 0;
 
-        super.func_70071_h_();
+        super.onUpdate();
 
         if (this.ticksExisted < getDelay()) {
             return;
@@ -189,8 +189,8 @@ public abstract class MixinEntitySubspace extends EntityThrowableCopy implements
         }
     }
 
-    /** SRG: readEntityFromNBT */
-    @Inject(method = "func_70037_a", at = @At("RETURN"))
+    /** SRG: func_70037_a (MCP: readEntityFromNBT) */
+    @Inject(method = {"func_70037_a", "readEntityFromNBT"}, at = @At("RETURN"))
     private void gct$readExtra(NBTTagCompound cmp, CallbackInfo ci) {
         gct$damage = cmp.getFloat(GCT$TAG_DAMAGE);
         gct$targetX = cmp.getFloat(GCT$TAG_TARGET_X);
@@ -199,8 +199,8 @@ public abstract class MixinEntitySubspace extends EntityThrowableCopy implements
         gct$hasTarget = cmp.getBoolean(GCT$TAG_HAS_TARGET);
     }
 
-    /** SRG: writeEntityToNBT */
-    @Inject(method = "func_70014_b", at = @At("RETURN"))
+    /** SRG: func_70014_b (MCP: writeEntityToNBT) */
+    @Inject(method = {"func_70014_b", "writeEntityToNBT"}, at = @At("RETURN"))
     private void gct$writeExtra(NBTTagCompound cmp, CallbackInfo ci) {
         cmp.setFloat(GCT$TAG_DAMAGE, gct$damage);
         cmp.setFloat(GCT$TAG_TARGET_X, gct$targetX);
