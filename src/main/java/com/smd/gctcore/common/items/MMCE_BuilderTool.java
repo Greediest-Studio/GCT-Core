@@ -19,9 +19,11 @@ import com.cleanroommc.modularui.widgets.ToggleButton;
 import com.cleanroommc.modularui.widgets.layout.Flow;
 import com.cleanroommc.modularui.widgets.textfield.TextFieldWidget;
 import com.smd.gctcore.Tags;
+import com.smd.gctcore.gctcore;
 import com.smd.gctcore.common.integration.mmce.*;
 import com.smd.gctcore.common.network.GctNetworkHandler;
 import com.smd.gctcore.common.network.PacketMMCEBuilderConfig;
+import com.smd.gctcore.common.util.MMCEBuilderUtils;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -70,9 +72,15 @@ public class MMCE_BuilderTool extends Item implements IGuiHolder<GuiData> {
                 return EnumActionResult.SUCCESS;
             }
             ItemStack stack = player.getHeldItem(hand);
-            MMCE_BuilderService.start((EntityPlayerMP) player, pos, MMCE_BuilderConfig.useAeItems(stack),
-                    MMCE_BuilderConfig.useAeFluids(stack), MMCE_BuilderConfig.craftMissing(stack), MMCE_BuilderConfig.disassembleMode(stack),
-                    MMCE_BuilderConfig.dynamicLength(stack), MMCE_BuilderConfig.TICK_INTERVAL, MMCE_BuilderConfig.OPERATIONS_PER_TICK);
+            try {
+                MMCE_BuilderService.start((EntityPlayerMP) player, pos, MMCE_BuilderConfig.useAeItems(stack),
+                        MMCE_BuilderConfig.useAeFluids(stack), MMCE_BuilderConfig.craftMissing(stack), MMCE_BuilderConfig.disassembleMode(stack),
+                        MMCE_BuilderConfig.dynamicLength(stack), MMCE_BuilderConfig.attachmentModule(stack),
+                        MMCE_BuilderConfig.TICK_INTERVAL, MMCE_BuilderConfig.OPERATIONS_PER_TICK);
+            } catch (RuntimeException | LinkageError error) {
+                gctcore.LOGGER.error("Failed to run the MMCE structure builder", error);
+                MMCEBuilderUtils.sendTranslation(player, "message.gctcore.mmce_builder.failed");
+            }
         }
         return EnumActionResult.SUCCESS;
     }
@@ -86,7 +94,7 @@ public class MMCE_BuilderTool extends Item implements IGuiHolder<GuiData> {
     @Override
     public ModularPanel buildUI(GuiData data, PanelSyncManager syncManager, UISettings settings) {
         if (!(data instanceof PlayerInventoryGuiData)) {
-            return ModularPanel.defaultPanel("gct_mmce_builder", 176, 140);
+            return ModularPanel.defaultPanel("gct_mmce_builder", 176, 162);
         }
         PlayerInventoryGuiData inventoryData = (PlayerInventoryGuiData) data;
         ItemStack stack = inventoryData.getUsedItemStack();
@@ -96,7 +104,7 @@ public class MMCE_BuilderTool extends Item implements IGuiHolder<GuiData> {
                     : new com.cleanroommc.modularui.widgets.slot.ModularSlot(inv, index));
         }
 
-        ModularPanel panel = ModularPanel.defaultPanel("gct_mmce_builder", 176, 140);
+        ModularPanel panel = ModularPanel.defaultPanel("gct_mmce_builder", 176, 162);
         panel.child(Flow.column().margin(7).widthRel(1f).heightRel(1f)
                 .child(new TextWidget<>(IKey.lang("gui.gctcore.mmce_builder.title")).height(12).widthRel(1f))
                 .child(row("gui.gctcore.mmce_builder.disassemble_mode", new ToggleButton()
@@ -142,6 +150,13 @@ public class MMCE_BuilderTool extends Item implements IGuiHolder<GuiData> {
                         }))
                         .setNumbers(0, 4096)
                         .background(GuiTextures.DISPLAY_SMALL)
+                        .width(50).height(18)))
+                .child(row("gui.gctcore.mmce_builder.attachment_module", new TextFieldWidget()
+                        .value(SyncHandlers.string(() -> MMCE_BuilderConfig.attachmentModule(stack), val -> {
+                            MMCE_BuilderConfig.setAttachmentModule(stack, val);
+                            syncConfigToServer(inventoryData, stack);
+                        }))
+                        .background(GuiTextures.DISPLAY_SMALL)
                         .width(50).height(18))));
         return panel;
     }
@@ -161,7 +176,8 @@ public class MMCE_BuilderTool extends Item implements IGuiHolder<GuiData> {
                 MMCE_BuilderConfig.useAeFluids(stack),
                 MMCE_BuilderConfig.craftMissing(stack),
                 MMCE_BuilderConfig.disassembleMode(stack),
-                MMCE_BuilderConfig.dynamicLength(stack)));
+                MMCE_BuilderConfig.dynamicLength(stack),
+                MMCE_BuilderConfig.attachmentModule(stack)));
     }
 
     @Override

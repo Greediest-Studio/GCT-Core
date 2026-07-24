@@ -103,6 +103,7 @@ gui.gctcore.mmce_builder.use_ae_items=Use AE items from wireless terminal
 gui.gctcore.mmce_builder.use_ae_fluids=Use AE fluids from wireless terminal
 gui.gctcore.mmce_builder.craft_missing=Craft missing AE materials
 gui.gctcore.mmce_builder.dynamic_length=Dynamic length
+gui.gctcore.mmce_builder.attachment_module=Attachment module
 gui.gctcore.mmce_builder.on=ON
 gui.gctcore.mmce_builder.off=OFF
 
@@ -116,6 +117,7 @@ message.gctcore.mmce_builder.disassembly_started=Disassembly started.
 message.gctcore.mmce_builder.disassembly_cancelled=Disassembly cancelled.
 message.gctcore.mmce_builder.disassembly_success=Disassembly complete.
 message.gctcore.mmce_builder.disassembly_suppressed=Further disassembly warnings are suppressed for this task.
+message.gctcore.mmce_builder.failed=Assembly failed. See the log for details.
 message.gctcore.mmce_builder.missing_summary_header=Missing materials:
 message.gctcore.mmce_builder.missing_item_entry=- %sx %s
 message.gctcore.mmce_builder.missing_fluid_entry=- %smb %s

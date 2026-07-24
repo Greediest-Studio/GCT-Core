@@ -6,6 +6,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -18,17 +19,25 @@ public class PacketMMCEBuilderConfig implements IMessage, IMessageHandler<Packet
     private boolean craftMissing;
     private boolean disassembleMode;
     private int dynamicLength;
+    private String attachmentModule;
 
     public PacketMMCEBuilderConfig() {
     }
 
-    public PacketMMCEBuilderConfig(int slot, boolean useAeItems, boolean useAeFluids, boolean craftMissing, boolean disassembleMode, int dynamicLength) {
+    public PacketMMCEBuilderConfig(int slot, boolean useAeItems, boolean useAeFluids,
+                                   boolean craftMissing, boolean disassembleMode, int dynamicLength) {
+        this(slot, useAeItems, useAeFluids, craftMissing, disassembleMode, dynamicLength, "");
+    }
+
+    public PacketMMCEBuilderConfig(int slot, boolean useAeItems, boolean useAeFluids, boolean craftMissing,
+                                   boolean disassembleMode, int dynamicLength, String attachmentModule) {
         this.slot = slot;
         this.useAeItems = useAeItems;
         this.useAeFluids = useAeFluids;
         this.craftMissing = craftMissing;
         this.disassembleMode = disassembleMode;
         this.dynamicLength = dynamicLength;
+        this.attachmentModule = attachmentModule;
     }
 
     @Override
@@ -39,6 +48,7 @@ public class PacketMMCEBuilderConfig implements IMessage, IMessageHandler<Packet
         craftMissing = buf.readBoolean();
         disassembleMode = buf.readBoolean();
         dynamicLength = buf.readInt();
+        attachmentModule = ByteBufUtils.readUTF8String(buf);
     }
 
     @Override
@@ -49,6 +59,7 @@ public class PacketMMCEBuilderConfig implements IMessage, IMessageHandler<Packet
         buf.writeBoolean(craftMissing);
         buf.writeBoolean(disassembleMode);
         buf.writeInt(dynamicLength);
+        ByteBufUtils.writeUTF8String(buf, attachmentModule == null ? "" : attachmentModule);
     }
 
     @Override
@@ -68,6 +79,7 @@ public class PacketMMCEBuilderConfig implements IMessage, IMessageHandler<Packet
         MMCE_BuilderConfig.setCraftMissing(stack, message.craftMissing);
         MMCE_BuilderConfig.setDisassembleMode(stack, message.disassembleMode);
         MMCE_BuilderConfig.setDynamicLength(stack, message.dynamicLength);
+        MMCE_BuilderConfig.setAttachmentModule(stack, message.attachmentModule);
     }
 
     private static ItemStack findToolStack(EntityPlayerMP player, int slot) {

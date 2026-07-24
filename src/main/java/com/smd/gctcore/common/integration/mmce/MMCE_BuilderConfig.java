@@ -13,6 +13,8 @@ public final class MMCE_BuilderConfig {
     private static final String TAG_LEGACY_CRAFT_MISSING_ITEMS = "gct_mmce_craft_missing_items";
     private static final String TAG_LEGACY_CRAFT_MISSING_FLUIDS = "gct_mmce_craft_missing_fluids";
     private static final String TAG_DYNAMIC_LENGTH = "gct_mmce_dynamic_length";
+    private static final String TAG_ATTACHMENT_MODULE = "gct_mmce_attachment_module";
+    private static final int MAX_ATTACHMENT_MODULE_LENGTH = 256;
     private static final int DEFAULT_DYNAMIC_LENGTH = 1;
     private static final int MAX_DYNAMIC_LENGTH = 4096;
     public static final int TICK_INTERVAL = 1;
@@ -72,8 +74,32 @@ public final class MMCE_BuilderConfig {
         getTag(stack).setInteger(TAG_DYNAMIC_LENGTH, clampDynamicLength(value));
     }
 
+    public static String attachmentModule(ItemStack stack) {
+        return normalizeAttachmentModule(getTag(stack).getString(TAG_ATTACHMENT_MODULE));
+    }
+
+    public static void setAttachmentModule(ItemStack stack, String value) {
+        NBTTagCompound tag = getTag(stack);
+        String normalized = normalizeAttachmentModule(value);
+        if (normalized.isEmpty()) {
+            tag.removeTag(TAG_ATTACHMENT_MODULE);
+        } else {
+            tag.setString(TAG_ATTACHMENT_MODULE, normalized);
+        }
+    }
+
     public static int clampDynamicLength(int value) {
         return MMCEBuilderUtils.clamp(value, 0, MAX_DYNAMIC_LENGTH);
+    }
+
+    private static String normalizeAttachmentModule(String value) {
+        if (value == null) {
+            return "";
+        }
+        String normalized = value.trim();
+        return normalized.length() <= MAX_ATTACHMENT_MODULE_LENGTH
+                ? normalized
+                : normalized.substring(0, MAX_ATTACHMENT_MODULE_LENGTH);
     }
 
     private static NBTTagCompound getTag(ItemStack stack) {

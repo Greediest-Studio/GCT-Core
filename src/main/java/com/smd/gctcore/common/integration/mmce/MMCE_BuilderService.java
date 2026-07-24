@@ -20,7 +20,16 @@ public final class MMCE_BuilderService {
     private MMCE_BuilderService() {
     }
 
-    public static void start(EntityPlayerMP player, BlockPos pos, boolean useAeItems, boolean useAeFluids, boolean craftMissing, boolean disassembleMode, int dynamicLength, int tickInterval, int operationsPerTick) {
+    public static void start(EntityPlayerMP player, BlockPos pos, boolean useAeItems, boolean useAeFluids,
+                             boolean craftMissing, boolean disassembleMode, int dynamicLength,
+                             int tickInterval, int operationsPerTick) {
+        start(player, pos, useAeItems, useAeFluids, craftMissing, disassembleMode, dynamicLength,
+                "", tickInterval, operationsPerTick);
+    }
+
+    public static void start(EntityPlayerMP player, BlockPos pos, boolean useAeItems, boolean useAeFluids,
+                             boolean craftMissing, boolean disassembleMode, int dynamicLength,
+                             String attachmentModule, int tickInterval, int operationsPerTick) {
         World world = player.world;
         TileEntity tile = world.getTileEntity(pos);
         Block block = world.getBlockState(pos).getBlock();
@@ -47,8 +56,18 @@ public final class MMCE_BuilderService {
         }
 
         EnumFacing controllerFacing = world.getBlockState(pos).getValue(BlockController.FACING);
-        BlockArray machinePattern = new BlockArray(BlockArrayCache.getBlockArrayCache(machine.getPattern(), controllerFacing));
-        MMCEBuilderUtils.appendDynamicPatterns(machine, machinePattern, controllerFacing, dynamicLength);
+        BlockArray selectedPattern = MMCE_AttachmentModuleCompat.findPattern(machine, attachmentModule);
+        boolean buildingAttachment = selectedPattern != null;
+        BlockArray machinePattern;
+        if (buildingAttachment) {
+            // Attachment effective patterns are created lazily at runtime and are
+            // therefore absent from MMCE's startup-built BlockArrayCache.
+            machinePattern = rotateToFacing(selectedPattern, controllerFacing);
+        } else {
+            selectedPattern = machine.getPattern();
+            machinePattern = new BlockArray(BlockArrayCache.getBlockArrayCache(selectedPattern, controllerFacing));
+            MMCEBuilderUtils.appendDynamicPatterns(machine, machinePattern, controllerFacing, dynamicLength);
+        }
 
         if (disassembleMode) {
             DisassemblyIngredient.Plan plan = MMCEBuilderUtils.createDisassemblyPlan(machinePattern);
@@ -67,5 +86,16 @@ public final class MMCE_BuilderService {
         MMCE_BuilderTaskManager.addTask(assembly);
         assembly.openCraftingGuiIfNeeded();
         MMCEBuilderUtils.sendTranslation(player, "message.gctcore.mmce_builder.started");
+    }
+
+    private static BlockArray rotateToFacing(BlockArray pattern, EnumFacing facing) {
+        BlockArray rotated = pattern;
+        EnumFacing current = EnumFacing.NORTH;
+        while (current != facing) {
+            current = current.rotateYCCW();
+            rotated = rotated.rotateYCCW();
+        }
+        rotated.flushTileBlocksCache();
+        return new BlockArray(rotated);
     }
 }
