@@ -160,6 +160,7 @@ dependencies {
     compileOnly rfg.deobf("curse.maven:NaturesAura-306626:2882138")
     compileOnly rfg.deobf("curse.maven:tinkersevolution-384589:8349133")
     compileOnly rfg.deobf("curse.maven:industrial-craft-242638:2755282")
+    compileOnly rfg.deobf("curse.maven:bop-220318:3558882")
 
     //eio相关依赖
     compileOnly fileTree(dir: 'libs', include: [

@@ -38,7 +38,6 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.hei.json", "jei");
         addModdedMixinCFG("mixins.gctcore.ae2.json", "appliedenergistics2");
         addModdedMixinCFG("mixins.gctcore.mekanism.json", "mekanism");
-        addModdedMixinCFG("mixins.gctcore.dynamicdynamos.json", "dyndyn");
         addModdedMixinCFG("mixins.gctcore.cyclic.json", "cyclic");
         if(GCTMixinConfig.enableMixinItemToolSceptre) {
             addModdedMixinCFG("mixins.gctcore.tconevo.json", "tconevo");

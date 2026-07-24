@@ -1,16 +1,15 @@
 package com.smd.gctcore.common.mixin.biomesoplenty;
 
+import biomesoplenty.common.fluids.blocks.BlockBloodFluid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Pseudo
-@Mixin(targets = "biomesoplenty.common.fluids.blocks.BlockBloodFluid", remap = false)
+@Mixin(value = BlockBloodFluid.class, remap = false)
 public class MixinBlockBloodFluid {
 
     private static final ThreadLocal<Boolean> IN_CHECK = ThreadLocal.withInitial(() -> Boolean.FALSE);

@@ -2,7 +2,8 @@
     "package": "com.smd.gctcore.common.mixin.biomesoplenty",
     "refmap": "mixins.gctcore.refmap.json",
     "mixins": [
-      "MixinBlockBloodFluid"
+      "MixinBlockBloodFluid",
+      "MixinFogEvent"
     ],
     "client": [],
     "server": []
