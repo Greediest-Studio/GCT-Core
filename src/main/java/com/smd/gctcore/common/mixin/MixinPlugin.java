@@ -27,6 +27,10 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 () -> GCTMixinConfig.enableWitherLootMixin,
                 "entity.MixinEntityWither"
         );
+        addMixinGroup(
+                () -> GCTMixinConfig.enableChunkQueueResizingMixin,
+                "renderer.MixinRenderGlobal"
+        );
     }
 
     @Override

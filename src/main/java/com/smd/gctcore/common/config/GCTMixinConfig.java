@@ -22,6 +22,11 @@ public class GCTMixinConfig {
     @Config.RequiresMcRestart
     public static boolean enableWitherLootMixin = true;
 
+    @Config.Comment({"是否启用区块渲染优化"})
+    @Config.Name("Enable Chunk Queue Resizing Mixin")
+    @Config.RequiresMcRestart
+    public static boolean enableChunkQueueResizingMixin = true;
+
     static {
         ConfigAnytime.register(GCTMixinConfig.class);
     }

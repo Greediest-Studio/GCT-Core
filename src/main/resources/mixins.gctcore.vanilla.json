@@ -10,7 +10,8 @@
     "damageparticle.MixinEntityPlayer",
     "damageparticle.MixinEntity",
     "entity.MixinEntityWither",
-    "entity.EntityAccessor"
+    "entity.EntityAccessor",
+    "renderer.MixinRenderGlobal"
   ],
   "server": [],
   "client": []
