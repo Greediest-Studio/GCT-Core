@@ -175,6 +175,7 @@ dependencies {
 
     implementation 'mezz:jei:4.32.0'
     implementation 'com.cleanroommc:configanytime:1.0'
+    implementation rfg.deobf("curse.maven:DungeonsMod-359619:3435076")
     implementation rfg.deobf("curse.maven:bountifulbaubles-313536:3568240")
     implementation rfg.deobf("curse.maven:Konkrete-410295:4514895")
     implementation rfg.deobf("CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.698")
