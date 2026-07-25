@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -27,7 +28,7 @@ public abstract class MixinEventManager {
     public static float tickCounter;
 
     @Shadow
-    static EntityPlayerSP clientPlayer;
+    static EntityPlayer clientPlayer;
 
     @Unique
     private static ITileEntitySpecialRendererLater embers$alchemyTabletRenderer = null;
