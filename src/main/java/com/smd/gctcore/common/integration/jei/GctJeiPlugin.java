@@ -6,6 +6,9 @@ import com.smd.gctcore.common.integration.jei.quartz.QuartzWrapper;
 import com.smd.gctcore.common.items.bloodmagic.soulgem.SoulGem;
 import com.smd.gctcore.misc.BlockRegistry;
 import com.smd.gctcore.misc.ItemRegistry;
+import com.smd.gctcore.common.integration.extendedcrafting.BlockExtendedCraftingAutomation;
+import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingAutomation;
+import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingTier;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
@@ -42,6 +45,24 @@ public class GctJeiPlugin implements IModPlugin {
         registry.addRecipes(Collections.singletonList(new QuartzWrapper.FakeQuartzRecipe()), RADIANT_RESONATOR);
         registry.addRecipeCatalyst(new ItemStack(BlockRegistry.RADIANT_RESONATOR), RADIANT_RESONATOR);
         hideNonRawSoulGems(registry);
+        registerExtendedCraftingAutomation(registry);
+    }
+
+    private static void registerExtendedCraftingAutomation(IModRegistry registry) {
+        if (!ExtendedCraftingAutomation.enabled()) return;
+        String[] categories = {
+                "extendedcrafting:table_crafting_3x3",
+                "extendedcrafting:table_crafting_5x5",
+                "extendedcrafting:table_crafting_7x7",
+                "extendedcrafting:table_crafting_9x9"
+        };
+        for (ExtendedCraftingTier tier : ExtendedCraftingTier.values()) {
+            String category = categories[tier.ordinal()];
+            registry.addRecipeCatalyst(new ItemStack(ExtendedCraftingAutomation.block(
+                    BlockExtendedCraftingAutomation.Kind.PATTERN_TERMINAL, tier)), category);
+            registry.getRecipeTransferRegistry().addRecipeTransferHandler(
+                    new ExtendedPatternTerminalTransferHandler(), category);
+        }
     }
 
     private static String getSoulGemSubtype(ItemStack stack) {

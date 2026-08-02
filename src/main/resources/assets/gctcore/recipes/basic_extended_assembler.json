@@ -1,0 +1,11 @@
+{
+  "conditions": [{ "type": "minecraft:item_exists", "item": "gctcore:basic_extended_assembler" }],
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["CTC", "CMC", "CCC"],
+  "key": {
+    "C": { "item": "extendedcrafting:material", "data": 14 },
+    "T": { "item": "extendedcrafting:table_basic" },
+    "M": { "item": "appliedenergistics2:molecular_assembler" }
+  },
+  "result": { "item": "gctcore:basic_extended_assembler" }
+}

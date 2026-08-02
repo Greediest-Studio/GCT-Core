@@ -1,0 +1,11 @@
+{
+  "conditions": [{ "type": "minecraft:item_exists", "item": "gctcore:basic_extended_interface" }],
+  "type": "minecraft:crafting_shaped",
+  "pattern": ["CXC", "XIX", "CXC"],
+  "key": {
+    "C": { "item": "extendedcrafting:material", "data": 14 },
+    "X": { "item": "extendedcrafting:material", "data": 8 },
+    "I": { "item": "appliedenergistics2:interface" }
+  },
+  "result": { "item": "gctcore:basic_extended_interface" }
+}

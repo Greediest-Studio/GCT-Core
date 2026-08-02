@@ -1,0 +1,6 @@
+{
+  "conditions": [{ "type": "minecraft:item_exists", "item": "gctcore:elite_blank_extended_pattern" }],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [{ "type": "appliedenergistics2:part", "part": "material.blank_pattern" }, { "item": "extendedcrafting:material", "data": 10 }],
+  "result": { "item": "gctcore:elite_blank_extended_pattern", "count": 2 }
+}

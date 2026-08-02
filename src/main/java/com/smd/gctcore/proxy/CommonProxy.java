@@ -4,6 +4,8 @@ import com.smd.gctcore.common.events.EventHooks;
 import com.smd.gctcore.common.events.MoreTconBedrockHandler;
 import com.smd.gctcore.common.events.NilfheimErosionHandler;
 import com.smd.gctcore.common.integration.WorldDimensionIntegrations;
+import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingAutomation;
+import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingGuiHandler;
 import com.smd.gctcore.common.integration.astralsorcery.RadiantQuartzLiquefaction;
 import com.smd.gctcore.common.integration.botania.DaisyPlacer;
 import com.smd.gctcore.common.integration.top.GctTopPlugin;
@@ -26,6 +28,8 @@ import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import com.smd.gctcore.gctcore;
 
 public class CommonProxy {
 
@@ -33,6 +37,7 @@ public class CommonProxy {
         GctNetworkHandler.init();
         PotionsItemRegistry.init();
         BlockRegistry.init();
+        ExtendedCraftingAutomation.init();
         NilfheimBiomes.init();
         // Mekanism upgrade types must exist before upgrade items are constructed
         if (Mods.MEKANISM.isLoading()) {
@@ -41,11 +46,16 @@ public class CommonProxy {
         ItemRegistry.init();
         EntityRegistrar.init();
         BlockRegistry.registerTileEntities();
+        ExtendedCraftingAutomation.registerTileEntities();
         // 注册事件监听器
         MinecraftForge.EVENT_BUS.register(EventHooks.INSTANCE);
         MinecraftForge.EVENT_BUS.register(new NilfheimErosionHandler());
         MinecraftForge.EVENT_BUS.register(new BlockRegistry());
         MinecraftForge.EVENT_BUS.register(new ItemRegistry());
+        if (ExtendedCraftingAutomation.enabled()) {
+            MinecraftForge.EVENT_BUS.register(new ExtendedCraftingAutomation());
+            NetworkRegistry.INSTANCE.registerGuiHandler(gctcore.INSTANCE, new ExtendedCraftingGuiHandler());
+        }
         MinecraftForge.EVENT_BUS.register(new PotionsItemRegistry());
         MinecraftForge.EVENT_BUS.register(new SoundRegistry());
         MinecraftForge.EVENT_BUS.register(new EntityRegistrar());

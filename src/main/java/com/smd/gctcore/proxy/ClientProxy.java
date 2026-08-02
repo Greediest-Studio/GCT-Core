@@ -5,6 +5,11 @@ import com.google.common.collect.Sets;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.client.render.tile.RenderNilfheimPortal;
 import com.smd.gctcore.common.entity.EntityRenders;
+import com.smd.gctcore.client.extendedcrafting.EncodedExtendedPatternBakedModel;
+import com.smd.gctcore.common.integration.extendedcrafting.BlockExtendedCraftingAutomation;
+import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingAutomation;
+import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingTier;
+import com.smd.gctcore.common.integration.extendedcrafting.ExtendedPatternData;
 import com.smd.gctcore.common.events.MiningSpeedHandler;
 import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
 import com.smd.gctcore.misc.BlockRegistry;
@@ -17,6 +22,7 @@ import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
@@ -76,6 +82,15 @@ public class ClientProxy extends CommonProxy {
                     (stack, tintIndex) -> tintIndex == 0 ? 0x97808B : -1,
                     ItemRegistry.GAIA_SPARK
             );
+            if (ExtendedCraftingAutomation.enabled()) {
+                for (ExtendedCraftingTier tier : ExtendedCraftingTier.values()) {
+                    event.getItemColors().registerItemColorHandler((stack, tintIndex) -> {
+                        if (!EncodedExtendedPatternBakedModel.isShiftDown()) return 0xFFFFFF;
+                        net.minecraft.item.ItemStack output = ExtendedPatternData.readOutput(stack);
+                        return output.isEmpty() ? 0xFFFFFF : event.getItemColors().colorMultiplier(output, tintIndex);
+                    }, ExtendedCraftingAutomation.encodedPattern(tier));
+                }
+            }
         }
 
         @SubscribeEvent
@@ -101,6 +116,28 @@ public class ClientProxy extends CommonProxy {
             registerBlockModel(BlockRegistry.STORAGE_SHAPED_QUARTZ);
             registerNilfheimBlockModels();
             registerSoulGemMeshModel();
+            registerExtendedCraftingModels();
+        }
+
+        @SubscribeEvent
+        public static void bakeExtendedPatternModels(ModelBakeEvent event) {
+            if (!ExtendedCraftingAutomation.enabled()) return;
+            for (ExtendedCraftingTier tier : ExtendedCraftingTier.values()) {
+                Item item = ExtendedCraftingAutomation.encodedPattern(tier);
+                ModelResourceLocation location = new ModelResourceLocation(Objects.requireNonNull(item.getRegistryName()), "inventory");
+                net.minecraft.client.renderer.block.model.IBakedModel model = event.getModelRegistry().getObject(location);
+                if (model != null) event.getModelRegistry().putObject(location, new EncodedExtendedPatternBakedModel(model));
+            }
+        }
+
+        private static void registerExtendedCraftingModels() {
+            if (!ExtendedCraftingAutomation.enabled()) return;
+            for (ExtendedCraftingTier tier : ExtendedCraftingTier.values()) {
+                for (BlockExtendedCraftingAutomation.Kind kind : BlockExtendedCraftingAutomation.Kind.values())
+                    registerBlockModel(ExtendedCraftingAutomation.block(kind, tier));
+                registerItemModel(ExtendedCraftingAutomation.blankPattern(tier));
+                registerItemModel(ExtendedCraftingAutomation.encodedPattern(tier));
+            }
         }
 
         @SubscribeEvent
