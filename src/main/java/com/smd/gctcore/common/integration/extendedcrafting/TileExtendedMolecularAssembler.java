@@ -1,5 +1,6 @@
 package com.smd.gctcore.common.integration.extendedcrafting;
 
+import com.smd.gctcore.common.config.GCTCompatConfig;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TileExtendedMolecularAssembler extends TileExtendedGridMachine implements ITickable {
-    private static final int CRAFT_TICKS = 20;
     private final NonNullList<ItemStack> inputs = NonNullList.create();
     private final NonNullList<ItemStack> outputs = NonNullList.create();
     private int remainingTicks;
@@ -34,7 +34,8 @@ public class TileExtendedMolecularAssembler extends TileExtendedGridMachine impl
         if (isBusy() || owner.tier() != tier || taskOutputs.isEmpty()) return false;
         copyInto(taskInputs, inputs);
         copyInto(taskOutputs, outputs);
-        remainingTicks = CRAFT_TICKS;
+        remainingTicks = Math.max(1,
+                GCTCompatConfig.extendedCraftingAutomation.assemblerCraftTicks);
         interfacePos = owner.getPos().toLong();
         markDirty();
         return true;

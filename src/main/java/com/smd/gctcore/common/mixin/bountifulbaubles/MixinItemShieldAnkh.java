@@ -1,6 +1,6 @@
 package com.smd.gctcore.common.mixin.bountifulbaubles;
 
-import com.smd.gctcore.common.mixin.vanilla.entity.EntityAccessor;
+import com.smd.gctcore.common.util.EntityWebState;
 import cursedflames.bountifulbaubles.item.ItemShieldAnkh;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,7 +16,7 @@ public class MixinItemShieldAnkh {
     @Inject(method = "onWornTick", at = @At("HEAD"), remap = false)
     private void onOnWornTick(ItemStack stack, EntityLivingBase player, CallbackInfo ci) {
         if (player instanceof EntityPlayer) {
-            ((EntityAccessor) player).setIsInWeb(false);
+            EntityWebState.clear(player);
         }
     }
 }
