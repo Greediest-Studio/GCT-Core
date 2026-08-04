@@ -110,6 +110,9 @@ public class ClientProxy extends CommonProxy {
             if (ItemRegistry.MINING_LEVEL_UPGRADE != null) {
                 registerItemModel(ItemRegistry.MINING_LEVEL_UPGRADE);
             }
+            if (ItemRegistry.ENERGY_MK2_UPGRADE != null) {
+                registerItemModel(ItemRegistry.ENERGY_MK2_UPGRADE);
+            }
             registerBlockModel(BlockRegistry.RADIANT_RESONATOR);
             registerBlockModel(BlockRegistry.RAW_QUARTZ_CLUSTER);
             registerBlockModel(BlockRegistry.STORAGE_RAW_QUARTZ);
