@@ -1,0 +1,6 @@
+{
+  "parent": "gctcore:block/extended_assembler_base",
+  "textures": {
+    "outside": "gctcore:blocks/extended_crafting/advanced_assembler"
+  }
+}

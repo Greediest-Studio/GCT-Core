@@ -41,6 +41,20 @@ public class GCTCompatConfig {
     @Config.Name("Mekanism Integration")
     public static MekanismIntegration mekanismIntegration = new MekanismIntegration();
 
+    @Config.Comment("Extended Crafting AE2 automation settings")
+    @Config.Name("Extended Crafting Automation")
+    public static ExtendedCraftingAutomation extendedCraftingAutomation = new ExtendedCraftingAutomation();
+
+    public static class ExtendedCraftingAutomation {
+        @Config.Comment({
+            "Ticks required for an Extended Molecular Assembler to finish one craft.",
+            "20 ticks are approximately one second. Changes apply to newly started crafts."
+        })
+        @Config.Name("Assembler Craft Ticks")
+        @Config.RangeInt(min = 1, max = 72000)
+        public int assemblerCraftTicks = 1;
+    }
+
     public static class RadiantResonator {
 
         @Config.Comment("Maximum radiant resonators each player can place")

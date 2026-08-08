@@ -7,7 +7,8 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinItemTrinketPotionCharm",
-    "MixinBountifulBaublesEventHandler"
+    "MixinBountifulBaublesEventHandler",
+    "MixinItemShieldAnkh"
   ],
   "server": [],
   "client": []

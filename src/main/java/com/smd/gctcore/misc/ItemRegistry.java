@@ -7,6 +7,7 @@ import com.smd.gctcore.common.items.botania.ItemGaiaSpark;
 import com.smd.gctcore.common.items.draconicevolution.ChaoticFluxCapacitor;
 import com.smd.gctcore.common.items.draconicevolution.FrostburnFluxCapacitor;
 import com.smd.gctcore.common.items.draconicevolution.OrderedFluxCapacitor;
+import com.smd.gctcore.common.items.mekanism.ItemEnergyMk2Upgrade;
 import com.smd.gctcore.common.items.mekanism.ItemMiningLevelUpgrade;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -30,6 +31,7 @@ public class ItemRegistry {
     public static Item MMCE_BUILDER_TOOL;
     public static Item BIRD_OF_EDWIN;
     public static Item MINING_LEVEL_UPGRADE;
+    public static Item ENERGY_MK2_UPGRADE;
 
     public static void init() {
         CHAOTIC_FLUX_CAPACITOR = new ChaoticFluxCapacitor();
@@ -50,6 +52,7 @@ public class ItemRegistry {
         BIRD_OF_EDWIN = new BirdOfEdwin();
         if (Loader.isModLoaded("mekanism")) {
             MINING_LEVEL_UPGRADE = new ItemMiningLevelUpgrade();
+            ENERGY_MK2_UPGRADE = new ItemEnergyMk2Upgrade();
         }
     }
 
@@ -72,6 +75,9 @@ public class ItemRegistry {
         );
         if (MINING_LEVEL_UPGRADE != null) {
             event.getRegistry().register(MINING_LEVEL_UPGRADE);
+        }
+        if (ENERGY_MK2_UPGRADE != null) {
+            event.getRegistry().register(ENERGY_MK2_UPGRADE);
         }
     }
 }

@@ -10,7 +10,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.9'
-    id 'com.gtnewhorizons.retrofuturagradle' version '1.4.1'
+    id 'com.gtnewhorizons.retrofuturagradle' version '1.4.2'
     id 'com.matthewprenger.cursegradle' version '1.4.0' apply false
     id 'com.modrinth.minotaur' version '2.+' apply false
     id 'org.jetbrains.changelog' version '2.2.1'
@@ -163,6 +163,7 @@ dependencies {
     compileOnly rfg.deobf("curse.maven:tinkersevolution-384589:8349133")
     compileOnly rfg.deobf("curse.maven:industrial-craft-242638:2755282")
     compileOnly rfg.deobf("curse.maven:bop-220318:3558882")
+    compileOnly rfg.deobf("curse.maven:ut-705000:8181251")
 
     //eio相关依赖
     compileOnly fileTree(dir: 'libs', include: [
@@ -197,6 +198,8 @@ dependencies {
     implementation rfg.deobf("curse.maven:AE2FluidCraftReworkUnofficial-1404390:7742544")
     implementation rfg.deobf("curse.maven:the-twilight-forest-227639:3051450")
     implementation rfg.deobf("curse.maven:mekanism-ce-unofficial-840735:8411935")
+    implementation rfg.deobf("curse.maven:avaritia-1-1x-kedition-913129:6118927")
+    implementation rfg.deobf("curse.maven:quantum-things-1387363:8352165")
     implementation(rfg.deobf("com.cleanroommc:modularui:3.1.6")) {
         exclude group: "mezz.jei", module: "jei_1.12.2"
     }

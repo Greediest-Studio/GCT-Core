@@ -14,6 +14,7 @@ public class MixinConfig implements ILateMixinLoader {
 
     static {
         addModdedMixinCFG("mixins.gctcore.aether.json", "aether_legacy");
+        addModdedMixinCFG("mixins.gctcore.avaritia.json", "avaritia");
         addModdedMixinCFG("mixins.gctcore.bountifulbaubles.json", "bountifulbaubles");
         addModdedMixinCFG("mixins.gctcore.astralsorcery.json", "astralsorcery");
         addModdedMixinCFG("mixins.gctcore.tconstruct.json", "tconstruct");
@@ -39,6 +40,8 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.hei.json", "jei");
         addModdedMixinCFG("mixins.gctcore.ae2.json", "appliedenergistics2");
         addModdedMixinCFG("mixins.gctcore.mekanism.json", "mekanism");
+        addModdedMixinCFG("mixins.gctcore.quantumthings.json", "randomthings");
+        addModdedMixinCFG("mixins.gctcore.projecte.json", "projecte");
         addModdedMixinCFG("mixins.gctcore.cyclic.json", "cyclic");
         addModdedMixinCFG("mixins.gctcore.dungeonsmod.json", "dungeonsmod");
         addModdedMixinCFG("mixins.gctcore.embers.json", "embers");

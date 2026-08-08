@@ -1,8 +1,11 @@
 package com.smd.gctcore.common.events;
 
 import com.google.common.collect.BiMap;
+import com.google.common.collect.Lists;
+import com.smd.gctcore.common.config.GCTCompatConfig;
 import com.smd.gctcore.common.config.GCTCoreConfig;
 import com.smd.gctcore.misc.ItemRegistry;
+import mod.acgaming.universaltweaks.config.UTConfigTweaks;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -13,6 +16,8 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
@@ -21,12 +26,15 @@ import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import java.util.ArrayList;
 
 public class EventHooks {
 
@@ -104,6 +112,26 @@ public class EventHooks {
             GlStateManager.setFog(GlStateManager.FogMode.EXP);
             event.setDensity((float) GCTCoreConfig.cleanwater.fogDensityLava);
             event.setCanceled(true);
+        }
+    }
+
+
+    @SubscribeEvent
+    public static void onPlayerLogin(PlayerLoggedInEvent event) {
+
+        if (!Loader.isModLoaded("universaltweaks")) {
+            return;
+        }
+
+        if (UTConfigTweaks.MISC.utRecipeBookToggle) {
+            return;
+        }
+
+        if (event.player instanceof EntityPlayerMP) {
+            ArrayList<IRecipe> recipes = Lists.newArrayList(CraftingManager.REGISTRY);
+            recipes.removeIf(recipe -> recipe.getRecipeOutput().isEmpty());
+            recipes.removeIf(recipe -> recipe.getIngredients().isEmpty());
+            event.player.unlockRecipes(recipes);
         }
     }
 }

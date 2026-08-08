@@ -6,6 +6,7 @@ import mekanism.api.EnumColor;
 import mekanism.common.Upgrade;
 import mekanism.common.base.IUpgradeTile;
 import mekanism.common.util.LangUtils;
+import mekanism.common.util.MekanismUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Loader;
 
@@ -20,7 +21,10 @@ import java.util.List;
  */
 public final class GctMekanismUpgrades {
 
+    public static final int MAX_ENERGY_MK2_LEVEL = 8;
+    public static final int MAX_ENERGY_MK2_STACK_SIZE = 64;
     public static Upgrade MINING_LEVEL;
+    public static Upgrade ENERGY_MK2;
 
     private GctMekanismUpgrades() {
     }
@@ -35,6 +39,14 @@ public final class GctMekanismUpgrades {
                 .color(EnumColor.ORANGE)
                 .stack(GctMekanismUpgrades::createStack)
                 .info(GctMekanismUpgrades::miningLevelInfo)
+                .register();
+        ENERGY_MK2 = Upgrade.builder(Tags.MOD_ID, "energy_mk2")
+                .maxInstalled(MAX_ENERGY_MK2_LEVEL)
+                .maxItemStackSize(MAX_ENERGY_MK2_STACK_SIZE)
+                .color(EnumColor.AQUA)
+                .stack(GctMekanismUpgrades::createEnergyMk2Stack)
+                .info(GctMekanismUpgrades::energyMk2Info)
+                .conflictsWith(Upgrade.ENERGY)
                 .register();
     }
 
@@ -62,5 +74,24 @@ public final class GctMekanismUpgrades {
 
     public static boolean isMiningLevelUpgrade(Upgrade upgrade) {
         return MINING_LEVEL != null && upgrade == MINING_LEVEL;
+    }
+
+    private static ItemStack createEnergyMk2Stack(int count) {
+        if (ItemRegistry.ENERGY_MK2_UPGRADE == null) {
+            return ItemStack.EMPTY;
+        }
+        return new ItemStack(ItemRegistry.ENERGY_MK2_UPGRADE, Math.max(1, count));
+    }
+
+    private static List<String> energyMk2Info(Upgrade upgrade, IUpgradeTile tile) {
+        List<String> info = new ArrayList<>(1);
+        int installed = tile == null ? 0 : tile.getInstalledUpgrades(upgrade);
+        double multiplier = Math.pow(2, installed);
+        info.add(LangUtils.localize("gui.upgrades.effect") + ": " + MekanismUtils.exponential(multiplier) + "x");
+        return info;
+    }
+
+    public static boolean isEnergyMk2Upgrade(Upgrade upgrade) {
+        return ENERGY_MK2 != null && upgrade == ENERGY_MK2;
     }
 }

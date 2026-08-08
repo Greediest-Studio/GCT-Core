@@ -8,7 +8,9 @@ import io.netty.buffer.ByteBuf;
 import mekanism.api.Coord4D;
 import mekanism.api.TileNetworkList;
 import mekanism.common.tile.machine.TileEntityDigitalMiner;
+import mekanism.common.util.ItemDataUtils;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -66,6 +68,27 @@ public abstract class MixinTileEntityDigitalMiner implements DigitalMinerHarvest
             this.gct$miningLevel = Math.max(0, nbtTags.getInteger(MekanismHarvestHelper.TILE_MINING_LEVEL_KEY));
         } else {
             this.gct$miningLevel = 0;
+        }
+    }
+
+    /**
+     * Persist mining level onto the dropped/picked Digital Miner item.
+     */
+    @Inject(method = "writeSustainedData", at = @At("RETURN"))
+    private void gct$writeMiningLevelSustained(ItemStack itemStack, CallbackInfo ci) {
+        if (itemStack == null || itemStack.isEmpty()) {
+            return;
+        }
+        ItemDataUtils.setInt(itemStack, MekanismHarvestHelper.TILE_MINING_LEVEL_KEY, this.gct$miningLevel);
+    }
+
+    @Inject(method = "readSustainedData", at = @At("RETURN"))
+    private void gct$readMiningLevelSustained(ItemStack itemStack, CallbackInfo ci) {
+        if (itemStack == null || itemStack.isEmpty()) {
+            return;
+        }
+        if (ItemDataUtils.hasData(itemStack, MekanismHarvestHelper.TILE_MINING_LEVEL_KEY)) {
+            this.gct$miningLevel = Math.max(0, ItemDataUtils.getInt(itemStack, MekanismHarvestHelper.TILE_MINING_LEVEL_KEY));
         }
     }
 

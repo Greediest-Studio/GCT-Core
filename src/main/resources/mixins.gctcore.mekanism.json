@@ -9,7 +9,9 @@
     "MixinLaserManager",
     "MixinLaserDigging",
     "MixinTileEntityDigitalMiner",
-    "MixinTileComponentUpgrade"
+    "MixinTileComponentUpgrade",
+    "MixinMekanismUtils",
+    "MixinTileEntityRestrictedTick"
   ],
   "server": [],
   "client": [
