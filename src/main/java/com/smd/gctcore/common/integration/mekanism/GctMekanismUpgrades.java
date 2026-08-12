@@ -83,7 +83,7 @@ public final class GctMekanismUpgrades {
         return new ItemStack(ItemRegistry.ENERGY_MK2_UPGRADE, Math.max(1, count));
     }
 
-    private static List<String> energyMk2Info(Upgrade upgrade, IUpgradeTile tile) {
+    public static List<String> energyMk2Info(Upgrade upgrade, IUpgradeTile tile) {
         List<String> info = new ArrayList<>(1);
         int installed = tile == null ? 0 : tile.getInstalledUpgrades(upgrade);
         double multiplier = Math.pow(2, installed);
