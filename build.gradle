@@ -143,7 +143,6 @@ dependencies {
         }
     }
 
-    compileOnly rfg.deobf("curse.maven:aether-936489:7021772")
     compileOnly rfg.deobf("curse.maven:scalingguis-319656:5150678")
     compileOnly rfg.deobf("curse.maven:cyclic-239286:4075832")
     compileOnly rfg.deobf("curse.maven:aether-255308:6316434")
