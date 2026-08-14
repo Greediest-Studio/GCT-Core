@@ -13,14 +13,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.Tuple;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fluids.FluidStack;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class ConfigurableMachineDisassembly implements MMCE_BuilderTask {
 
@@ -117,7 +122,7 @@ public class ConfigurableMachineDisassembly implements MMCE_BuilderTask {
             return;
         }
 
-        Tuple<ItemStack, IBlockState> matched = MMCEBuilderUtils.findMatchingItemCandidate(world, realPos, ingredient.blockInformation(), ingredient.candidates());
+        Tuple<ItemStack, IBlockState> matched = MMCEBuilderUtils.findMatchingItemCandidate(world, realPos, ingredient.candidates());
         if (matched == null) {
             iterator.remove();
             return;
@@ -134,17 +139,20 @@ public class ConfigurableMachineDisassembly implements MMCE_BuilderTask {
                 return;
             }
         }
-        if (!breakBlock(realPos)) {
+        List<ItemStack> nativeDrops = breakItemBlock(realPos);
+        if (nativeDrops == null) {
             return;
         }
 
-        if (useAeItems) {
-            ItemStack leftover = Ae2AssemblyExtractor.insertItem(player, recovered);
-            if (!leftover.isEmpty()) {
-                giveOrDrop(leftover);
+        boolean blockReturnedByNativeDrop = false;
+        for (ItemStack nativeDrop : nativeDrops) {
+            if (ItemStack.areItemsEqual(nativeDrop, recovered)) {
+                blockReturnedByNativeDrop = true;
             }
-        } else {
-            giveOrDrop(recovered);
+            returnItem(nativeDrop);
+        }
+        if (!blockReturnedByNativeDrop) {
+            returnItem(recovered);
         }
         world.playSound(null, realPos, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
         iterator.remove();
@@ -159,7 +167,7 @@ public class ConfigurableMachineDisassembly implements MMCE_BuilderTask {
             return;
         }
 
-        Tuple<FluidStack, IBlockState> matched = MMCEBuilderUtils.findMatchingFluidCandidate(world, realPos, ingredient.blockInformation(), ingredient.candidates());
+        Tuple<FluidStack, IBlockState> matched = MMCEBuilderUtils.findMatchingFluidCandidate(world, realPos, ingredient.candidates());
         if (matched == null) {
             iterator.remove();
             return;
@@ -194,7 +202,52 @@ public class ConfigurableMachineDisassembly implements MMCE_BuilderTask {
             reportLimited("message.gctcore.mmce_builder.break_cancelled");
             return false;
         }
+
         return world.setBlockToAir(realPos);
+    }
+
+    private List<ItemStack> breakItemBlock(BlockPos realPos) {
+        IBlockState current = world.getBlockState(realPos);
+        if (current.getBlock() == Blocks.AIR) {
+            return Collections.emptyList();
+        }
+        AxisAlignedBB bounds = new AxisAlignedBB(realPos).grow(1.0D);
+        Set<EntityItem> existing = Collections.newSetFromMap(new IdentityHashMap<EntityItem, Boolean>());
+        existing.addAll(world.getEntitiesWithinAABB(EntityItem.class, bounds));
+
+        BlockEvent.BreakEvent event = new BlockEvent.BreakEvent(world, realPos, current, player);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (event.isCanceled()) {
+            reportLimited("message.gctcore.mmce_builder.break_cancelled");
+            return null;
+        }
+        if (!world.setBlockToAir(realPos)) {
+            return null;
+        }
+
+        List<ItemStack> drops = new ArrayList<>();
+        for (EntityItem entity : world.getEntitiesWithinAABB(EntityItem.class, bounds)) {
+            if (existing.contains(entity) || entity.isDead || entity.getItem().isEmpty()) {
+                continue;
+            }
+            drops.add(entity.getItem().copy());
+            entity.setDead();
+        }
+        return drops;
+    }
+
+    private void returnItem(ItemStack stack) {
+        if (stack.isEmpty()) {
+            return;
+        }
+        if (useAeItems && Mods.AE2.isLoading()) {
+            ItemStack leftover = Ae2AssemblyExtractor.insertItem(player, stack);
+            if (!leftover.isEmpty()) {
+                giveOrDrop(leftover);
+            }
+        } else {
+            giveOrDrop(stack);
+        }
     }
 
     private void giveOrDrop(ItemStack stack) {
