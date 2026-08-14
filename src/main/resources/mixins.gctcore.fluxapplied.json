@@ -1,0 +1,16 @@
+{
+  "package": "com.smd.gctcore.common.mixin.fluxapplied",
+  "required": true,
+  "refmap": "mixins.gctcore.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8.5",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinAEBasePart",
+    "MixinPartEnergyStorageBus"
+  ],
+  "server": [],
+  "client": [
+    "MixinCableBusContainer"
+  ]
+}
