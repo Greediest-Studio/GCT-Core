@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 /**
  * Bridges Quantum Things' Time in a Bottle calls to Mekanism's controlled extra-tick entry point.
  */
-@Mixin(value = EntityTimeAccelerator.class, remap = false)
+@Mixin(value = EntityTimeAccelerator.class, remap = true)
 public abstract class MixinEntityTimeAccelerator {
 
     @Redirect(
