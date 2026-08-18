@@ -6,7 +6,9 @@
   "refmap": "mixins.gctcore.refmap.json",
   "mixins": [
     "MixinAdapterTC6GuguAspectBridge",
-    "MixinAdapterTC6Crucible"
+    "MixinAdapterTC6Crucible",
+    "MixinTitleMEAspectBus",
+    "MixinTitleMEAspectInputBus"
   ],
   "client": [],
   "server": []
