@@ -10,6 +10,7 @@ public enum Mods {
     NATURES_AURA("naturesaura"),
     MORETCON("moretcon"),
     BOT("botania"),
+    BOTANIVERSE("botaniverse"),
     MEKANISM("mekanism");
 
     public final String modid;
