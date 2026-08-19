@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "tier=joetunheim": { "model": "gctcore:joetunheim_mana_spreader" },
+    "tier=nidavellir": { "model": "gctcore:nidavellir_mana_spreader" },
+    "tier=vanaheim": { "model": "gctcore:vanaheim_mana_spreader" }
+  }
+}

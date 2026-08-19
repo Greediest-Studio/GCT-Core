@@ -247,3 +247,6 @@ tile.gctcore.gct_mana_rock.vanaheim.name=Vanaheim Rock
 tile.gctcore.gct_mana_pool.joetunheim.name=Joetunheim Mana Pool
 tile.gctcore.gct_mana_pool.nidavellir.name=Nidavellir Mana Pool
 tile.gctcore.gct_mana_pool.vanaheim.name=Vanaheim Mana Pool
+tile.gctcore.gct_mana_spreader.joetunheim.name=Joetunheim Mana Spreader
+tile.gctcore.gct_mana_spreader.nidavellir.name=Nidavellir Mana Spreader
+tile.gctcore.gct_mana_spreader.vanaheim.name=Vanaheim Mana Spreader

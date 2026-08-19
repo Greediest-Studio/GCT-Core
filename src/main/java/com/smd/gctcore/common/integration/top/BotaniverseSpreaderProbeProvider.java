@@ -14,6 +14,7 @@ import vazkii.botania.api.mana.IManaCollector;
 public final class BotaniverseSpreaderProbeProvider implements IProbeInfoProvider {
 
     private static final ResourceLocation MORE_SPREADER = new ResourceLocation("botaniverse", "morespreader");
+    private static final ResourceLocation GCT_SPREADER = new ResourceLocation("gctcore", "gct_mana_spreader");
 
     @Override
     public String getID() {
@@ -23,7 +24,8 @@ public final class BotaniverseSpreaderProbeProvider implements IProbeInfoProvide
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world,
                              IBlockState blockState, IProbeHitData data) {
-        if (!MORE_SPREADER.equals(blockState.getBlock().getRegistryName())) {
+        ResourceLocation blockId = blockState.getBlock().getRegistryName();
+        if (!MORE_SPREADER.equals(blockId) && !GCT_SPREADER.equals(blockId)) {
             return;
         }
 
@@ -41,6 +43,10 @@ public final class BotaniverseSpreaderProbeProvider implements IProbeInfoProvide
                 probeInfo.defaultProgressStyle()
                         .prefix("Mana:")
                         .suffix("/" + maxMana));
-        probeInfo.text(label);
+        // ExtraBotany's TOPSpreader already supplies the text row for every
+        // TileSpreader. Keep our progress bar, but do not add a duplicate row.
+        if (!com.smd.gctcore.misc.Mods.EXTRABOTANY.isLoading()) {
+            probeInfo.text(label);
+        }
     }
 }

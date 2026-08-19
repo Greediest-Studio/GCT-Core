@@ -46,6 +46,7 @@ public class MixinConfig implements ILateMixinLoader {
                 () -> modLoaded("appliedenergistics2") && modLoaded("flux_applied"));
         addModdedMixinCFG("mixins.gctcore.botaniaapplie.json", "botania_applie");
         addModdedMixinCFG("mixins.gctcore.botania.json", "botania");
+        addModdedMixinCFG("mixins.gctcore.botaniverse.json", "botaniverse");
         addMixinCFG("mixins.gctcore.mmceparallelequalizer.json",
                 () -> modLoaded("modularmachinery") && modLoaded("mmceparallelequalizer"));
         addModdedMixinCFG("mixins.gctcore.mekanism.json", "mekanism");

@@ -4,6 +4,7 @@ import WayofTime.bloodmagic.client.IMeshProvider;
 import com.google.common.collect.Sets;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.client.render.tile.RenderNilfheimPortal;
+import com.smd.gctcore.client.render.tile.RenderGctManaSpreader;
 import com.smd.gctcore.common.blocks.botania.BlockGctManaPool;
 import com.smd.gctcore.common.botania.GctManaPoolTier;
 import com.smd.gctcore.common.entity.EntityRenders;
@@ -15,6 +16,7 @@ import com.smd.gctcore.common.integration.extendedcrafting.ExtendedPatternData;
 import com.smd.gctcore.common.events.MiningSpeedHandler;
 import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
 import com.smd.gctcore.common.tile.botania.TileGctManaPool;
+import com.smd.gctcore.common.tile.botania.TileGctManaSpreader;
 import com.smd.gctcore.misc.BlockRegistry;
 import com.smd.gctcore.misc.ItemRegistry;
 import net.minecraft.block.Block;
@@ -62,6 +64,7 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(NilfheimPortalTileEntity.class, new RenderNilfheimPortal());
         if (com.smd.gctcore.misc.Mods.BOT.isLoading()) {
             ClientRegistry.bindTileEntitySpecialRenderer(TileGctManaPool.class, new RenderTilePool());
+            ClientRegistry.bindTileEntitySpecialRenderer(TileGctManaSpreader.class, new RenderGctManaSpreader());
         }
     }
 
@@ -221,6 +224,7 @@ public class ClientProxy extends CommonProxy {
 
             Item rock = Item.getItemFromBlock(BlockRegistry.GCT_MANA_ROCK);
             Item pool = Item.getItemFromBlock(BlockRegistry.GCT_MANA_POOL);
+            Item spreader = Item.getItemFromBlock(BlockRegistry.GCT_MANA_SPREADER);
             for (GctManaPoolTier tier : GctManaPoolTier.values()) {
                 ModelLoader.setCustomModelResourceLocation(rock, tier.ordinal(),
                         new ModelResourceLocation(
@@ -229,6 +233,10 @@ public class ClientProxy extends CommonProxy {
                 ModelLoader.setCustomModelResourceLocation(pool, tier.ordinal(),
                         new ModelResourceLocation(
                                 new ResourceLocation(Tags.MOD_ID, tier.getName() + "_mana_pool"),
+                                "inventory"));
+                ModelLoader.setCustomModelResourceLocation(spreader, tier.ordinal(),
+                        new ModelResourceLocation(
+                                new ResourceLocation(Tags.MOD_ID, tier.getName() + "_mana_spreader"),
                                 "inventory"));
             }
         }

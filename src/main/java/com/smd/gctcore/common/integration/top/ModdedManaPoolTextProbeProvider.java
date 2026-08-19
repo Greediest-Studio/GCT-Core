@@ -30,8 +30,8 @@ public final class ModdedManaPoolTextProbeProvider implements IProbeInfoProvider
                              IBlockState blockState, IProbeHitData data) {
         ResourceLocation blockId = blockState.getBlock().getRegistryName();
         // ExtraBotany already supplies this exact text for every TilePool. Avoid
-        // registering a second line for GCT's TilePool subclass when it is present.
-        if (Mods.EXTRABOTANY.isLoading() && GCT_MANA_POOL.equals(blockId)) {
+        // registering a second line for any supported pool when it is present.
+        if (Mods.EXTRABOTANY.isLoading()) {
             return;
         }
         if (!BOTANIVERSE_POOL.equals(blockId) && !DREAMING_POOL.equals(blockId) && !GCT_MANA_POOL.equals(blockId)) {

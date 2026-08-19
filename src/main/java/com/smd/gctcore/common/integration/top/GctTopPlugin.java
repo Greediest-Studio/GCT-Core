@@ -2,7 +2,6 @@ package com.smd.gctcore.common.integration.top;
 
 import com.smd.gctcore.common.blocks.arcanearchives.RadiantResonatorBlock;
 import com.smd.gctcore.common.tile.RadiantResonatorTileEntity;
-import com.smd.gctcore.misc.Mods;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.IProbeInfoProvider;
@@ -43,9 +42,7 @@ public class GctTopPlugin implements Function<ITheOneProbe, Void>, IProbeInfoPro
     @Override
     public Void apply(ITheOneProbe top) {
         top.registerProvider(this);
-        if (Mods.BOTANIVERSE.isLoading()) {
-            top.registerProvider(new BotaniverseSpreaderProbeProvider());
-        }
+        top.registerProvider(new BotaniverseSpreaderProbeProvider());
         top.registerProvider(new ModdedManaPoolTextProbeProvider());
         return null;
     }

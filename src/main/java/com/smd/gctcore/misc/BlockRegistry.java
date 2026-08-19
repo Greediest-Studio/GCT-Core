@@ -3,6 +3,7 @@ package com.smd.gctcore.misc;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.common.blocks.botania.BlockGctManaPool;
 import com.smd.gctcore.common.blocks.botania.BlockGctManaRock;
+import com.smd.gctcore.common.blocks.botania.BlockGctManaSpreader;
 import com.smd.gctcore.common.blocks.nilfheim.BlockGlassrock;
 import com.smd.gctcore.common.blocks.nilfheim.BlockMistLotus;
 import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimFluid;
@@ -30,6 +31,7 @@ import com.smd.gctcore.common.items.ItemBlockGctManaTiered;
 import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
 import com.smd.gctcore.common.tile.RadiantResonatorTileEntity;
 import com.smd.gctcore.common.tile.botania.TileGctManaPool;
+import com.smd.gctcore.common.tile.botania.TileGctManaSpreader;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -109,6 +111,7 @@ public class BlockRegistry {
     public static BlockNilfheimPortalCore NILFHEIM_PORTAL_CORE;
     public static BlockGctManaRock GCT_MANA_ROCK;
     public static BlockGctManaPool GCT_MANA_POOL;
+    public static BlockGctManaSpreader GCT_MANA_SPREADER;
 
     public static void init() {
         FluidRegistry.enableUniversalBucket();
@@ -190,12 +193,14 @@ public class BlockRegistry {
         NILFHEIM_PORTAL_CORE = new BlockNilfheimPortalCore();
         GCT_MANA_ROCK = new BlockGctManaRock();
         GCT_MANA_POOL = new BlockGctManaPool();
+        GCT_MANA_SPREADER = new BlockGctManaSpreader();
     }
 
     public static void registerTileEntities() {
         GameRegistry.registerTileEntity(RadiantResonatorTileEntity.class, new ResourceLocation(Tags.MOD_ID, "radiant_resonator"));
         GameRegistry.registerTileEntity(NilfheimPortalTileEntity.class, new ResourceLocation(Tags.MOD_ID, "nilfheim_portal_core"));
         GameRegistry.registerTileEntity(TileGctManaPool.class, new ResourceLocation(Tags.MOD_ID, "gct_mana_pool"));
+        GameRegistry.registerTileEntity(TileGctManaSpreader.class, new ResourceLocation(Tags.MOD_ID, "gct_mana_spreader"));
     }
 
     @SubscribeEvent
@@ -262,7 +267,8 @@ public class BlockRegistry {
                 ASHEN_MUSHROOM,
                 NILFHEIM_PORTAL_CORE,
                 GCT_MANA_ROCK,
-                GCT_MANA_POOL
+                GCT_MANA_POOL,
+                GCT_MANA_SPREADER
         );
     }
 
@@ -330,7 +336,8 @@ public class BlockRegistry {
                 new ItemBlock(ASHEN_MUSHROOM).setRegistryName(ASHEN_MUSHROOM.getRegistryName()),
                 new ItemBlock(NILFHEIM_PORTAL_CORE).setRegistryName(NILFHEIM_PORTAL_CORE.getRegistryName()),
                 new ItemBlockGctManaTiered(GCT_MANA_ROCK).setRegistryName(GCT_MANA_ROCK.getRegistryName()),
-                new ItemBlockGctManaTiered(GCT_MANA_POOL).setRegistryName(GCT_MANA_POOL.getRegistryName())
+                new ItemBlockGctManaTiered(GCT_MANA_POOL).setRegistryName(GCT_MANA_POOL.getRegistryName()),
+                new ItemBlockGctManaTiered(GCT_MANA_SPREADER).setRegistryName(GCT_MANA_SPREADER.getRegistryName())
         );
         registerOreDictionary();
     }

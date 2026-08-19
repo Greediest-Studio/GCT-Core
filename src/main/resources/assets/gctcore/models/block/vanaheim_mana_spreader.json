@@ -1,0 +1,8 @@
+{
+  "parent": "gctcore:block/shapes/gct_mana_spreader",
+  "textures": {
+    "inside": "gctcore:model/gct_mana_spreader/vanaheim_inside",
+    "side": "gctcore:model/gct_mana_spreader/vanaheim_side",
+    "material": "gctcore:blocks/vanaheim_wood"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "gctcore:block/shapes/gct_mana_spreader",
+  "textures": {
+    "inside": "gctcore:model/gct_mana_spreader/joetunheim_inside",
+    "side": "gctcore:model/gct_mana_spreader/joetunheim_side",
+    "material": "gctcore:blocks/joetunheim_wood"
+  }
+}
