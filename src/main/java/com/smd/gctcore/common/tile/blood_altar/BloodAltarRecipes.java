@@ -119,7 +119,7 @@ public final class BloodAltarRecipes {
         }
 
         final RecipePrimer recipe = newRecipe("purify", 1);
-        recipe.appendComponent(new RequirementFluid(IOType.INPUT, new FluidStack(substrate, 1000)));
+        recipe.appendComponent(new RequirementFluid(IOType.INPUT, new FluidStack(substrate, 1)));
         recipe.addPreCheckHandler(BloodAltarRecipes::checkPurification);
         recipe.addFactoryPreTickHandler(BloodAltarRecipes::tickPurification);
         recipe.addFactoryFinishHandler(BloodAltarRecipes::finishPurification);

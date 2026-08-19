@@ -237,7 +237,7 @@ item.gctcore.ultimate_blank_extended_pattern.name=终极空白合成样板
 item.gctcore.ultimate_encoded_extended_pattern.name=终极已编码合成样板
 
 # 血之祭坛
-tile.gctcore.blood_altar.name=血之祭坛控制器
+tile.gctcore.blood_altar.name=§cLV1 - 血之祭坛控制器
 gui.gctcore.blood_altar.mode_button=切换生命源质传输模式
 gui.gctcore.blood_altar.header=§a///血之祭坛控制面板///
 gui.gctcore.blood_altar.machine_name=LV1 - 血之祭坛
