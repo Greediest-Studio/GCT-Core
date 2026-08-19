@@ -42,8 +42,7 @@ public class GctTopPlugin implements Function<ITheOneProbe, Void>, IProbeInfoPro
     @Override
     public Void apply(ITheOneProbe top) {
         top.registerProvider(this);
-        top.registerProvider(new BotaniverseSpreaderProbeProvider());
-        top.registerProvider(new ModdedManaPoolTextProbeProvider());
+        top.registerProvider(new BotaniaManaProbeProvider());
         return null;
     }
 }

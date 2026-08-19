@@ -49,6 +49,22 @@ public abstract class MixinTileMoreSpreader {
         } else if (isASGARD_SPREADER()) {
             mana = 6_400_000;
         }
-        return new BurstProperties(mana, ticksBeforeManaLoss, manaLossPerTick, gravity, motionModifier, color);
+
+        // Botaniverse passes 0 for motionModifier in every normal tier, which
+        // zeroes EntityManaBurst's default 0.4 block/tick motion.  Replace it
+        // with the same seven-tier progression used by GCT-Core.  A non-zero
+        // value supplied by a lens is retained as a multiplier.
+        float tierMotion = 1.0F;
+        if (isMUSPELHEIM_SPREADER()) {
+            tierMotion = 1.75F;
+        } else if (isALFHEIM_SPREADER()) {
+            tierMotion = 2.25F;
+        } else if (isASGARD_SPREADER()) {
+            tierMotion = 2.5F;
+        }
+        float effectiveMotion = motionModifier == 0.0F
+                ? tierMotion : tierMotion * motionModifier;
+        return new BurstProperties(mana, ticksBeforeManaLoss, manaLossPerTick, gravity,
+                effectiveMotion, color);
     }
 }

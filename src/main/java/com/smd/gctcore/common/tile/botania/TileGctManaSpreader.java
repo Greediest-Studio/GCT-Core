@@ -52,6 +52,13 @@ public class TileGctManaSpreader extends TileSpreader {
         }
         burst.setMana(adjustedMana);
         burst.setStartingMana(adjustedMana);
+
+        // EntityManaBurst starts at 0.4 block/tick.  Keep lens modifiers intact
+        // while applying this tier's absolute speed to the burst.
+        double velocityScale = getTier().getBurstVelocity() / 0.4D;
+        burst.setMotion(burst.motionX * velocityScale,
+                burst.motionY * velocityScale,
+                burst.motionZ * velocityScale);
         return burst;
     }
 
