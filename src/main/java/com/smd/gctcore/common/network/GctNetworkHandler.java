@@ -1,6 +1,7 @@
 package com.smd.gctcore.common.network;
 
 import com.smd.gctcore.Tags;
+import com.smd.gctcore.common.tile.blood_altar.BloodAltarFactoryController;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -16,5 +17,7 @@ public final class GctNetworkHandler {
         CHANNEL.registerMessage(PacketNilfheimErosion.class, PacketNilfheimErosion.class, packetId++, Side.CLIENT);
         CHANNEL.registerMessage(PacketExtendedPatternTerminal.Handler.class, PacketExtendedPatternTerminal.class,
                 packetId++, Side.SERVER);
+        CHANNEL.registerMessage(BloodAltarFactoryController.ModePacket.class,
+                BloodAltarFactoryController.ModePacket.class, packetId++, Side.SERVER);
     }
 }

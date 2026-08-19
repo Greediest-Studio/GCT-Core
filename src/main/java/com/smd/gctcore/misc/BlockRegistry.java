@@ -23,9 +23,12 @@ import com.smd.gctcore.common.blocks.arcanearchives.RadiantResonatorBlock;
 import com.smd.gctcore.common.blocks.arcanearchives.RawQuartzClusterBlock;
 import com.smd.gctcore.common.blocks.arcanearchives.StorageRawQuartzBlock;
 import com.smd.gctcore.common.blocks.arcanearchives.StorageShapedQuartzBlock;
+import com.smd.gctcore.common.tile.blood_altar.BlockBloodAltarController;
 import com.smd.gctcore.common.items.ItemBlockNilfheimWall;
 import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
 import com.smd.gctcore.common.tile.RadiantResonatorTileEntity;
+import com.smd.gctcore.common.tile.blood_altar.BloodAltarFactoryController;
+import hellfirepvp.modularmachinery.common.item.ItemBlockController;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -103,6 +106,7 @@ public class BlockRegistry {
     public static BlockShadowberryBush SHADOWBERRY_BUSH;
     public static BlockNilfheimPlant ASHEN_MUSHROOM;
     public static BlockNilfheimPortalCore NILFHEIM_PORTAL_CORE;
+    public static BlockBloodAltarController BLOOD_ALTAR_CONTROLLER;
 
     public static void init() {
         FluidRegistry.enableUniversalBucket();
@@ -182,11 +186,13 @@ public class BlockRegistry {
         SHADOWBERRY_BUSH = new BlockShadowberryBush();
         ASHEN_MUSHROOM = new BlockNilfheimPlant("ashen_mushroom", 0.2F);
         NILFHEIM_PORTAL_CORE = new BlockNilfheimPortalCore();
+        BLOOD_ALTAR_CONTROLLER = new BlockBloodAltarController();
     }
 
     public static void registerTileEntities() {
         GameRegistry.registerTileEntity(RadiantResonatorTileEntity.class, new ResourceLocation(Tags.MOD_ID, "radiant_resonator"));
         GameRegistry.registerTileEntity(NilfheimPortalTileEntity.class, new ResourceLocation(Tags.MOD_ID, "nilfheim_portal_core"));
+        GameRegistry.registerTileEntity(BloodAltarFactoryController.class, new ResourceLocation(Tags.MOD_ID, "blood_altar"));
     }
 
     @SubscribeEvent
@@ -251,7 +257,8 @@ public class BlockRegistry {
                 GLOWING_CREEPER,
                 SHADOWBERRY_BUSH,
                 ASHEN_MUSHROOM,
-                NILFHEIM_PORTAL_CORE
+                NILFHEIM_PORTAL_CORE,
+                BLOOD_ALTAR_CONTROLLER
         );
     }
 
@@ -317,7 +324,9 @@ public class BlockRegistry {
                 new ItemBlock(GLOWING_CREEPER).setRegistryName(GLOWING_CREEPER.getRegistryName()),
                 new ItemBlock(SHADOWBERRY_BUSH).setRegistryName(SHADOWBERRY_BUSH.getRegistryName()),
                 new ItemBlock(ASHEN_MUSHROOM).setRegistryName(ASHEN_MUSHROOM.getRegistryName()),
-                new ItemBlock(NILFHEIM_PORTAL_CORE).setRegistryName(NILFHEIM_PORTAL_CORE.getRegistryName())
+                new ItemBlock(NILFHEIM_PORTAL_CORE).setRegistryName(NILFHEIM_PORTAL_CORE.getRegistryName()),
+                new ItemBlockController(BLOOD_ALTAR_CONTROLLER)
+                        .setRegistryName(BLOOD_ALTAR_CONTROLLER.getRegistryName())
         );
         registerOreDictionary();
     }

@@ -12,6 +12,8 @@ import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingTier;
 import com.smd.gctcore.common.integration.extendedcrafting.ExtendedPatternData;
 import com.smd.gctcore.common.events.MiningSpeedHandler;
 import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
+import com.smd.gctcore.common.tile.blood_altar.BloodAltarFactoryController;
+import com.smd.gctcore.common.tile.blood_altar.GuiBloodAltarController;
 import com.smd.gctcore.misc.BlockRegistry;
 import com.smd.gctcore.misc.ItemRegistry;
 import net.minecraft.block.Block;
@@ -20,6 +22,9 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.ModelBakeEvent;
@@ -65,6 +70,17 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void postInit(FMLPostInitializationEvent event) {
         super.postInit(event);
+    }
+
+    @Override
+    public Object getClientGuiElement(final int id, final EntityPlayer player, final net.minecraft.world.World world,
+                                      final int x, final int y, final int z) {
+        if (id == BLOOD_ALTAR_GUI_ID) {
+            final TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
+            return tile instanceof BloodAltarFactoryController
+                    ? new GuiBloodAltarController((BloodAltarFactoryController) tile, player) : null;
+        }
+        return super.getClientGuiElement(id, player, world, x, y, z);
     }
 
     @Mod.EventBusSubscriber(value = Side.CLIENT, modid = Tags.MOD_ID)
@@ -117,6 +133,7 @@ public class ClientProxy extends CommonProxy {
             registerBlockModel(BlockRegistry.RAW_QUARTZ_CLUSTER);
             registerBlockModel(BlockRegistry.STORAGE_RAW_QUARTZ);
             registerBlockModel(BlockRegistry.STORAGE_SHAPED_QUARTZ);
+            registerBlockModel(BlockRegistry.BLOOD_ALTAR_CONTROLLER);
             registerNilfheimBlockModels();
             registerSoulGemMeshModel();
             registerExtendedCraftingModels();

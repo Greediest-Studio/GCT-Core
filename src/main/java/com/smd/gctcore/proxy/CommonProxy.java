@@ -6,6 +6,8 @@ import com.smd.gctcore.common.events.NilfheimErosionHandler;
 import com.smd.gctcore.common.integration.WorldDimensionIntegrations;
 import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingAutomation;
 import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingGuiHandler;
+import com.smd.gctcore.common.tile.blood_altar.BloodAltarFactoryController;
+import com.smd.gctcore.common.tile.blood_altar.BloodAltarRecipes;
 import com.smd.gctcore.common.integration.astralsorcery.RadiantQuartzLiquefaction;
 import com.smd.gctcore.common.integration.botania.DaisyPlacer;
 import com.smd.gctcore.common.integration.top.GctTopPlugin;
@@ -30,9 +32,17 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import hellfirepvp.modularmachinery.common.container.ContainerFactoryController;
 import com.smd.gctcore.gctcore;
 
-public class CommonProxy {
+public class CommonProxy implements IGuiHandler {
+    public static final int BLOOD_ALTAR_GUI_ID = 210;
+
+    private final ExtendedCraftingGuiHandler extendedCraftingGuiHandler = new ExtendedCraftingGuiHandler();
 
     public void preInit(FMLPreInitializationEvent event) {
         GctNetworkHandler.init();
@@ -48,6 +58,7 @@ public class CommonProxy {
         EntityRegistrar.init();
         BlockRegistry.registerTileEntities();
         ExtendedCraftingAutomation.registerTileEntities();
+        NetworkRegistry.INSTANCE.registerGuiHandler(gctcore.INSTANCE, this);
         // 注册事件监听器
         MinecraftForge.EVENT_BUS.register(EventHooks.INSTANCE);
         MinecraftForge.EVENT_BUS.register(new NilfheimErosionHandler());
@@ -55,7 +66,6 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new ItemRegistry());
         if (ExtendedCraftingAutomation.enabled()) {
             MinecraftForge.EVENT_BUS.register(new ExtendedCraftingAutomation());
-            NetworkRegistry.INSTANCE.registerGuiHandler(gctcore.INSTANCE, new ExtendedCraftingGuiHandler());
         }
         MinecraftForge.EVENT_BUS.register(new PotionsItemRegistry());
         MinecraftForge.EVENT_BUS.register(new SoundRegistry());
@@ -81,6 +91,7 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent event) {
+        BloodAltarRecipes.register();
         NilfheimRecipes.init();
         WorldDimensionIntegrations.init();
         if (Mods.TOP.isLoading()) {
@@ -93,5 +104,22 @@ public class CommonProxy {
 
     public void postInit(FMLPostInitializationEvent event) {
         MaterialRenderingDebugHelper.logMaterialShaderFixSummary();
+    }
+
+    @Override
+    public Object getServerGuiElement(final int id, final EntityPlayer player, final net.minecraft.world.World world,
+                                      final int x, final int y, final int z) {
+        if (id == BLOOD_ALTAR_GUI_ID) {
+            final TileEntity tile = world.getTileEntity(new BlockPos(x, y, z));
+            return tile instanceof BloodAltarFactoryController
+                    ? new ContainerFactoryController((BloodAltarFactoryController) tile, player) : null;
+        }
+        return extendedCraftingGuiHandler.getServerGuiElement(id, player, world, x, y, z);
+    }
+
+    @Override
+    public Object getClientGuiElement(final int id, final EntityPlayer player, final net.minecraft.world.World world,
+                                      final int x, final int y, final int z) {
+        return extendedCraftingGuiHandler.getClientGuiElement(id, player, world, x, y, z);
     }
 }

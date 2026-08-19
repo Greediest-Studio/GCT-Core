@@ -15,7 +15,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
         modid = Tags.MOD_ID,
         name = Tags.MOD_NAME,
         version = Tags.VERSION,
-        dependencies = "required-after:modularui;after:appliedenergistics2;after:extendedcrafting"
+        dependencies = "required-after:modularui;required-after:modularmachinery;after:appliedenergistics2;after:extendedcrafting"
 )
 public class gctcore {
 
