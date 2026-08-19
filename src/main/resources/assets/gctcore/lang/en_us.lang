@@ -240,6 +240,14 @@ tile.gctcore.ultimate_extended_pattern_terminal.name=Ultimate Crafting Encoding 
 item.gctcore.ultimate_blank_extended_pattern.name=Ultimate Blank Crafting Pattern
 item.gctcore.ultimate_encoded_extended_pattern.name=Ultimate Encoded Crafting Pattern
 
+# GCT mana tiers
+tile.gctcore.gct_mana_rock.joetunheim.name=Joetunheim Rock
+tile.gctcore.gct_mana_rock.nidavellir.name=Nidavellir Rock
+tile.gctcore.gct_mana_rock.vanaheim.name=Vanaheim Rock
+tile.gctcore.gct_mana_pool.joetunheim.name=Joetunheim Mana Pool
+tile.gctcore.gct_mana_pool.nidavellir.name=Nidavellir Mana Pool
+tile.gctcore.gct_mana_pool.vanaheim.name=Vanaheim Mana Pool
+
 # Blood Altar
 tile.gctcore.blood_altar.name=Blood Altar Controller
 gui.gctcore.blood_altar.mode_button=Toggle life essence transfer mode

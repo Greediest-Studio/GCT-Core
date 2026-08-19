@@ -46,6 +46,7 @@ public class GctTopPlugin implements Function<ITheOneProbe, Void>, IProbeInfoPro
         if (Mods.BOTANIVERSE.isLoading()) {
             top.registerProvider(new BotaniverseSpreaderProbeProvider());
         }
+        top.registerProvider(new ModdedManaPoolTextProbeProvider());
         return null;
     }
 }

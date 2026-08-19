@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "tier=joetunheim": { "model": "gctcore:joetunheim_rock" },
+    "tier=nidavellir": { "model": "gctcore:nidavellir_rock" },
+    "tier=vanaheim": { "model": "gctcore:vanaheim_rock" }
+  }
+}

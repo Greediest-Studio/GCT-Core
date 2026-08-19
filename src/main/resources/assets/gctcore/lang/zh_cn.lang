@@ -307,6 +307,7 @@ gui.gctcore.blood_altar.recipe.failure.life_essence=生命源质不足
 gui.gctcore.blood_altar.recipe.tooltip.level=§e需求血之祭坛等级：%s
 gui.gctcore.blood_altar.recipe.tooltip.cost=§e需求生命源质：%s点
 gui.gctcore.blood_altar.recipe.tooltip.time=§c配方加工时间以祭坛实际速度为准，配方显示时间仅为占位符！
+gui.gctcore.blood_altar.recipe.orb_preview=任意等级气血宝珠均可
 
 # 保留旧线程键，兼容已有机器数据
 gctcore.gui.blood_altar.thread.purification=源质净化模块
@@ -320,4 +321,12 @@ top.gctcore.resonator.status.harvestable=可收获
 top.gctcore.resonator.status.obstruction=被阻挡
 top.gctcore.resonator.status.offline=离线
 top.gctcore.resonator.status.resonating=谐振中
-item.gctcore.imaginative_snowball.name=冰雪幻象之珠gui.gctcore.blood_altar.recipe.orb_preview=Any tier of Blood Orbgui.gctcore.blood_altar.recipe.orb_preview=Any tier of Blood Orb
+item.gctcore.imaginative_snowball.name=冰雪幻象之珠
+
+# GCT 魔力等级
+tile.gctcore.gct_mana_rock.joetunheim.name=约顿海姆之石
+tile.gctcore.gct_mana_rock.nidavellir.name=尼德威阿尔之石
+tile.gctcore.gct_mana_rock.vanaheim.name=华纳海姆之石
+tile.gctcore.gct_mana_pool.joetunheim.name=约顿海姆魔力池
+tile.gctcore.gct_mana_pool.nidavellir.name=尼德威阿尔魔力池
+tile.gctcore.gct_mana_pool.vanaheim.name=华纳海姆魔力池

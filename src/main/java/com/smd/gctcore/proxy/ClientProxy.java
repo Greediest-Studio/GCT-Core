@@ -4,6 +4,8 @@ import WayofTime.bloodmagic.client.IMeshProvider;
 import com.google.common.collect.Sets;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.client.render.tile.RenderNilfheimPortal;
+import com.smd.gctcore.common.blocks.botania.BlockGctManaPool;
+import com.smd.gctcore.common.botania.GctManaPoolTier;
 import com.smd.gctcore.common.entity.EntityRenders;
 import com.smd.gctcore.client.extendedcrafting.EncodedExtendedPatternBakedModel;
 import com.smd.gctcore.common.integration.extendedcrafting.BlockExtendedCraftingAutomation;
@@ -12,6 +14,7 @@ import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingTier;
 import com.smd.gctcore.common.integration.extendedcrafting.ExtendedPatternData;
 import com.smd.gctcore.common.events.MiningSpeedHandler;
 import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
+import com.smd.gctcore.common.tile.botania.TileGctManaPool;
 import com.smd.gctcore.common.tile.blood_altar.BloodAltarFactoryController;
 import com.smd.gctcore.common.tile.blood_altar.GuiBloodAltarController;
 import com.smd.gctcore.misc.BlockRegistry;
@@ -39,6 +42,8 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import vazkii.botania.api.state.BotaniaStateProps;
+import vazkii.botania.client.render.tile.RenderTilePool;
 
 import java.util.Objects;
 import java.util.Set;
@@ -60,6 +65,9 @@ public class ClientProxy extends CommonProxy {
         // 注册实体渲染器
         EntityRenders.registerEntityRenders();
         ClientRegistry.bindTileEntitySpecialRenderer(NilfheimPortalTileEntity.class, new RenderNilfheimPortal());
+        if (com.smd.gctcore.misc.Mods.BOT.isLoading()) {
+            ClientRegistry.bindTileEntitySpecialRenderer(TileGctManaPool.class, new RenderTilePool());
+        }
     }
 
     @Override
@@ -133,6 +141,7 @@ public class ClientProxy extends CommonProxy {
             registerBlockModel(BlockRegistry.RAW_QUARTZ_CLUSTER);
             registerBlockModel(BlockRegistry.STORAGE_RAW_QUARTZ);
             registerBlockModel(BlockRegistry.STORAGE_SHAPED_QUARTZ);
+            registerGctManaTierModels();
             registerBlockModel(BlockRegistry.BLOOD_ALTAR_CONTROLLER);
             registerNilfheimBlockModels();
             registerSoulGemMeshModel();
@@ -219,6 +228,26 @@ public class ClientProxy extends CommonProxy {
             registerBlockModel(BlockRegistry.SHADOWBERRY_BUSH);
             registerBlockModel(BlockRegistry.ASHEN_MUSHROOM);
             registerBlockModel(BlockRegistry.NILFHEIM_PORTAL_CORE);
+        }
+
+        private static void registerGctManaTierModels() {
+            ModelLoader.setCustomStateMapper(BlockRegistry.GCT_MANA_POOL,
+                    new StateMap.Builder()
+                            .ignore(BotaniaStateProps.COLOR, BotaniaStateProps.POOL_VARIANT)
+                            .build());
+
+            Item rock = Item.getItemFromBlock(BlockRegistry.GCT_MANA_ROCK);
+            Item pool = Item.getItemFromBlock(BlockRegistry.GCT_MANA_POOL);
+            for (GctManaPoolTier tier : GctManaPoolTier.values()) {
+                ModelLoader.setCustomModelResourceLocation(rock, tier.ordinal(),
+                        new ModelResourceLocation(
+                                new ResourceLocation(Tags.MOD_ID, tier.getName() + "_rock"),
+                                "inventory"));
+                ModelLoader.setCustomModelResourceLocation(pool, tier.ordinal(),
+                        new ModelResourceLocation(
+                                new ResourceLocation(Tags.MOD_ID, tier.getName() + "_mana_pool"),
+                                "inventory"));
+            }
         }
 
         private static void registerBlockModel(Block block) {

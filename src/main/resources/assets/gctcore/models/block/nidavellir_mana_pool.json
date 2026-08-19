@@ -1,0 +1,4 @@
+{
+  "parent": "botania:block/shapes/pool",
+  "textures": { "all": "gctcore:blocks/nidavellir_rock" }
+}
