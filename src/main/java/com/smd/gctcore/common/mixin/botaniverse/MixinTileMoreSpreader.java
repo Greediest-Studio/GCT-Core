@@ -13,6 +13,9 @@ import vazkii.botania.api.mana.BurstProperties;
 @Mixin(targets = "com.aeternal.botaniverse.common.block.tile.TileMoreSpreader", remap = false)
 public abstract class MixinTileMoreSpreader {
 
+    private static final int BURST_DELAY_TICKS = 20;
+    private static final float BURST_ACTIVE_TICKS = 140.0F;
+
     @Shadow public abstract boolean isNILFHEIM_SPREADER();
     @Shadow public abstract boolean isMUSPELHEIM_SPREADER();
     @Shadow public abstract boolean isALFHEIM_SPREADER();
@@ -52,19 +55,24 @@ public abstract class MixinTileMoreSpreader {
 
         // Botaniverse passes 0 for motionModifier in every normal tier, which
         // zeroes EntityManaBurst's default 0.4 block/tick motion.  Replace it
-        // with the same seven-tier progression used by GCT-Core.  A non-zero
-        // value supplied by a lens is retained as a multiplier.
-        float tierMotion = 1.0F;
+        // with the ten-tier progression after Botania's Gaia spreader.  A
+        // non-zero value supplied by a lens is retained as a multiplier.
+        float tierMotion = 2.25F;
         if (isMUSPELHEIM_SPREADER()) {
-            tierMotion = 1.75F;
+            tierMotion = 3.0F;
         } else if (isALFHEIM_SPREADER()) {
-            tierMotion = 2.25F;
+            tierMotion = 3.5F;
         } else if (isASGARD_SPREADER()) {
-            tierMotion = 2.5F;
+            tierMotion = 3.75F;
         }
         float effectiveMotion = motionModifier == 0.0F
                 ? tierMotion : tierMotion * motionModifier;
-        return new BurstProperties(mana, ticksBeforeManaLoss, manaLossPerTick, gravity,
+        // Match the 20-tick delay + 140-tick active window used by GCT tiers.
+        // This keeps Niflheim above Gaia and the remaining Botaniverse tiers
+        // increasing in the same ten-tier progression.
+        int effectiveDelay = BURST_DELAY_TICKS;
+        float effectiveManaLoss = Math.max(1.0F, mana / BURST_ACTIVE_TICKS);
+        return new BurstProperties(mana, effectiveDelay, effectiveManaLoss, gravity,
                 effectiveMotion, color);
     }
 }

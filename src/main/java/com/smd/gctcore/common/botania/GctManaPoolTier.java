@@ -5,12 +5,12 @@ import net.minecraft.util.IStringSerializable;
 import javax.annotation.Nonnull;
 
 public enum GctManaPoolTier implements IStringSerializable {
-    // The seven spreader tiers use a 0.1 block/tick velocity step.  The
-    // Botaniverse tiers occupy 0.4, 0.7, 0.9 and 1.0, leaving these three
-    // GCT tiers at 0.5, 0.6 and 0.8 respectively.
-    JOETUNHEIM("joetunheim", 20_000_000, 100_000, 6_400, 0.5D),
-    NIDAVELLIR("nidavellir", 50_000_000, 400_000, 30_000, 0.6D),
-    VANAHEIM("vanaheim", 400_000_000, 6_400_000, 400_000, 0.8D);
+    // Botania's normal, dreamwood and Gaia spreaders are 0.4, 0.5 and
+    // 0.8 block/tick.  These three tiers continue that ten-tier progression
+    // at 1.0, 1.1 and 1.3 block/tick respectively.
+    JOETUNHEIM("joetunheim", 20_000_000, 100_000, 6_400, 1.0D),
+    NIDAVELLIR("nidavellir", 50_000_000, 400_000, 30_000, 1.1D),
+    VANAHEIM("vanaheim", 400_000_000, 6_400_000, 400_000, 1.3D);
 
     private final String name;
     private final int capacity;

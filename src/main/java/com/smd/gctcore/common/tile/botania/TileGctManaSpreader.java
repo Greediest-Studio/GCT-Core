@@ -18,6 +18,9 @@ import javax.annotation.Nonnull;
 
 public class TileGctManaSpreader extends TileSpreader {
 
+    private static final int BURST_DELAY_TICKS = 20;
+    private static final float BURST_ACTIVE_TICKS = 140.0F;
+
     @Override
     public boolean isRedstone() {
         return false;
@@ -52,6 +55,12 @@ public class TileGctManaSpreader extends TileSpreader {
         }
         burst.setMana(adjustedMana);
         burst.setStartingMana(adjustedMana);
+
+        // Keep every added tier alive for the same 140-tick active window after
+        // its initial 20-tick delay.  This places Niflheim above Gaia's range
+        // and lets the remaining tiers continue increasing with their speed.
+        burst.setMinManaLoss(BURST_DELAY_TICKS);
+        burst.setManaLossPerTick(Math.max(1.0F, adjustedMana / BURST_ACTIVE_TICKS));
 
         // EntityManaBurst starts at 0.4 block/tick.  Keep lens modifiers intact
         // while applying this tier's absolute speed to the burst.
