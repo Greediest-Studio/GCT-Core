@@ -3,8 +3,14 @@ package com.smd.gctcore.common.entity;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.client.render.entity.RenderAlfSpark;
 import com.smd.gctcore.client.render.entity.RenderGaiaSpark;
+import com.smd.gctcore.client.render.entity.RenderJoetunheimSpark;
+import com.smd.gctcore.client.render.entity.RenderNidavellirSpark;
+import com.smd.gctcore.client.render.entity.RenderVanaheimSpark;
 import com.smd.gctcore.common.entity.botania.EntityAlfSpark;
 import com.smd.gctcore.common.entity.botania.EntityGaiaSpark;
+import com.smd.gctcore.common.entity.botania.EntityJoetunheimSpark;
+import com.smd.gctcore.common.entity.botania.EntityNidavellirSpark;
+import com.smd.gctcore.common.entity.botania.EntityVanaheimSpark;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -34,6 +40,21 @@ public class EntityRenders {
         RenderingRegistry.registerEntityRenderingHandler(
                 EntityGaiaSpark.class,
                 RenderGaiaSpark::new
+        );
+
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityJoetunheimSpark.class,
+                RenderJoetunheimSpark::new
+        );
+
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityNidavellirSpark.class,
+                RenderNidavellirSpark::new
+        );
+
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityVanaheimSpark.class,
+                RenderVanaheimSpark::new
         );
     }
 }

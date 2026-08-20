@@ -53,20 +53,23 @@ public abstract class MixinTileMoreSpreader {
             mana = 6_400_000;
         }
 
-        // Botaniverse passes 0 for motionModifier in every normal tier, which
-        // zeroes EntityManaBurst's default 0.4 block/tick motion.  Replace it
-        // with the ten-tier progression after Botania's Gaia spreader.  A
-        // non-zero value supplied by a lens is retained as a multiplier.
-        float tierMotion = 2.25F;
-        if (isMUSPELHEIM_SPREADER()) {
-            tierMotion = 3.0F;
+        // Botaniverse's normal spreaders pass 4.0 as their base motion
+        // modifier.  That value is already applied to EntityManaBurst's
+        // default motion; multiplying it by the tier value again makes the
+        // top tiers several times too fast and causes receiver simulation to
+        // fail.  Use the absolute tier modifier here.  Lens effects are
+        // applied to BurstProperties immediately after this constructor, so
+        // their motion changes remain intact.
+        float effectiveMotion = motionModifier;
+        if (isNILFHEIM_SPREADER()) {
+            effectiveMotion = 2.25F;
+        } else if (isMUSPELHEIM_SPREADER()) {
+            effectiveMotion = 3.0F;
         } else if (isALFHEIM_SPREADER()) {
-            tierMotion = 3.5F;
+            effectiveMotion = 3.5F;
         } else if (isASGARD_SPREADER()) {
-            tierMotion = 3.75F;
+            effectiveMotion = 3.75F;
         }
-        float effectiveMotion = motionModifier == 0.0F
-                ? tierMotion : tierMotion * motionModifier;
         // Match the 20-tick delay + 140-tick active window used by GCT tiers.
         // This keeps Niflheim above Gaia and the remaining Botaniverse tiers
         // increasing in the same ten-tier progression.

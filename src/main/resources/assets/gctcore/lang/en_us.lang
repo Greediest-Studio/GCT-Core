@@ -10,10 +10,21 @@ hud.mining_speed=miningMultiplier：%sx
 
 entity.alf_spark.name=Alf Spark
 entity.gaia_spark.name=Gaia Spark
+entity.joetunheim_spark.name=Joetunheim Spark
+entity.nidavellir_spark.name=Nidavellir Spark
+entity.vanaheim_spark.name=Vanaheim Spark
 entity.reversed_alf_master.name=Reversed Alf Master
 
 item.gctcore.alf_spark.name=Alf Spark
 item.gctcore.gaia_spark.name=Gaia Spark
+greedycraft.tooltip.botania.spark.dream=§7Speed: 6,000 Mana/tick\n§7Range: 16 blocks
+greedycraft.tooltip.botania.spark.gaia=§7Speed: 25,000 Mana/tick\n§7Range: 20 blocks
+item.gctcore.joetunheim_spark.name=Joetunheim Spark
+item.gctcore.nidavellir_spark.name=Nidavellir Spark
+item.gctcore.vanaheim_spark.name=Vanaheim Spark
+greedycraft.tooltip.botania.spark.joetunheim=§7Speed: 400,000 Mana/tick\n§7Range: 28 blocks
+greedycraft.tooltip.botania.spark.nidavellir=§7Speed: 1,600,000 Mana/tick\n§7Range: 32 blocks
+greedycraft.tooltip.botania.spark.vanaheim=§7Speed: 25,000,000 Mana/tick\n§7Range: 40 blocks
 item.gctcore.ItemSoulGem.realInfinite.name=Real InfiniteGem Tartaric Gem
 item.gctcore.ItemSoulGem.improved.name=ImprovedGem Tartaric Gem
 item.gctcore.ItemSoulGem.concentra.name=ConcentraGem Tartaric Gem

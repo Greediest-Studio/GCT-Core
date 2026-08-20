@@ -4,6 +4,9 @@ import com.smd.gctcore.common.items.*;
 import com.smd.gctcore.common.items.bloodmagic.soulgem.SoulGem;
 import com.smd.gctcore.common.items.botania.ItemAlfSpark;
 import com.smd.gctcore.common.items.botania.ItemGaiaSpark;
+import com.smd.gctcore.common.items.botania.ItemJoetunheimSpark;
+import com.smd.gctcore.common.items.botania.ItemNidavellirSpark;
+import com.smd.gctcore.common.items.botania.ItemVanaheimSpark;
 import com.smd.gctcore.common.items.draconicevolution.ChaoticFluxCapacitor;
 import com.smd.gctcore.common.items.draconicevolution.FrostburnFluxCapacitor;
 import com.smd.gctcore.common.items.draconicevolution.OrderedFluxCapacitor;
@@ -24,6 +27,9 @@ public class ItemRegistry {
     public static Item CRIMSON_ANCHOR;
     public static Item ALF_SPARK;
     public static Item GAIA_SPARK;
+    public static Item JOETUNHEIM_SPARK;
+    public static Item NIDAVELLIR_SPARK;
+    public static Item VANAHEIM_SPARK;
     public static Item RAW_QUARTZ;
     public static Item SHAPED_QUARTZ;
     public static Item APATHY_INGOT;
@@ -41,6 +47,9 @@ public class ItemRegistry {
         CRIMSON_ANCHOR = new CrimsonAnchorItem();
         ALF_SPARK = new ItemAlfSpark();
         GAIA_SPARK = new ItemGaiaSpark();
+        JOETUNHEIM_SPARK = new ItemJoetunheimSpark();
+        NIDAVELLIR_SPARK = new ItemNidavellirSpark();
+        VANAHEIM_SPARK = new ItemVanaheimSpark();
         RAW_QUARTZ = new RawQuartzItem();
         SHAPED_QUARTZ = new ShapedQuartzItem();
         APATHY_INGOT = new Item()
@@ -66,6 +75,9 @@ public class ItemRegistry {
                 CRIMSON_ANCHOR,
                 ALF_SPARK,
                 GAIA_SPARK,
+                JOETUNHEIM_SPARK,
+                NIDAVELLIR_SPARK,
+                VANAHEIM_SPARK,
                 RAW_QUARTZ,
                 SHAPED_QUARTZ,
                 APATHY_INGOT,

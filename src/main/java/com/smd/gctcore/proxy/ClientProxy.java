@@ -93,6 +93,19 @@ public class ClientProxy extends CommonProxy {
                     (stack, tintIndex) -> tintIndex == 0 ? 0x97808B : -1,
                     ItemRegistry.GAIA_SPARK
             );
+            // GCT-Core spark colours are the average RGB of their mana-pool rock textures.
+            event.getItemColors().registerItemColorHandler(
+                    (stack, tintIndex) -> tintIndex == 0 ? 0xCD5600 : -1,
+                    ItemRegistry.JOETUNHEIM_SPARK
+            );
+            event.getItemColors().registerItemColorHandler(
+                    (stack, tintIndex) -> tintIndex == 0 ? 0x171717 : -1,
+                    ItemRegistry.NIDAVELLIR_SPARK
+            );
+            event.getItemColors().registerItemColorHandler(
+                    (stack, tintIndex) -> tintIndex == 0 ? 0x4D53B6 : -1,
+                    ItemRegistry.VANAHEIM_SPARK
+            );
             if (ExtendedCraftingAutomation.enabled()) {
                 for (ExtendedCraftingTier tier : ExtendedCraftingTier.values()) {
                     event.getItemColors().registerItemColorHandler((stack, tintIndex) -> {
@@ -112,6 +125,9 @@ public class ClientProxy extends CommonProxy {
             registerItemModel(ItemRegistry.CRIMSON_ANCHOR);
             registerItemModel(ItemRegistry.ALF_SPARK, "botania/alf_spark");
             registerItemModel(ItemRegistry.GAIA_SPARK, "botania/gaia_spark");
+            registerItemModel(ItemRegistry.JOETUNHEIM_SPARK, "botania/joetunheim_spark");
+            registerItemModel(ItemRegistry.NIDAVELLIR_SPARK, "botania/nidavellir_spark");
+            registerItemModel(ItemRegistry.VANAHEIM_SPARK, "botania/vanaheim_spark");
             registerItemModel(ItemRegistry.RAW_QUARTZ, "arcanearchives/raw_quartz");
             registerItemModel(ItemRegistry.SHAPED_QUARTZ, "arcanearchives/shaped_quartz");
             registerItemModel(ItemRegistry.APATHY_INGOT);
