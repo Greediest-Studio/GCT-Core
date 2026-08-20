@@ -10,8 +10,31 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import com.gildedgames.the_aether.AetherEventHandler;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 @Mixin(AetherEventHandler.class)
 public abstract class MixinAetherEventHandler {
+
+    /**
+     * Aether iterates the world's live entity list during the world tick.
+     * Other tick handlers may add or remove an entity before that iteration
+     * finishes, invalidating ArrayList's iterator.  Iterate a snapshot so the
+     * dungeon-key invulnerability pass remains stable for this tick.
+     */
+    @Redirect(
+            method = "onWorldTick",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Ljava/util/List;iterator()Ljava/util/Iterator;"
+            ),
+            remap = false,
+            require = 1
+    )
+    private Iterator<?> gctcore$iterateEntitySnapshot(List<?> entities) {
+        return new ArrayList<>(entities).iterator();
+    }
 
     @Redirect(
             method = "onFillBucket",

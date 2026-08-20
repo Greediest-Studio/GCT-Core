@@ -43,6 +43,7 @@ public class GctTopPlugin implements Function<ITheOneProbe, Void>, IProbeInfoPro
     public Void apply(ITheOneProbe top) {
         top.registerProvider(this);
         top.registerProvider(new BotaniaManaProbeProvider());
+        top.registerEntityProvider(new GctSparkProbeProvider());
         return null;
     }
 }
