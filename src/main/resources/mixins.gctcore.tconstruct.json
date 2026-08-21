@@ -10,7 +10,8 @@
     "MixinModelHelper",
     "MixinTileHeatingStructure",
     "MixinTileSmeltery",
-    "MixinToolPart"
+    "MixinToolPart",
+    "MixinExploder"
   ],
   "server": [],
   "client": []

@@ -31,6 +31,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -83,7 +84,8 @@ public class TileExtendedInterface extends TileExtendedGridMachine
             if (ExtendedPatternData.isValid(pattern, world) && ExtendedPatternData.tier(pattern) == tier) {
                 ExtendedCraftingPatternDetails details = new ExtendedCraftingPatternDetails(pattern, world);
                 for (BlockPos assembler : assemblers) {
-                    helper.addCraftingOption(new AssemblerProvider(this, assembler), details);
+                    helper.addCraftingOption(new AssemblerProvider(this, assembler,
+                            details.getPattern()), details);
                 }
             }
         }
@@ -91,7 +93,7 @@ public class TileExtendedInterface extends TileExtendedGridMachine
 
     @Override
     public boolean pushPattern(ICraftingPatternDetails details, InventoryCrafting table) {
-        TileExtendedMolecularAssembler assembler = idleAssembler();
+        TileExtendedMolecularAssembler assembler = acceptingAssembler(details.getPattern());
         return assembler != null && pushPatternTo(assembler.getPos(), details, table);
     }
 
@@ -101,20 +103,46 @@ public class TileExtendedInterface extends TileExtendedGridMachine
         TileEntity candidate = world.getTileEntity(assemblerPos);
         if (!(candidate instanceof TileExtendedMolecularAssembler)) return false;
         TileExtendedMolecularAssembler assembler = (TileExtendedMolecularAssembler) candidate;
-        if (assembler.tier() != tier || assembler.isBusy()) return false;
-        IEnergyGrid energy = energyGrid();
-        if (energy == null || energy.extractAEPower(CRAFT_POWER, Actionable.SIMULATE, PowerMultiplier.CONFIG) < CRAFT_POWER) return false;
-        energy.extractAEPower(CRAFT_POWER, Actionable.MODULATE, PowerMultiplier.CONFIG);
+        if (assembler.tier() != tier || !assembler.canAccept(pos, details.getPattern())) return false;
         NonNullList<ItemStack> inputs = NonNullList.create();
         for (int i = 0; i < table.getSizeInventory(); i++) {
             ItemStack stack = table.getStackInSlot(i);
             if (!stack.isEmpty()) inputs.add(stack.copy());
         }
+        if (!matchesPatternInputs(details, inputs)) return false;
         NonNullList<ItemStack> outputs = NonNullList.create();
         for (IAEItemStack output : details.getCondensedOutputs()) {
             if (output != null) outputs.add(output.createItemStack());
         }
-        return assembler.start(this, inputs, outputs);
+        IEnergyGrid energy = energyGrid();
+        if (energy == null || energy.extractAEPower(CRAFT_POWER, Actionable.SIMULATE,
+                PowerMultiplier.CONFIG) < CRAFT_POWER) return false;
+        energy.extractAEPower(CRAFT_POWER, Actionable.MODULATE, PowerMultiplier.CONFIG);
+        return assembler.start(this, details.getPattern(), inputs, outputs);
+    }
+
+    private static boolean matchesPatternInputs(ICraftingPatternDetails details,
+                                                List<ItemStack> taskInputs) {
+        List<ItemStack> unmatched = new ArrayList<>();
+        for (ItemStack stack : taskInputs) {
+            if (!stack.isEmpty()) unmatched.add(stack.copy());
+        }
+
+        for (IAEItemStack expectedAe : details.getCondensedInputs()) {
+            if (expectedAe == null) continue;
+            ItemStack expected = expectedAe.createItemStack();
+            int needed = expected.getCount();
+            for (int i = 0; i < unmatched.size() && needed > 0; i++) {
+                ItemStack actual = unmatched.get(i);
+                if (!ItemHandlerHelper.canItemStacksStack(expected, actual)) continue;
+                int consumed = Math.min(needed, actual.getCount());
+                needed -= consumed;
+                actual.shrink(consumed);
+                if (actual.isEmpty()) unmatched.remove(i--);
+            }
+            if (needed > 0) return false;
+        }
+        return unmatched.isEmpty();
     }
 
     @Override public boolean isBusy() { return !pendingOutputs.isEmpty() || idleAssembler() == null; }
@@ -174,17 +202,27 @@ public class TileExtendedInterface extends TileExtendedGridMachine
         if (world == null) return null;
         for (BlockPos assemblerPos : assemblerPositions()) {
             TileExtendedMolecularAssembler assembler = (TileExtendedMolecularAssembler) world.getTileEntity(assemblerPos);
-            if (assembler != null && !assembler.isBusy()) return assembler;
+            if (assembler != null && !assembler.isBusyFor(pos)) return assembler;
         }
         return null;
     }
 
-    private boolean assemblerBusy(BlockPos assemblerPos) {
+    private TileExtendedMolecularAssembler acceptingAssembler(ItemStack pattern) {
+        if (world == null) return null;
+        for (BlockPos assemblerPos : assemblerPositions()) {
+            TileExtendedMolecularAssembler assembler =
+                    (TileExtendedMolecularAssembler) world.getTileEntity(assemblerPos);
+            if (assembler != null && assembler.canAccept(pos, pattern)) return assembler;
+        }
+        return null;
+    }
+
+    private boolean assemblerBusy(BlockPos assemblerPos, ItemStack pattern) {
         if (!pendingOutputs.isEmpty() || world == null) return true;
         TileEntity candidate = world.getTileEntity(assemblerPos);
         return !(candidate instanceof TileExtendedMolecularAssembler)
                 || ((TileExtendedMolecularAssembler) candidate).tier() != tier
-                || ((TileExtendedMolecularAssembler) candidate).isBusy();
+                || !((TileExtendedMolecularAssembler) candidate).canAccept(pos, pattern);
     }
 
     private void queuePatternChange() { patternChangePending = true; }
@@ -297,11 +335,16 @@ public class TileExtendedInterface extends TileExtendedGridMachine
     private static final class AssemblerProvider implements ICraftingProvider {
         private final TileExtendedInterface owner;
         private final BlockPos assembler;
-        private AssemblerProvider(TileExtendedInterface owner, BlockPos assembler) { this.owner = owner; this.assembler = assembler; }
+        private final ItemStack pattern;
+        private AssemblerProvider(TileExtendedInterface owner, BlockPos assembler, ItemStack pattern) {
+            this.owner = owner;
+            this.assembler = assembler;
+            this.pattern = pattern.copy();
+        }
         @Override public void provideCrafting(ICraftingProviderHelper helper) { }
         @Override public boolean pushPattern(ICraftingPatternDetails details, InventoryCrafting table) {
             return owner.pushPatternTo(assembler, details, table);
         }
-        @Override public boolean isBusy() { return owner.assemblerBusy(assembler); }
+        @Override public boolean isBusy() { return owner.assemblerBusy(assembler, pattern); }
     }
 }

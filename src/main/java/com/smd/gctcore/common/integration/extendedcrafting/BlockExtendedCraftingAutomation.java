@@ -78,9 +78,9 @@ public class BlockExtendedCraftingAutomation extends Block implements ITileEntit
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player,
                                     EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (kind == Kind.ASSEMBLER) return false;
         if (!world.isRemote) {
-            int id = kind == Kind.INTERFACE ? ExtendedCraftingGuiHandler.interfaceId(tier)
+            int id = kind == Kind.ASSEMBLER ? ExtendedCraftingGuiHandler.assemblerId(tier)
+                    : kind == Kind.INTERFACE ? ExtendedCraftingGuiHandler.interfaceId(tier)
                     : ExtendedCraftingGuiHandler.terminalId(tier);
             player.openGui(gctcore.INSTANCE, id, world, pos.getX(), pos.getY(), pos.getZ());
         }

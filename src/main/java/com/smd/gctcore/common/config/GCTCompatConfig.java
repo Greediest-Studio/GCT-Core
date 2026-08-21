@@ -47,12 +47,12 @@ public class GCTCompatConfig {
 
     public static class ExtendedCraftingAutomation {
         @Config.Comment({
-            "Ticks required for an Extended Molecular Assembler to finish one craft.",
+            "Ticks required for an Extended Molecular Assembler to finish one batch (minimum 5).",
             "20 ticks are approximately one second. Changes apply to newly started crafts."
         })
         @Config.Name("Assembler Craft Ticks")
-        @Config.RangeInt(min = 1, max = 72000)
-        public int assemblerCraftTicks = 1;
+        @Config.RangeInt(min = 5, max = 72000)
+        public int assemblerCraftTicks = 5;
     }
 
     public static class RadiantResonator {
