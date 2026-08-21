@@ -16,6 +16,8 @@ import net.minecraft.world.World;
 /** TOPCE entity information for the additional GCT-Core spark tiers. */
 public final class GctSparkProbeProvider implements IProbeInfoEntityProvider {
 
+    private static final int TICKS_PER_SECOND = 20;
+
     @Override
     public String getID() {
         return "gctcore.spark";
@@ -24,14 +26,17 @@ public final class GctSparkProbeProvider implements IProbeInfoEntityProvider {
     @Override
     public void addProbeEntityInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player,
                                    World world, Entity entity, IProbeHitEntityData data) {
-        int transferRate = getTransferRate(entity);
-        if (transferRate > 0) {
-            // Match TopAllDependents' Botania spark provider format.
-            probeInfo.text(transferRate + "Mana/s");
+        int transferRatePerTick = getTransferRatePerTick(entity);
+        if (transferRatePerTick > 0) {
+            // Spark transfer rates are defined per tick. TopAllDependents
+            // displays a per-second value (the basic 1,000 Mana/tick spark is
+            // shown as 20,000 Mana/s), so perform the same conversion here.
+            long transferRatePerSecond = (long) transferRatePerTick * TICKS_PER_SECOND;
+            probeInfo.text(transferRatePerSecond + "Mana/s");
         }
     }
 
-    private static int getTransferRate(Entity entity) {
+    private static int getTransferRatePerTick(Entity entity) {
         if (entity instanceof EntityAlfSpark) {
             return 6_000;
         }
