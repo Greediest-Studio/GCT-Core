@@ -1,0 +1,20 @@
+{
+  "type": "forge:ore_shaped",
+  "conditions": [
+    { "type": "forge:mod_loaded", "modid": "botaniverse" }
+  ],
+  "pattern": [
+    "WWW",
+    "WRW",
+    "WWW"
+  ],
+  "key": {
+    "W": { "item": "gctcore:gct_mana_wood", "data": 0 },
+    "R": { "type": "forge:ore_dict", "ore": "runeNidavellir" }
+  },
+  "result": {
+    "item": "gctcore:gct_mana_wood",
+    "data": 1,
+    "count": 8
+  }
+}

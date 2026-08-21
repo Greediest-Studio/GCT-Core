@@ -48,13 +48,16 @@ public class TileGctManaSpreader extends TileSpreader {
             return null;
         }
 
+        GctManaPoolTier tier = getTier();
         int adjustedMana = Math.max(1, Math.round(
-                burst.getStartingMana() * (getTier().getBurstMana() / 160.0F)));
+                burst.getStartingMana() * (tier.getBurstMana() / 160.0F)));
         if (!fake && getCurrentMana() < adjustedMana) {
             return null;
         }
         burst.setMana(adjustedMana);
         burst.setStartingMana(adjustedMana);
+        // Use the same average texture colour as this tier's spark and shell.
+        burst.setColor(tier.getColor());
 
         // Keep every added tier alive for the same 140-tick active window after
         // its initial 20-tick delay.  This places Niflheim above Gaia's range
@@ -64,7 +67,7 @@ public class TileGctManaSpreader extends TileSpreader {
 
         // EntityManaBurst starts at 0.4 block/tick.  Keep lens modifiers intact
         // while applying this tier's absolute speed to the burst.
-        double velocityScale = getTier().getBurstVelocity() / 0.4D;
+        double velocityScale = tier.getBurstVelocity() / 0.4D;
         burst.setMotion(burst.motionX * velocityScale,
                 burst.motionY * velocityScale,
                 burst.motionZ * velocityScale);
@@ -97,8 +100,7 @@ public class TileGctManaSpreader extends TileSpreader {
     public void renderHUD(Minecraft mc, ScaledResolution resolution) {
         GctManaPoolTier tier = getTier();
         ItemStack stack = new ItemStack(world.getBlockState(pos).getBlock(), 1, tier.ordinal());
-        int color = tier == GctManaPoolTier.JOETUNHEIM ? 0xD58A25
-                : tier == GctManaPoolTier.NIDAVELLIR ? 0x86BCC7 : 0xC7A96A;
-        HUDHandler.drawSimpleManaHUD(color, getCurrentMana(), getMaxMana(), stack.getDisplayName(), resolution);
+        HUDHandler.drawSimpleManaHUD(tier.getColor(), getCurrentMana(), getMaxMana(),
+                stack.getDisplayName(), resolution);
     }
 }

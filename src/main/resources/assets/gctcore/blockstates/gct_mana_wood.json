@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "variant=joetunheim": { "model": "gctcore:joetunheim_wood" },
+    "variant=nidavellir": { "model": "gctcore:nidavellir_wood" },
+    "variant=vanaheim": { "model": "gctcore:vanaheim_wood" },
+    "variant=joetunheimglowing": { "model": "gctcore:joetunheim_wood_glowing" },
+    "variant=nidavellirglowing": { "model": "gctcore:nidavellir_wood_glowing" },
+    "variant=vanaheimglowing": { "model": "gctcore:vanaheim_wood_glowing" }
+  }
+}

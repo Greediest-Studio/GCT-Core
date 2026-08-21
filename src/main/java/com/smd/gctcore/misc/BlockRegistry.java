@@ -4,6 +4,7 @@ import com.smd.gctcore.Tags;
 import com.smd.gctcore.common.blocks.botania.BlockGctManaPool;
 import com.smd.gctcore.common.blocks.botania.BlockGctManaRock;
 import com.smd.gctcore.common.blocks.botania.BlockGctManaSpreader;
+import com.smd.gctcore.common.blocks.botania.BlockGctManaWood;
 import com.smd.gctcore.common.blocks.nilfheim.BlockGlassrock;
 import com.smd.gctcore.common.blocks.nilfheim.BlockMistLotus;
 import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimFluid;
@@ -28,6 +29,7 @@ import com.smd.gctcore.common.blocks.arcanearchives.StorageRawQuartzBlock;
 import com.smd.gctcore.common.blocks.arcanearchives.StorageShapedQuartzBlock;
 import com.smd.gctcore.common.items.ItemBlockNilfheimWall;
 import com.smd.gctcore.common.items.ItemBlockGctManaTiered;
+import com.smd.gctcore.common.items.ItemBlockGctManaWood;
 import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
 import com.smd.gctcore.common.tile.RadiantResonatorTileEntity;
 import com.smd.gctcore.common.tile.botania.TileGctManaPool;
@@ -112,6 +114,7 @@ public class BlockRegistry {
     public static BlockGctManaRock GCT_MANA_ROCK;
     public static BlockGctManaPool GCT_MANA_POOL;
     public static BlockGctManaSpreader GCT_MANA_SPREADER;
+    public static BlockGctManaWood GCT_MANA_WOOD;
 
     public static void init() {
         FluidRegistry.enableUniversalBucket();
@@ -194,6 +197,7 @@ public class BlockRegistry {
         GCT_MANA_ROCK = new BlockGctManaRock();
         GCT_MANA_POOL = new BlockGctManaPool();
         GCT_MANA_SPREADER = new BlockGctManaSpreader();
+        GCT_MANA_WOOD = new BlockGctManaWood();
     }
 
     public static void registerTileEntities() {
@@ -268,7 +272,8 @@ public class BlockRegistry {
                 NILFHEIM_PORTAL_CORE,
                 GCT_MANA_ROCK,
                 GCT_MANA_POOL,
-                GCT_MANA_SPREADER
+                GCT_MANA_SPREADER,
+                GCT_MANA_WOOD
         );
     }
 
@@ -337,7 +342,8 @@ public class BlockRegistry {
                 new ItemBlock(NILFHEIM_PORTAL_CORE).setRegistryName(NILFHEIM_PORTAL_CORE.getRegistryName()),
                 new ItemBlockGctManaTiered(GCT_MANA_ROCK).setRegistryName(GCT_MANA_ROCK.getRegistryName()),
                 new ItemBlockGctManaTiered(GCT_MANA_POOL).setRegistryName(GCT_MANA_POOL.getRegistryName()),
-                new ItemBlockGctManaTiered(GCT_MANA_SPREADER).setRegistryName(GCT_MANA_SPREADER.getRegistryName())
+                new ItemBlockGctManaTiered(GCT_MANA_SPREADER).setRegistryName(GCT_MANA_SPREADER.getRegistryName()),
+                new ItemBlockGctManaWood(GCT_MANA_WOOD).setRegistryName(GCT_MANA_WOOD.getRegistryName())
         );
         registerOreDictionary();
     }

@@ -1,0 +1,12 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": ["WG"],
+  "key": {
+    "W": { "item": "gctcore:gct_mana_wood", "data": 0 },
+    "G": { "type": "forge:ore_dict", "ore": "dustGlowstone" }
+  },
+  "result": {
+    "item": "gctcore:gct_mana_wood",
+    "data": 3
+  }
+}

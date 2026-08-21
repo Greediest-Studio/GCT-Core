@@ -7,6 +7,7 @@ import com.smd.gctcore.client.render.tile.RenderNilfheimPortal;
 import com.smd.gctcore.client.render.tile.RenderGctManaSpreader;
 import com.smd.gctcore.common.blocks.botania.BlockGctManaPool;
 import com.smd.gctcore.common.botania.GctManaPoolTier;
+import com.smd.gctcore.common.botania.GctManaWoodVariant;
 import com.smd.gctcore.common.entity.EntityRenders;
 import com.smd.gctcore.client.extendedcrafting.EncodedExtendedPatternBakedModel;
 import com.smd.gctcore.common.integration.extendedcrafting.BlockExtendedCraftingAutomation;
@@ -95,15 +96,15 @@ public class ClientProxy extends CommonProxy {
             );
             // GCT-Core spark colours are the average RGB of their mana-pool rock textures.
             event.getItemColors().registerItemColorHandler(
-                    (stack, tintIndex) -> tintIndex == 0 ? 0xCD5600 : -1,
+                    (stack, tintIndex) -> tintIndex == 0 ? GctManaPoolTier.JOETUNHEIM.getColor() : -1,
                     ItemRegistry.JOETUNHEIM_SPARK
             );
             event.getItemColors().registerItemColorHandler(
-                    (stack, tintIndex) -> tintIndex == 0 ? 0x171717 : -1,
+                    (stack, tintIndex) -> tintIndex == 0 ? GctManaPoolTier.NIDAVELLIR.getColor() : -1,
                     ItemRegistry.NIDAVELLIR_SPARK
             );
             event.getItemColors().registerItemColorHandler(
-                    (stack, tintIndex) -> tintIndex == 0 ? 0x4D53B6 : -1,
+                    (stack, tintIndex) -> tintIndex == 0 ? GctManaPoolTier.VANAHEIM.getColor() : -1,
                     ItemRegistry.VANAHEIM_SPARK
             );
             if (ExtendedCraftingAutomation.enabled()) {
@@ -145,6 +146,7 @@ public class ClientProxy extends CommonProxy {
             registerBlockModel(BlockRegistry.STORAGE_RAW_QUARTZ);
             registerBlockModel(BlockRegistry.STORAGE_SHAPED_QUARTZ);
             registerGctManaTierModels();
+            registerGctManaWoodModels();
             registerNilfheimBlockModels();
             registerSoulGemMeshModel();
             registerExtendedCraftingModels();
@@ -253,6 +255,18 @@ public class ClientProxy extends CommonProxy {
                 ModelLoader.setCustomModelResourceLocation(spreader, tier.ordinal(),
                         new ModelResourceLocation(
                                 new ResourceLocation(Tags.MOD_ID, tier.getName() + "_mana_spreader"),
+                                "inventory"));
+            }
+        }
+
+        private static void registerGctManaWoodModels() {
+            Item wood = Item.getItemFromBlock(BlockRegistry.GCT_MANA_WOOD);
+            for (GctManaWoodVariant variant : GctManaWoodVariant.values()) {
+                String modelName = variant.getTier().getName() + "_wood"
+                        + (variant.isGlowing() ? "_glowing" : "");
+                ModelLoader.setCustomModelResourceLocation(wood, variant.ordinal(),
+                        new ModelResourceLocation(
+                                new ResourceLocation(Tags.MOD_ID, modelName),
                                 "inventory"));
             }
         }
