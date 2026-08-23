@@ -338,18 +338,23 @@ idea {
     }
 }
 
-compileTestJava {
-    sourceCompatibility = targetCompatibility = 8
-}
+// Gradle 8.12 cannot instantiate its Test reporting model on newer JDKs
+// (it fails during project evaluation with "Type T not present"). Tests are
+// optional for this mod, so only configure their tasks when explicitly enabled.
+if (propertyBool('enable_junit_testing')) {
+    compileTestJava {
+        sourceCompatibility = targetCompatibility = 8
+    }
 
-test {
-    useJUnitPlatform()
-    javaLauncher.set(javaToolchains.launcherFor {
-        languageVersion = JavaLanguageVersion.of(8)
-    })
-    if (propertyBool('show_testing_output')) {
-        testLogging {
-            showStandardStreams = true
+    test {
+        useJUnitPlatform()
+        javaLauncher.set(javaToolchains.launcherFor {
+            languageVersion = JavaLanguageVersion.of(8)
+        })
+        if (propertyBool('show_testing_output')) {
+            testLogging {
+                showStandardStreams = true
+            }
         }
     }
 }
