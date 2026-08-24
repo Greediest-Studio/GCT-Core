@@ -47,6 +47,7 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.botaniaapplie.json", "botania_applie");
         addModdedMixinCFG("mixins.gctcore.botania.json", "botania");
         addModdedMixinCFG("mixins.gctcore.botaniverse.json", "botaniverse");
+        addModdedMixinCFG("mixins.gctcore.betterendforge.json", "betterendforge");
         addModdedMixinCFG("mixins.gctcore.defaultworldgenerator.json", "defaultworldgenerator-port");
         addModdedMixinCFG("mixins.gctcore.theoneprobe.json", "theoneprobe");
         addMixinCFG("mixins.gctcore.mmceparallelequalizer.json",
