@@ -2,6 +2,7 @@ package com.smd.gctcore.common.mixin;
 
 import com.smd.gctcore.common.config.GCTMixinConfig;
 import org.objectweb.asm.tree.ClassNode;
+import net.minecraftforge.fml.common.Loader;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
@@ -45,6 +46,9 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+        if (mixinClassName.endsWith("MixinBlockPatternEvent") && !Loader.isModLoaded("babymobs")) {
+            return false;
+        }
         return isMixinEnabled(mixinClassName);
     }
 
