@@ -50,8 +50,6 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.betterendforge.json", "betterendforge");
         addModdedMixinCFG("mixins.gctcore.defaultworldgenerator.json", "defaultworldgenerator-port");
         addModdedMixinCFG("mixins.gctcore.theoneprobe.json", "theoneprobe");
-        addMixinCFG("mixins.gctcore.mmceparallelequalizer.json",
-                () -> modLoaded("modularmachinery") && modLoaded("mmceparallelequalizer"));
         addModdedMixinCFG("mixins.gctcore.mekanism.json", "mekanism");
         addModdedMixinCFG("mixins.gctcore.mekceumoremachine.json", "mekceumoremachine");
         addModdedMixinCFG("mixins.gctcore.quantumthings.json", "randomthings");

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /** Prevents Baby Mobs' sensitive wither pattern from consuming normal wither builds. */
-@Mixin(targets = "furgl.babyMobs.common.event.BlockPatternEvent")
+@Mixin(targets = "furgl.babyMobs.common.event.BlockPatternEvent", remap = false)
 @Pseudo
 public abstract class MixinBlockPatternEvent {
     @Inject(method = "onEvent", at = @At("HEAD"), cancellable = true)
