@@ -135,6 +135,7 @@ public class ClientProxy extends CommonProxy {
             registerItemModel(ItemRegistry.IMAGINATIVE_SNOWBALL);
             registerItemModel(ItemRegistry.MMCE_BUILDER_TOOL);
             registerItemModel(ItemRegistry.BIRD_OF_EDWIN);
+            registerItemModel(ItemRegistry.TIME_ADJUSTER);
             if (ItemRegistry.MINING_LEVEL_UPGRADE != null) {
                 registerItemModel(ItemRegistry.MINING_LEVEL_UPGRADE);
             }

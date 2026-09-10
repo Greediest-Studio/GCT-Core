@@ -23,6 +23,7 @@ entity.botaniverse:spark_asgard.name=阿斯加德火花
 item.gctcore.alf_spark.name=精灵火花
 item.gctcore.apathy_ingot.name=失感锭
 item.gctcore.bird_of_edwin.name=mc_Edwin的鸟
+item.gctcore.time_adjuster.name=时间调节器
 item.gctcore.chaotic_flux_capacitor.name=通量容器-MK3
 item.gctcore.crimson_anchor.name=§4血腥朝圣之锚
 item.gctcore.frostburn_flux_capacitor.name=通量容器-MK5
@@ -163,6 +164,8 @@ tooltip.bloodmagic.soulgem.realInfinite=科技魔法登峰造极的产物
 tooltip.bloodmagic.will=意志质量：%1$,.2f
 tooltip.gctcore.bird_of_edwin.1=贪婪2作者mc_Edwin的鸟
 tooltip.gctcore.bird_of_edwin.2=——by 诺言
+tooltip.gctcore.time_adjuster.1=右键：把停机坪/虚无维度的日期推进一天
+tooltip.gctcore.time_adjuster.2=潜行右键：回退一天（不会早于第 1 天）
 tooltip.gctcore.mmce_builder_tool.1=右键打开自动搭建配置界面。
 tooltip.gctcore.mmce_builder_tool.2=通过无线终端调用AE物品：%d
 tooltip.gctcore.mmce_builder_tool.3=通过无线终端调用AE流体：%d
@@ -224,6 +227,10 @@ message.gctcore.nilfheim_portal.activated=尼福尔海姆传送门已激活。
 message.gctcore.nilfheim_portal.invalid_structure=传送门结构不完整。
 message.gctcore.nilfheim_portal.missing_pylons=至少需要四座尼福尔海姆水晶与对应魔力池。
 message.gctcore.nilfheim_portal.not_enough_mana=魔力不足，无法开启尼福尔海姆传送门。
+message.gctcore.time_adjuster.advanced=§b时间已推进到第 %s 天
+message.gctcore.time_adjuster.reverted=§b时间已回退到第 %s 天
+message.gctcore.time_adjuster.earliest=§7已经是第 1 天，无法再回退
+message.gctcore.time_adjuster.invalid=§7该维度的时间无法调整
 
 # 分级合成 AE2 自动化
 tier.gctcore.basic=基础

@@ -59,6 +59,7 @@ item.gctcore.mmce_builder_tool.name=MMCE Structure Builder
 item.gctcore.mining_level_upgrade.name=Mining Level Upgrade
 item.gctcore.energy_mk2_upgrade.name=Energy Upgrade MK2
 item.gctcore.bird_of_edwin.name=mc_Edwin's Bird
+item.gctcore.time_adjuster.name=Time Adjuster
 tooltip.gctcore.mining_level_upgrade.desc=Install in a Digital Miner to set its block harvest level
 tooltip.gctcore.mining_level_upgrade.level=Mining Level: %s
 tooltip.gctcore.mining_level_upgrade.install=Only installable on Digital Miner
@@ -104,6 +105,8 @@ tooltip.gctcore.storage_raw_quartz=A decorative block made from raw radiant quar
 tooltip.gctcore.storage_shaped_quartz=A decorative block made from shaped radiant quartz.
 tooltip.gctcore.bird_of_edwin.1=The bird of Greed 2 author mc_Edwin
 tooltip.gctcore.bird_of_edwin.2=--by Nuoyan
+tooltip.gctcore.time_adjuster.1=Right click: advance the Airport/Nothingness dimension by one day
+tooltip.gctcore.time_adjuster.2=Sneak right click: go back one day (never earlier than day 1)
 
 info.gct.energy=Energy
 
@@ -227,6 +230,10 @@ message.gctcore.nilfheim_portal.activated=Nilfheim portal activated.
 message.gctcore.nilfheim_portal.invalid_structure=The portal structure is incomplete.
 message.gctcore.nilfheim_portal.missing_pylons=At least four Nilfheim pylons with mana pools are required.
 message.gctcore.nilfheim_portal.not_enough_mana=Not enough mana to open the Nilfheim portal.
+message.gctcore.time_adjuster.advanced=§bTime advanced to day %s
+message.gctcore.time_adjuster.reverted=§bTime reverted to day %s
+message.gctcore.time_adjuster.earliest=§7Already on day 1, cannot go back further
+message.gctcore.time_adjuster.invalid=§7Time cannot be adjusted in this dimension
 item.gctcore.imaginative_snowball.name=Imaginative Snowball
 
 # Tiered crafting AE2 automation

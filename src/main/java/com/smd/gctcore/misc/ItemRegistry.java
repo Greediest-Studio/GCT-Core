@@ -36,6 +36,7 @@ public class ItemRegistry {
     public static Item IMAGINATIVE_SNOWBALL;
     public static Item MMCE_BUILDER_TOOL;
     public static Item BIRD_OF_EDWIN;
+    public static Item TIME_ADJUSTER;
     public static Item MINING_LEVEL_UPGRADE;
     public static Item ENERGY_MK2_UPGRADE;
 
@@ -59,6 +60,7 @@ public class ItemRegistry {
         IMAGINATIVE_SNOWBALL = new ImaginativeSnowballItem();
         MMCE_BUILDER_TOOL = new MMCE_BuilderTool();
         BIRD_OF_EDWIN = new BirdOfEdwin();
+        TIME_ADJUSTER = new TimeAdjusterItem();
         if (Loader.isModLoaded("mekanism")) {
             MINING_LEVEL_UPGRADE = new ItemMiningLevelUpgrade();
             ENERGY_MK2_UPGRADE = new ItemEnergyMk2Upgrade();
@@ -83,7 +85,8 @@ public class ItemRegistry {
                 APATHY_INGOT,
                 IMAGINATIVE_SNOWBALL,
                 MMCE_BUILDER_TOOL,
-                BIRD_OF_EDWIN
+                BIRD_OF_EDWIN,
+                TIME_ADJUSTER
         );
         if (MINING_LEVEL_UPGRADE != null) {
             event.getRegistry().register(MINING_LEVEL_UPGRADE);

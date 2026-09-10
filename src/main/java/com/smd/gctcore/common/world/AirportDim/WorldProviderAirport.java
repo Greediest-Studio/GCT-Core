@@ -1,25 +1,20 @@
 package com.smd.gctcore.common.world.AirportDim;
 
+import com.smd.gctcore.common.world.WorldProviderLockedTime;
+
 import net.minecraft.init.Biomes;
 import net.minecraft.world.DimensionType;
-import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeProviderSingle;
 import net.minecraft.world.gen.ChunkGeneratorFlat;
 import net.minecraft.world.gen.IChunkGenerator;
 import org.jetbrains.annotations.NotNull;
 
-public class WorldProviderAirport extends WorldProvider {
+public class WorldProviderAirport extends WorldProviderLockedTime {
 
-    private static final long Freeze_time = 6000L;
-    private boolean timeLocked = true;
+    private static final long NOON = 6000L;
 
-    @Override
-    public long getWorldTime() {
-        return timeLocked ? Freeze_time : world.getWorldTime();
-    }
-
-    public void lockTimeAtNoon() {
-        this.timeLocked = true;
+    public WorldProviderAirport() {
+        super(NOON);
     }
 
     @Override
@@ -38,7 +33,7 @@ public class WorldProviderAirport extends WorldProvider {
     }
 
     @Override
-    public float getCloudHeight(){
+    public float getCloudHeight() {
         return 255;
     }
 
@@ -53,5 +48,6 @@ public class WorldProviderAirport extends WorldProvider {
     }
 
     @Override
-    public void updateWeather() {}
+    public void updateWeather() {
+    }
 }
