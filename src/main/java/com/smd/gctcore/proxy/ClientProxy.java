@@ -133,7 +133,6 @@ public class ClientProxy extends CommonProxy {
             registerItemModel(ItemRegistry.SHAPED_QUARTZ, "arcanearchives/shaped_quartz");
             registerItemModel(ItemRegistry.APATHY_INGOT);
             registerItemModel(ItemRegistry.IMAGINATIVE_SNOWBALL);
-            registerItemModel(ItemRegistry.MMCE_BUILDER_TOOL);
             registerItemModel(ItemRegistry.BIRD_OF_EDWIN);
             registerItemModel(ItemRegistry.TIME_ADJUSTER);
             if (ItemRegistry.MINING_LEVEL_UPGRADE != null) {

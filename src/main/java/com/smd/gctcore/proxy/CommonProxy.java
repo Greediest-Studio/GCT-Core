@@ -13,7 +13,6 @@ import com.smd.gctcore.common.integration.top.GctTopPlugin;
 import com.smd.gctcore.common.network.GctNetworkHandler;
 import com.smd.gctcore.common.util.MaterialRenderingDebugHelper;
 import com.smd.gctcore.misc.*;
-import com.smd.gctcore.common.integration.mmce.MMCE_BuilderTaskManager;
 import com.smd.gctcore.common.integration.mmce.BonsaiTreesRecipeAdapterRegistry;
 import com.smd.gctcore.common.integration.mmce.NuclearCraftRecipeAdapterRegistry;
 import com.smd.gctcore.common.world.AirportDim.DimensionTypeAirport;
@@ -63,7 +62,6 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new PotionsItemRegistry());
         MinecraftForge.EVENT_BUS.register(new SoundRegistry());
         MinecraftForge.EVENT_BUS.register(new EntityRegistrar());
-        MinecraftForge.EVENT_BUS.register(new MMCE_BuilderTaskManager());
         MinecraftForge.EVENT_BUS.register(new BonsaiTreesRecipeAdapterRegistry());
         MinecraftForge.EVENT_BUS.register(new NuclearCraftRecipeAdapterRegistry());
         if(Mods.BOT.isLoading()){

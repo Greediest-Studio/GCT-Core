@@ -12,7 +12,6 @@ public final class GctNetworkHandler {
     private static int packetId = 0;
 
     public static void init() {
-        CHANNEL.registerMessage(PacketMMCEBuilderConfig.class, PacketMMCEBuilderConfig.class, packetId++, Side.SERVER);
         CHANNEL.registerMessage(PacketNilfheimErosion.class, PacketNilfheimErosion.class, packetId++, Side.CLIENT);
         CHANNEL.registerMessage(PacketExtendedPatternTerminal.Handler.class, PacketExtendedPatternTerminal.class, packetId++, Side.SERVER);
         CHANNEL.registerMessage(PacketTimeLockedSync.class, PacketTimeLockedSync.class, packetId++, Side.CLIENT);

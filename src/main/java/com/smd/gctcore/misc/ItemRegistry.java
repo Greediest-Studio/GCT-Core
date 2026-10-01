@@ -34,7 +34,6 @@ public class ItemRegistry {
     public static Item SHAPED_QUARTZ;
     public static Item APATHY_INGOT;
     public static Item IMAGINATIVE_SNOWBALL;
-    public static Item MMCE_BUILDER_TOOL;
     public static Item BIRD_OF_EDWIN;
     public static Item TIME_ADJUSTER;
     public static Item MINING_LEVEL_UPGRADE;
@@ -58,7 +57,6 @@ public class ItemRegistry {
                 .setTranslationKey("gctcore.apathy_ingot")
                 .setCreativeTab(CreativeTabs.MATERIALS);
         IMAGINATIVE_SNOWBALL = new ImaginativeSnowballItem();
-        MMCE_BUILDER_TOOL = new MMCE_BuilderTool();
         BIRD_OF_EDWIN = new BirdOfEdwin();
         TIME_ADJUSTER = new TimeAdjusterItem();
         if (Loader.isModLoaded("mekanism")) {
@@ -84,7 +82,6 @@ public class ItemRegistry {
                 SHAPED_QUARTZ,
                 APATHY_INGOT,
                 IMAGINATIVE_SNOWBALL,
-                MMCE_BUILDER_TOOL,
                 BIRD_OF_EDWIN,
                 TIME_ADJUSTER
         );
