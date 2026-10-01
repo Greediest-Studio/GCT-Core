@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "axis=z": {
+      "model": "gctold:alfheim_portal_ew"
+    },
+    "axis=x": {
+      "model": "gctold:alfheim_portal_ns"
+    },
+    "inventory": {
+      "model": "gctold:alfheim_portal_ns"
+    }
+  }
+}

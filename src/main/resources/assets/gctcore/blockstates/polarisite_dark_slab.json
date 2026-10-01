@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=bottom,variant=default": {
+      "model": "gctold:polarisite_dark_slab"
+    },
+    "half=top,variant=default": {
+      "model": "gctold:polarisite_dark_slab_top"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "variant=default": {
+      "model": "gctold:order_stone_brick_slab_double"
+    }
+  }
+}

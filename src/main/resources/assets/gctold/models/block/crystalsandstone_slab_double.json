@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "gctold:blocks/crystalsandstone_bottom",
+    "particle": "gctold:blocks/crystalsandstone_bottom"
+  }
+}

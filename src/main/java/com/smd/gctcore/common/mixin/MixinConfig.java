@@ -23,9 +23,6 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.extrabotany.json", "extrabotany");
         addModdedMixinCFG("mixins.gctcore.abyssalcraft.json", "abyssalcraft");
         addModdedMixinCFG("mixins.gctcore.moretcon.json", "moretcon");
-        addModdedMixinCFG("mixins.gctcore.gctmobs.json", "gct_mobs");
-        addModdedMixinCFG("mixins.gctcore.gctores.json", "gct_ores");
-        addModdedMixinCFG("mixins.gctcore.gctaby.json", "gct_aby");
         addModdedMixinCFG("mixins.gctcore.industrialforegoing.json", "industrialforegoing");
         addModdedMixinCFG("mixins.gctcore.bloodmagic.json", "bloodmagic");
         addModdedMixinCFG("mixins.gctcore.pewter.json", "pewter");
@@ -62,7 +59,7 @@ public class MixinConfig implements ILateMixinLoader {
         if(GCTMixinConfig.enableMixinItemToolSceptre) {
             addModdedMixinCFG("mixins.gctcore.tconevo.json", "tconevo");
         }
-        addMixinCFG("mixins.gctcore.twilightforest.json", () -> modLoaded("twilightforest") && modLoaded("gct_mobs"));
+        addModdedMixinCFG("mixins.gctcore.twilightforest.json", "twilightforest");
         addMixinCFG("mixins.gctcore.ftbquests.json",
                 () -> modLoaded("ftbquests") && modLoaded("retro_sophisticated_backpacks"));
     }

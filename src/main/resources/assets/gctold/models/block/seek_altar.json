@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/seek_altar",
+    "up": "gctold:blocks/seek_altar",
+    "north": "gctold:blocks/seek_altar",
+    "east": "gctold:blocks/seek_altar",
+    "south": "gctold:blocks/seek_altar",
+    "west": "gctold:blocks/seek_altar",
+    "particle": "gctold:blocks/seek_altar"
+  }
+}

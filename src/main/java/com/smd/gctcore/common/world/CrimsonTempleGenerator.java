@@ -64,7 +64,7 @@ public class CrimsonTempleGenerator implements IWorldGenerator {
         } catch (Exception ignored) {}
 
         if (template == null) {
-            gctcore.LOGGER.warn("CrimsonTempleGenerator: no crimson_temple template found in gct_mobs or gctcore");
+            gctcore.LOGGER.warn("CrimsonTempleGenerator: no crimson_temple template found in gctcore");
             // No template available; abort generation to avoid placing a fallback structure unexpectedly
             return;
         } else {

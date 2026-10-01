@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "normal": {
+      "model": "gctold:order_cobblestone"
+    }
+  }
+}

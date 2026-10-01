@@ -1,0 +1,15 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "forge:fluid"
+  },
+  "variants": {
+    "balanced_matrix": [
+      {
+        "custom": {
+          "fluid": "balanced_matrix"
+        }
+      }
+    ]
+  }
+}

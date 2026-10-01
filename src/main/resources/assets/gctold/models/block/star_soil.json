@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/nasa_dirt",
+    "up": "gctold:blocks/nasa_dirt",
+    "north": "gctold:blocks/nasa_dirt",
+    "east": "gctold:blocks/nasa_dirt",
+    "south": "gctold:blocks/nasa_dirt",
+    "west": "gctold:blocks/nasa_dirt",
+    "particle": "gctold:blocks/nasa_dirt"
+  }
+}

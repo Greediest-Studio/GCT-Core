@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "variant=default": {
+      "model": "gctold:mana_slab_double"
+    }
+  }
+}

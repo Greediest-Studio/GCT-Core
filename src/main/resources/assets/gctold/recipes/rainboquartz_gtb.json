@@ -1,0 +1,26 @@
+{
+  "group": "gctcore",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "01",
+    "23"
+  ],
+  "key": {
+    "0": {
+      "item": "gctcore:rainboquartz"
+    },
+    "1": {
+      "item": "gctcore:rainboquartz"
+    },
+    "2": {
+      "item": "gctcore:rainboquartz"
+    },
+    "3": {
+      "item": "gctcore:rainboquartz"
+    }
+  },
+  "result": {
+    "item": "gctcore:rainboquartz_block",
+    "count": 1
+  }
+}

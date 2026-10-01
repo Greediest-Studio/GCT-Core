@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/sky_alloy_block",
+    "up": "gctold:blocks/sky_alloy_block",
+    "north": "gctold:blocks/sky_alloy_block",
+    "east": "gctold:blocks/sky_alloy_block",
+    "south": "gctold:blocks/sky_alloy_block",
+    "west": "gctold:blocks/sky_alloy_block",
+    "particle": "gctold:blocks/sky_alloy_block"
+  }
+}

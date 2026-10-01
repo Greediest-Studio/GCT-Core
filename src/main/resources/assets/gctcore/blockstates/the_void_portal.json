@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "axis=z": {
+      "model": "gctold:the_void_portal_ew"
+    },
+    "axis=x": {
+      "model": "gctold:the_void_portal_ns"
+    },
+    "inventory": {
+      "model": "gctold:the_void_portal_ns"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "variant=default": {
+      "model": "gctold:crystalsandstone_slab_double"
+    }
+  }
+}

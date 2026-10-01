@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/order_stonebrickcrashed",
+    "up": "gctold:blocks/order_stonebrickcrashed",
+    "north": "gctold:blocks/order_stonebrickcrashed",
+    "east": "gctold:blocks/order_stonebrickcrashed",
+    "south": "gctold:blocks/order_stonebrickcrashed",
+    "west": "gctold:blocks/order_stonebrickcrashed",
+    "particle": "gctold:blocks/order_stonebrickcrashed"
+  }
+}

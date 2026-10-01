@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import twilightforest.structures.StructureTFComponentOld;
 import twilightforest.structures.finalcastle.ComponentTFFinalCastleBossGazebo;
 
-
 @Mixin(ComponentTFFinalCastleBossGazebo.class)
 public abstract class MixinComponentTFFinalCastleBossGazebo extends StructureTFComponentOld {
 
@@ -27,7 +26,7 @@ public abstract class MixinComponentTFFinalCastleBossGazebo extends StructureTFC
     )
     private void gctcore$replaceFinalCastleSpawner(ComponentTFFinalCastleBossGazebo self, World world, IBlockState state, int x, int y, int z, StructureBoundingBox boundingBox) {
         Block apocalypseAltar = ForgeRegistries.BLOCKS.getValue(
-                new ResourceLocation("gct_mobs", "apocalypse_altar"));
+                new ResourceLocation("gctcore", "apocalypse_altar"));
         ResourceLocation stateName = state.getBlock().getRegistryName();
 
         // The only setBlockState call in this method is the final-boss spawner.
@@ -59,5 +58,4 @@ public abstract class MixinComponentTFFinalCastleBossGazebo extends StructureTFC
     )
     private void gctcore$skipFinalCastleFloatingText(ComponentTFFinalCastleBossGazebo self, World world, int x, int y, int z, StructureBoundingBox boundingBox, String text, boolean alwaysRenderName, float yOffset) {
     }
-
 }

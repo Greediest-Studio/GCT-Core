@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/genite_block",
+    "up": "gctold:blocks/genite_block",
+    "north": "gctold:blocks/genite_block",
+    "east": "gctold:blocks/genite_block",
+    "south": "gctold:blocks/genite_block",
+    "west": "gctold:blocks/genite_block",
+    "particle": "gctold:blocks/genite_block"
+  }
+}

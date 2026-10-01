@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/witherium_ore_end",
+    "up": "gctold:blocks/witherium_ore_end",
+    "north": "gctold:blocks/witherium_ore_end",
+    "east": "gctold:blocks/witherium_ore_end",
+    "south": "gctold:blocks/witherium_ore_end",
+    "west": "gctold:blocks/witherium_ore_end",
+    "particle": "gctold:blocks/witherium_ore_end"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "gctold:custom/modelbesidevoidportal",
+  "textures": {
+    "all": "gctold:blocks/besidevoid_portal",
+    "particle": "gctold:blocks/besidevoid_portal",
+    "0": "gctold:blocks/besidevoid_portal"
+  }
+}

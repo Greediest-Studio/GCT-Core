@@ -42,8 +42,7 @@ public class MixinCore implements IFMLLoadingPlugin, IEarlyMixinLoader {
     @Override
     public List<String> getMixinConfigs() {
         return Arrays.asList(
-                "mixins.gctcore.vanilla.json",
-                "mixins.gctcore.vanilla.gctmobs.json"
+                "mixins.gctcore.vanilla.json"
         );
     }
 }

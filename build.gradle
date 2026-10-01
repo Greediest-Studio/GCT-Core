@@ -168,11 +168,9 @@ dependencies {
     compileOnly fileTree(dir: 'libs', include: [
             'EnderIO-1.12.2-5.3.72.jar',
             'EnderCore-1.12.2-0.5.78.jar',
-            'EnderTweaker-1.12.2-1.2.3.jar',
-            'gct_mobs-1.0.0.jar'
+            'EnderTweaker-1.12.2-1.2.3.jar'
     ])
 
-    runtimeOnly fileTree(dir: 'libs', include: ['gct_mobs-1.0.0.jar'])
     runtimeOnly "curse.maven:guide-api-228832:2645992"
 
     implementation 'mezz:jei:4.32.0'
@@ -200,6 +198,8 @@ dependencies {
     implementation rfg.deobf("curse.maven:avaritia-1-1x-kedition-913129:6118927")
     implementation rfg.deobf("curse.maven:quantum-things-1387363:8352165")
     implementation rfg.deobf("curse.maven:mekanismceu-moremachine-1606952:8640671")
+    implementation rfg.deobf("curse.maven:bookshelf-228525:2836960")
+    implementation rfg.deobf("curse.maven:gamestage-268655:2951840")
     implementation(rfg.deobf("com.cleanroommc:modularui:3.1.6")) {
         exclude group: "mezz.jei", module: "jei_1.12.2"
     }

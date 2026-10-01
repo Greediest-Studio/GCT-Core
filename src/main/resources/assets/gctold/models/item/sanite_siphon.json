@@ -1,0 +1,6 @@
+{
+  "parent": "gctold:custom/sanitesiphon",
+  "textures": {
+    "0": "gctold:blocks/aby_sanite_block"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/cracked_enderite_ore_top",
+    "up": "gctold:blocks/cracked_enderite_ore_top",
+    "north": "gctold:blocks/cracked_enderite_ore_side",
+    "east": "gctold:blocks/cracked_enderite_ore_side",
+    "south": "gctold:blocks/cracked_enderite_ore_side",
+    "west": "gctold:blocks/cracked_enderite_ore_side",
+    "particle": "gctold:blocks/cracked_enderite_ore_top"
+  }
+}

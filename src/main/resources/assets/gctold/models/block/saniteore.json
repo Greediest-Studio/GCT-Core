@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/sanite_ore",
+    "up": "gctold:blocks/sanite_ore",
+    "north": "gctold:blocks/sanite_ore",
+    "east": "gctold:blocks/sanite_ore",
+    "south": "gctold:blocks/sanite_ore",
+    "west": "gctold:blocks/sanite_ore",
+    "particle": "gctold:blocks/sanite_ore"
+  }
+}

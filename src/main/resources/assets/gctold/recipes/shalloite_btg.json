@@ -1,0 +1,13 @@
+{
+  "group": "gctcore",
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "gctcore:shalloite_block"
+    }
+  ],
+  "result": {
+    "item": "gctcore:shalloite",
+    "count": 4
+  }
+}

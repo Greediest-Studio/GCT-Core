@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/wildplain_log_top",
+    "up": "gctold:blocks/wildplain_log_top",
+    "north": "gctold:blocks/wildplain_log",
+    "east": "gctold:blocks/wildplain_log_top",
+    "south": "gctold:blocks/wildplain_log_top",
+    "west": "gctold:blocks/wildplain_log_top",
+    "particle": "gctold:blocks/wildplain_log_top"
+  }
+}

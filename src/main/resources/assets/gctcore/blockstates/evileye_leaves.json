@@ -1,0 +1,19 @@
+{
+    "variants":  {
+                     "check_decay=true,decayable=true":  {
+                                                             "model":  "gctold:evileye_leaves"
+                                                         },
+                     "check_decay=false,decayable=true":  {
+                                                              "model":  "gctold:evileye_leaves"
+                                                          },
+                     "check_decay=true,decayable=false":  {
+                                                              "model":  "gctold:evileye_leaves"
+                                                          },
+                     "check_decay=false,decayable=false":  {
+                                                               "model":  "gctold:evileye_leaves"
+                                                           },
+                     "normal":  {
+                                    "model":  "gctold:evileye_leaves"
+                                }
+                 }
+}

@@ -1,0 +1,34 @@
+{
+  "group": "gctcore",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "0  ",
+    "34 ",
+    "678"
+  ],
+  "key": {
+    "0": {
+      "item": "gctcore:mana_plank"
+    },
+    "3": {
+      "item": "gctcore:mana_plank"
+    },
+    "4": {
+      "item": "gctcore:mana_plank"
+    },
+    "6": {
+      "item": "gctcore:mana_plank"
+    },
+    "7": {
+      "item": "gctcore:mana_plank"
+    },
+    "8": {
+      "item": "gctcore:mana_plank"
+    }
+  },
+  "result": {
+    "item": "gctcore:mana_stairs",
+    "count": 8
+  }
+}
+

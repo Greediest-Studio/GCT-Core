@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=bottom,variant=default": {
+      "model": "gctold:wildplain_slab"
+    },
+    "half=top,variant=default": {
+      "model": "gctold:wildplain_slab_top"
+    }
+  }
+}

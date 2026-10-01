@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=bottom,variant=default": {
+      "model": "gctold:primordial_stonebrick_slab"
+    },
+    "half=top,variant=default": {
+      "model": "gctold:primordial_stonebrick_slab_top"
+    }
+  }
+}

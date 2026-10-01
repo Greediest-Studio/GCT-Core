@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/wildplain_plank",
+    "up": "gctold:blocks/wildplain_plank",
+    "north": "gctold:blocks/wildplain_plank",
+    "east": "gctold:blocks/wildplain_plank",
+    "south": "gctold:blocks/wildplain_plank",
+    "west": "gctold:blocks/wildplain_plank",
+    "particle": "gctold:blocks/wildplain_plank"
+  }
+}

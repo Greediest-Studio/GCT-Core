@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "variant=default": {
+      "model": "gctold:shalloite_slab_double"
+    }
+  }
+}

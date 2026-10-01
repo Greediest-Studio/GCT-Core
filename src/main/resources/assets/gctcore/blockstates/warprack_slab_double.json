@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "variant=default": {
+      "model": "gctold:warprack_slab_double"
+    }
+  }
+}

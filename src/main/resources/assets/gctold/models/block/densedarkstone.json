@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/dense_darkstone",
+    "up": "gctold:blocks/dense_darkstone",
+    "north": "gctold:blocks/dense_darkstone",
+    "east": "gctold:blocks/dense_darkstone",
+    "south": "gctold:blocks/dense_darkstone",
+    "west": "gctold:blocks/dense_darkstone",
+    "particle": "gctold:blocks/dense_darkstone"
+  }
+}

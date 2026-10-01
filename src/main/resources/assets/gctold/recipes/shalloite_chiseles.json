@@ -1,0 +1,22 @@
+{
+  "group": "gctcore",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "0",
+    "1"
+  ],
+  "key": {
+    "0": {
+      "item": "gctcore:shalloite_slab",
+      "data": 0
+    },
+    "1": {
+      "item": "gctcore:shalloite_slab",
+      "data": 0
+    }
+  },
+  "result": {
+    "item": "gctcore:shalloite_block_chiseled",
+    "count": 1
+  }
+}

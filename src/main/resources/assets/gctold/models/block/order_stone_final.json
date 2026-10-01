@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/final_order_stone",
+    "up": "gctold:blocks/final_order_stone",
+    "north": "gctold:blocks/final_order_stone",
+    "east": "gctold:blocks/final_order_stone",
+    "south": "gctold:blocks/final_order_stone",
+    "west": "gctold:blocks/final_order_stone",
+    "particle": "gctold:blocks/final_order_stone"
+  }
+}

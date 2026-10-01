@@ -22,6 +22,7 @@ import com.smd.gctcore.common.world.NothingnessDim.DimensionTypeNothingness;
 import com.smd.gctcore.common.world.OrderCore.DimensionTypeOrderCore;
 import com.smd.gctcore.common.world.ShadowberryCaveGenerator;
 import com.smd.gctcore.common.world.biome.nilfheim.NilfheimBiomes;
+import com.gmm.gctold.misc.registry.GctAllLifecycle;
 
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
@@ -31,11 +32,17 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
 import com.smd.gctcore.gctcore;
 
 public class CommonProxy {
 
+    static {
+        FluidRegistry.enableUniversalBucket();
+    }
+
     public void preInit(FMLPreInitializationEvent event) {
+        GctAllLifecycle.preInit(event);
         GctNetworkHandler.init();
         PotionsItemRegistry.init();
         BlockRegistry.init();
@@ -83,6 +90,7 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent event) {
+        GctAllLifecycle.init(event);
         NilfheimRecipes.init();
         WorldDimensionIntegrations.init();
         if (Mods.TOP.isLoading()) {
@@ -95,5 +103,9 @@ public class CommonProxy {
 
     public void postInit(FMLPostInitializationEvent event) {
         MaterialRenderingDebugHelper.logMaterialShaderFixSummary();
+    }
+
+    public void serverLoad(net.minecraftforge.fml.common.event.FMLServerStartingEvent event) {
+        GctAllLifecycle.serverLoad(event);
     }
 }

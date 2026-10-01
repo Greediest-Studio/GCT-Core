@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/elven_cobblestone",
+    "up": "gctold:blocks/elven_cobblestone",
+    "north": "gctold:blocks/elven_cobblestone",
+    "east": "gctold:blocks/elven_cobblestone",
+    "south": "gctold:blocks/elven_cobblestone",
+    "west": "gctold:blocks/elven_cobblestone",
+    "particle": "gctold:blocks/elven_cobblestone"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/corrupted_dirt",
+    "up": "gctold:blocks/corrupted_dirt",
+    "north": "gctold:blocks/corrupted_dirt",
+    "east": "gctold:blocks/corrupted_dirt",
+    "south": "gctold:blocks/corrupted_dirt",
+    "west": "gctold:blocks/corrupted_dirt",
+    "particle": "gctold:blocks/corrupted_dirt"
+  }
+}

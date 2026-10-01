@@ -1,0 +1,10 @@
+{
+  "parent": "gctold:custom/modelruinholder",
+  "textures": {
+    "all": "gctold:blocks/ruinholder1",
+    "particle": "gctold:blocks/ruinholder1",
+    "0": "gctold:blocks/ruinholder1",
+    "1": "gctold:blocks/ruinholder2",
+    "2": "gctold:blocks/ruinholder3"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "gctold:blocks/mana_plank",
+    "particle": "gctold:blocks/mana_plank"
+  }
+}

@@ -1,7 +1,120 @@
 {
-  "bird": {
-    "sounds": [
-      "gctcore:bird"
-    ]
-  }
+    "bird":  {
+                 "sounds":  [
+                                "gctcore:bird"
+                            ]
+             },
+    "deepslate_break":  {
+                            "category":  "block",
+                            "sounds":  [
+                                           {
+                                               "name":  "gctold:break",
+                                               "stream":  false
+                                           }
+                                       ]
+                        },
+    "deepslate_step":  {
+                           "category":  "block",
+                           "sounds":  [
+                                          {
+                                              "name":  "gctold:step",
+                                              "stream":  false
+                                          }
+                                      ]
+                       },
+    "deepslate_place":  {
+                            "category":  "block",
+                            "sounds":  [
+                                           {
+                                               "name":  "gctold:place",
+                                               "stream":  false
+                                           }
+                                       ]
+                        },
+    "remnant_ambient":  {
+                            "category":  "master",
+                            "sounds":  [
+                                           {
+                                               "name":  "gctold:remnant_scream",
+                                               "stream":  false
+                                           }
+                                       ]
+                        },
+    "zjarugoth_roar":  {
+                           "category":  "master",
+                           "sounds":  [
+                                          {
+                                              "name":  "gctold:zjarugoth_roar",
+                                              "stream":  false
+                                          }
+                                      ]
+                       },
+    "shoggoth_ambient":  {
+                             "category":  "master",
+                             "sounds":  [
+                                            {
+                                                "name":  "gctold:idle1",
+                                                "stream":  false
+                                            },
+                                            {
+                                                "name":  "gctold:idle2",
+                                                "stream":  false
+                                            },
+                                            {
+                                                "name":  "gctold:idle3",
+                                                "stream":  false
+                                            },
+                                            {
+                                                "name":  "gctold:idle4",
+                                                "stream":  false
+                                            },
+                                            {
+                                                "name":  "gctold:idle5",
+                                                "stream":  false
+                                            }
+                                        ]
+                         },
+    "chant_abyss":  {
+                        "category":  "master",
+                        "sounds":  [
+                                       {
+                                           "name":  "gctold:chant",
+                                           "stream":  false
+                                       }
+                                   ]
+                    },
+    "shoggoth_death":  {
+                           "category":  "master",
+                           "sounds":  [
+                                          {
+                                              "name":  "gctold:death",
+                                              "stream":  false
+                                          }
+                                      ]
+                       },
+    "shoggoth_hurt":  {
+                          "category":  "master",
+                          "sounds":  [
+                                         {
+                                             "name":  "gctold:hurt1",
+                                             "stream":  false
+                                         },
+                                         {
+                                             "name":  "gctold:hurt2",
+                                             "stream":  false
+                                         },
+                                         {
+                                             "name":  "gctold:hurt3",
+                                             "stream":  false
+                                         },
+                                         {
+                                             "name":  "gctold:hurt4",
+                                             "stream":  false
+                                         },
+                                         {
+                                             "name":  "gctold:hurt5",
+                                             "stream":  false
+                                         }
+                                     ]
+                      }
 }

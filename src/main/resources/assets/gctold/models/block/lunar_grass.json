@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/lunar_soil",
+    "up": "gctold:blocks/lunar_grass_top",
+    "north": "gctold:blocks/lunar_grass_side",
+    "east": "gctold:blocks/lunar_grass_side",
+    "south": "gctold:blocks/lunar_grass_side",
+    "west": "gctold:blocks/lunar_grass_side",
+    "particle": "gctold:blocks/lunar_soil"
+  }
+}

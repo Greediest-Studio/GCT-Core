@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "normal": {
+      "model": "gctold:finallium_container_active"
+    }
+  }
+}

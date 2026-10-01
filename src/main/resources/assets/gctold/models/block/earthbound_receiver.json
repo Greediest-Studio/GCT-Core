@@ -1,0 +1,11 @@
+{
+  "parent": "gctold:custom/earthboundreceiver",
+  "textures": {
+    "all": "gctold:blocks/alfheimportal",
+    "particle": "gctold:blocks/alfheimportal",
+    "0": "gctold:blocks/log",
+    "1": "gctold:blocks/mud",
+    "2": "gctold:blocks/alfheimportal",
+    "missing": "gctold:blocks/alfheimportal"
+  }
+}

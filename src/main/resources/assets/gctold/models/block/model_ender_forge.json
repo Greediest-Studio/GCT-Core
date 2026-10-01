@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/block_endorium",
+    "up": "gctold:blocks/block_endorium",
+    "north": "gctold:blocks/endest_forge_controller_front",
+    "east": "gctold:blocks/endest_forge_controller_front",
+    "south": "gctold:blocks/endest_forge_controller_front",
+    "west": "gctold:blocks/endest_forge_controller_front",
+    "particle": "gctold:blocks/block_endorium"
+  }
+}

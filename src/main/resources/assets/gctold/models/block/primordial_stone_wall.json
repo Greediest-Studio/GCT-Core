@@ -1,0 +1,7 @@
+{
+  "parent": "block/wall_side",
+  "textures": {
+    "wall": "gctold:blocks/primordial_stone",
+    "particle": "gctold:blocks/primordial_stone"
+  }
+}

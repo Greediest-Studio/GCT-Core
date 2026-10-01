@@ -1,0 +1,11 @@
+{
+  "parent": "gctold:custom/modelvoidseedcontainer",
+  "textures": {
+    "all": "gctold:blocks/ruinholder2",
+    "particle": "gctold:blocks/ruinholder2",
+    "0": "gctold:blocks/voidseed_container1",
+    "1": "gctold:blocks/voidseed_container2",
+    "2": "gctold:blocks/voidseed_container3",
+    "missing": "gctold:blocks/voidseed_container3"
+  }
+}

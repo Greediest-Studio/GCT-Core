@@ -1,0 +1,10 @@
+{
+  "parent": "gctold:custom/finallium_container",
+  "textures": {
+    "all": "gctold:blocks/finallium_block",
+    "particle": "gctold:blocks/finallium_block",
+    "0": "gctold:blocks/finallium_block",
+    "1": "gctold:blocks/ordered_metal_block",
+    "2": "gctold:blocks/shalloite_block_chiseled"
+  }
+}

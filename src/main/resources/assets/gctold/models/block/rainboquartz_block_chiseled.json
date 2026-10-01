@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/rainboquartz_block_chiseled",
+    "up": "gctold:blocks/rainboquartz_block_chiseled",
+    "north": "gctold:blocks/rainboquartz_block_chiseled",
+    "east": "gctold:blocks/rainboquartz_block_chiseled",
+    "south": "gctold:blocks/rainboquartz_block_chiseled",
+    "west": "gctold:blocks/rainboquartz_block_chiseled",
+    "particle": "gctold:blocks/rainboquartz_block_chiseled"
+  }
+}

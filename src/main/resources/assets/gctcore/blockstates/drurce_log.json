@@ -1,0 +1,31 @@
+{
+  "variants": {
+    "normal": {
+      "model": "gctold:drurce_log"
+    },
+    "facing=south": {
+      "model": "gctold:drurce_log"
+    },
+    "facing=north": {
+      "model": "gctold:drurce_log"
+    },
+    "facing=east": {
+      "model": "gctold:drurce_log",
+      "x": 90
+    },
+    "facing=west": {
+      "model": "gctold:drurce_log",
+      "x": 90
+    },
+    "facing=up": {
+      "model": "gctold:drurce_log",
+      "x": 90,
+      "y": 90
+    },
+    "facing=down": {
+      "model": "gctold:drurce_log",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

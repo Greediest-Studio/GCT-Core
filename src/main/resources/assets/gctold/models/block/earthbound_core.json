@@ -1,0 +1,11 @@
+{
+  "parent": "gctold:custom/earthboundcore",
+  "textures": {
+    "all": "gctold:blocks/infused_iron_block",
+    "particle": "gctold:blocks/infused_iron_block",
+    "0": "gctold:blocks/log",
+    "1": "gctold:blocks/infused_brick",
+    "2": "gctold:blocks/infused_iron_block",
+    "missing": "gctold:blocks/infused_iron_block"
+  }
+}

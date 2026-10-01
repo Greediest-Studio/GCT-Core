@@ -1,0 +1,19 @@
+{
+    "variants":  {
+                     "check_decay=true,decayable=true":  {
+                                                             "model":  "gctold:dreamwood_leaves"
+                                                         },
+                     "check_decay=false,decayable=true":  {
+                                                              "model":  "gctold:dreamwood_leaves"
+                                                          },
+                     "check_decay=true,decayable=false":  {
+                                                              "model":  "gctold:dreamwood_leaves"
+                                                          },
+                     "check_decay=false,decayable=false":  {
+                                                               "model":  "gctold:dreamwood_leaves"
+                                                           },
+                     "normal":  {
+                                    "model":  "gctold:dreamwood_leaves"
+                                }
+                 }
+}

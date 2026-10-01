@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/ice_alloy_block",
+    "up": "gctold:blocks/ice_alloy_block",
+    "north": "gctold:blocks/ice_alloy_block",
+    "east": "gctold:blocks/ice_alloy_block",
+    "south": "gctold:blocks/ice_alloy_block",
+    "west": "gctold:blocks/ice_alloy_block",
+    "particle": "gctold:blocks/ice_alloy_block"
+  }
+}

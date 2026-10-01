@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/ordercrystal_ore",
+    "up": "gctold:blocks/ordercrystal_ore",
+    "north": "gctold:blocks/ordercrystal_ore",
+    "east": "gctold:blocks/ordercrystal_ore",
+    "south": "gctold:blocks/ordercrystal_ore",
+    "west": "gctold:blocks/ordercrystal_ore",
+    "particle": "gctold:blocks/ordercrystal_ore"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "block/fence_post",
+  "textures": {
+    "texture": "gctold:blocks/reversed_dreamwood_plank2",
+    "particle": "gctold:blocks/reversed_dreamwood_plank2"
+  }
+}

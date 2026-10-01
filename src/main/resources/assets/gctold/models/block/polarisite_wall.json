@@ -1,0 +1,7 @@
+{
+  "parent": "block/wall_side",
+  "textures": {
+    "wall": "gctold:blocks/polarisite_brick",
+    "particle": "gctold:blocks/polarisite_brick"
+  }
+}

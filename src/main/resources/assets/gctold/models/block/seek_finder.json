@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/seek_finder",
+    "up": "gctold:blocks/seek_brick",
+    "north": "gctold:blocks/seek_brick",
+    "east": "gctold:blocks/seek_brick",
+    "south": "gctold:blocks/seek_brick",
+    "west": "gctold:blocks/seek_brick",
+    "particle": "gctold:blocks/seek_finder"
+  }
+}

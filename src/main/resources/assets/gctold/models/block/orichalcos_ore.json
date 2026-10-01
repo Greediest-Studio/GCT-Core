@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/orichalcos_ore",
+    "up": "gctold:blocks/orichalcos_ore",
+    "north": "gctold:blocks/orichalcos_ore",
+    "east": "gctold:blocks/orichalcos_ore",
+    "south": "gctold:blocks/orichalcos_ore",
+    "west": "gctold:blocks/orichalcos_ore",
+    "particle": "gctold:blocks/orichalcos_ore"
+  }
+}

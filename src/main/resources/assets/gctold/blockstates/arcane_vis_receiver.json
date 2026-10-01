@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "normal": {
+      "model": "gctold:arcane_vis_receiver"
+    }
+  }
+}

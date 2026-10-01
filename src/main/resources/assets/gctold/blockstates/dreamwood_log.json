@@ -1,0 +1,31 @@
+{
+  "variants": {
+    "normal": {
+      "model": "gctold:dreamwood_log"
+    },
+    "facing=south": {
+      "model": "gctold:dreamwood_log"
+    },
+    "facing=north": {
+      "model": "gctold:dreamwood_log"
+    },
+    "facing=east": {
+      "model": "gctold:dreamwood_log",
+      "x": 90
+    },
+    "facing=west": {
+      "model": "gctold:dreamwood_log",
+      "x": 90
+    },
+    "facing=up": {
+      "model": "gctold:dreamwood_log",
+      "x": 90,
+      "y": 90
+    },
+    "facing=down": {
+      "model": "gctold:dreamwood_log",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

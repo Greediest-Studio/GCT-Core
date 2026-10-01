@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "normal": {
+      "model": "gctold:mana_cobble_stone"
+    }
+  }
+}

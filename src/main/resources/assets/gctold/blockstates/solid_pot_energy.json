@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "normal": {
+      "model": "gctold:solid_pot_energy"
+    }
+  }
+}

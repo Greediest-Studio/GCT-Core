@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/solid_potenergy",
+    "up": "gctold:blocks/solid_potenergy",
+    "north": "gctold:blocks/solid_potenergy",
+    "east": "gctold:blocks/solid_potenergy",
+    "south": "gctold:blocks/solid_potenergy",
+    "west": "gctold:blocks/solid_potenergy",
+    "particle": "gctold:blocks/solid_potenergy"
+  }
+}

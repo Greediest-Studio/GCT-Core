@@ -1,0 +1,7 @@
+{
+  "parent": "block/wall_post",
+  "textures": {
+    "wall": "gctold:blocks/primordial_stonebrick",
+    "particle": "gctold:blocks/primordial_stonebrick"
+  }
+}

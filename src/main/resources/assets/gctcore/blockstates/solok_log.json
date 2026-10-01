@@ -1,0 +1,31 @@
+{
+  "variants": {
+    "normal": {
+      "model": "gctold:solok_log"
+    },
+    "facing=south": {
+      "model": "gctold:solok_log"
+    },
+    "facing=north": {
+      "model": "gctold:solok_log"
+    },
+    "facing=east": {
+      "model": "gctold:solok_log",
+      "x": 90
+    },
+    "facing=west": {
+      "model": "gctold:solok_log",
+      "x": 90
+    },
+    "facing=up": {
+      "model": "gctold:solok_log",
+      "x": 90,
+      "y": 90
+    },
+    "facing=down": {
+      "model": "gctold:solok_log",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/apocalypse_barrier",
+    "up": "gctold:blocks/apocalypse_barrier",
+    "north": "gctold:blocks/apocalypse_barrier",
+    "east": "gctold:blocks/apocalypse_barrier",
+    "south": "gctold:blocks/apocalypse_barrier",
+    "west": "gctold:blocks/apocalypse_barrier",
+    "particle": "gctold:blocks/apocalypse_barrier"
+  }
+}

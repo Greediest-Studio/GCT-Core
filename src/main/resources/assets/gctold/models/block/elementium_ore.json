@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/elementium_ore",
+    "up": "gctold:blocks/elementium_ore",
+    "north": "gctold:blocks/elementium_ore",
+    "east": "gctold:blocks/elementium_ore",
+    "south": "gctold:blocks/elementium_ore",
+    "west": "gctold:blocks/elementium_ore",
+    "particle": "gctold:blocks/elementium_ore"
+  }
+}

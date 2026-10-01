@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=bottom,variant=default": {
+      "model": "gctold:reversed_dreamwood_slab"
+    },
+    "half=top,variant=default": {
+      "model": "gctold:reversed_dreamwood_slab_top"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "group": "gctcore",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012"
+  ],
+  "key": {
+    "0": {
+      "item": "gctcore:warprack"
+    },
+    "1": {
+      "item": "gctcore:warprack"
+    },
+    "2": {
+      "item": "gctcore:warprack"
+    }
+  },
+  "result": {
+    "item": "gctcore:warprack_slab",
+    "data": 0,
+    "count": 6
+  }
+}

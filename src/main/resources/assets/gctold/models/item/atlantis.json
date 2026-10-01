@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gctold:items/orb_of_atlantis"
+  }
+}

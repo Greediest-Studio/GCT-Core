@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "axis=z": {
+      "model": "gctold:atlantis_portal_ew"
+    },
+    "axis=x": {
+      "model": "gctold:atlantis_portal_ns"
+    },
+    "inventory": {
+      "model": "gctold:atlantis_portal_ns"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "gctold:blocks/polarisite_brick",
+    "particle": "gctold:blocks/polarisite_brick"
+  }
+}

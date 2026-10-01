@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/densite_block",
+    "up": "gctold:blocks/densite_block",
+    "north": "gctold:blocks/densite_block",
+    "east": "gctold:blocks/densite_block",
+    "south": "gctold:blocks/densite_block",
+    "west": "gctold:blocks/densite_block",
+    "particle": "gctold:blocks/densite_block"
+  }
+}

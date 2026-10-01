@@ -1,0 +1,19 @@
+{
+    "variants":  {
+                     "check_decay=true,decayable=true":  {
+                                                             "model":  "gctold:solok_leaves"
+                                                         },
+                     "check_decay=false,decayable=true":  {
+                                                              "model":  "gctold:solok_leaves"
+                                                          },
+                     "check_decay=true,decayable=false":  {
+                                                              "model":  "gctold:solok_leaves"
+                                                          },
+                     "check_decay=false,decayable=false":  {
+                                                               "model":  "gctold:solok_leaves"
+                                                           },
+                     "normal":  {
+                                    "model":  "gctold:solok_leaves"
+                                }
+                 }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/evileye_log_top",
+    "up": "gctold:blocks/evileye_log_top",
+    "north": "gctold:blocks/evileye_log",
+    "east": "gctold:blocks/evileye_log",
+    "south": "gctold:blocks/evileye_log",
+    "west": "gctold:blocks/evileye_log",
+    "particle": "gctold:blocks/evileye_log_top"
+  }
+}

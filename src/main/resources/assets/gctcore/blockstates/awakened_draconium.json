@@ -1,0 +1,15 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "forge:fluid"
+  },
+  "variants": {
+    "awakened_draconium": [
+      {
+        "custom": {
+          "fluid": "awakened_draconium"
+        }
+      }
+    ]
+  }
+}

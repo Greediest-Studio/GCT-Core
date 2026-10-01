@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/livingwood_leaves",
+    "up": "gctold:blocks/livingwood_leaves",
+    "north": "gctold:blocks/livingwood_leaves",
+    "east": "gctold:blocks/livingwood_leaves",
+    "south": "gctold:blocks/livingwood_leaves",
+    "west": "gctold:blocks/livingwood_leaves",
+    "particle": "gctold:blocks/livingwood_leaves"
+  }
+}

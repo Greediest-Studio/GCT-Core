@@ -18,6 +18,7 @@ import com.smd.gctcore.common.events.MiningSpeedHandler;
 import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
 import com.smd.gctcore.common.tile.botania.TileGctManaPool;
 import com.smd.gctcore.common.tile.botania.TileGctManaSpreader;
+import com.gmm.gctold.misc.registry.GctAllClientLifecycle;
 import com.smd.gctcore.misc.BlockRegistry;
 import com.smd.gctcore.misc.ItemRegistry;
 import net.minecraft.block.Block;
@@ -51,6 +52,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
+        GctAllClientLifecycle.preInit(event, "gctold");
         OBJLoader.INSTANCE.addDomain(Tags.MOD_ID);
 
         // 注册事件监听器
@@ -72,6 +74,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void init(FMLInitializationEvent event) {
         super.init(event);
+        GctAllClientLifecycle.init(event);
     }
 
     @Override

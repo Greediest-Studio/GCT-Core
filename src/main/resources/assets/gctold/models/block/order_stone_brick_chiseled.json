@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/order_stonebrickchiseled",
+    "up": "gctold:blocks/order_stonebrickchiseled",
+    "north": "gctold:blocks/order_stonebrickchiseled",
+    "east": "gctold:blocks/order_stonebrickchiseled",
+    "south": "gctold:blocks/order_stonebrickchiseled",
+    "west": "gctold:blocks/order_stonebrickchiseled",
+    "particle": "gctold:blocks/order_stonebrickchiseled"
+  }
+}

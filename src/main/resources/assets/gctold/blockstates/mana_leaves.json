@@ -1,0 +1,19 @@
+{
+    "variants":  {
+                     "check_decay=true,decayable=true":  {
+                                                             "model":  "gctold:mana_leaves"
+                                                         },
+                     "check_decay=false,decayable=true":  {
+                                                              "model":  "gctold:mana_leaves"
+                                                          },
+                     "check_decay=true,decayable=false":  {
+                                                              "model":  "gctold:mana_leaves"
+                                                          },
+                     "check_decay=false,decayable=false":  {
+                                                               "model":  "gctold:mana_leaves"
+                                                           },
+                     "normal":  {
+                                    "model":  "gctold:mana_leaves"
+                                }
+                 }
+}

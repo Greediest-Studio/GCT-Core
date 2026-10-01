@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/warprack",
+    "up": "gctold:blocks/warprack",
+    "north": "gctold:blocks/warprack",
+    "east": "gctold:blocks/warprack",
+    "south": "gctold:blocks/warprack",
+    "west": "gctold:blocks/warprack",
+    "particle": "gctold:blocks/warprack"
+  }
+}

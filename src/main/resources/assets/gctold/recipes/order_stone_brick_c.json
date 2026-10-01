@@ -1,0 +1,26 @@
+{
+  "group": "gctcore",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "01",
+    "23"
+  ],
+  "key": {
+    "0": {
+      "item": "gctcore:order_stone"
+    },
+    "1": {
+      "item": "gctcore:order_stone"
+    },
+    "2": {
+      "item": "gctcore:order_stone"
+    },
+    "3": {
+      "item": "gctcore:order_stone"
+    }
+  },
+  "result": {
+    "item": "gctcore:order_stone_brick",
+    "count": 1
+  }
+}

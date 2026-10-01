@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gctold:blocks/mana_dirt",
+    "up": "gctold:blocks/mana_dirt",
+    "north": "gctold:blocks/mana_dirt",
+    "east": "gctold:blocks/mana_dirt",
+    "south": "gctold:blocks/mana_dirt",
+    "west": "gctold:blocks/mana_dirt",
+    "particle": "gctold:blocks/mana_dirt"
+  }
+}

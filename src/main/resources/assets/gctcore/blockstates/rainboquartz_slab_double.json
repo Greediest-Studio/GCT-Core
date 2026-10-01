@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "variant=default": {
+      "model": "gctold:rainboquartz_slab_double"
+    }
+  }
+}

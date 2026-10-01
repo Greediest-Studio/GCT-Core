@@ -1,0 +1,23 @@
+{
+  "group": "gctcore",
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "012"
+  ],
+  "key": {
+    "0": {
+      "item": "gctcore:evileye_plank"
+    },
+    "1": {
+      "item": "gctcore:evileye_plank"
+    },
+    "2": {
+      "item": "gctcore:evileye_plank"
+    }
+  },
+  "result": {
+    "item": "gctcore:evileye_slab",
+    "data": 0,
+    "count": 6
+  }
+}
