@@ -8,10 +8,13 @@
     "MixinAdapterTC6GuguAspectBridge",
     "MixinAdapterTC6Crucible",
     "MixinAdapterTC6InfusionMatrixResearchNBT",
+    "MixinGenericMachineComponent",
     "MixinGuguRequirementConsumePerTick",
     "MixinTitleMEAspectBus",
-    "MixinTitleMEAspectInputBus"
+    "MixinTitleMEAspectInputBus",
+    "MixinTileMultiblockMachineControllerWhimcraft"
   ],
   "client": [],
   "server": []
 }
+
