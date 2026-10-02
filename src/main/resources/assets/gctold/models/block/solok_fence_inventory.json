@@ -1,7 +1,0 @@
-{
-  "parent": "block/fence_inventory",
-  "textures": {
-    "texture": "gctold:blocks/solok_plank",
-    "particle": "gctold:blocks/solok_plank"
-  }
-}

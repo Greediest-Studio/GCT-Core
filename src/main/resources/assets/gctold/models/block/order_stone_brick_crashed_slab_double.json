@@ -1,7 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "gctold:blocks/order_stonebrickcrashed",
-    "particle": "gctold:blocks/order_stonebrickcrashed"
-  }
-}

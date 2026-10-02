@@ -1,6 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "gctold:items/door_key_warped_activated"
-  }
-}

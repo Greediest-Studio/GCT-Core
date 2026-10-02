@@ -1,8 +1,0 @@
-{
-  "parent": "block/upper_slab",
-  "textures": {
-    "bottom": "gctold:blocks/primordial_stonebrick",
-    "top": "gctold:blocks/primordial_stonebrick",
-    "side": "gctold:blocks/primordial_stonebrick"
-  }
-}

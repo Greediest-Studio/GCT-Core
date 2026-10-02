@@ -1,7 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "gctold:blocks/reversed_dreamwood_plank2",
-    "particle": "gctold:blocks/reversed_dreamwood_plank2"
-  }
-}

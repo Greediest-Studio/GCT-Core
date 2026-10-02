@@ -1,7 +1,0 @@
-{
-  "parent": "block/fence_post",
-  "textures": {
-    "texture": "gctold:blocks/mana_plank",
-    "particle": "gctold:blocks/mana_plank"
-  }
-}

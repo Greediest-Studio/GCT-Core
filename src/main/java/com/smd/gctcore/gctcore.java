@@ -45,9 +45,4 @@ public class gctcore {
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
     }
-
-    @EventHandler
-    public void serverLoad(FMLServerStartingEvent event) {
-        proxy.serverLoad(event);
-    }
 }

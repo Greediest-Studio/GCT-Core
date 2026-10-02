@@ -1,8 +1,0 @@
-{
-  "parent": "block/outer_stairs",
-  "textures": {
-    "bottom": "gctold:blocks/reversed_dreamwood_plank2",
-    "top": "gctold:blocks/reversed_dreamwood_plank2",
-    "side": "gctold:blocks/reversed_dreamwood_plank2"
-  }
-}

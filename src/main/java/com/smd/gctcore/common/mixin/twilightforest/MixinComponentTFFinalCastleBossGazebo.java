@@ -26,7 +26,15 @@ public abstract class MixinComponentTFFinalCastleBossGazebo extends StructureTFC
     )
     private void gctcore$replaceFinalCastleSpawner(ComponentTFFinalCastleBossGazebo self, World world, IBlockState state, int x, int y, int z, StructureBoundingBox boundingBox) {
         Block apocalypseAltar = ForgeRegistries.BLOCKS.getValue(
-                new ResourceLocation("gctcore", "apocalypse_altar"));
+                new ResourceLocation("gct_additions", "apocalypse_altar"));
+        if (apocalypseAltar == null) {
+            apocalypseAltar = ForgeRegistries.BLOCKS.getValue(
+                    new ResourceLocation("gctcore", "apocalypse_altar"));
+        }
+        if (apocalypseAltar == null) {
+            apocalypseAltar = ForgeRegistries.BLOCKS.getValue(
+                    new ResourceLocation("gct_mobs", "apocalypse_altar"));
+        }
         ResourceLocation stateName = state.getBlock().getRegistryName();
 
         // The only setBlockState call in this method is the final-boss spawner.

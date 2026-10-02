@@ -1,8 +1,0 @@
-{
-  "parent": "block/inner_stairs",
-  "textures": {
-    "bottom": "gctold:blocks/crystalsandstone_bottom",
-    "top": "gctold:blocks/crystalsandstone_bottom",
-    "side": "gctold:blocks/crystalsandstone_bottom"
-  }
-}

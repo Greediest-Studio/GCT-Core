@@ -1,8 +1,0 @@
-{
-  "parent": "block/half_slab",
-  "textures": {
-    "bottom": "gctold:blocks/order_stonebrickcrashed",
-    "top": "gctold:blocks/order_stonebrickcrashed",
-    "side": "gctold:blocks/order_stonebrickcrashed"
-  }
-}

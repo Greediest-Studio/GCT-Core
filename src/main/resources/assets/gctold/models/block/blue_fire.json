@@ -1,7 +1,0 @@
-{
-  "parent": "block/cross",
-  "textures": {
-    "cross": "gctold:blocks/blue_fire",
-    "particle": "gctold:blocks/blue_fire"
-  }
-}

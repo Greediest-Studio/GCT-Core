@@ -1,7 +1,0 @@
-{
-  "parent": "block/fence_side",
-  "textures": {
-    "texture": "gctold:blocks/reversed_dreamwood_plank2",
-    "particle": "gctold:blocks/reversed_dreamwood_plank2"
-  }
-}

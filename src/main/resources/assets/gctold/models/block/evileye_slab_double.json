@@ -1,7 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "gctold:blocks/evileye_plank",
-    "particle": "gctold:blocks/evileye_plank"
-  }
-}

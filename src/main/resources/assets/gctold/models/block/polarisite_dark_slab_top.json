@@ -1,8 +1,0 @@
-{
-  "parent": "block/upper_slab",
-  "textures": {
-    "bottom": "gctold:blocks/polarisite_brick_dark",
-    "top": "gctold:blocks/polarisite_brick_dark",
-    "side": "gctold:blocks/polarisite_brick_dark"
-  }
-}

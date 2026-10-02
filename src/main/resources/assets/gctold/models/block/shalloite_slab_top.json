@@ -1,8 +1,0 @@
-{
-  "parent": "block/upper_slab",
-  "textures": {
-    "bottom": "gctold:blocks/shalloite_block",
-    "top": "gctold:blocks/shalloite_block",
-    "side": "gctold:blocks/shalloite_block"
-  }
-}

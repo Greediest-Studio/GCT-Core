@@ -1,7 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "gctold:blocks/wildplain_plank",
-    "particle": "gctold:blocks/wildplain_plank"
-  }
-}

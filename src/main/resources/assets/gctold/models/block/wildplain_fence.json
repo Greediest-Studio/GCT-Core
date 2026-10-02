@@ -1,7 +1,0 @@
-{
-  "parent": "block/fence_side",
-  "textures": {
-    "texture": "gctold:blocks/wildplain_plank",
-    "particle": "gctold:blocks/wildplain_plank"
-  }
-}

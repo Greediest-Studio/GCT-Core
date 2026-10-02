@@ -1,7 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "gctold:blocks/shalloite_block",
-    "particle": "gctold:blocks/shalloite_block"
-  }
-}

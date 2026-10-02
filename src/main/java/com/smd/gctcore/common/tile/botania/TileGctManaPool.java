@@ -18,7 +18,7 @@ public class TileGctManaPool extends TilePool {
             manaCap = capacity;
             recieveMana(0);
         }
-        super.func_73660_a();
+        super.update();
     }
 
     public int getConfiguredCapacity() {

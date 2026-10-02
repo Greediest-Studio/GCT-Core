@@ -1,8 +1,0 @@
-{
-  "parent": "block/upper_slab",
-  "textures": {
-    "bottom": "gctold:blocks/solok_plank",
-    "top": "gctold:blocks/solok_plank",
-    "side": "gctold:blocks/solok_plank"
-  }
-}

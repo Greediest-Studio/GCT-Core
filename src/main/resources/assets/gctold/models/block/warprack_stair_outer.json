@@ -1,8 +1,0 @@
-{
-  "parent": "block/outer_stairs",
-  "textures": {
-    "bottom": "gctold:blocks/warprack",
-    "top": "gctold:blocks/warprack",
-    "side": "gctold:blocks/warprack"
-  }
-}

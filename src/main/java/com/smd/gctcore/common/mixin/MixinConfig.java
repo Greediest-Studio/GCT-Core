@@ -59,7 +59,8 @@ public class MixinConfig implements ILateMixinLoader {
         if(GCTMixinConfig.enableMixinItemToolSceptre) {
             addModdedMixinCFG("mixins.gctcore.tconevo.json", "tconevo");
         }
-        addModdedMixinCFG("mixins.gctcore.twilightforest.json", "twilightforest");
+        addMixinCFG("mixins.gctcore.twilightforest.json",
+                () -> modLoaded("twilightforest") && (modLoaded("gct_additions") || modLoaded("gctcore") || modLoaded("gct_mobs")));
         addMixinCFG("mixins.gctcore.ftbquests.json",
                 () -> modLoaded("ftbquests") && modLoaded("retro_sophisticated_backpacks"));
     }

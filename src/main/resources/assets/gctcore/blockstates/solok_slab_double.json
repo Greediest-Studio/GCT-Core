@@ -1,7 +1,0 @@
-{
-  "variants": {
-    "variant=default": {
-      "model": "gctold:solok_slab_double"
-    }
-  }
-}

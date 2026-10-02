@@ -1,8 +1,0 @@
-{
-  "parent": "block/outer_stairs",
-  "textures": {
-    "bottom": "gctold:blocks/polarisite_brick",
-    "top": "gctold:blocks/polarisite_brick",
-    "side": "gctold:blocks/polarisite_brick"
-  }
-}

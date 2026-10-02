@@ -1,8 +1,0 @@
-{
-  "parent": "block/stairs",
-  "textures": {
-    "bottom": "gctold:blocks/primordial_stone",
-    "top": "gctold:blocks/primordial_stone",
-    "side": "gctold:blocks/primordial_stone"
-  }
-}

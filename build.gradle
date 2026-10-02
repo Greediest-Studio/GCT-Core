@@ -198,8 +198,6 @@ dependencies {
     implementation rfg.deobf("curse.maven:avaritia-1-1x-kedition-913129:6118927")
     implementation rfg.deobf("curse.maven:quantum-things-1387363:8352165")
     implementation rfg.deobf("curse.maven:mekanismceu-moremachine-1606952:8640671")
-    implementation rfg.deobf("curse.maven:bookshelf-228525:2836960")
-    implementation rfg.deobf("curse.maven:gamestage-268655:2951840")
     implementation(rfg.deobf("com.cleanroommc:modularui:3.1.6")) {
         exclude group: "mezz.jei", module: "jei_1.12.2"
     }

@@ -1,7 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "gctold:blocks/primordial_stonebrick",
-    "particle": "gctold:blocks/primordial_stonebrick"
-  }
-}

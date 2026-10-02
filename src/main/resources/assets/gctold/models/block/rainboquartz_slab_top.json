@@ -1,8 +1,0 @@
-{
-  "parent": "block/upper_slab",
-  "textures": {
-    "bottom": "gctold:blocks/rainboquartz_block",
-    "top": "gctold:blocks/rainboquartz_block",
-    "side": "gctold:blocks/rainboquartz_block"
-  }
-}

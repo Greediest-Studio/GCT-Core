@@ -1,7 +1,0 @@
-{
-  "parent": "gctold:custom/modelapocalypsealtar",
-  "textures": {
-    "particle": "gctold:blocks/apocalypse_altar_base",
-    "0": "gctold:blocks/apocalypse_altar_base"
-  }
-}
