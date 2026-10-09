@@ -5,6 +5,7 @@ import baubles.api.cap.IBaublesItemHandler;
 import com.existingeevee.moretcon.item.tooltypes.Ring;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,16 +20,21 @@ public abstract class MixinRing {
             cancellable = true,
             remap = false
     )
-    private void gctCore$fixShouldTick(EntityLivingBase player, CallbackInfoReturnable<Boolean> cir) {
+    private void gctCore$fixShouldTick(EntityLivingBase player, ItemStack stack,
+                                       CallbackInfoReturnable<Boolean> cir) {
         if (player instanceof EntityPlayer) {
             IBaublesItemHandler handler = BaublesApi.getBaublesHandler((EntityPlayer) player);
             int count = 0;
+            boolean equipped = false;
             for (int i = 0; i < handler.getSlots(); i++) {
                 if (handler.getStackInSlot(i).getItem() instanceof Ring) {
                     count++;
+                    if (handler.getStackInSlot(i) == stack) {
+                        equipped = true;
+                    }
                 }
             }
-            if (count == 0) {
+            if (count == 0 || !equipped) {
                 cir.setReturnValue(false);
                 return;
             }
