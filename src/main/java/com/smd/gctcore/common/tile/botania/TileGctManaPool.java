@@ -12,13 +12,13 @@ import javax.annotation.Nonnull;
 public class TileGctManaPool extends TilePool {
 
     @Override
-    public void func_73660_a() {
+    public void update() {
         int capacity = getTier().getCapacity();
         if (manaCap != capacity) {
             manaCap = capacity;
             recieveMana(0);
         }
-        super.func_73660_a();
+        super.update();
     }
 
     public int getConfiguredCapacity() {
