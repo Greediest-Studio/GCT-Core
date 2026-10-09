@@ -6,17 +6,20 @@ import com.existingeevee.moretcon.item.tooltypes.Ring;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Ring.class)
 public abstract class MixinRing {
 
-    /**
-     * @author Gct-Core
-     * @reason 非法运算
-     */
-    @Overwrite(remap = false)
-    private boolean shouldTick(EntityLivingBase player) {
+    @Inject(
+            method = "shouldTick",
+            at = @At("HEAD"),
+            cancellable = true,
+            remap = false
+    )
+    private void gctCore$fixShouldTick(EntityLivingBase player, CallbackInfoReturnable<Boolean> cir) {
         if (player instanceof EntityPlayer) {
             IBaublesItemHandler handler = BaublesApi.getBaublesHandler((EntityPlayer) player);
             int count = 0;
@@ -26,10 +29,12 @@ public abstract class MixinRing {
                 }
             }
             if (count == 0) {
-                return false;
+                cir.setReturnValue(false);
+                return;
             }
-            return player.getEntityWorld().getWorldTime() % ((long) count * count) == 0;
+            cir.setReturnValue(player.getEntityWorld().getWorldTime() % ((long) count * count) == 0);
+            return;
         }
-        return false;
+        cir.setReturnValue(false);
     }
 }

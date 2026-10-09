@@ -25,7 +25,21 @@ public abstract class MixinEntityTimeAccelerator {
         if (target instanceof TimeAcceleratedUpdateAccess) {
             ((TimeAcceleratedUpdateAccess) target).gct$timeAcceleratedUpdate();
         } else {
-            target.update();
+            gct$vanillaUpdate(target);
+        }
+    }
+
+    private static void gct$vanillaUpdate(ITickable target) {
+        try {
+            for (java.lang.reflect.Method method : ITickable.class.getMethods()) {
+                if (method.getParameterTypes().length == 0) {
+                    method.invoke(target);
+                    return;
+                }
+            }
+            throw new NoSuchMethodException("ITickable tick method");
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException("Unable to invoke tickable update", e);
         }
     }
 }

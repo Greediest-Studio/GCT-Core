@@ -19,6 +19,16 @@ public abstract class MixinTileEntityRestrictedTick implements TimeAcceleratedUp
     public void gct$timeAcceleratedUpdate() {
         // Keep Mekanism's normal one-tick guard for ordinary callers.
         lastUpdateWorldTick = Long.MIN_VALUE;
-        ((ITickable) (Object) this).update();
+        try {
+            for (java.lang.reflect.Method method : ITickable.class.getMethods()) {
+                if (method.getParameterTypes().length == 0) {
+                    method.invoke(this);
+                    return;
+                }
+            }
+            throw new NoSuchMethodException("ITickable tick method");
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException("Unable to invoke tickable update", e);
+        }
     }
 }

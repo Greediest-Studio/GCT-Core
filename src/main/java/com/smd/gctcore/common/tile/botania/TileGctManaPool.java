@@ -18,7 +18,17 @@ public class TileGctManaPool extends TilePool {
             manaCap = capacity;
             recieveMana(0);
         }
-        super.update();
+        try {
+            for (java.lang.reflect.Method method : net.minecraft.util.ITickable.class.getMethods()) {
+                if (method.getParameterTypes().length == 0) {
+                    method.invoke(this);
+                    return;
+                }
+            }
+            throw new NoSuchMethodException("ITickable tick method");
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException("Unable to invoke mana pool update", e);
+        }
     }
 
     public int getConfiguredCapacity() {
