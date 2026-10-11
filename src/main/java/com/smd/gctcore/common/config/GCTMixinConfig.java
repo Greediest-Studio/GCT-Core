@@ -27,6 +27,11 @@ public class GCTMixinConfig {
     @Config.RequiresMcRestart
     public static boolean enableChunkQueueResizingMixin = true;
 
+    @Config.Comment({"是否优化 AE2 普通及无线合成终端的连续合成，包含多态合成兼容"})
+    @Config.Name("Enable AE2 Crafting Recipe Cache")
+    @Config.RequiresMcRestart
+    public static boolean enableAE2CraftingRecipeCache = true;
+
     static {
         ConfigAnytime.register(GCTMixinConfig.class);
     }
