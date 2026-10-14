@@ -303,6 +303,7 @@ jar {
     exclude 'com/xinyihl/whimcraft/**'
     exclude 'slimeknights/toolleveling/**'
     exclude 'com/sirsquidly/oe/**'
+    exclude 'fi/dy/masa/enderutilities/**'
 }
 
 idea {
