@@ -8,6 +8,7 @@ import com.smd.gctcore.common.integration.WorldDimensionIntegrations;
 import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingAutomation;
 import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingGuiHandler;
 import com.smd.gctcore.common.integration.astralsorcery.RadiantQuartzLiquefaction;
+import com.smd.gctcore.common.integration.astralsorcery.AstralSorceryExpansion;
 import com.smd.gctcore.common.integration.botania.DaisyPlacer;
 import com.smd.gctcore.common.integration.top.GctTopPlugin;
 import com.smd.gctcore.common.network.GctNetworkHandler;
@@ -46,6 +47,9 @@ public class CommonProxy {
             com.smd.gctcore.common.integration.mekanism.GctMekanismUpgrades.init();
         }
         ItemRegistry.init();
+        if (Mods.AS.isLoading()) {
+            AstralSorceryExpansion.init();
+        }
         EntityRegistrar.init();
         BlockRegistry.registerTileEntities();
         ExtendedCraftingAutomation.registerTileEntities();
@@ -90,6 +94,7 @@ public class CommonProxy {
         }
         if (Mods.AS.isLoading()) {
             RadiantQuartzLiquefaction.init();
+            AstralSorceryExpansion.registerRecipes();
         }
     }
 

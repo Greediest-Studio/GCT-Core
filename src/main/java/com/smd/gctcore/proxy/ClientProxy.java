@@ -20,6 +20,11 @@ import com.smd.gctcore.common.tile.botania.TileGctManaPool;
 import com.smd.gctcore.common.tile.botania.TileGctManaSpreader;
 import com.smd.gctcore.misc.BlockRegistry;
 import com.smd.gctcore.misc.ItemRegistry;
+import com.smd.gctcore.misc.Mods;
+import com.smd.gctcore.common.integration.astralsorcery.AstralSorceryExpansion;
+import com.smd.gctcore.common.integration.astralsorcery.EternalCollectorCrystalTile;
+import com.smd.gctcore.client.integration.astralsorcery.EternalCollectorCrystalRenderer;
+import hellfirepvp.astralsorcery.client.util.item.ItemRenderRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -150,6 +155,18 @@ public class ClientProxy extends CommonProxy {
             registerNilfheimBlockModels();
             registerSoulGemMeshModel();
             registerExtendedCraftingModels();
+            registerEternalAstralSorceryModels();
+        }
+
+        private static void registerEternalAstralSorceryModels() {
+            if (!Mods.AS.isLoading() || AstralSorceryExpansion.ETERNAL_CRYSTAL == null) return;
+            registerItemModel(AstralSorceryExpansion.ETERNAL_CRYSTAL);
+            registerItemModel(AstralSorceryExpansion.TUNED_ETERNAL_CRYSTAL);
+
+            EternalCollectorCrystalRenderer renderer = new EternalCollectorCrystalRenderer();
+            ItemRenderRegistry.register(
+                    Item.getItemFromBlock(AstralSorceryExpansion.ETERNAL_COLLECTOR_CRYSTAL), renderer);
+            ClientRegistry.bindTileEntitySpecialRenderer(EternalCollectorCrystalTile.class, renderer);
         }
 
         @SubscribeEvent
