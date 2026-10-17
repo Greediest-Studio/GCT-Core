@@ -37,6 +37,7 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.simplesmelteryaccelerator.json","simplesmelteryaccelerator");
         addModdedMixinCFG("mixins.gctcore.whimcraft.json", "whimcraft");
         addModdedMixinCFG("mixins.gctcore.konkrete.json","konkrete");
+        addModdedMixinCFG("mixins.gctcore.quark.json", "quark");
         addModdedMixinCFG("mixins.gctcore.hei.json", "jei");
         addMixinCFG("mixins.gctcore.embers.json", () -> modLoaded("embers") && modLoaded("jei"));
         addMixinCFG("mixins.gctcore.mmceaddons.json",
