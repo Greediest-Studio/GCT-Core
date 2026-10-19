@@ -32,6 +32,12 @@ public class GCTMixinConfig {
     @Config.RequiresMcRestart
     public static boolean enableAE2CraftingRecipeCache = true;
 
+    @Config.Comment({"是否禁止 HammerLib 启动时联网拉取链接仓库",
+            "关闭后不再请求 pastebin/gist/zeith.org，避免无网络或类加载异常导致启动崩溃"})
+    @Config.Name("Disable HammerLib Link Repository Fetch")
+    @Config.RequiresMcRestart
+    public static boolean disableHammerLibLinkRepository = true;
+
     static {
         ConfigAnytime.register(GCTMixinConfig.class);
     }
