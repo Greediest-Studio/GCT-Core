@@ -7,6 +7,7 @@ import com.wdcftgg.witherstormmod.api.common.event.WitherStormConsumeEvent;
 import com.wdcftgg.witherstormmod.api.common.event.WitherStormConsumeBlockEvent;
 import com.wdcftgg.witherstormmod.api.common.event.WitherStormVictoryEvent;
 import com.wdcftgg.witherstormmod.common.config.WitherStormConfig;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -24,7 +25,7 @@ public final class WitherStormCompatibility {
         WitherStormConfig.summoningDimensions = new String[]{String.valueOf(WorldTheVoid.DIMID)};
     }
 
-    private static boolean protectedEntity(net.minecraft.entity.Entity entity) {
+    private static boolean protectedEntity(Entity entity) {
         ResourceLocation id = EntityList.getKey(entity);
         return id != null && id.getNamespace().equals("gct_additions");
     }
@@ -53,7 +54,8 @@ public final class WitherStormCompatibility {
 
     @SubscribeEvent
     public void consumeBedrock(WitherStormConsumeBlockEvent event) {
-        if (event.getEntity().dimension == WorldTheVoid.DIMID && event.getState().getBlock() == Blocks.BEDROCK) {
+        Entity storm = event.getEntity();
+        if (storm.dimension == WorldTheVoid.DIMID && event.getState().getBlock() == Blocks.BEDROCK) {
             event.setResult(Event.Result.ALLOW);
         }
     }
@@ -64,7 +66,8 @@ public final class WitherStormCompatibility {
         EntityPlayerMP recipient = event.getKiller() == null ? event.getParticipants().get(0) : event.getKiller();
         giveReward(recipient, "witherstormmod:withered_nether_star", 1);
         giveReward(recipient, "gct_additions:stormy_shard", 5);
-        giveReward(recipient, "additions:withered_nether_star_shard", 8 + event.getEntity().world.rand.nextInt(25));
+        Entity storm = event.getEntity();
+        giveReward(recipient, "additions:withered_nether_star_shard", 8 + storm.world.rand.nextInt(25));
         if (Loader.isModLoaded("ftbquests")) WitherStormQuestBridge.credit(event.getParticipants());
         event.handleLoot();
     }
