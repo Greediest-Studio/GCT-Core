@@ -21,7 +21,7 @@ public class TileGctManaPool extends TilePool {
         // Call Botania's implementation directly. Reflectively invoking the
         // ITickable method dispatches back to this override and recurses until
         // the server thread overflows when the pool is placed.
-        super.func_73660_a();
+        super.update();
     }
 
     public int getConfiguredCapacity() {

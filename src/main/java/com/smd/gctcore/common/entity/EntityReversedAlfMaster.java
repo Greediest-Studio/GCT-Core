@@ -15,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -46,6 +47,7 @@ public class EntityReversedAlfMaster extends EntityMob {
         this.experienceValue = 20;
         this.isImmuneToFire = true;
         setNoAI(false);
+        enablePersistence();
 
         // 副手装备 botania:firerod，运行时从注册表取得以避免硬依赖问题
         Item fireRod = Item.REGISTRY.getObject(new ResourceLocation("botania", "firerod"));
@@ -101,6 +103,17 @@ public class EntityReversedAlfMaster extends EntityMob {
         if (getEntityAttribute(SharedMonsterAttributes.ARMOR) != null) {
             getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(0.0D);
         }
+    }
+
+    @Override
+    protected boolean canDespawn() {
+        return false;
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound) {
+        super.readEntityFromNBT(compound);
+        this.enablePersistence();
     }
 
     @Override

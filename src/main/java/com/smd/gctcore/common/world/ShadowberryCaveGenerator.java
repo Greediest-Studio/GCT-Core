@@ -15,6 +15,9 @@ import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
+import com.smd.gctcore.common.entity.EntityReversedAlfMaster;
+import net.minecraft.util.math.AxisAlignedBB;
+import java.util.List;
 import java.util.Random;
 
 public class ShadowberryCaveGenerator implements IWorldGenerator {
@@ -59,8 +62,13 @@ public class ShadowberryCaveGenerator implements IWorldGenerator {
         PlacementSettings settings = new PlacementSettings();
         settings.setRotation(Rotation.values()[random.nextInt(Rotation.values().length)]);
         settings.setMirror(Mirror.NONE);
+        settings.setIgnoreEntities(false);
 
-        template.addBlocksToWorldChunk(world, pos, settings);
+        template.addBlocksToWorld(world, pos, settings);
+
+        if (MINOR_TEMPLATE_NAME.equals(templateName)) {
+            ensureAlfMasterSpawned(worldServer, pos, settings);
+        }
 
         try {
             ShadowberryCaveData data = ShadowberryCaveData.get(world);
@@ -102,6 +110,26 @@ public class ShadowberryCaveGenerator implements IWorldGenerator {
             return manager.getTemplate(world.getMinecraftServer(), new ResourceLocation("gctcore", templateName));
         } catch (Exception ignored) {
             return null;
+        }
+    }
+
+    private void ensureAlfMasterSpawned(WorldServer world, BlockPos origin, PlacementSettings settings) {
+        BlockPos entityLocalPos = new BlockPos(5, 4, 1);
+        BlockPos spawnPos = Template.transformedBlockPos(settings, entityLocalPos).add(origin);
+
+        AxisAlignedBB checkArea = new AxisAlignedBB(spawnPos).grow(8.0);
+        List<EntityReversedAlfMaster> list = world.getEntitiesWithinAABB(EntityReversedAlfMaster.class, checkArea);
+        if (list.isEmpty()) {
+            EntityReversedAlfMaster master = new EntityReversedAlfMaster(world);
+            master.setLocationAndAngles(
+                    spawnPos.getX() + 0.5,
+                    spawnPos.getY(),
+                    spawnPos.getZ() + 0.5,
+                    settings.getRotation().add(Rotation.NONE).ordinal() * 90.0F,
+                    0.0F
+            );
+            master.enablePersistence();
+            world.spawnEntity(master);
         }
     }
 }
