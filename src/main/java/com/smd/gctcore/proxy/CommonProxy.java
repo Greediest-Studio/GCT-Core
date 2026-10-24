@@ -89,6 +89,11 @@ public class CommonProxy {
     public void init(FMLInitializationEvent event) {
         NilfheimRecipes.init();
         WorldDimensionIntegrations.init();
+        if (net.minecraftforge.fml.common.Loader.isModLoaded("gct_additions")
+                && net.minecraftforge.fml.common.Loader.isModLoaded("witherstormmod")) {
+            com.smd.gctcore.common.integration.witherstorm.WitherStormCompatibility.configureSummoning();
+            MinecraftForge.EVENT_BUS.register(new com.smd.gctcore.common.integration.witherstorm.WitherStormCompatibility());
+        }
         if (Mods.TOP.isLoading()) {
             FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", GctTopPlugin.class.getName());
         }

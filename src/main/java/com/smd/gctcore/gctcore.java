@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
         modid = Tags.MOD_ID,
         name = Tags.MOD_NAME,
         version = Tags.VERSION,
-        dependencies = "required-after:modularui;after:astralsorcery;after:appliedenergistics2;after:extendedcrafting"
+        dependencies = "required-after:modularui;after:astralsorcery;after:appliedenergistics2;after:extendedcrafting;after:gct_additions;after:witherstormmod"
 )
 public class gctcore {
 

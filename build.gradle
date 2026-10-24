@@ -163,8 +163,8 @@ dependencies {
     compileOnly rfg.deobf("curse.maven:industrial-craft-242638:2755282")
     compileOnly rfg.deobf("curse.maven:bop-220318:3558882")
     compileOnly rfg.deobf("curse.maven:ut-705000:8181251")
-
-    //eio相关依赖
+    compileOnly rfg.deobf("curse.maven:ftb-quests-289412:3156637")
+    compileOnly rfg.deobf("curse.maven:ftb-library-237167:2985811")
     compileOnly fileTree(dir: 'libs', include: [
             'EnderIO-1.12.2-5.3.72.jar',
             'EnderCore-1.12.2-0.5.78.jar',
@@ -304,6 +304,8 @@ jar {
     exclude 'slimeknights/toolleveling/**'
     exclude 'com/sirsquidly/oe/**'
     exclude 'fi/dy/masa/enderutilities/**'
+    exclude 'com/shiver/gct_additions/**'
+    exclude 'com/wdcftgg/witherstormmod/**'
 }
 
 idea {

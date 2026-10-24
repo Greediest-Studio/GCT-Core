@@ -71,6 +71,10 @@ public class MixinConfig implements ILateMixinLoader {
                 () -> modLoaded("twilightforest") && (modLoaded("gct_additions") || modLoaded("gctcore") || modLoaded("gct_mobs")));
         addMixinCFG("mixins.gctcore.ftbquests.json",
                 () -> modLoaded("ftbquests") && modLoaded("retro_sophisticated_backpacks"));
+        addMixinCFG("mixins.gctcore.witherstorm.json",
+                () -> modLoaded("ftbquests") && modLoaded("witherstormmod") && modLoaded("gct_additions"));
+        addMixinCFG("mixins.gctcore.orderguardian.json",
+                () -> modLoaded("draconicevolution") && modLoaded("gct_additions"));
         addMixinCFG("mixins.gctcore.hammercore.json",
                 () -> modLoaded("hammercore") && GCTMixinConfig.disableHammerLibLinkRepository);
     }
