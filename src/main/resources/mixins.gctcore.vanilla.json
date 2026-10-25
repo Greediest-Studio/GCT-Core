@@ -14,5 +14,7 @@
     "MixinPlayerInteractionManager"
   ],
   "server": [],
-  "client": []
+  "client": [
+    "MixinPlayerControllerMP"
+  ]
 }

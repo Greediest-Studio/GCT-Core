@@ -13,6 +13,7 @@ public class MixinConfig implements ILateMixinLoader {
     private static final Map<String, BooleanSupplier> MIXIN_CONFIGS = new LinkedHashMap<>();
 
     static {
+        addModdedMixinCFG("mixins.gctcore.babymobs.json", "babymobs");
         addModdedMixinCFG("mixins.gctcore.aether.json", "aether_legacy");
         addModdedMixinCFG("mixins.gctcore.avaritia.json", "avaritia");
         addModdedMixinCFG("mixins.gctcore.bountifulbaubles.json", "bountifulbaubles");
