@@ -2,7 +2,6 @@ package com.smd.gctcore.common.events;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.Lists;
-import com.smd.gctcore.common.config.GCTCompatConfig;
 import com.smd.gctcore.common.config.GCTCoreConfig;
 import com.smd.gctcore.misc.ItemRegistry;
 import mod.acgaming.universaltweaks.config.UTConfigTweaks;
@@ -23,7 +22,6 @@ import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.CommandEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Loader;
@@ -51,15 +49,6 @@ public class EventHooks {
         for (Fluid fluid : masterFluidReference.values()) {
             map.registerSprite(fluid.getStill());
             map.registerSprite(fluid.getFlowing());
-        }
-    }
-
-    @SubscribeEvent
-    public void blockBreakSpeed(PlayerEvent.BreakSpeed event) {
-        if (!event.getEntityPlayer().world.isRemote) {
-            if (!event.getEntityPlayer().onGround && (event.getEntityPlayer().capabilities.isFlying)) {
-                event.setNewSpeed(event.getOriginalSpeed() * 5);
-            }
         }
     }
 
