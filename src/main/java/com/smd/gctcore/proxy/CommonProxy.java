@@ -16,6 +16,7 @@ import com.smd.gctcore.common.util.MaterialRenderingDebugHelper;
 import com.smd.gctcore.misc.*;
 import com.smd.gctcore.common.integration.mmce.BonsaiTreesRecipeAdapterRegistry;
 import com.smd.gctcore.common.integration.mmce.NuclearCraftRecipeAdapterRegistry;
+import com.smd.gctcore.common.integration.mmce.ThermalExpansionRecipeAdapterRegistry;
 import com.smd.gctcore.common.world.AirportDim.DimensionTypeAirport;
 import com.smd.gctcore.common.world.CrimsonTempleGenerator;
 import com.smd.gctcore.common.world.NilfheimDim.DimensionTypeNilfheim;
@@ -68,6 +69,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new EntityRegistrar());
         MinecraftForge.EVENT_BUS.register(new BonsaiTreesRecipeAdapterRegistry());
         MinecraftForge.EVENT_BUS.register(new NuclearCraftRecipeAdapterRegistry());
+        MinecraftForge.EVENT_BUS.register(new ThermalExpansionRecipeAdapterRegistry());
         if(Mods.BOT.isLoading()){
             MinecraftForge.EVENT_BUS.register(new DaisyPlacer());
         }

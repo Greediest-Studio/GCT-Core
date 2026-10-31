@@ -11,6 +11,7 @@ public final class NuclearCraftRecipeAdapterRegistry {
     public void register(RegistryEvent.Register<RecipeAdapter> event) {
         if (Loader.isModLoaded("nuclearcraft")) {
             event.getRegistry().register(new NuclearCraftCentrifugeRecipeAdapter());
+            event.getRegistry().register(new NuclearCraftFluidInfuserRecipeAdapter());
         }
     }
 }
