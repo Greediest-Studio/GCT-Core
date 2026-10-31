@@ -21,8 +21,11 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /** Exposes Thermal Expansion Fluid Transposer fill recipes to MMCE machines. */
 public final class ThermalExpansionTransposerRecipeAdapter extends RecipeAdapter {
@@ -49,6 +52,24 @@ public final class ThermalExpansionTransposerRecipeAdapter extends RecipeAdapter
             return recipes;
         }
 
+        // Transposer dynamically adds one recipe per registered fluid for
+        // items such as Florbs, potion bottles and tipped arrows. If an input
+        // item has more than one fluid variant, exclude the whole family.
+        Map<String, Set<String>> fluidsByInput = new HashMap<>();
+        for (TransposerRecipe source : sourceRecipes) {
+            if (source == null || source.getInput() == null || source.getInput().isEmpty()
+                    || source.getFluid() == null || source.getFluid().amount <= 0) {
+                continue;
+            }
+            String inputKey = stackKey(source.getInput());
+            Set<String> fluids = fluidsByInput.get(inputKey);
+            if (fluids == null) {
+                fluids = new HashSet<>();
+                fluidsByInput.put(inputKey, fluids);
+            }
+            fluids.add(fluidKey(source.getFluid()));
+        }
+
         int processingTime = Math.max(1, Math.round(RecipeModifier.applyModifiers(
                 modifiers, RequirementTypesMM.REQUIREMENT_DURATION, IOType.INPUT, PROCESSING_TIME, false)));
 
@@ -67,7 +88,10 @@ public final class ThermalExpansionTransposerRecipeAdapter extends RecipeAdapter
             // The generic Transposer handler can fill any empty Forge fluid
             // container. Those container recipes are intentionally omitted;
             // this adapter is for material-transformation recipes only.
-            if (isFillableEmptyContainer(input)) {
+            Set<String> inputFluids = fluidsByInput.get(stackKey(input));
+            if ((inputFluids != null && inputFluids.size() > 1)
+                    || isContainerFillRecipe(input, output)
+                    || isFillableEmptyContainer(input)) {
                 continue;
             }
 
@@ -82,6 +106,35 @@ public final class ThermalExpansionTransposerRecipeAdapter extends RecipeAdapter
             recipes.add(recipe);
         }
         return recipes;
+    }
+
+    private static boolean isContainerFillRecipe(ItemStack input, ItemStack output) {
+        if (input.getItem() == output.getItem() && input.getMetadata() != output.getMetadata()) {
+            return true;
+        }
+        String inputPath = itemPath(input);
+        String outputPath = itemPath(output);
+        return inputPath.equals("arrow") || inputPath.equals("bowl")
+                || inputPath.contains("bottle") || inputPath.contains("florb")
+                || inputPath.contains("cell") || inputPath.contains("capsule")
+                || inputPath.contains("canister") || inputPath.contains("container")
+                || outputPath.contains("tipped_arrow") || outputPath.contains("potion")
+                || outputPath.contains("florb") || outputPath.contains("filled");
+    }
+
+    private static String itemPath(ItemStack stack) {
+        ResourceLocation name = stack.getItem().getRegistryName();
+        return name == null ? "" : name.getPath().toLowerCase();
+    }
+
+    private static String stackKey(ItemStack stack) {
+        return String.valueOf(stack.getItem().getRegistryName()) + ':' + stack.getMetadata()
+                + ':' + (stack.getTagCompound() == null ? "" : stack.getTagCompound().toString());
+    }
+
+    private static String fluidKey(net.minecraftforge.fluids.FluidStack stack) {
+        return stack.getFluid().getName() + ':'
+                + (stack.tag == null ? "" : stack.tag.toString());
     }
 
     private static boolean isFillableEmptyContainer(ItemStack stack) {
