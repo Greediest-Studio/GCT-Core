@@ -7,31 +7,30 @@ import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.util.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
  * 修复 FancyMenu 在构建主菜单玩家模型时，主线程同步请求网络皮肤导致进程假死（无响应/卡在100%）的问题。
- * 将网络皮肤与披风获取改为后台守护线程异步拉取，并注入连接/读取超时限制。
+ * 1. 将直接配置的 skinUrl / capeUrl 改为后台异步拉取；
+ * 2. 在元素构造完成后，立即为 entity 预置默认史蒂夫/亚历克斯皮肤，并标记 checked，
+ *    彻底阻断 FancyMenu 渲染线程内部 getSkin() / getCape() 触发的同步主线程阻塞请求；
+ * 3. 启动后台守护线程拉取在线玩家皮肤，拉取完成后在 GL 主线程异步更新模型纹理。
  */
 @Pseudo
 @Mixin(targets = "de.keksuccino.fancymenu.menu.fancy.item.playerentity.PlayerEntityCustomizationItem", remap = false)
 public abstract class MixinPlayerEntityCustomizationItem {
-
-    @Shadow
-    public Object entity;
-
-    @Shadow
-    public String playerName;
 
     /**
      * 拦截构造器中对 skinUrl 的同步请求（ordinal = 0）
@@ -50,49 +49,39 @@ public abstract class MixinPlayerEntityCustomizationItem {
             return null;
         }
 
-        // 先预置默认史蒂夫/亚历克斯皮肤，防止主线程未就绪前抛空指针，且防止触发 getSkin() 二次兜底
-        gct$setEntityField("skinLocation", DefaultPlayerSkin.getDefaultSkinLegacy());
+        Object ent = getFieldValue(this, "entity");
+        if (ent != null) {
+            setFieldValue(ent, "skinLocation", DefaultPlayerSkin.getDefaultSkinLegacy());
+            setFieldValue(ent, "skinChecked", true);
+        }
 
         final String targetUrl = skinUrl;
         Thread thread = new Thread(() -> {
-            try {
-                URL u = new URL(targetUrl);
-                HttpURLConnection conn = (HttpURLConnection) u.openConnection();
-                conn.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
-                conn.setConnectTimeout(3000);
-                conn.setReadTimeout(5000);
-
-                BufferedImage img;
-                try (InputStream in = conn.getInputStream()) {
-                    if (in == null) return;
-                    img = ImageIO.read(in);
+            BufferedImage img = downloadImage(targetUrl);
+            if (img != null) {
+                if (img.getHeight() < 64) {
+                    BufferedImage skinNew = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
+                    Graphics2D g = skinNew.createGraphics();
+                    g.drawImage(img, 0, 0, null);
+                    g.dispose();
+                    img = skinNew;
                 }
 
-                if (img != null) {
-                    // 兼容旧版 1.7 的 64x32 皮肤转换为 64x64
-                    if (img.getHeight() < 64) {
-                        BufferedImage skinNew = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
-                        Graphics2D g = skinNew.createGraphics();
-                        g.drawImage(img, 0, 0, null);
-                        g.dispose();
-                        img = skinNew;
-                    }
-
-                    final BufferedImage finalImg = img;
-                    Minecraft.getMinecraft().addScheduledTask(() -> {
-                        try {
-                            ResourceLocation loc = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation(
-                                "fancymenu_skin_" + Math.abs(targetUrl.hashCode()),
-                                new DynamicTexture(finalImg)
-                            );
-                            gct$setEntityField("skinLocation", loc);
-                        } catch (Throwable t) {
-                            t.printStackTrace();
+                final BufferedImage finalImg = img;
+                Minecraft.getMinecraft().addScheduledTask(() -> {
+                    try {
+                        ResourceLocation loc = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation(
+                            "fancymenu_skin_" + Math.abs(targetUrl.hashCode()),
+                            new DynamicTexture(finalImg)
+                        );
+                        Object e = getFieldValue(this, "entity");
+                        if (e != null) {
+                            setFieldValue(e, "skinLocation", loc);
                         }
-                    });
-                }
-            } catch (Throwable ignored) {
-                // 网络超时或失败时保持默认皮肤，不阻塞任何主线程
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
             }
         }, "GCT-FancyMenu-SkinAsyncLoader");
 
@@ -119,36 +108,30 @@ public abstract class MixinPlayerEntityCustomizationItem {
             return null;
         }
 
+        Object ent = getFieldValue(this, "entity");
+        if (ent != null) {
+            setFieldValue(ent, "capeChecked", true);
+        }
+
         final String targetUrl = capeUrl;
         Thread thread = new Thread(() -> {
-            try {
-                URL u = new URL(targetUrl);
-                HttpURLConnection conn = (HttpURLConnection) u.openConnection();
-                conn.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
-                conn.setConnectTimeout(3000);
-                conn.setReadTimeout(5000);
-
-                BufferedImage img;
-                try (InputStream in = conn.getInputStream()) {
-                    if (in == null) return;
-                    img = ImageIO.read(in);
-                }
-
-                if (img != null) {
-                    final BufferedImage finalImg = img;
-                    Minecraft.getMinecraft().addScheduledTask(() -> {
-                        try {
-                            ResourceLocation loc = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation(
-                                "fancymenu_cape_" + Math.abs(targetUrl.hashCode()),
-                                new DynamicTexture(finalImg)
-                            );
-                            gct$setEntityField("capeLocation", loc);
-                        } catch (Throwable t) {
-                            t.printStackTrace();
+            BufferedImage img = downloadImage(targetUrl);
+            if (img != null) {
+                final BufferedImage finalImg = img;
+                Minecraft.getMinecraft().addScheduledTask(() -> {
+                    try {
+                        ResourceLocation loc = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation(
+                            "fancymenu_cape_" + Math.abs(targetUrl.hashCode()),
+                            new DynamicTexture(finalImg)
+                        );
+                        Object e = getFieldValue(this, "entity");
+                        if (e != null) {
+                            setFieldValue(e, "capeLocation", loc);
                         }
-                    });
-                }
-            } catch (Throwable ignored) {
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
             }
         }, "GCT-FancyMenu-CapeAsyncLoader");
 
@@ -158,19 +141,147 @@ public abstract class MixinPlayerEntityCustomizationItem {
         return null;
     }
 
-    private void gct$setEntityField(String fieldName, Object value) {
-        if (this.entity == null) return;
+    /**
+     * 在构造函数结束时执行，兜底基于 playerName 的玩家皮肤与披风异步拉取
+     */
+    @Inject(
+        method = "<init>(Lde/keksuccino/konkrete/properties/PropertiesSection;)V",
+        at = @At("RETURN"),
+        remap = false
+    )
+    private void gct$afterInit(CallbackInfo ci) {
         try {
-            Field f = this.entity.getClass().getField(fieldName);
-            f.set(this.entity, value);
-        } catch (Throwable t) {
+            Object ent = getFieldValue(this, "entity");
+            if (ent == null) return;
+
+            Object currentSkin = getFieldValue(ent, "skinLocation");
+            if (currentSkin == null) {
+                // 立即预置默认皮肤，彻底阻断 MenuPlayerEntity.getSkin() 内部的回调阻塞
+                setFieldValue(ent, "skinLocation", DefaultPlayerSkin.getDefaultSkinLegacy());
+                setFieldValue(ent, "skinChecked", true);
+                setFieldValue(ent, "capeChecked", true);
+
+                String pName = (String) getFieldValue(this, "playerName");
+                if (pName != null && !pName.trim().isEmpty()) {
+                    gct$asyncLoadPlayerSkin(ent, pName.trim());
+                }
+            }
+        } catch (Throwable ignored) {
+        }
+    }
+
+    private void gct$asyncLoadPlayerSkin(Object ent, String playerName) {
+        ResourceLocation cached = getCachedSkin(playerName);
+        if (cached != null) {
+            setFieldValue(ent, "skinLocation", cached);
+            return;
+        }
+
+        Thread thread = new Thread(() -> {
+            BufferedImage img = downloadImage("https://minotar.net/skin/" + playerName);
+            if (img == null) {
+                img = downloadImage("https://crafatar.com/skins/" + playerName);
+            }
+
+            if (img != null) {
+                if (img.getHeight() < 64) {
+                    BufferedImage skinNew = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
+                    Graphics2D g = skinNew.createGraphics();
+                    g.drawImage(img, 0, 0, null);
+                    g.dispose();
+                    img = skinNew;
+                }
+
+                final BufferedImage finalImg = img;
+                Minecraft.getMinecraft().addScheduledTask(() -> {
+                    try {
+                        ResourceLocation loc = Minecraft.getMinecraft().getTextureManager().getDynamicTextureLocation(
+                            "fancymenu_skin_" + Math.abs(playerName.hashCode()),
+                            new DynamicTexture(finalImg)
+                        );
+                        setFieldValue(ent, "skinLocation", loc);
+                        cacheSkin(playerName, loc);
+                    } catch (Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+            }
+        }, "GCT-FancyMenu-PlayerNameSkinAsyncLoader");
+
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    private static BufferedImage downloadImage(String urlStr) {
+        try {
+            URL u = new URL(urlStr);
+            HttpURLConnection conn = (HttpURLConnection) u.openConnection();
+            conn.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
+            conn.setConnectTimeout(3000);
+            conn.setReadTimeout(5000);
+            try (InputStream in = conn.getInputStream()) {
+                if (in != null) {
+                    return ImageIO.read(in);
+                }
+            }
+        } catch (Throwable ignored) {
+        }
+        return null;
+    }
+
+    private static Object getFieldValue(Object target, String fieldName) {
+        if (target == null) return null;
+        Class<?> clazz = target.getClass();
+        while (clazz != null && clazz != Object.class) {
             try {
-                Field f = this.entity.getClass().getDeclaredField(fieldName);
+                Field f = clazz.getDeclaredField(fieldName);
                 f.setAccessible(true);
-                f.set(this.entity, value);
-            } catch (Throwable ignored) {
+                return f.get(target);
+            } catch (NoSuchFieldException e) {
+                clazz = clazz.getSuperclass();
+            } catch (Throwable t) {
+                return null;
+            }
+        }
+        return null;
+    }
+
+    private static void setFieldValue(Object target, String fieldName, Object value) {
+        if (target == null) return;
+        Class<?> clazz = target.getClass();
+        while (clazz != null && clazz != Object.class) {
+            try {
+                Field f = clazz.getDeclaredField(fieldName);
+                f.setAccessible(true);
+                f.set(target, value);
+                return;
+            } catch (NoSuchFieldException e) {
+                clazz = clazz.getSuperclass();
+            } catch (Throwable t) {
+                return;
             }
         }
     }
-}
 
+    private static ResourceLocation getCachedSkin(String playerName) {
+        try {
+            Class<?> cacheClass = Class.forName("de.keksuccino.fancymenu.menu.fancy.item.playerentity.PlayerEntityCache");
+            Method isCachedMethod = cacheClass.getMethod("isSkinCached", String.class);
+            if ((Boolean) isCachedMethod.invoke(null, playerName)) {
+                Method getSkinMethod = cacheClass.getMethod("getSkin", String.class);
+                return (ResourceLocation) getSkinMethod.invoke(null, playerName);
+            }
+        } catch (Throwable ignored) {
+        }
+        return null;
+    }
+
+    private static void cacheSkin(String playerName, ResourceLocation loc) {
+        try {
+            Class<?> cacheClass = Class.forName("de.keksuccino.fancymenu.menu.fancy.item.playerentity.PlayerEntityCache");
+            Method cacheMethod = cacheClass.getMethod("cacheSkin", String.class, ResourceLocation.class);
+            cacheMethod.invoke(null, playerName, loc);
+        } catch (Throwable ignored) {
+        }
+    }
+}
