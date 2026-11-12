@@ -23,7 +23,7 @@ public class TileGctManaPool extends TilePool {
         // the server thread overflows when the pool is placed.
         // Botania's dependency is exposed under its 1.12.2 SRG name during
         // compilation; the build remapper converts this call for runtime.
-        super.update();
+        super.func_73660_a();
     }
 
     public int getConfiguredCapacity() {

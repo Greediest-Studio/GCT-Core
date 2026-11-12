@@ -27,6 +27,7 @@ public final class NilfheimRecipes {
                 BlockRegistry.BLACK_RIME_BRICKS, BlockRegistry.BLACK_RIME_SLAB,
                 BlockRegistry.BLACK_RIME_STAIRS, BlockRegistry.BLACK_RIME_WALL,
                 BlockRegistry.CHISELED_BLACK_RIME);
+        registerHighcloudRecipes();
 
         GameRegistry.addSmelting(
                 BlockRegistry.RIMESTEEL_BRICKS,
@@ -63,6 +64,13 @@ public final class NilfheimRecipes {
         addShaped(prefix + "_wall", new ItemStack(wall, 6), "SSS", "SSS", 'S', stone);
         addShaped(prefix + "_wall_from_bricks", new ItemStack(wall, 6), "BBB", "BBB", 'B', bricks);
         addShaped("chiseled_" + prefix, new ItemStack(chiseled), "S", "S", 'S', slab);
+    }
+
+    private static void registerHighcloudRecipes() {
+        addShaped("highcloud_stone_stairs", new ItemStack(BlockRegistry.HIGHCLOUD_STONE_STAIRS, 4),
+                "S  ", "SS ", "SSS", 'S', BlockRegistry.HIGHCLOUD_STONE);
+        addShaped("highcloud_stone_wall", new ItemStack(BlockRegistry.HIGHCLOUD_STONE_WALL, 6),
+                "SSS", "SSS", 'S', BlockRegistry.HIGHCLOUD_STONE);
     }
 
     private static void addShaped(String name, ItemStack output, Object... recipe) {

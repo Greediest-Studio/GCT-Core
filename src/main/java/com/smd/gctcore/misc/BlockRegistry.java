@@ -6,6 +6,8 @@ import com.smd.gctcore.common.blocks.botania.BlockGctManaRock;
 import com.smd.gctcore.common.blocks.botania.BlockGctManaSpreader;
 import com.smd.gctcore.common.blocks.botania.BlockGctManaWood;
 import com.smd.gctcore.common.blocks.nilfheim.BlockGlassrock;
+import com.smd.gctcore.common.blocks.nilfheim.BlockHighcloudStone;
+import com.smd.gctcore.common.blocks.nilfheim.BlockHighcloudWall;
 import com.smd.gctcore.common.blocks.nilfheim.BlockMistLotus;
 import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimFluid;
 import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimFence;
@@ -58,6 +60,12 @@ public class BlockRegistry {
     public static BlockNilfheimFluid PRIMORDIAL_LIQUID;
     public static BlockNilfheimStone RIMESTEEL_STONE;
     public static BlockNilfheimStone BLACK_RIME_STONE;
+    public static BlockHighcloudStone HIGHCLOUD_STONE;
+    public static BlockHighcloudStone LOCKED_HIGHCLOUD_STONE;
+    public static BlockHighcloudStone LIGHT_HIGHCLOUD_STONE;
+    public static BlockHighcloudStone LOCKED_LIGHT_HIGHCLOUD_STONE;
+    public static BlockNilfheimStairs HIGHCLOUD_STONE_STAIRS;
+    public static BlockHighcloudWall HIGHCLOUD_STONE_WALL;
     public static BlockNilfheimStone MIST_CRYSTAL_STONE;
     public static BlockNilfheimStone APATHY_ORE;
     public static BlockGlassrock GLASSROCK;
@@ -139,6 +147,14 @@ public class BlockRegistry {
         PRIMORDIAL_FLUID.setBlock(PRIMORDIAL_LIQUID);
         RIMESTEEL_STONE = new BlockNilfheimStone("rimesteel_stone", 2.4F, 12.0F);
         BLACK_RIME_STONE = new BlockNilfheimStone("black_rime_stone", 2.8F, 15.0F);
+        HIGHCLOUD_STONE = new BlockHighcloudStone("highcloud_stone", false, null);
+        LOCKED_HIGHCLOUD_STONE = new BlockHighcloudStone("locked_highcloud_stone", true, HIGHCLOUD_STONE);
+        LIGHT_HIGHCLOUD_STONE = new BlockHighcloudStone("light_highcloud_stone", false, null);
+        LIGHT_HIGHCLOUD_STONE.setLightLevel(0.75F);
+        LOCKED_LIGHT_HIGHCLOUD_STONE = new BlockHighcloudStone("locked_light_highcloud_stone", true, LIGHT_HIGHCLOUD_STONE);
+        LOCKED_LIGHT_HIGHCLOUD_STONE.setLightLevel(0.75F);
+        HIGHCLOUD_STONE_STAIRS = new BlockNilfheimStairs("highcloud_stone_stairs", HIGHCLOUD_STONE.getDefaultState(), SoundType.STONE, "pickaxe", 0);
+        HIGHCLOUD_STONE_WALL = new BlockHighcloudWall("highcloud_stone_wall", HIGHCLOUD_STONE);
         MIST_CRYSTAL_STONE = new BlockNilfheimStone("mist_crystal_stone", 1.8F, 8.0F);
         MIST_CRYSTAL_STONE.setLightLevel(0.45F);
         APATHY_ORE = new BlockNilfheimStone("apathy_ore", 30.0F, 20000.0F);
@@ -217,6 +233,12 @@ public class BlockRegistry {
                 PRIMORDIAL_LIQUID,
                 RIMESTEEL_STONE,
                 BLACK_RIME_STONE,
+                HIGHCLOUD_STONE,
+                LOCKED_HIGHCLOUD_STONE,
+                LIGHT_HIGHCLOUD_STONE,
+                LOCKED_LIGHT_HIGHCLOUD_STONE,
+                HIGHCLOUD_STONE_STAIRS,
+                HIGHCLOUD_STONE_WALL,
                 MIST_CRYSTAL_STONE,
                 APATHY_ORE,
                 GLASSROCK,
@@ -298,6 +320,12 @@ public class BlockRegistry {
                 new ItemBlock(RIMESTEEL_STAIRS).setRegistryName(RIMESTEEL_STAIRS.getRegistryName()),
                 new ItemBlockNilfheimWall(RIMESTEEL_WALL).setRegistryName(RIMESTEEL_WALL.getRegistryName()),
                 new ItemBlock(BLACK_RIME_STONE).setRegistryName(BLACK_RIME_STONE.getRegistryName()),
+                new ItemBlock(HIGHCLOUD_STONE).setRegistryName(HIGHCLOUD_STONE.getRegistryName()),
+                new ItemBlock(LOCKED_HIGHCLOUD_STONE).setRegistryName(LOCKED_HIGHCLOUD_STONE.getRegistryName()),
+                new ItemBlock(LIGHT_HIGHCLOUD_STONE).setRegistryName(LIGHT_HIGHCLOUD_STONE.getRegistryName()),
+                new ItemBlock(LOCKED_LIGHT_HIGHCLOUD_STONE).setRegistryName(LOCKED_LIGHT_HIGHCLOUD_STONE.getRegistryName()),
+                new ItemBlock(HIGHCLOUD_STONE_STAIRS).setRegistryName(HIGHCLOUD_STONE_STAIRS.getRegistryName()),
+                new ItemBlockNilfheimWall(HIGHCLOUD_STONE_WALL).setRegistryName(HIGHCLOUD_STONE_WALL.getRegistryName()),
                 new ItemBlock(POLISHED_BLACK_RIME).setRegistryName(POLISHED_BLACK_RIME.getRegistryName()),
                 new ItemBlock(BLACK_RIME_BRICKS).setRegistryName(BLACK_RIME_BRICKS.getRegistryName()),
                 new ItemBlock(CRACKED_BLACK_RIME_BRICKS).setRegistryName(CRACKED_BLACK_RIME_BRICKS.getRegistryName()),

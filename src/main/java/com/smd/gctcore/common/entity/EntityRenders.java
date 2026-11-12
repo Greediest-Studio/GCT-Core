@@ -6,6 +6,7 @@ import com.smd.gctcore.client.render.entity.RenderGaiaSpark;
 import com.smd.gctcore.client.render.entity.RenderJoetunheimSpark;
 import com.smd.gctcore.client.render.entity.RenderNidavellirSpark;
 import com.smd.gctcore.client.render.entity.RenderVanaheimSpark;
+import com.smd.gctcore.client.render.entity.RenderCloudGiantPriest;
 import com.smd.gctcore.common.entity.botania.EntityAlfSpark;
 import com.smd.gctcore.common.entity.botania.EntityGaiaSpark;
 import com.smd.gctcore.common.entity.botania.EntityJoetunheimSpark;
@@ -18,6 +19,11 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 public class EntityRenders {
     
     public static void registerEntityRenders() {
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityCloudGiantPriest.class,
+                RenderCloudGiantPriest::new
+        );
+
         RenderingRegistry.registerEntityRenderingHandler(
                 EntityReversedAlfMaster.class,
                 renderManager -> new RenderLiving<EntityReversedAlfMaster>(

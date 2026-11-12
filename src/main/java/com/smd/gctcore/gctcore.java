@@ -11,14 +11,19 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import software.bernie.geckolib3.GeckoLib;
 
 @Mod(
         modid = Tags.MOD_ID,
         name = Tags.MOD_NAME,
         version = Tags.VERSION,
-        dependencies = "required-after:modularui;after:astralsorcery;after:appliedenergistics2;after:extendedcrafting;after:gct_additions;after:witherstormmod"
+        dependencies = "required-after:modularui;required-after:geckolib3;after:astralsorcery;after:appliedenergistics2;after:extendedcrafting;after:gct_additions;after:witherstormmod"
 )
 public class gctcore {
+
+    public gctcore() {
+        GeckoLib.initialize();
+    }
 
     @Instance(Tags.MOD_ID)
     public static gctcore INSTANCE;

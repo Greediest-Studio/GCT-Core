@@ -198,6 +198,12 @@ public class ClientProxy extends CommonProxy {
         private static void registerNilfheimBlockModels() {
             registerBlockModel(BlockRegistry.RIMESTEEL_STONE);
             registerBlockModel(BlockRegistry.BLACK_RIME_STONE);
+            registerBlockModel(BlockRegistry.HIGHCLOUD_STONE);
+            registerBlockModel(BlockRegistry.LOCKED_HIGHCLOUD_STONE);
+            registerBlockModel(BlockRegistry.LIGHT_HIGHCLOUD_STONE);
+            registerBlockModel(BlockRegistry.LOCKED_LIGHT_HIGHCLOUD_STONE);
+            registerBlockModel(BlockRegistry.HIGHCLOUD_STONE_STAIRS);
+            registerBlockModel(BlockRegistry.HIGHCLOUD_STONE_WALL);
             registerBlockModel(BlockRegistry.MIST_CRYSTAL_STONE);
             registerBlockModel(BlockRegistry.APATHY_ORE);
             registerBlockModel(BlockRegistry.GLASSROCK);
