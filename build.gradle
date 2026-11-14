@@ -306,6 +306,7 @@ jar {
     exclude 'fi/dy/masa/enderutilities/**'
     exclude 'com/shiver/gct_additions/**'
     exclude 'com/wdcftgg/witherstormmod/**'
+    exclude 'github/kasuminova/stellarcore/**'
 }
 
 idea {

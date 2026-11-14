@@ -38,6 +38,12 @@ public class GCTMixinConfig {
     @Config.RequiresMcRestart
     public static boolean disableHammerLibLinkRepository = true;
 
+    @Config.Comment({"启动模型烘焙完成并 reset 后冻结 StellarCore 的 UnpackedDataPool / VertexDataPool / BakedQuadPool",
+            "同时在 clear 时裁剪底层哈希表，防止运行期懒生成的网格数组再次灌入全局强引用池"})
+    @Config.Name("Freeze StellarCore Quad Pools After Load")
+    @Config.RequiresMcRestart
+    public static boolean freezeStellarQuadPoolsAfterLoad = true;
+
     static {
         ConfigAnytime.register(GCTMixinConfig.class);
     }
