@@ -11,7 +11,9 @@
     "MixinTileEntityDigitalMiner",
     "MixinTileComponentUpgrade",
     "MixinMekanismUtils",
-    "MixinTileEntityRestrictedTick"
+    "MixinTileEntityRestrictedTick",
+    "MixinMekanismQIOProcessing",
+    "MixinQIORecipeCatalogService"
   ],
   "server": [],
   "client": [
