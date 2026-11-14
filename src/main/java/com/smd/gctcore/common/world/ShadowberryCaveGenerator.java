@@ -19,6 +19,7 @@ import com.smd.gctcore.common.entity.EntityReversedAlfMaster;
 import net.minecraft.util.math.AxisAlignedBB;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Predicate;
 
 public class ShadowberryCaveGenerator implements IWorldGenerator {
 
@@ -38,7 +39,7 @@ public class ShadowberryCaveGenerator implements IWorldGenerator {
             return;
         }
 
-        if (random.nextInt(CHANCE) != 0) {
+        if (!isCandidate(random)) {
             return;
         }
 
@@ -46,7 +47,10 @@ public class ShadowberryCaveGenerator implements IWorldGenerator {
             return;
         }
 
-        BlockPos pos = findPlacementPos(random, chunkX, chunkZ, world);
+        BlockPos pos = findPlacementPos(random, chunkX, chunkZ, candidate -> {
+            Material material = world.getBlockState(candidate).getMaterial();
+            return !material.isLiquid() && material != Material.AIR;
+        });
         if (pos == null) {
             return;
         }
@@ -80,25 +84,25 @@ public class ShadowberryCaveGenerator implements IWorldGenerator {
         }
     }
 
-    private BlockPos findPlacementPos(Random random, int chunkX, int chunkZ, World world) {
+    public static boolean isCandidate(Random random) {
+        return random.nextInt(CHANCE) == 0;
+    }
+
+    public static BlockPos findPlacementPos(Random random, int chunkX, int chunkZ, Predicate<BlockPos> canPlace) {
         for (int attempt = 0; attempt < PLACEMENT_ATTEMPTS; attempt++) {
             int x = chunkX * 16 + random.nextInt(16);
             int y = MIN_GENERATION_Y + random.nextInt(MAX_GENERATION_Y - MIN_GENERATION_Y + 1);
             int z = chunkZ * 16 + random.nextInt(16);
             BlockPos pos = new BlockPos(x, y, z);
-            Material material = world.getBlockState(pos).getMaterial();
-
-            if (material.isLiquid() || material == Material.AIR) {
-                continue;
+            if (canPlace.test(pos)) {
+                return pos;
             }
-
-            return pos;
         }
 
         return null;
     }
 
-    private String selectTemplateName(Random random) {
+    public static String selectTemplateName(Random random) {
         int totalWeight = MINOR_WEIGHT + BIGGER_WEIGHT;
         int roll = random.nextInt(totalWeight);
         return roll < MINOR_WEIGHT ? MINOR_TEMPLATE_NAME : BIGGER_TEMPLATE_NAME;
