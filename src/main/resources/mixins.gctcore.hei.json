@@ -8,6 +8,10 @@
     "MixinStringUtil",
     "MixinAnvilRecipeMaker"
   ],
-  "client": [],
+  "client": [
+    "MixinItemStackHelper",
+    "MixinFluidStackHelper",
+    "MixinJeiStarter"
+  ],
   "server": []
 }

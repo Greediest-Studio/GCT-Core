@@ -14,5 +14,7 @@
     "MixinExploder"
   ],
   "server": [],
-  "client": []
+  "client": [
+    "MixinSmeltingRecipeWrapper"
+  ]
 }
