@@ -8,6 +8,8 @@ import com.smd.gctcore.common.blocks.botania.BlockGctManaWood;
 import com.smd.gctcore.common.blocks.nilfheim.BlockGlassrock;
 import com.smd.gctcore.common.blocks.nilfheim.BlockHighcloudStone;
 import com.smd.gctcore.common.blocks.nilfheim.BlockHighcloudWall;
+import com.smd.gctcore.common.blocks.nilfheim.BlockDarkHighcloudStone;
+import com.smd.gctcore.common.blocks.nilfheim.BlockCloudGiantPriestSpawner;
 import com.smd.gctcore.common.blocks.nilfheim.BlockMistLotus;
 import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimFluid;
 import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimFence;
@@ -34,6 +36,7 @@ import com.smd.gctcore.common.items.ItemBlockGctManaTiered;
 import com.smd.gctcore.common.items.ItemBlockGctManaWood;
 import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
 import com.smd.gctcore.common.tile.RadiantResonatorTileEntity;
+import com.smd.gctcore.common.tile.CloudGiantPriestSpawnerTileEntity;
 import com.smd.gctcore.common.tile.botania.TileGctManaPool;
 import com.smd.gctcore.common.tile.botania.TileGctManaSpreader;
 import net.minecraft.block.Block;
@@ -61,6 +64,8 @@ public class BlockRegistry {
     public static BlockNilfheimStone RIMESTEEL_STONE;
     public static BlockNilfheimStone BLACK_RIME_STONE;
     public static BlockHighcloudStone HIGHCLOUD_STONE;
+    public static BlockDarkHighcloudStone DARK_HIGHCLOUD_STONE;
+    public static BlockCloudGiantPriestSpawner CLOUD_GIANT_PRIEST_SPAWNER;
     public static BlockHighcloudStone LOCKED_HIGHCLOUD_STONE;
     public static BlockHighcloudStone LIGHT_HIGHCLOUD_STONE;
     public static BlockHighcloudStone LOCKED_LIGHT_HIGHCLOUD_STONE;
@@ -148,6 +153,8 @@ public class BlockRegistry {
         RIMESTEEL_STONE = new BlockNilfheimStone("rimesteel_stone", 2.4F, 12.0F);
         BLACK_RIME_STONE = new BlockNilfheimStone("black_rime_stone", 2.8F, 15.0F);
         HIGHCLOUD_STONE = new BlockHighcloudStone("highcloud_stone", false, null);
+        DARK_HIGHCLOUD_STONE = new BlockDarkHighcloudStone("dark_highcloud_stone");
+        CLOUD_GIANT_PRIEST_SPAWNER = new BlockCloudGiantPriestSpawner();
         LOCKED_HIGHCLOUD_STONE = new BlockHighcloudStone("locked_highcloud_stone", true, HIGHCLOUD_STONE);
         LIGHT_HIGHCLOUD_STONE = new BlockHighcloudStone("light_highcloud_stone", false, null);
         LIGHT_HIGHCLOUD_STONE.setLightLevel(0.75F);
@@ -219,6 +226,8 @@ public class BlockRegistry {
     public static void registerTileEntities() {
         GameRegistry.registerTileEntity(RadiantResonatorTileEntity.class, new ResourceLocation(Tags.MOD_ID, "radiant_resonator"));
         GameRegistry.registerTileEntity(NilfheimPortalTileEntity.class, new ResourceLocation(Tags.MOD_ID, "nilfheim_portal_core"));
+        GameRegistry.registerTileEntity(CloudGiantPriestSpawnerTileEntity.class,
+                new ResourceLocation(Tags.MOD_ID, "cloud_giant_priest_spawner"));
         GameRegistry.registerTileEntity(TileGctManaPool.class, new ResourceLocation(Tags.MOD_ID, "gct_mana_pool"));
         GameRegistry.registerTileEntity(TileGctManaSpreader.class, new ResourceLocation(Tags.MOD_ID, "gct_mana_spreader"));
     }
@@ -234,6 +243,8 @@ public class BlockRegistry {
                 RIMESTEEL_STONE,
                 BLACK_RIME_STONE,
                 HIGHCLOUD_STONE,
+                DARK_HIGHCLOUD_STONE,
+                CLOUD_GIANT_PRIEST_SPAWNER,
                 LOCKED_HIGHCLOUD_STONE,
                 LIGHT_HIGHCLOUD_STONE,
                 LOCKED_LIGHT_HIGHCLOUD_STONE,
@@ -321,6 +332,8 @@ public class BlockRegistry {
                 new ItemBlockNilfheimWall(RIMESTEEL_WALL).setRegistryName(RIMESTEEL_WALL.getRegistryName()),
                 new ItemBlock(BLACK_RIME_STONE).setRegistryName(BLACK_RIME_STONE.getRegistryName()),
                 new ItemBlock(HIGHCLOUD_STONE).setRegistryName(HIGHCLOUD_STONE.getRegistryName()),
+                new ItemBlock(DARK_HIGHCLOUD_STONE).setRegistryName(DARK_HIGHCLOUD_STONE.getRegistryName()),
+                new ItemBlock(CLOUD_GIANT_PRIEST_SPAWNER).setRegistryName(CLOUD_GIANT_PRIEST_SPAWNER.getRegistryName()),
                 new ItemBlock(LOCKED_HIGHCLOUD_STONE).setRegistryName(LOCKED_HIGHCLOUD_STONE.getRegistryName()),
                 new ItemBlock(LIGHT_HIGHCLOUD_STONE).setRegistryName(LIGHT_HIGHCLOUD_STONE.getRegistryName()),
                 new ItemBlock(LOCKED_LIGHT_HIGHCLOUD_STONE).setRegistryName(LOCKED_LIGHT_HIGHCLOUD_STONE.getRegistryName()),

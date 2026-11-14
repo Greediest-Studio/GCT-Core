@@ -32,8 +32,8 @@ public class BlockHighcloudStone extends Block {
             setHardness(0.5F);
             setResistance(15.0F);
             setCreativeTab(CreativeTabs.BUILDING_BLOCKS);
-            setHarvestLevel("pickaxe", 0);
         }
+        setHarvestLevel("pickaxe", 0);
     }
 
     @Override

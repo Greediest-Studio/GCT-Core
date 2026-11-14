@@ -140,6 +140,7 @@ public class ClientProxy extends CommonProxy {
             registerItemModel(ItemRegistry.IMAGINATIVE_SNOWBALL);
             registerItemModel(ItemRegistry.BIRD_OF_EDWIN);
             registerItemModel(ItemRegistry.TIME_ADJUSTER);
+            registerItemModel(ItemRegistry.DIAMOND_DUNGEON_KEY);
             if (ItemRegistry.MINING_LEVEL_UPGRADE != null) {
                 registerItemModel(ItemRegistry.MINING_LEVEL_UPGRADE);
             }
@@ -199,6 +200,8 @@ public class ClientProxy extends CommonProxy {
             registerBlockModel(BlockRegistry.RIMESTEEL_STONE);
             registerBlockModel(BlockRegistry.BLACK_RIME_STONE);
             registerBlockModel(BlockRegistry.HIGHCLOUD_STONE);
+            registerBlockModel(BlockRegistry.DARK_HIGHCLOUD_STONE);
+            registerBlockModel(BlockRegistry.CLOUD_GIANT_PRIEST_SPAWNER);
             registerBlockModel(BlockRegistry.LOCKED_HIGHCLOUD_STONE);
             registerBlockModel(BlockRegistry.LIGHT_HIGHCLOUD_STONE);
             registerBlockModel(BlockRegistry.LOCKED_LIGHT_HIGHCLOUD_STONE);

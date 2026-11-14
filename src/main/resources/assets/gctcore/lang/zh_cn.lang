@@ -25,6 +25,7 @@ item.gctcore.alf_spark.name=精灵火花
 item.gctcore.apathy_ingot.name=失感锭
 item.gctcore.bird_of_edwin.name=mc_Edwin的鸟
 item.gctcore.time_adjuster.name=时间调节器
+item.gctcore.diamond_dungeon_key.name=钻石钥匙
 item.gctcore.chaotic_flux_capacitor.name=通量容器-MK3
 item.gctcore.crimson_anchor.name=§4血腥朝圣之锚
 item.gctcore.frostburn_flux_capacitor.name=通量容器-MK5
@@ -176,6 +177,7 @@ tooltip.gctcore.storage_raw_quartz=未雕琢辉耀石英制成的装饰方块。
 tooltip.gctcore.storage_shaped_quartz=已雕琢辉耀石英制成的装饰方块。
 
 # GUI
+gui.gctcore.diamond_reward_chest=钻石奖励箱
 
 # Messages
 message.crimson_anchor.found=§c一股血腥能量逸出，指向了§f(%d, %d, %d)§c的位置。
@@ -255,6 +257,8 @@ tile.gctcore.light_highcloud_stone.name=流光高云石
 tile.gctcore.locked_light_highcloud_stone.name=上锁的流光高云石
 tile.gctcore.highcloud_stone_stairs.name=高云石楼梯
 tile.gctcore.highcloud_stone_wall.name=高云石墙
+tile.gctcore.dark_highcloud_stone.name=暗黑高云石
+tile.gctcore.cloud_giant_priest_spawner.name=云巨人祭司生成方块
 tile.gctcore.gct_mana_spreader.joetunheim.name=约顿海姆魔力发射器
 tile.gctcore.gct_mana_spreader.nidavellir.name=尼德威阿尔魔力发射器
 tile.gctcore.gct_mana_spreader.vanaheim.name=华纳海姆魔力发射器

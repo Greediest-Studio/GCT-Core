@@ -36,6 +36,7 @@ public class ItemRegistry {
     public static Item IMAGINATIVE_SNOWBALL;
     public static Item BIRD_OF_EDWIN;
     public static Item TIME_ADJUSTER;
+    public static Item DIAMOND_DUNGEON_KEY;
     public static Item MINING_LEVEL_UPGRADE;
     public static Item ENERGY_MK2_UPGRADE;
 
@@ -59,6 +60,11 @@ public class ItemRegistry {
         IMAGINATIVE_SNOWBALL = new ImaginativeSnowballItem();
         BIRD_OF_EDWIN = new BirdOfEdwin();
         TIME_ADJUSTER = new TimeAdjusterItem();
+        DIAMOND_DUNGEON_KEY = new Item()
+                .setRegistryName("diamond_dungeon_key")
+                .setTranslationKey("gctcore.diamond_dungeon_key")
+                .setCreativeTab(CreativeTabs.MISC)
+                .setMaxStackSize(1);
         if (Loader.isModLoaded("mekanism")) {
             MINING_LEVEL_UPGRADE = new ItemMiningLevelUpgrade();
             ENERGY_MK2_UPGRADE = new ItemEnergyMk2Upgrade();
@@ -83,7 +89,8 @@ public class ItemRegistry {
                 APATHY_INGOT,
                 IMAGINATIVE_SNOWBALL,
                 BIRD_OF_EDWIN,
-                TIME_ADJUSTER
+                TIME_ADJUSTER,
+                DIAMOND_DUNGEON_KEY
         );
         if (MINING_LEVEL_UPGRADE != null) {
             event.getRegistry().register(MINING_LEVEL_UPGRADE);

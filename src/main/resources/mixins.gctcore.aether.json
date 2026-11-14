@@ -7,8 +7,12 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinAetherEventHandler",
-    "MixinWhirlwindImmunity"
+    "MixinWhirlwindImmunity",
+    "MixinDiamondDungeonKeyChest",
+    "MixinDiamondDungeonLoot"
   ],
   "server": [],
-  "client": []
+  "client": [
+    "MixinDiamondDungeonGui"
+  ]
 }

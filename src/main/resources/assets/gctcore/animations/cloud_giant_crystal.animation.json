@@ -1,0 +1,804 @@
+{
+    "format_version":  "1.8.0",
+    "animations":  {
+                       "animation.cloud_giant_crystal.charging":  {
+                                                                      "loop":  false,
+                                                                      "animation_length":  1.2,
+                                                                      "bones":  {
+                                                                                    "core":  {
+                                                                                                 "position":  {
+                                                                                                                  "0":  {
+                                                                                                                            "vector":  [
+                                                                                                                                           0,
+                                                                                                                                           0,
+                                                                                                                                           0
+                                                                                                                                       ]
+                                                                                                                        },
+                                                                                                                  "0.4":  {
+                                                                                                                              "vector":  [
+                                                                                                                                             0,
+                                                                                                                                             2,
+                                                                                                                                             0
+                                                                                                                                         ]
+                                                                                                                          },
+                                                                                                                  "0.8":  {
+                                                                                                                              "vector":  [
+                                                                                                                                             0,
+                                                                                                                                             0,
+                                                                                                                                             0
+                                                                                                                                         ]
+                                                                                                                          },
+                                                                                                                  "1.2":  {
+                                                                                                                              "vector":  [
+                                                                                                                                             0,
+                                                                                                                                             0,
+                                                                                                                                             0
+                                                                                                                                         ]
+                                                                                                                          }
+                                                                                                              },
+                                                                                                 "rotation":  {
+                                                                                                                  "0":  {
+                                                                                                                            "vector":  [
+                                                                                                                                           0,
+                                                                                                                                           0,
+                                                                                                                                           0
+                                                                                                                                       ]
+                                                                                                                        },
+                                                                                                                  "0.6":  {
+                                                                                                                              "vector":  [
+                                                                                                                                             0,
+                                                                                                                                             120,
+                                                                                                                                             14
+                                                                                                                                         ]
+                                                                                                                          },
+                                                                                                                  "1.2":  {
+                                                                                                                              "vector":  [
+                                                                                                                                             0,
+                                                                                                                                             360,
+                                                                                                                                             0
+                                                                                                                                         ]
+                                                                                                                          }
+                                                                                                              }
+                                                                                             },
+                                                                                    "cage_top":  {
+                                                                                                     "position":  {
+                                                                                                                      "0":  {
+                                                                                                                                "vector":  [
+                                                                                                                                               0,
+                                                                                                                                               0,
+                                                                                                                                               0
+                                                                                                                                           ]
+                                                                                                                            },
+                                                                                                                      "0.45":  {
+                                                                                                                                   "vector":  [
+                                                                                                                                                  0,
+                                                                                                                                                  2,
+                                                                                                                                                  0
+                                                                                                                                              ]
+                                                                                                                               },
+                                                                                                                      "0.9":  {
+                                                                                                                                  "vector":  [
+                                                                                                                                                 0,
+                                                                                                                                                 0,
+                                                                                                                                                 0
+                                                                                                                                             ]
+                                                                                                                              },
+                                                                                                                      "1.2":  {
+                                                                                                                                  "vector":  [
+                                                                                                                                                 0,
+                                                                                                                                                 0,
+                                                                                                                                                 0
+                                                                                                                                             ]
+                                                                                                                              }
+                                                                                                                  }
+                                                                                                 },
+                                                                                    "shard_west":  {
+                                                                                                       "position":  {
+                                                                                                                        "0":  {
+                                                                                                                                  "vector":  [
+                                                                                                                                                 0,
+                                                                                                                                                 0,
+                                                                                                                                                 0
+                                                                                                                                             ]
+                                                                                                                              },
+                                                                                                                        "0.55":  {
+                                                                                                                                     "vector":  [
+                                                                                                                                                    4,
+                                                                                                                                                    0,
+                                                                                                                                                    0
+                                                                                                                                                ]
+                                                                                                                                 },
+                                                                                                                        "1.2":  {
+                                                                                                                                    "vector":  [
+                                                                                                                                                   0,
+                                                                                                                                                   0,
+                                                                                                                                                   0
+                                                                                                                                               ]
+                                                                                                                                }
+                                                                                                                    }
+                                                                                                   },
+                                                                                    "shard_east":  {
+                                                                                                       "position":  {
+                                                                                                                        "0":  {
+                                                                                                                                  "vector":  [
+                                                                                                                                                 0,
+                                                                                                                                                 0,
+                                                                                                                                                 0
+                                                                                                                                             ]
+                                                                                                                              },
+                                                                                                                        "0.55":  {
+                                                                                                                                     "vector":  [
+                                                                                                                                                    -4,
+                                                                                                                                                    0,
+                                                                                                                                                    0
+                                                                                                                                                ]
+                                                                                                                                 },
+                                                                                                                        "1.2":  {
+                                                                                                                                    "vector":  [
+                                                                                                                                                   0,
+                                                                                                                                                   0,
+                                                                                                                                                   0
+                                                                                                                                               ]
+                                                                                                                                }
+                                                                                                                    }
+                                                                                                   },
+                                                                                    "shard_north":  {
+                                                                                                        "position":  {
+                                                                                                                         "0":  {
+                                                                                                                                   "vector":  [
+                                                                                                                                                  0,
+                                                                                                                                                  0,
+                                                                                                                                                  0
+                                                                                                                                              ]
+                                                                                                                               },
+                                                                                                                         "0.55":  {
+                                                                                                                                      "vector":  [
+                                                                                                                                                     0,
+                                                                                                                                                     0,
+                                                                                                                                                     4
+                                                                                                                                                 ]
+                                                                                                                                  },
+                                                                                                                         "1.2":  {
+                                                                                                                                     "vector":  [
+                                                                                                                                                    0,
+                                                                                                                                                    0,
+                                                                                                                                                    0
+                                                                                                                                                ]
+                                                                                                                                 }
+                                                                                                                     }
+                                                                                                    },
+                                                                                    "shard_south":  {
+                                                                                                        "position":  {
+                                                                                                                         "0":  {
+                                                                                                                                   "vector":  [
+                                                                                                                                                  0,
+                                                                                                                                                  0,
+                                                                                                                                                  0
+                                                                                                                                              ]
+                                                                                                                               },
+                                                                                                                         "0.55":  {
+                                                                                                                                      "vector":  [
+                                                                                                                                                     0,
+                                                                                                                                                     0,
+                                                                                                                                                     -4
+                                                                                                                                                 ]
+                                                                                                                                  },
+                                                                                                                         "1.2":  {
+                                                                                                                                     "vector":  [
+                                                                                                                                                    0,
+                                                                                                                                                    0,
+                                                                                                                                                    0
+                                                                                                                                                ]
+                                                                                                                                 }
+                                                                                                                     }
+                                                                                                    }
+                                                                                }
+                                                                  },
+                       "animation.cloud_giant_crystal.activated":  {
+                                                                       "loop":  true,
+                                                                       "animation_length":  3,
+                                                                       "bones":  {
+                                                                                     "root":  {
+                                                                                                  "position":  {
+                                                                                                                   "0":  {
+                                                                                                                             "vector":  [
+                                                                                                                                            0,
+                                                                                                                                            0,
+                                                                                                                                            0
+                                                                                                                                        ]
+                                                                                                                         },
+                                                                                                                   "1.5":  {
+                                                                                                                               "vector":  [
+                                                                                                                                              0,
+                                                                                                                                              0.45,
+                                                                                                                                              0
+                                                                                                                                          ]
+                                                                                                                           },
+                                                                                                                   "3":  {
+                                                                                                                             "vector":  [
+                                                                                                                                            0,
+                                                                                                                                            0,
+                                                                                                                                            0
+                                                                                                                                        ]
+                                                                                                                         }
+                                                                                                               }
+                                                                                              },
+                                                                                     "core":  {
+                                                                                                  "rotation":  {
+                                                                                                                   "0":  {
+                                                                                                                             "vector":  [
+                                                                                                                                            0,
+                                                                                                                                            0,
+                                                                                                                                            0
+                                                                                                                                        ]
+                                                                                                                         },
+                                                                                                                   "1.5":  {
+                                                                                                                               "vector":  [
+                                                                                                                                              0,
+                                                                                                                                              180,
+                                                                                                                                              0
+                                                                                                                                          ]
+                                                                                                                           },
+                                                                                                                   "3":  {
+                                                                                                                             "vector":  [
+                                                                                                                                            0,
+                                                                                                                                            360,
+                                                                                                                                            0
+                                                                                                                                        ]
+                                                                                                                         }
+                                                                                                               }
+                                                                                              },
+                                                                                     "cage_top":  {
+                                                                                                      "rotation":  {
+                                                                                                                       "0":  {
+                                                                                                                                 "vector":  [
+                                                                                                                                                0,
+                                                                                                                                                0,
+                                                                                                                                                0
+                                                                                                                                            ]
+                                                                                                                             },
+                                                                                                                       "1.5":  {
+                                                                                                                                   "vector":  [
+                                                                                                                                                  0,
+                                                                                                                                                  180,
+                                                                                                                                                  0
+                                                                                                                                              ]
+                                                                                                                               },
+                                                                                                                       "3":  {
+                                                                                                                                 "vector":  [
+                                                                                                                                                0,
+                                                                                                                                                360,
+                                                                                                                                                0
+                                                                                                                                            ]
+                                                                                                                             }
+                                                                                                                   }
+                                                                                                  },
+                                                                                     "cage_lower":  {
+                                                                                                        "rotation":  {
+                                                                                                                         "0":  {
+                                                                                                                                   "vector":  [
+                                                                                                                                                  0,
+                                                                                                                                                  0,
+                                                                                                                                                  0
+                                                                                                                                              ]
+                                                                                                                               },
+                                                                                                                         "1.5":  {
+                                                                                                                                     "vector":  [
+                                                                                                                                                    0,
+                                                                                                                                                    -180,
+                                                                                                                                                    0
+                                                                                                                                                ]
+                                                                                                                                 },
+                                                                                                                         "3":  {
+                                                                                                                                   "vector":  [
+                                                                                                                                                  0,
+                                                                                                                                                  -360,
+                                                                                                                                                  0
+                                                                                                                                              ]
+                                                                                                                               }
+                                                                                                                     }
+                                                                                                    },
+                                                                                     "shard_west":  {
+                                                                                                        "rotation":  {
+                                                                                                                         "0":  {
+                                                                                                                                   "vector":  [
+                                                                                                                                                  0,
+                                                                                                                                                  0,
+                                                                                                                                                  0
+                                                                                                                                              ]
+                                                                                                                               },
+                                                                                                                         "1.5":  {
+                                                                                                                                     "vector":  [
+                                                                                                                                                    0,
+                                                                                                                                                    180,
+                                                                                                                                                    0
+                                                                                                                                                ]
+                                                                                                                                 },
+                                                                                                                         "3":  {
+                                                                                                                                   "vector":  [
+                                                                                                                                                  0,
+                                                                                                                                                  360,
+                                                                                                                                                  0
+                                                                                                                                              ]
+                                                                                                                               }
+                                                                                                                     }
+                                                                                                    },
+                                                                                     "shard_east":  {
+                                                                                                        "rotation":  {
+                                                                                                                         "0":  {
+                                                                                                                                   "vector":  [
+                                                                                                                                                  0,
+                                                                                                                                                  0,
+                                                                                                                                                  0
+                                                                                                                                              ]
+                                                                                                                               },
+                                                                                                                         "1.5":  {
+                                                                                                                                     "vector":  [
+                                                                                                                                                    0,
+                                                                                                                                                    -180,
+                                                                                                                                                    0
+                                                                                                                                                ]
+                                                                                                                                 },
+                                                                                                                         "3":  {
+                                                                                                                                   "vector":  [
+                                                                                                                                                  0,
+                                                                                                                                                  -360,
+                                                                                                                                                  0
+                                                                                                                                              ]
+                                                                                                                               }
+                                                                                                                     }
+                                                                                                    },
+                                                                                     "shard_north":  {
+                                                                                                         "rotation":  {
+                                                                                                                          "0":  {
+                                                                                                                                    "vector":  [
+                                                                                                                                                   0,
+                                                                                                                                                   0,
+                                                                                                                                                   0
+                                                                                                                                               ]
+                                                                                                                                },
+                                                                                                                          "1.5":  {
+                                                                                                                                      "vector":  [
+                                                                                                                                                     0,
+                                                                                                                                                     180,
+                                                                                                                                                     0
+                                                                                                                                                 ]
+                                                                                                                                  },
+                                                                                                                          "3":  {
+                                                                                                                                    "vector":  [
+                                                                                                                                                   0,
+                                                                                                                                                   360,
+                                                                                                                                                   0
+                                                                                                                                               ]
+                                                                                                                                }
+                                                                                                                      }
+                                                                                                     },
+                                                                                     "shard_south":  {
+                                                                                                         "rotation":  {
+                                                                                                                          "0":  {
+                                                                                                                                    "vector":  [
+                                                                                                                                                   0,
+                                                                                                                                                   0,
+                                                                                                                                                   0
+                                                                                                                                               ]
+                                                                                                                                },
+                                                                                                                          "1.5":  {
+                                                                                                                                      "vector":  [
+                                                                                                                                                     0,
+                                                                                                                                                     -180,
+                                                                                                                                                     0
+                                                                                                                                                 ]
+                                                                                                                                  },
+                                                                                                                          "3":  {
+                                                                                                                                    "vector":  [
+                                                                                                                                                   0,
+                                                                                                                                                   -360,
+                                                                                                                                                   0
+                                                                                                                                               ]
+                                                                                                                                }
+                                                                                                                      }
+                                                                                                     }
+                                                                                 }
+                                                                   },
+                       "animation.cloud_giant_crystal.hurt":  {
+                                                                  "loop":  false,
+                                                                  "animation_length":  0.4,
+                                                                  "bones":  {
+                                                                                "root":  {
+                                                                                             "position":  {
+                                                                                                              "0":  {
+                                                                                                                        "vector":  [
+                                                                                                                                       0,
+                                                                                                                                       0,
+                                                                                                                                       0
+                                                                                                                                   ]
+                                                                                                                    },
+                                                                                                              "0.08":  {
+                                                                                                                           "vector":  [
+                                                                                                                                          0,
+                                                                                                                                          0,
+                                                                                                                                          -1
+                                                                                                                                      ]
+                                                                                                                       },
+                                                                                                              "0.22":  {
+                                                                                                                           "vector":  [
+                                                                                                                                          0,
+                                                                                                                                          0,
+                                                                                                                                          0.5
+                                                                                                                                      ]
+                                                                                                                       },
+                                                                                                              "0.4":  {
+                                                                                                                          "vector":  [
+                                                                                                                                         0,
+                                                                                                                                         0,
+                                                                                                                                         0
+                                                                                                                                     ]
+                                                                                                                      }
+                                                                                                          }
+                                                                                         },
+                                                                                "core":  {
+                                                                                             "rotation":  {
+                                                                                                              "0":  {
+                                                                                                                        "vector":  [
+                                                                                                                                       0,
+                                                                                                                                       0,
+                                                                                                                                       0
+                                                                                                                                   ]
+                                                                                                                    },
+                                                                                                              "0.08":  {
+                                                                                                                           "vector":  [
+                                                                                                                                          0,
+                                                                                                                                          0,
+                                                                                                                                          -18
+                                                                                                                                      ]
+                                                                                                                       },
+                                                                                                              "0.2":  {
+                                                                                                                          "vector":  [
+                                                                                                                                         0,
+                                                                                                                                         0,
+                                                                                                                                         12
+                                                                                                                                     ]
+                                                                                                                      },
+                                                                                                              "0.4":  {
+                                                                                                                          "vector":  [
+                                                                                                                                         0,
+                                                                                                                                         0,
+                                                                                                                                         0
+                                                                                                                                     ]
+                                                                                                                      }
+                                                                                                          }
+                                                                                         },
+                                                                                "cage_top":  {
+                                                                                                 "rotation":  {
+                                                                                                                  "0":  {
+                                                                                                                            "vector":  [
+                                                                                                                                           0,
+                                                                                                                                           0,
+                                                                                                                                           0
+                                                                                                                                       ]
+                                                                                                                        },
+                                                                                                                  "0.08":  {
+                                                                                                                               "vector":  [
+                                                                                                                                              0,
+                                                                                                                                              0,
+                                                                                                                                              6
+                                                                                                                                          ]
+                                                                                                                           },
+                                                                                                                  "0.2":  {
+                                                                                                                              "vector":  [
+                                                                                                                                             0,
+                                                                                                                                             0,
+                                                                                                                                             -4
+                                                                                                                                         ]
+                                                                                                                          },
+                                                                                                                  "0.4":  {
+                                                                                                                              "vector":  [
+                                                                                                                                             0,
+                                                                                                                                             0,
+                                                                                                                                             0
+                                                                                                                                         ]
+                                                                                                                          }
+                                                                                                              }
+                                                                                             },
+                                                                                "shard_west":  {
+                                                                                                   "rotation":  {
+                                                                                                                    "0":  {
+                                                                                                                              "vector":  [
+                                                                                                                                             0,
+                                                                                                                                             0,
+                                                                                                                                             0
+                                                                                                                                         ]
+                                                                                                                          },
+                                                                                                                    "0.08":  {
+                                                                                                                                 "vector":  [
+                                                                                                                                                0,
+                                                                                                                                                0,
+                                                                                                                                                28
+                                                                                                                                            ]
+                                                                                                                             },
+                                                                                                                    "0.4":  {
+                                                                                                                                "vector":  [
+                                                                                                                                               0,
+                                                                                                                                               0,
+                                                                                                                                               0
+                                                                                                                                           ]
+                                                                                                                            }
+                                                                                                                }
+                                                                                               },
+                                                                                "shard_east":  {
+                                                                                                   "rotation":  {
+                                                                                                                    "0":  {
+                                                                                                                              "vector":  [
+                                                                                                                                             0,
+                                                                                                                                             0,
+                                                                                                                                             0
+                                                                                                                                         ]
+                                                                                                                          },
+                                                                                                                    "0.08":  {
+                                                                                                                                 "vector":  [
+                                                                                                                                                0,
+                                                                                                                                                0,
+                                                                                                                                                -28
+                                                                                                                                            ]
+                                                                                                                             },
+                                                                                                                    "0.4":  {
+                                                                                                                                "vector":  [
+                                                                                                                                               0,
+                                                                                                                                               0,
+                                                                                                                                               0
+                                                                                                                                           ]
+                                                                                                                            }
+                                                                                                                }
+                                                                                               }
+                                                                            }
+                                                              },
+                       "animation.cloud_giant_crystal.depleted":  {
+                                                                      "loop":  false,
+                                                                      "animation_length":  1.35,
+                                                                      "bones":  {
+                                                                                    "cage_top":  {
+                                                                                                     "position":  {
+                                                                                                                      "0":  {
+                                                                                                                                "vector":  [
+                                                                                                                                               0,
+                                                                                                                                               0,
+                                                                                                                                               0
+                                                                                                                                           ]
+                                                                                                                            },
+                                                                                                                      "0.45":  {
+                                                                                                                                   "vector":  [
+                                                                                                                                                  0,
+                                                                                                                                                  -1,
+                                                                                                                                                  0
+                                                                                                                                              ]
+                                                                                                                               },
+                                                                                                                      "1.05":  {
+                                                                                                                                   "vector":  [
+                                                                                                                                                  0,
+                                                                                                                                                  -4,
+                                                                                                                                                  0
+                                                                                                                                              ]
+                                                                                                                               },
+                                                                                                                      "1.35":  {
+                                                                                                                                   "vector":  [
+                                                                                                                                                  0,
+                                                                                                                                                  -4,
+                                                                                                                                                  0
+                                                                                                                                              ]
+                                                                                                                               }
+                                                                                                                  },
+                                                                                                     "rotation":  {
+                                                                                                                      "0":  {
+                                                                                                                                "vector":  [
+                                                                                                                                               0,
+                                                                                                                                               0,
+                                                                                                                                               0
+                                                                                                                                           ]
+                                                                                                                            },
+                                                                                                                      "0.8":  {
+                                                                                                                                  "vector":  [
+                                                                                                                                                 0,
+                                                                                                                                                 0,
+                                                                                                                                                 8
+                                                                                                                                             ]
+                                                                                                                              },
+                                                                                                                      "1.35":  {
+                                                                                                                                   "vector":  [
+                                                                                                                                                  0,
+                                                                                                                                                  0,
+                                                                                                                                                  8
+                                                                                                                                              ]
+                                                                                                                               }
+                                                                                                                  }
+                                                                                                 },
+                                                                                    "core":  {
+                                                                                                 "position":  {
+                                                                                                                  "0":  {
+                                                                                                                            "vector":  [
+                                                                                                                                           0,
+                                                                                                                                           0,
+                                                                                                                                           0
+                                                                                                                                       ]
+                                                                                                                        },
+                                                                                                                  "0.45":  {
+                                                                                                                               "vector":  [
+                                                                                                                                              0,
+                                                                                                                                              -1,
+                                                                                                                                              0
+                                                                                                                                          ]
+                                                                                                                           },
+                                                                                                                  "1.05":  {
+                                                                                                                               "vector":  [
+                                                                                                                                              0,
+                                                                                                                                              -7,
+                                                                                                                                              0
+                                                                                                                                          ]
+                                                                                                                           },
+                                                                                                                  "1.35":  {
+                                                                                                                               "vector":  [
+                                                                                                                                              0,
+                                                                                                                                              -7,
+                                                                                                                                              0
+                                                                                                                                          ]
+                                                                                                                           }
+                                                                                                              },
+                                                                                                 "rotation":  {
+                                                                                                                  "0":  {
+                                                                                                                            "vector":  [
+                                                                                                                                           0,
+                                                                                                                                           0,
+                                                                                                                                           0
+                                                                                                                                       ]
+                                                                                                                        },
+                                                                                                                  "0.6":  {
+                                                                                                                              "vector":  [
+                                                                                                                                             28,
+                                                                                                                                             0,
+                                                                                                                                             18
+                                                                                                                                         ]
+                                                                                                                          },
+                                                                                                                  "1.35":  {
+                                                                                                                               "vector":  [
+                                                                                                                                              35,
+                                                                                                                                              0,
+                                                                                                                                              24
+                                                                                                                                          ]
+                                                                                                                           }
+                                                                                                              }
+                                                                                             },
+                                                                                    "shard_west":  {
+                                                                                                       "position":  {
+                                                                                                                        "0":  {
+                                                                                                                                  "vector":  [
+                                                                                                                                                 0,
+                                                                                                                                                 0,
+                                                                                                                                                 0
+                                                                                                                                             ]
+                                                                                                                              },
+                                                                                                                        "0.65":  {
+                                                                                                                                     "vector":  [
+                                                                                                                                                    2,
+                                                                                                                                                    -1,
+                                                                                                                                                    0
+                                                                                                                                                ]
+                                                                                                                                 },
+                                                                                                                        "1.35":  {
+                                                                                                                                     "vector":  [
+                                                                                                                                                    2,
+                                                                                                                                                    -4,
+                                                                                                                                                    0
+                                                                                                                                                ]
+                                                                                                                                 }
+                                                                                                                    },
+                                                                                                       "rotation":  {
+                                                                                                                        "0":  {
+                                                                                                                                  "vector":  [
+                                                                                                                                                 0,
+                                                                                                                                                 0,
+                                                                                                                                                 0
+                                                                                                                                             ]
+                                                                                                                              },
+                                                                                                                        "1.35":  {
+                                                                                                                                     "vector":  [
+                                                                                                                                                    0,
+                                                                                                                                                    0,
+                                                                                                                                                    35
+                                                                                                                                                ]
+                                                                                                                                 }
+                                                                                                                    }
+                                                                                                   },
+                                                                                    "shard_east":  {
+                                                                                                       "position":  {
+                                                                                                                        "0":  {
+                                                                                                                                  "vector":  [
+                                                                                                                                                 0,
+                                                                                                                                                 0,
+                                                                                                                                                 0
+                                                                                                                                             ]
+                                                                                                                              },
+                                                                                                                        "0.65":  {
+                                                                                                                                     "vector":  [
+                                                                                                                                                    -2,
+                                                                                                                                                    -1,
+                                                                                                                                                    0
+                                                                                                                                                ]
+                                                                                                                                 },
+                                                                                                                        "1.35":  {
+                                                                                                                                     "vector":  [
+                                                                                                                                                    -2,
+                                                                                                                                                    -4,
+                                                                                                                                                    0
+                                                                                                                                                ]
+                                                                                                                                 }
+                                                                                                                    },
+                                                                                                       "rotation":  {
+                                                                                                                        "0":  {
+                                                                                                                                  "vector":  [
+                                                                                                                                                 0,
+                                                                                                                                                 0,
+                                                                                                                                                 0
+                                                                                                                                             ]
+                                                                                                                              },
+                                                                                                                        "1.35":  {
+                                                                                                                                     "vector":  [
+                                                                                                                                                    0,
+                                                                                                                                                    0,
+                                                                                                                                                    -35
+                                                                                                                                                ]
+                                                                                                                                 }
+                                                                                                                    }
+                                                                                                   },
+                                                                                    "shard_north":  {
+                                                                                                        "position":  {
+                                                                                                                         "0":  {
+                                                                                                                                   "vector":  [
+                                                                                                                                                  0,
+                                                                                                                                                  0,
+                                                                                                                                                  0
+                                                                                                                                              ]
+                                                                                                                               },
+                                                                                                                         "0.65":  {
+                                                                                                                                      "vector":  [
+                                                                                                                                                     0,
+                                                                                                                                                     -1,
+                                                                                                                                                     2
+                                                                                                                                                 ]
+                                                                                                                                  },
+                                                                                                                         "1.35":  {
+                                                                                                                                      "vector":  [
+                                                                                                                                                     0,
+                                                                                                                                                     -4,
+                                                                                                                                                     2
+                                                                                                                                                 ]
+                                                                                                                                  }
+                                                                                                                     }
+                                                                                                    },
+                                                                                    "shard_south":  {
+                                                                                                        "position":  {
+                                                                                                                         "0":  {
+                                                                                                                                   "vector":  [
+                                                                                                                                                  0,
+                                                                                                                                                  0,
+                                                                                                                                                  0
+                                                                                                                                              ]
+                                                                                                                               },
+                                                                                                                         "0.65":  {
+                                                                                                                                      "vector":  [
+                                                                                                                                                     0,
+                                                                                                                                                     -1,
+                                                                                                                                                     -2
+                                                                                                                                                 ]
+                                                                                                                                  },
+                                                                                                                         "1.35":  {
+                                                                                                                                      "vector":  [
+                                                                                                                                                     0,
+                                                                                                                                                     -4,
+                                                                                                                                                     -2
+                                                                                                                                                 ]
+                                                                                                                                  }
+                                                                                                                     }
+                                                                                                    }
+                                                                                }
+                                                                  }
+                   }
+}
