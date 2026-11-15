@@ -14,7 +14,11 @@
     "stats.MixinStatBase",
     "stats.MixinStatCrafting",
     "stats.MixinStatList",
-    "MixinPlayerInteractionManager"
+    "MixinPlayerInteractionManager",
+    "MixinTemplateDataWalker",
+    "MixinTemplateFixScope",
+    "MixinTemplateRecursiveFixer",
+    "MixinAdvancementArchiveReuse"
   ],
   "server": [],
   "client": [
