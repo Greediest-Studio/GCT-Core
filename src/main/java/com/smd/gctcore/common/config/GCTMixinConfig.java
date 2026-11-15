@@ -7,6 +7,16 @@ import net.minecraftforge.common.config.Config;
 @Config(modid = Tags.MOD_ID, name = "GCTCore/GCTMixin")
 public class GCTMixinConfig {
 
+    @Config.Comment({"是否使用局部名称索引加速 GeckoLib 骨架建树"})
+    @Config.Name("Enable GeckoLib Hierarchy Index")
+    @Config.RequiresMcRestart
+    public static boolean enableGeckoHierarchyIndex = true;
+
+    @Config.Comment({"是否避免 NuclearCraft 附加包对已有 ContentTweaker 资源的重复备份和覆盖"})
+    @Config.Name("Enable NuclearCraft Resource Merge")
+    @Config.RequiresMcRestart
+    public static boolean enableNuclearCraftResourceMerge = true;
+
     @Config.Comment({"是否优化 JEI 启动时 TComp 覆盖配方匹配及 TE 容器流体枚举"})
     @Config.Name("Enable JEI Startup Optimizations")
     @Config.RequiresMcRestart
