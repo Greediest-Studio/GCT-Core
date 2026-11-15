@@ -85,8 +85,6 @@ public class MixinConfig implements ILateMixinLoader {
                 () -> modLoaded("draconicevolution") && modLoaded("gct_additions"));
         addMixinCFG("mixins.gctcore.hammercore.json",
                 () -> modLoaded("hammercore") && GCTMixinConfig.disableHammerLibLinkRepository);
-        addMixinCFG("mixins.gctcore.stellarcore.json",
-                () -> modLoaded("stellar_core") && GCTMixinConfig.freezeStellarQuadPoolsAfterLoad);
     }
 
     @Override
