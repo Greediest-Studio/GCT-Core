@@ -7,6 +7,11 @@ import net.minecraftforge.common.config.Config;
 @Config(modid = Tags.MOD_ID, name = "GCTCore/GCTMixin")
 public class GCTMixinConfig {
 
+    @Config.Comment({"是否优化 JEI 启动时 TComp 覆盖配方匹配及 TE 容器流体枚举"})
+    @Config.Name("Enable JEI Startup Optimizations")
+    @Config.RequiresMcRestart
+    public static boolean enableJEIStartupOptimizations = true;
+
     @Config.Comment({"是否禁用匠魂进化法杖右键的投射物属性"})
     @Config.Name("Enable Mixin")
     @Config.RequiresMcRestart

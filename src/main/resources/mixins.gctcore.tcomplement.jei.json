@@ -1,0 +1,8 @@
+{
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "com.smd.gctcore.common.mixin.tcomplement",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "mixins.gctcore.refmap.json",
+  "client": ["AccessorTCompRegistry", "MixinMeltingRecipeGetter"]
+}

@@ -1,6 +1,7 @@
 package com.smd.gctcore.common.mixin.hei;
 
 import com.smd.gctcore.common.integration.jei.HeiHashCacheHelper;
+import com.smd.gctcore.common.integration.jei.TransposerContainerCache;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.gui.textures.Textures;
 import mezz.jei.startup.JeiStarter;
@@ -24,6 +25,7 @@ public abstract class MixinJeiStarter {
     )
     private void gctcore$onJeiLoadStart(List<IModPlugin> plugins, Textures textures, boolean isReload, CallbackInfo ci) {
         HeiHashCacheHelper.beginLoad();
+        TransposerContainerCache.beginLoad();
     }
 
     @Inject(
@@ -33,5 +35,6 @@ public abstract class MixinJeiStarter {
     )
     private void gctcore$onJeiLoadEnd(List<IModPlugin> plugins, Textures textures, boolean isReload, CallbackInfo ci) {
         HeiHashCacheHelper.endLoad();
+        TransposerContainerCache.endLoad();
     }
 }
