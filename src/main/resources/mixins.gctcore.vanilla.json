@@ -11,6 +11,9 @@
     "damageparticle.MixinEntity",
     "entity.MixinEntityWither",
     "renderer.MixinRenderGlobal",
+    "stats.MixinStatBase",
+    "stats.MixinStatCrafting",
+    "stats.MixinStatList",
     "MixinPlayerInteractionManager"
   ],
   "server": [],

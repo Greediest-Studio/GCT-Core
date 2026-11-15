@@ -69,6 +69,12 @@ public class GCTMixinConfig {
     @Config.RequiresMcRestart
     public static boolean enableBetterNetherCityLazyCache = true;
 
+    @Config.Comment({"是否将原版 StatList / StatCrafting 的物品名称与 HoverEvent 悬浮文本改为按需懒构造",
+            "避免初始化阶段为全物品统计项预生成 NBTTagCompound、Style 与 TextComponent 树而长期占用约 70–85 MiB 堆内存"})
+    @Config.Name("Enable Lazy Stat Names")
+    @Config.RequiresMcRestart
+    public static boolean enableLazyStatNames = true;
+
     static {
         ConfigAnytime.register(GCTMixinConfig.class);
     }

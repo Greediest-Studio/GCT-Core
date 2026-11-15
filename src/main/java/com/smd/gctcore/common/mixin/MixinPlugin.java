@@ -36,6 +36,12 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 () -> GCTMixinConfig.enableChunkRenderBuilderCap,
                 "renderer.MixinChunkRenderDispatcher"
         );
+        addMixinGroup(
+                () -> GCTMixinConfig.enableLazyStatNames,
+                "stats.MixinStatBase",
+                "stats.MixinStatCrafting",
+                "stats.MixinStatList"
+        );
     }
 
     @Override
