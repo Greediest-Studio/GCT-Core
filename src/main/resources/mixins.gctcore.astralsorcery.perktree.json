@@ -1,0 +1,17 @@
+{
+  "package": "com.smd.gctcore.common.mixin.astralsorcery.perktree",
+  "required": true,
+  "refmap": "mixins.gctcore.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8.5",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [],
+  "server": [],
+  "client": [
+    "AccessorBatchPerkContext",
+    "AccessorBufferBatch",
+    "MixinClientProxy",
+    "MixinGuiJournalPerkTree",
+    "MixinPerkRenderGroup"
+  ]
+}

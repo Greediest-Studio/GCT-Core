@@ -32,6 +32,10 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 () -> GCTMixinConfig.enableChunkQueueResizingMixin,
                 "renderer.MixinRenderGlobal"
         );
+        addMixinGroup(
+                () -> GCTMixinConfig.enableChunkRenderBuilderCap,
+                "renderer.MixinChunkRenderDispatcher"
+        );
     }
 
     @Override

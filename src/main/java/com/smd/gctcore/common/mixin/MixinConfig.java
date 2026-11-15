@@ -85,6 +85,12 @@ public class MixinConfig implements ILateMixinLoader {
                 () -> modLoaded("draconicevolution") && modLoaded("gct_additions"));
         addMixinCFG("mixins.gctcore.hammercore.json",
                 () -> modLoaded("hammercore") && GCTMixinConfig.disableHammerLibLinkRepository);
+        addMixinCFG("mixins.gctcore.compactmachines3.json",
+                () -> modLoaded("compactmachines3") && GCTMixinConfig.enableCompactMachinesASMDataCleanup);
+        addMixinCFG("mixins.gctcore.astralsorcery.perktree.json",
+                () -> modLoaded("astralsorcery") && GCTMixinConfig.enableAstralPerkTreeLazyBuffers);
+        addMixinCFG("mixins.gctcore.betternether.json",
+                () -> modLoaded("betternether") && GCTMixinConfig.enableBetterNetherCityLazyCache);
     }
 
     @Override

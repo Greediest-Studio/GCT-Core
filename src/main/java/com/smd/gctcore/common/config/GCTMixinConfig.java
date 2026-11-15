@@ -27,6 +27,19 @@ public class GCTMixinConfig {
     @Config.RequiresMcRestart
     public static boolean enableChunkQueueResizingMixin = true;
 
+    @Config.Comment({"是否限制区块渲染器 (ChunkRenderDispatcher) 缓冲池数量上限",
+            "可避免 LoliASM 10 倍池化与 Lumenized Bloom 渲染层叠加导致堆外原生内存暴涨"})
+    @Config.Name("Enable Chunk Render Builder Cap")
+    @Config.RequiresMcRestart
+    public static boolean enableChunkRenderBuilderCap = true;
+
+    @Config.Comment({"区块渲染器 (ChunkRenderDispatcher) 缓冲池数量上限",
+            "仅在启用限制且原始池大小超过该值时生效；默认 20 可兼顾高视距缓冲余量与堆外内存节省"})
+    @Config.Name("Max Chunk Render Builders")
+    @Config.RangeInt(min = 1, max = 256)
+    @Config.RequiresMcRestart
+    public static int maxChunkRenderBuilders = 20;
+
     @Config.Comment({"是否优化 AE2 普通及无线合成终端的连续合成，包含多态合成兼容"})
     @Config.Name("Enable AE2 Crafting Recipe Cache")
     @Config.RequiresMcRestart
@@ -37,6 +50,24 @@ public class GCTMixinConfig {
     @Config.Name("Disable HammerLib Link Repository Fetch")
     @Config.RequiresMcRestart
     public static boolean disableHammerLibLinkRepository = true;
+
+    @Config.Comment({"是否在 CompactMachines3 postInit 完成后释放 AnnotatedInstanceUtil.asmData",
+            "CompactMachines3 仅在初始化阶段读取该 ASM 扫描表，清理后可释放约百 MiB 堆内存"})
+    @Config.Name("Enable CompactMachines3 ASMData Cleanup")
+    @Config.RequiresMcRestart
+    public static boolean enableCompactMachinesASMDataCleanup = true;
+
+    @Config.Comment({"是否将星辉魔法 (AstralSorcery) 技能树界面渲染缓冲改为按需懒加载并在关闭界面时释放",
+            "避免游戏启动后永久占用约 64 MiB 堆外直接内存"})
+    @Config.Name("Enable AstralSorcery PerkTree Lazy Buffers")
+    @Config.RequiresMcRestart
+    public static boolean enableAstralPerkTreeLazyBuffers = true;
+
+    @Config.Comment({"是否将 BetterNether 下界城市结构管理器 (BNWorldGenerator.cityManager) 改为按需懒加载与软引用缓存",
+            "未进入下界时不构建，离开下界或世界卸载时保存并释放内存"})
+    @Config.Name("Enable BetterNether City Lazy Cache")
+    @Config.RequiresMcRestart
+    public static boolean enableBetterNetherCityLazyCache = true;
 
     static {
         ConfigAnytime.register(GCTMixinConfig.class);
