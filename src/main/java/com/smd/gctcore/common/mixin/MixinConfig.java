@@ -40,6 +40,8 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.nuclearcraft.json", "nuclearcraft");
         addMixinCFG("mixins.gctcore.geckolib.json",
                 () -> modLoaded("geckolib3") && GCTMixinConfig.enableGeckoHierarchyIndex);
+        addMixinCFG("mixins.gctcore.jaopca.json",
+                () -> modLoaded("jaopca") && GCTMixinConfig.enableJAOPCAResourceCache);
         addModdedMixinCFG("mixins.gctcore.oceanicexpanse.json", "oe");
         addModdedMixinCFG("mixins.gctcore.simplesmelteryaccelerator.json","simplesmelteryaccelerator");
         addModdedMixinCFG("mixins.gctcore.whimcraft.json", "whimcraft");

@@ -20,6 +20,10 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
     static {
         addMixinGroup(
+                () -> GCTMixinConfig.enableJAOPCAResourceCache,
+                "resources.MixinSimpleReloadableResourceManager"
+        );
+        addMixinGroup(
                 () -> GCTMixinConfig.enableDamageParticleMixin,
                 "damageparticle.MixinEntityPlayer",
                 "damageparticle.MixinEntity"

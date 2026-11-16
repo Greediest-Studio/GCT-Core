@@ -17,6 +17,12 @@ public class GCTMixinConfig {
     @Config.RequiresMcRestart
     public static boolean enableNuclearCraftResourceMerge = true;
 
+    @Config.Comment({"是否缓存 JAOPCA 的资源存在性检查结果，避免流体渲染时反复查询纹理文件",
+            "同时缓存不存在的资源，资源包重载开始时自动清空"})
+    @Config.Name("Enable JAOPCA Resource Cache")
+    @Config.RequiresMcRestart
+    public static boolean enableJAOPCAResourceCache = true;
+
     @Config.Comment({"是否优化 JEI 启动时 TComp 覆盖配方匹配及 TE 容器流体枚举"})
     @Config.Name("Enable JEI Startup Optimizations")
     @Config.RequiresMcRestart
