@@ -24,8 +24,10 @@ import net.minecraft.network.play.server.SPacketEntityVelocity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoServer;
@@ -33,7 +35,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.common.Loader;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import software.bernie.geckolib3.core.AnimationState;
@@ -110,9 +114,16 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
     private int cloudLeapCooldown;
     private int whirlwindCooldown;
     private int lastRevengeTimer;
+    private int crystalHitCount;
     private boolean introPlayed;
     private boolean thrustHitResolved;
     private final Set<UUID> summonedWhirlwinds = new HashSet<>();
+    private final Set<UUID> crystalIds = new HashSet<>();
+    private final Set<UUID> activeCrystalIds = new HashSet<>();
+    private boolean hasArenaOrigin;
+    private int arenaOriginX;
+    private int arenaOriginY;
+    private int arenaOriginZ;
     private int displayedActionSequence = Integer.MIN_VALUE;
     private byte displayedAction = -1;
 
@@ -163,6 +174,8 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
     @Override
     public void onLivingUpdate() {
         if (!world.isRemote && isEntityAlive()) {
+            updateArenaPosition();
+            refreshCrystalStates();
             if (!introPlayed) {
                 introPlayed = true;
                 beginAction(INTRO, null);
@@ -178,8 +191,133 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
             // Finish actions before goals run so their damage clocks match the authored clips.
             tickAction();
             healPlayersCaughtInWhirlwinds();
+            if (hasActiveCrystals()) {
+                healFromCrystalShield();
+            }
         }
         super.onLivingUpdate();
+    }
+
+    public void setArenaOrigin(BlockPos origin) {
+        hasArenaOrigin = true;
+        arenaOriginX = origin.getX();
+        arenaOriginY = origin.getY();
+        arenaOriginZ = origin.getZ();
+    }
+
+    public void registerCrystal(UUID crystalId) {
+        if (crystalId != null) {
+            crystalIds.add(crystalId);
+        }
+    }
+
+    public void setCrystalActive(UUID crystalId, boolean active) {
+        if (crystalId == null) {
+            return;
+        }
+        crystalIds.add(crystalId);
+        if (active) {
+            activeCrystalIds.add(crystalId);
+        } else {
+            activeCrystalIds.remove(crystalId);
+        }
+    }
+
+    private boolean hasActiveCrystals() {
+        return !activeCrystalIds.isEmpty();
+    }
+
+    private void refreshCrystalStates() {
+        for (Entity entity : world.loadedEntityList) {
+            if (entity instanceof EntityCloudGiantCrystal) {
+                EntityCloudGiantCrystal crystal = (EntityCloudGiantCrystal) entity;
+                if (getUniqueID().equals(crystal.getBossUuid())) {
+                    crystalIds.add(crystal.getUniqueID());
+                    if (crystal.isActivated()) {
+                        activeCrystalIds.add(crystal.getUniqueID());
+                    } else {
+                        activeCrystalIds.remove(crystal.getUniqueID());
+                    }
+                }
+            }
+        }
+    }
+
+    private void healFromCrystalShield() {
+        if (ticksExisted % 20 == 0 && getHealth() < getMaxHealth()) {
+            heal(getMaxHealth() * 0.01F);
+        }
+    }
+
+    private void updateArenaPosition() {
+        if (!hasArenaOrigin) {
+            return;
+        }
+        double originX = arenaOriginX + 0.5D;
+        double originZ = arenaOriginZ + 0.5D;
+        if (getDistanceSq(originX, arenaOriginY, originZ) > 10000.0D) {
+            setLocationAndAngles(originX, arenaOriginY, originZ, rotationYaw, rotationPitch);
+            motionX = motionY = motionZ = 0.0D;
+        }
+        if (isEntityInsideOpaqueBlock()) {
+            teleportToNearestSafePosition();
+        }
+    }
+
+    private void teleportToNearestSafePosition() {
+        BlockPos base = new BlockPos(posX, posY, posZ);
+        int[] verticalOffsets = {0, 1, -1, 2, -2, 3, -3, 4, -4, 5, -5, 6};
+        for (int radius = 0; radius <= 12; radius++) {
+            for (int dy : verticalOffsets) {
+                for (int dx = -radius; dx <= radius; dx++) {
+                    for (int dz = -radius; dz <= radius; dz++) {
+                        int horizontalDistanceSq = dx * dx + dz * dz;
+                        if (radius > 0 && (horizontalDistanceSq > radius * radius
+                                || horizontalDistanceSq <= (radius - 1) * (radius - 1))) {
+                            continue;
+                        }
+                        double x = base.getX() + dx + 0.5D;
+                        double y = base.getY() + dy;
+                        double z = base.getZ() + dz + 0.5D;
+                        if (isSafeAt(x, y, z)) {
+                            setLocationAndAngles(x, y, z, rotationYaw, rotationPitch);
+                            motionX = motionY = motionZ = 0.0D;
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        setLocationAndAngles(arenaOriginX + 0.5D, arenaOriginY, arenaOriginZ + 0.5D,
+                rotationYaw, rotationPitch);
+        motionX = motionY = motionZ = 0.0D;
+    }
+
+    private boolean isSafeAt(double x, double y, double z) {
+        AxisAlignedBB candidate = getEntityBoundingBox().offset(x - posX, y - posY, z - posZ);
+        return world.isBlockLoaded(new BlockPos(x, y, z)) && world.getCollisionBoxes(this, candidate).isEmpty();
+    }
+
+    private void activateCrystalsAfterHits() {
+        if (!isEntityAlive() || !hasArenaOrigin || crystalHitCount < 4 || getHealth() >= getMaxHealth() * 0.70F
+                || hasActiveCrystals()) {
+            return;
+        }
+        List<EntityCloudGiantCrystal> dormant = new ArrayList<>();
+        for (Entity entity : world.loadedEntityList) {
+            if (entity instanceof EntityCloudGiantCrystal) {
+                EntityCloudGiantCrystal crystal = (EntityCloudGiantCrystal) entity;
+                if (getUniqueID().equals(crystal.getBossUuid()) && !crystal.isActivated()) {
+                    crystalIds.add(crystal.getUniqueID());
+                    dormant.add(crystal);
+                }
+            }
+        }
+        crystalHitCount = 0;
+        int count = 1;
+        while (count-- > 0 && !dormant.isEmpty()) {
+            dormant.remove(rand.nextInt(dormant.size())).activate();
+        }
     }
 
     @Override
@@ -289,12 +427,14 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
             if (action == JUMP && isValidCombatTarget(actionTarget)) {
                 beginAction(FORWARD_THRUST, actionTarget);
                 return;
-            } else if (action == STORM_CAST && isValidCombatTarget(actionTarget)) {
+            } else if (action == STORM_CAST && !hasActiveCrystals() && isValidCombatTarget(actionTarget)) {
                 // effectOnly prevents lightning damage, fire and mob transformations.
                 world.addWeatherEffect(new EntityLightningBolt(world,
                         actionTarget.posX, actionTarget.posY, actionTarget.posZ, true));
+                world.playSound(null, actionTarget.posX, actionTarget.posY, actionTarget.posZ,
+                        SoundEvents.ENTITY_LIGHTNING_IMPACT, SoundCategory.HOSTILE, 5.0F, 1.0F);
                 damageTarget(actionTarget, 15.0F, false);
-            } else if (action == WHIRLWIND_CAST) {
+            } else if (action == WHIRLWIND_CAST && !hasActiveCrystals()) {
                 summonWhirlwinds(actionTarget);
             }
             if (action == FORWARD_THRUST) {
@@ -514,7 +654,7 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (getAction() == PHASE_TRANSITION) {
+        if (getAction() == PHASE_TRANSITION || hasActiveCrystals()) {
             return false;
         }
         if (source.getTrueSource() == null && source.getImmediateSource() == null) {
@@ -531,7 +671,7 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
 
     @Override
     protected void damageEntity(DamageSource source, float amount) {
-        if (getAction() == PHASE_TRANSITION || isEntityInvulnerable(source)) {
+        if (getAction() == PHASE_TRANSITION || hasActiveCrystals() || isEntityInvulnerable(source)) {
             return;
         }
         // Preserve Forge's damage hooks, armor, resistance and absorption, then enforce
@@ -553,6 +693,8 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
             setHealth(health - amount);
             setAbsorptionAmount(getAbsorptionAmount() - amount);
             activateSecondPhaseIfThresholdReached();
+            ++crystalHitCount;
+            activateCrystalsAfterHits();
         }
     }
 
@@ -569,9 +711,30 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
     public void onDeath(DamageSource cause) {
         super.onDeath(cause);
         if (dead && !world.isRemote && getAction() != DEATH) {
+            clearArenaEncounter();
             beginAction(DEATH, null);
             setAttackTarget(null);
             bossInfo.setVisible(false);
+        }
+    }
+
+    private void clearArenaEncounter() {
+        for (Entity entity : new ArrayList<>(world.loadedEntityList)) {
+            if (entity instanceof EntityCloudGiantCrystal) {
+                EntityCloudGiantCrystal crystal = (EntityCloudGiantCrystal) entity;
+                if (getUniqueID().equals(crystal.getBossUuid()) || crystalIds.contains(crystal.getUniqueID())) {
+                    crystal.setDead();
+                }
+            }
+        }
+        activeCrystalIds.clear();
+        if (hasArenaOrigin) {
+            BlockPos lowerCenter = new BlockPos(arenaOriginX, arenaOriginY - 3, arenaOriginZ);
+            for (int dx = -1; dx <= 1; dx++) {
+                for (int dz = -1; dz <= 1; dz++) {
+                    world.setBlockToAir(lowerCenter.add(dx, 0, dz));
+                }
+            }
         }
     }
 
@@ -638,6 +801,13 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
         compound.setInteger("WhirlwindCooldown", whirlwindCooldown);
         compound.setBoolean("IntroPlayed", introPlayed);
         compound.setBoolean("SecondPhase", isInSecondPhase());
+        compound.setInteger("CrystalHitCount", crystalHitCount);
+        compound.setBoolean("HasArenaOrigin", hasArenaOrigin);
+        if (hasArenaOrigin) {
+            compound.setInteger("ArenaOriginX", arenaOriginX);
+            compound.setInteger("ArenaOriginY", arenaOriginY);
+            compound.setInteger("ArenaOriginZ", arenaOriginZ);
+        }
         NBTTagList whirlwindIds = new NBTTagList();
         for (UUID uuid : summonedWhirlwinds) {
             NBTTagCompound entry = new NBTTagCompound();
@@ -645,6 +815,8 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
             whirlwindIds.appendTag(entry);
         }
         compound.setTag("SummonedWhirlwinds", whirlwindIds);
+        writeUuidSet(compound, "CrystalIds", crystalIds);
+        writeUuidSet(compound, "ActiveCrystalIds", activeCrystalIds);
     }
 
     @Override
@@ -658,6 +830,13 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
         cloudLeapCooldown = Math.max(0, compound.getInteger("CloudLeapCooldown"));
         whirlwindCooldown = Math.max(0, compound.getInteger("WhirlwindCooldown"));
         introPlayed = compound.getBoolean("IntroPlayed");
+        crystalHitCount = Math.max(0, compound.getInteger("CrystalHitCount"));
+        hasArenaOrigin = compound.getBoolean("HasArenaOrigin");
+        if (hasArenaOrigin) {
+            arenaOriginX = compound.getInteger("ArenaOriginX");
+            arenaOriginY = compound.getInteger("ArenaOriginY");
+            arenaOriginZ = compound.getInteger("ArenaOriginZ");
+        }
         dataManager.set(SECOND_PHASE, compound.getBoolean("SecondPhase")
                 || getHealth() <= getMaxHealth() * 0.5F);
         summonedWhirlwinds.clear();
@@ -668,6 +847,8 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
                 summonedWhirlwinds.add(entry.getUniqueId("Id"));
             }
         }
+        readUuidSet(compound, "CrystalIds", crystalIds);
+        readUuidSet(compound, "ActiveCrystalIds", activeCrystalIds);
         enablePersistence();
         if (getHealth() <= 0.0F) {
             dataManager.set(ACTION, DEATH);
@@ -676,6 +857,27 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
         }
         bossInfo.setName(getDisplayName());
         bossInfo.setPercent(MathHelper.clamp(getHealth() / getMaxHealth(), 0.0F, 1.0F));
+    }
+
+    private void writeUuidSet(NBTTagCompound compound, String key, Set<UUID> values) {
+        NBTTagList list = new NBTTagList();
+        for (UUID value : values) {
+            NBTTagCompound entry = new NBTTagCompound();
+            entry.setUniqueId("Id", value);
+            list.appendTag(entry);
+        }
+        compound.setTag(key, list);
+    }
+
+    private void readUuidSet(NBTTagCompound compound, String key, Set<UUID> values) {
+        values.clear();
+        NBTTagList list = compound.getTagList(key, 10);
+        for (int i = 0; i < list.tagCount(); i++) {
+            NBTTagCompound entry = list.getCompoundTagAt(i);
+            if (entry.hasUniqueId("Id")) {
+                values.add(entry.getUniqueId("Id"));
+            }
+        }
     }
 
     @Override
@@ -812,10 +1014,10 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
             } else if (isInSecondPhase() && distanceSq > 256.0D
                     && cloudLeapCooldown == 0 && rand.nextInt(100) < 15) {
                 performCloudLeap(target);
-            } else if (isInSecondPhase() && distanceSq > 49.0D && distanceSq <= 256.0D
+            } else if (!hasActiveCrystals() && isInSecondPhase() && distanceSq > 49.0D && distanceSq <= 256.0D
                     && whirlwindCooldown == 0) {
                 beginWhirlwindCast(target);
-            } else if (lightningCooldown == 0 && distanceSq >= 100.0D) {
+            } else if (!hasActiveCrystals() && lightningCooldown == 0 && distanceSq >= 100.0D) {
                 lightningCooldown = LIGHTNING_COOLDOWN_TICKS;
                 beginAction(STORM_CAST, target);
             } else if (distanceSq <= 25.0D) {

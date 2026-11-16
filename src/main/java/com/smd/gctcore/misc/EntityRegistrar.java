@@ -3,6 +3,7 @@ package com.smd.gctcore.misc;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.common.entity.EntityReversedAlfMaster;
 import com.smd.gctcore.common.entity.EntityCloudGiantPriest;
+import com.smd.gctcore.common.entity.EntityCloudGiantCrystal;
 import com.smd.gctcore.common.entity.botania.EntityAlfSpark;
 import com.smd.gctcore.common.entity.botania.EntityGaiaSpark;
 import com.smd.gctcore.common.entity.botania.EntityJoetunheimSpark;
@@ -23,6 +24,7 @@ public class EntityRegistrar {
     public static EntityEntry NIDAVELLIR_SPARK;
     public static EntityEntry VANAHEIM_SPARK;
     public static EntityEntry CLOUD_GIANT_PRIEST;
+    public static EntityEntry CLOUD_GIANT_CRYSTAL;
 
     public static void init() {
         REVERSED_ALF_MASTER = EntityEntryBuilder.create()
@@ -75,6 +77,13 @@ public class EntityRegistrar {
                 .tracker(128, 1, true)
                 .egg(0xC9E0EA, 0x70778F)
                 .build();
+
+        CLOUD_GIANT_CRYSTAL = EntityEntryBuilder.create()
+                .entity(EntityCloudGiantCrystal.class)
+                .id(new ResourceLocation(Tags.MOD_ID, "cloud_giant_crystal"), 8)
+                .name("cloud_giant_crystal")
+                .tracker(128, 1, true)
+                .build();
     }
 
     @SubscribeEvent
@@ -86,7 +95,8 @@ public class EntityRegistrar {
                 JOETUNHEIM_SPARK,
                 NIDAVELLIR_SPARK,
                 VANAHEIM_SPARK,
-                CLOUD_GIANT_PRIEST
+                CLOUD_GIANT_PRIEST,
+                CLOUD_GIANT_CRYSTAL
         );
     }
 }
