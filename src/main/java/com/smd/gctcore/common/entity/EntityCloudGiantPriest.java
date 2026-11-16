@@ -1,5 +1,6 @@
 package com.smd.gctcore.common.entity;
 
+import com.smd.gctcore.misc.SoundRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -510,7 +511,7 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
     private void beginWhirlwindCast(EntityLivingBase target) {
         beginAction(WHIRLWIND_CAST, target);
         whirlwindCooldown = WHIRLWIND_COOLDOWN_TICKS;
-        playSound(SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, 1.2F, 0.55F);
+        playSound(SoundRegistry.CLOUD_GIANT_PRIEST_WHIRLWIND, 1.0F, 1.0F);
     }
 
     private void performSlam(EntityLivingBase target) {
@@ -654,7 +655,13 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
 
     @Override
     public boolean attackEntityFrom(DamageSource source, float amount) {
-        if (getAction() == PHASE_TRANSITION || hasActiveCrystals()) {
+        if (getAction() == PHASE_TRANSITION) {
+            return false;
+        }
+        if (hasActiveCrystals()) {
+            if (source.getTrueSource() != null || source.getImmediateSource() != null) {
+                playSound(SoundRegistry.CLOUD_GIANT_PRIEST_BLOCKED, 1.0F, 1.0F);
+            }
             return false;
         }
         if (source.getTrueSource() == null && source.getImmediateSource() == null) {
@@ -882,12 +889,17 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundEvents.ENTITY_IRONGOLEM_HURT;
+        return SoundRegistry.CLOUD_GIANT_PRIEST_HURT;
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SoundRegistry.CLOUD_GIANT_PRIEST_AMBIENT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_IRONGOLEM_DEATH;
+        return SoundRegistry.CLOUD_GIANT_PRIEST_DEATH;
     }
 
     private PlayState animationPredicate(AnimationEvent<EntityCloudGiantPriest> event) {
@@ -1020,6 +1032,7 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
             } else if (!hasActiveCrystals() && lightningCooldown == 0 && distanceSq >= 100.0D) {
                 lightningCooldown = LIGHTNING_COOLDOWN_TICKS;
                 beginAction(STORM_CAST, target);
+                playSound(SoundRegistry.CLOUD_GIANT_PRIEST_LIGHTNING, 1.0F, 1.0F);
             } else if (distanceSq <= 25.0D) {
                 attackEntityAsMob(target);
             } else if (ticksExisted % 5 == 0) {

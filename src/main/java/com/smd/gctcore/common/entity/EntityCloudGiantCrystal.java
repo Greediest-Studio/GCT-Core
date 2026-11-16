@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import com.smd.gctcore.misc.SoundRegistry;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -102,9 +103,11 @@ public class EntityCloudGiantCrystal extends EntityMob implements IAnimatable {
         if (health <= 0.0F) {
             dataManager.set(ACTIVATED, false);
             setAction(DEPLETED);
+            playSound(SoundRegistry.CLOUD_GIANT_CRYSTAL_DEPLETED, 1.0F, 1.0F);
             notifyBoss(false);
         } else {
             setAction(HURT);
+            playSound(SoundRegistry.CLOUD_GIANT_CRYSTAL_HURT, 1.0F, 1.0F);
         }
         return true;
     }
@@ -169,6 +172,7 @@ public class EntityCloudGiantCrystal extends EntityMob implements IAnimatable {
         setHealth(getMaxHealth());
         dataManager.set(ACTIVATED, true);
         setAction(CHARGING);
+        playSound(SoundRegistry.CLOUD_GIANT_CRYSTAL_ACTIVATED, 1.0F, 1.0F);
         notifyBoss(true);
         summonGuards();
     }

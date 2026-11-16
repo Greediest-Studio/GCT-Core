@@ -3,5 +3,59 @@
     "sounds": [
       "gctcore:bird"
     ]
+  },
+  "cloud_giant_priest_ambient": {
+    "subtitle": "subtitles.gctcore.cloud_giant_priest_ambient",
+    "sounds": [
+      "gctcore:cloud_giant_priest_ambient"
+    ]
+  },
+  "cloud_giant_priest_blocked": {
+    "subtitle": "subtitles.gctcore.cloud_giant_priest_blocked",
+    "sounds": [
+      "gctcore:cloud_giant_priest_blocked"
+    ]
+  },
+  "cloud_giant_priest_lightning": {
+    "subtitle": "subtitles.gctcore.cloud_giant_priest_lightning",
+    "sounds": [
+      "gctcore:cloud_giant_priest_lightning"
+    ]
+  },
+  "cloud_giant_priest_hurt": {
+    "subtitle": "subtitles.gctcore.cloud_giant_priest_hurt",
+    "sounds": [
+      "gctcore:cloud_giant_priest_hurt"
+    ]
+  },
+  "cloud_giant_priest_whirlwind": {
+    "subtitle": "subtitles.gctcore.cloud_giant_priest_whirlwind",
+    "sounds": [
+      "gctcore:cloud_giant_priest_whirlwind"
+    ]
+  },
+  "cloud_giant_priest_death": {
+    "subtitle": "subtitles.gctcore.cloud_giant_priest_death",
+    "sounds": [
+      "gctcore:cloud_giant_priest_death"
+    ]
+  },
+  "cloud_giant_crystal_hurt": {
+    "subtitle": "subtitles.gctcore.cloud_giant_crystal_hurt",
+    "sounds": [
+      "gctcore:cloud_giant_crystal_hurt"
+    ]
+  },
+  "cloud_giant_crystal_depleted": {
+    "subtitle": "subtitles.gctcore.cloud_giant_crystal_depleted",
+    "sounds": [
+      "gctcore:cloud_giant_crystal_depleted"
+    ]
+  },
+  "cloud_giant_crystal_activated": {
+    "subtitle": "subtitles.gctcore.cloud_giant_crystal_activated",
+    "sounds": [
+      "gctcore:cloud_giant_crystal_activated"
+    ]
   }
 }

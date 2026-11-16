@@ -8,6 +8,7 @@ key.gctcore.mining_speed_minus=ReducedDiggingSpeed
 
 hud.mining_speed=miningMultiplier：%sx
 
+entity.gctcore.aether_zephyr.name=Zephyr
 entity.alf_spark.name=Alf Spark
 entity.gaia_spark.name=Gaia Spark
 entity.joetunheim_spark.name=Joetunheim Spark
@@ -15,6 +16,15 @@ entity.nidavellir_spark.name=Nidavellir Spark
 entity.vanaheim_spark.name=Vanaheim Spark
 entity.reversed_alf_master.name=Reversed Alf Master
 entity.cloud_giant_priest.name=Cloud Giant Priest
+subtitles.gctcore.cloud_giant_priest_ambient=Cloud Giant Priest growls
+subtitles.gctcore.cloud_giant_priest_blocked=Cloud Giant Priest blocks an attack
+subtitles.gctcore.cloud_giant_priest_lightning=Cloud Giant Priest growls and calls lightning
+subtitles.gctcore.cloud_giant_priest_hurt=Cloud Giant Priest is hurt
+subtitles.gctcore.cloud_giant_priest_whirlwind=Cloud Giant Priest calls the wind
+subtitles.gctcore.cloud_giant_priest_death=Cloud Giant Priest dies
+subtitles.gctcore.cloud_giant_crystal_hurt=Cloud Giant Crystal is struck
+subtitles.gctcore.cloud_giant_crystal_depleted=Cloud Giant Crystal is depleted
+subtitles.gctcore.cloud_giant_crystal_activated=Cloud Giant Crystal activates
 entity.botaniverse:spark_nilfheim.name=Nilfheim Spark
 entity.botaniverse:spark_muspelheim.name=Muspelheim Spark
 entity.botaniverse:spark_alfheim.name=Helheim Spark

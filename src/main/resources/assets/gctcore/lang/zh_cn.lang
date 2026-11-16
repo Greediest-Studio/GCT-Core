@@ -8,6 +8,7 @@ effect.sukhavati=极乐净土
 death.attack.nilfheim_erosion=%1$s被蚀雾吞没了
 
 # Entities
+entity.gctcore.aether_zephyr.name=西风啸云
 entity.alf_spark.name=精灵火花
 entity.gaia_spark.name=盖亚火花
 entity.joetunheim_spark.name=约顿海姆火花
@@ -15,6 +16,15 @@ entity.nidavellir_spark.name=尼德威阿尔火花
 entity.vanaheim_spark.name=华纳海姆火花
 entity.reversed_alf_master.name=反·精灵长老
 entity.cloud_giant_priest.name=云巨人祭司
+subtitles.gctcore.cloud_giant_priest_ambient=云巨人祭司低吼
+subtitles.gctcore.cloud_giant_priest_blocked=云巨人祭司格挡了攻击
+subtitles.gctcore.cloud_giant_priest_lightning=云巨人祭司低吼着召唤雷电
+subtitles.gctcore.cloud_giant_priest_hurt=云巨人祭司受伤
+subtitles.gctcore.cloud_giant_priest_whirlwind=云巨人祭司呼风
+subtitles.gctcore.cloud_giant_priest_death=云巨人祭司死亡
+subtitles.gctcore.cloud_giant_crystal_hurt=云巨人水晶受击
+subtitles.gctcore.cloud_giant_crystal_depleted=云巨人水晶失能
+subtitles.gctcore.cloud_giant_crystal_activated=云巨人水晶激活
 entity.botaniverse:spark_nilfheim.name=尼福尔海姆火花
 entity.botaniverse:spark_muspelheim.name=穆斯贝尔海姆火花
 entity.botaniverse:spark_alfheim.name=赫尔海姆火花
