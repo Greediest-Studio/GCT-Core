@@ -42,6 +42,8 @@ public class MixinConfig implements ILateMixinLoader {
                 () -> modLoaded("geckolib3") && GCTMixinConfig.enableGeckoHierarchyIndex);
         addMixinCFG("mixins.gctcore.jaopca.json",
                 () -> modLoaded("jaopca") && GCTMixinConfig.enableJAOPCAResourceCache);
+        addMixinCFG("mixins.gctcore.ingameinfoxml.json",
+                () -> modLoaded("ingameinfoxml") && GCTMixinConfig.enableIGIItemCacheOptimization);
         addModdedMixinCFG("mixins.gctcore.oceanicexpanse.json", "oe");
         addModdedMixinCFG("mixins.gctcore.simplesmelteryaccelerator.json","simplesmelteryaccelerator");
         addModdedMixinCFG("mixins.gctcore.whimcraft.json", "whimcraft");

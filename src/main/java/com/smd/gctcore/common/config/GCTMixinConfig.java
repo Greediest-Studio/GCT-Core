@@ -23,6 +23,12 @@ public class GCTMixinConfig {
     @Config.RequiresMcRestart
     public static boolean enableJAOPCAResourceCache = true;
 
+    @Config.Comment({"是否避免 InGame Info XML 图标缓存命中时深拷贝物品 NBT",
+            "仅在新缓存键写入时保存独立 NBT 快照，保留数量、耐久和图标叠层状态区分"})
+    @Config.Name("Enable IGI Item Cache Optimization")
+    @Config.RequiresMcRestart
+    public static boolean enableIGIItemCacheOptimization = true;
+
     @Config.Comment({"是否优化 JEI 启动时 TComp 覆盖配方匹配及 TE 容器流体枚举"})
     @Config.Name("Enable JEI Startup Optimizations")
     @Config.RequiresMcRestart
