@@ -181,7 +181,7 @@ public class EntityCloudGiantCrystal extends EntityMob implements IAnimatable {
         if (!Loader.isModLoaded("aether_legacy")) {
             return;
         }
-        int[][] positions = {{-8, -8}, {-8, 8}, {8, -8}, {8, 8}};
+        int[][] positions = {{-5, -5}, {-5, 5}, {5, -5}, {5, 5}};
         for (int[] offset : positions) {
             ResourceLocation type = GUARD_TYPES[rand.nextInt(GUARD_TYPES.length)];
             Entity guard = net.minecraft.entity.EntityList.createEntityByIDFromName(type, world);

@@ -141,6 +141,7 @@ public class ClientProxy extends CommonProxy {
             registerItemModel(ItemRegistry.BIRD_OF_EDWIN);
             registerItemModel(ItemRegistry.TIME_ADJUSTER);
             registerItemModel(ItemRegistry.DIAMOND_DUNGEON_KEY);
+            registerItemModel(ItemRegistry.HIGHFIELD_GEM);
             if (ItemRegistry.MINING_LEVEL_UPGRADE != null) {
                 registerItemModel(ItemRegistry.MINING_LEVEL_UPGRADE);
             }

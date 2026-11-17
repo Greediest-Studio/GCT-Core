@@ -14,6 +14,7 @@ import com.smd.gctcore.common.items.mekanism.ItemEnergyMk2Upgrade;
 import com.smd.gctcore.common.items.mekanism.ItemMiningLevelUpgrade;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -37,6 +38,7 @@ public class ItemRegistry {
     public static Item BIRD_OF_EDWIN;
     public static Item TIME_ADJUSTER;
     public static Item DIAMOND_DUNGEON_KEY;
+    public static Item HIGHFIELD_GEM;
     public static Item MINING_LEVEL_UPGRADE;
     public static Item ENERGY_MK2_UPGRADE;
 
@@ -65,6 +67,11 @@ public class ItemRegistry {
                 .setTranslationKey("gctcore.diamond_dungeon_key")
                 .setCreativeTab(CreativeTabs.MISC)
                 .setMaxStackSize(1);
+        HIGHFIELD_GEM = new Item()
+                .setRegistryName("highfield_gem")
+                .setTranslationKey("gctcore.highfield_gem")
+                .setCreativeTab(CreativeTabs.MATERIALS);
+        OreDictionary.registerOre("gemHighfield", HIGHFIELD_GEM);
         if (Loader.isModLoaded("mekanism")) {
             MINING_LEVEL_UPGRADE = new ItemMiningLevelUpgrade();
             ENERGY_MK2_UPGRADE = new ItemEnergyMk2Upgrade();
@@ -90,7 +97,8 @@ public class ItemRegistry {
                 IMAGINATIVE_SNOWBALL,
                 BIRD_OF_EDWIN,
                 TIME_ADJUSTER,
-                DIAMOND_DUNGEON_KEY
+                DIAMOND_DUNGEON_KEY,
+                HIGHFIELD_GEM
         );
         if (MINING_LEVEL_UPGRADE != null) {
             event.getRegistry().register(MINING_LEVEL_UPGRADE);

@@ -4,6 +4,7 @@ import com.smd.gctcore.common.events.EventHooks;
 import com.smd.gctcore.common.events.MoreTconBedrockHandler;
 import com.smd.gctcore.common.events.NilfheimErosionHandler;
 import com.smd.gctcore.common.events.TimeLockedSyncHandler;
+import com.smd.gctcore.common.integration.aether.AetherZephyrNameFix;
 import com.smd.gctcore.common.integration.WorldDimensionIntegrations;
 import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingAutomation;
 import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingGuiHandler;
@@ -106,6 +107,7 @@ public class CommonProxy {
     }
 
     public void postInit(FMLPostInitializationEvent event) {
+        AetherZephyrNameFix.apply();
         MaterialRenderingDebugHelper.logMaterialShaderFixSummary();
     }
 }

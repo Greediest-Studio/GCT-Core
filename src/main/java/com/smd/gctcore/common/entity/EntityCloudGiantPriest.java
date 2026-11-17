@@ -1,6 +1,7 @@
 package com.smd.gctcore.common.entity;
 
 import com.smd.gctcore.misc.SoundRegistry;
+import com.smd.gctcore.misc.ItemRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,6 +17,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.datasync.DataParameter;
@@ -722,6 +724,18 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
             beginAction(DEATH, null);
             setAttackTarget(null);
             bossInfo.setVisible(false);
+        }
+    }
+
+    @Override
+    protected void dropLoot(boolean wasRecentlyHit, int lootingModifier, DamageSource source) {
+        super.dropLoot(wasRecentlyHit, lootingModifier, source);
+
+        if (ItemRegistry.DIAMOND_DUNGEON_KEY != null) {
+            entityDropItem(new ItemStack(ItemRegistry.DIAMOND_DUNGEON_KEY), 0.0F);
+        }
+        if (ItemRegistry.HIGHFIELD_GEM != null) {
+            entityDropItem(new ItemStack(ItemRegistry.HIGHFIELD_GEM, 6 + rand.nextInt(7)), 0.0F);
         }
     }
 
