@@ -11,7 +11,10 @@
   "client": [
     "MixinItemStackHelper",
     "MixinFluidStackHelper",
-    "MixinJeiStarter"
+    "MixinJeiStarter",
+    "MixinRecipeRegistry",
+    "MixinRecipeMap",
+    "MixinRecipeStages"
   ],
   "server": []
 }
