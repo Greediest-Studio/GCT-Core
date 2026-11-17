@@ -49,18 +49,33 @@ public abstract class MixinMeltingRecipeGetter {
         }
         for (MeltingRecipe recipe : recipes) {
             List<ItemStack> inputs = recipe.input.getInputs();
-            boolean hidden = false;
-            for (IBlacklist blacklist : blacklists) {
-                for (ItemStack input : inputs) {
-                    if (blacklist.matches(input)) {
-                        hidden = true;
-                        break;
-                    }
-                }
-                if (hidden) break;
+            if (isBlacklisted(blacklists, inputs)) {
+                continue;
             }
-            if (!hidden && !index.matchesAny(inputs)) result.add(recipe);
+            if (!index.matchesAny(inputs)) {
+                result.add(recipe);
+            }
         }
         return result;
+    }
+
+    @Unique
+    private static boolean isBlacklisted(List<IBlacklist> blacklists, List<ItemStack> inputs) {
+        if (blacklists.isEmpty() || inputs.isEmpty()) {
+            return false;
+        }
+        ItemStack prev = null;
+        for (ItemStack input : inputs) {
+            if (input == prev) {
+                continue;
+            }
+            prev = input;
+            for (IBlacklist blacklist : blacklists) {
+                if (blacklist.matches(input)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

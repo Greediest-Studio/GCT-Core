@@ -29,6 +29,12 @@ public class GCTMixinConfig {
     @Config.RequiresMcRestart
     public static boolean enableIGIItemCacheOptimization = true;
 
+    @Config.Comment({"是否修复 InGame Info XML CanoeEdition 3.0.0.20 的 HUD 行重复入队",
+            "每行只保留一次，避免文字和物品图标重复绘制"})
+    @Config.Name("Enable IGI Duplicate Overlay Fix")
+    @Config.RequiresMcRestart
+    public static boolean enableIGIDuplicateOverlayFix = true;
+
     @Config.Comment({"是否优化 JEI 启动时 TComp 覆盖配方匹配及 TE 容器流体枚举"})
     @Config.Name("Enable JEI Startup Optimizations")
     @Config.RequiresMcRestart

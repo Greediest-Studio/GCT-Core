@@ -44,6 +44,8 @@ public class MixinConfig implements ILateMixinLoader {
                 () -> modLoaded("jaopca") && GCTMixinConfig.enableJAOPCAResourceCache);
         addMixinCFG("mixins.gctcore.ingameinfoxml.json",
                 () -> modLoaded("ingameinfoxml") && GCTMixinConfig.enableIGIItemCacheOptimization);
+        addMixinCFG("mixins.gctcore.ingameinfoxml.overlay.json",
+                () -> modLoaded("ingameinfoxml") && GCTMixinConfig.enableIGIDuplicateOverlayFix);
         addModdedMixinCFG("mixins.gctcore.oceanicexpanse.json", "oe");
         addModdedMixinCFG("mixins.gctcore.simplesmelteryaccelerator.json","simplesmelteryaccelerator");
         addModdedMixinCFG("mixins.gctcore.whimcraft.json", "whimcraft");
@@ -51,6 +53,8 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.fancymenu.json", "fancymenu");
         addModdedMixinCFG("mixins.gctcore.quark.json", "quark");
         addModdedMixinCFG("mixins.gctcore.hei.json", "jei");
+        addMixinCFG("mixins.gctcore.extratrees.jei.json",
+                () -> modLoaded("extratrees") && modLoaded("jei") && GCTMixinConfig.enableJEIStartupOptimizations);
         addMixinCFG("mixins.gctcore.tcomplement.jei.json",
                 () -> modLoaded("tcomplement") && modLoaded("jei") && GCTMixinConfig.enableJEIStartupOptimizations);
         addMixinCFG("mixins.gctcore.thermalexpansion.jei.json",
