@@ -18,11 +18,14 @@
     "MixinTemplateDataWalker",
     "MixinTemplateFixScope",
     "MixinTemplateRecursiveFixer",
-    "MixinAdvancementArchiveReuse"
+    "MixinAdvancementArchiveReuse",
+    "kirino.MixinClassScanUtils"
   ],
   "server": [],
   "client": [
     "resources.MixinSimpleReloadableResourceManager",
+    "resources.MixinMinecraftResourceReload",
+    "resources.MixinFMLClientHandlerResourceReload",
     "MixinPlayerControllerMP",
     "renderer.AccessorBufferBuilder",
     "renderer.MixinChunkRenderDispatcher"

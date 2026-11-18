@@ -108,6 +108,18 @@ public class GCTMixinConfig {
     @Config.RequiresMcRestart
     public static boolean enableLazyStatNames = true;
 
+    @Config.Comment({"是否在 PreInit 阶段合并多次 Minecraft / FML 资源包重载请求，并在 PreInit 结束后统一执行一次",
+            "可避免 Additions、Quark、AquaAcrobatics 等模组触发多次全量或部分资源重刷与 Patchouli 重复解析"})
+    @Config.Name("Enable PreInit Resource Reload Coalescing")
+    @Config.RequiresMcRestart
+    public static boolean enablePreInitResourceReloadCoalescing = true;
+
+    @Config.Comment({"是否将 Kirino ECS 的 ClassGraph 注解扫描限定到实际包含目标包的类路径来源（仅 Cleanroom）",
+            "避免 CleanECSRuntime 初始化阶段用 68 个工作线程枚举并读取全部模组 JAR"})
+    @Config.Name("Enable Kirino ECS Scan Optimization")
+    @Config.RequiresMcRestart
+    public static boolean enableKirinoECSScanOptimization = true;
+
     static {
         ConfigAnytime.register(GCTMixinConfig.class);
     }

@@ -46,6 +46,20 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 "stats.MixinStatCrafting",
                 "stats.MixinStatList"
         );
+        addMixinGroup(
+                () -> GCTMixinConfig.enablePreInitResourceReloadCoalescing,
+                "resources.MixinMinecraftResourceReload",
+                "resources.MixinFMLClientHandlerResourceReload"
+        );
+        addMixinGroup(
+                () -> GCTMixinConfig.enableKirinoECSScanOptimization && isKirinoScanPresent(),
+                "kirino.MixinClassScanUtils"
+        );
+    }
+
+    private static boolean isKirinoScanPresent() {
+        ClassLoader loader = MixinPlugin.class.getClassLoader();
+        return loader != null && loader.getResource("com/cleanroommc/kirino/ecs/component/scan/helper/ClassScanUtils.class") != null;
     }
 
     @Override
