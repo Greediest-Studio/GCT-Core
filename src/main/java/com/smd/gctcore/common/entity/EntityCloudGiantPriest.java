@@ -2,6 +2,8 @@ package com.smd.gctcore.common.entity;
 
 import com.smd.gctcore.misc.SoundRegistry;
 import com.smd.gctcore.misc.ItemRegistry;
+import com.smd.gctcore.misc.BlockRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
@@ -75,6 +77,7 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
     public static final int CLOUD_LEAP_COOLDOWN_TICKS = 200;
     public static final int WHIRLWIND_COOLDOWN_TICKS = 320;
     private static final double WHIRLWIND_SPAWN_RADIUS = 1.25D;
+    private static final int HIGHCLOUD_RESTORE_RADIUS = 80;
 
     private static final String[] NAMES = {
             "Skýjötunn", "Hrafnský", "Þokujötunn", "Himinþurs",
@@ -754,6 +757,32 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
             for (int dx = -1; dx <= 1; dx++) {
                 for (int dz = -1; dz <= 1; dz++) {
                     world.setBlockToAir(lowerCenter.add(dx, 0, dz));
+                }
+            }
+            restoreLockedHighcloudStone();
+        }
+    }
+
+    /** Restores the dungeon shell after the priest has been defeated. */
+    private void restoreLockedHighcloudStone() {
+        int centerX = arenaOriginX;
+        int centerZ = arenaOriginZ;
+        int radiusSquared = HIGHCLOUD_RESTORE_RADIUS * HIGHCLOUD_RESTORE_RADIUS;
+        BlockPos.MutableBlockPos scanPos = new BlockPos.MutableBlockPos();
+
+        for (int dx = -HIGHCLOUD_RESTORE_RADIUS; dx <= HIGHCLOUD_RESTORE_RADIUS; dx++) {
+            int maxDz = MathHelper.floor(Math.sqrt(radiusSquared - dx * dx));
+            for (int dz = -maxDz; dz <= maxDz; dz++) {
+                int x = centerX + dx;
+                int z = centerZ + dz;
+                for (int y = 1; y <= 255; y++) {
+                    scanPos.setPos(x, y, z);
+                    Block block = world.getBlockState(scanPos).getBlock();
+                    if (block == BlockRegistry.LOCKED_HIGHCLOUD_STONE) {
+                        world.setBlockState(scanPos, BlockRegistry.HIGHCLOUD_STONE.getDefaultState(), 3);
+                    } else if (block == BlockRegistry.LOCKED_LIGHT_HIGHCLOUD_STONE) {
+                        world.setBlockState(scanPos, BlockRegistry.LIGHT_HIGHCLOUD_STONE.getDefaultState(), 3);
+                    }
                 }
             }
         }

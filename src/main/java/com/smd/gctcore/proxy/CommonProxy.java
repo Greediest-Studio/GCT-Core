@@ -24,6 +24,7 @@ import com.smd.gctcore.common.world.NilfheimDim.DimensionTypeNilfheim;
 import com.smd.gctcore.common.world.NothingnessDim.DimensionTypeNothingness;
 import com.smd.gctcore.common.world.OrderCore.DimensionTypeOrderCore;
 import com.smd.gctcore.common.world.ShadowberryCaveGenerator;
+import com.smd.gctcore.common.world.AetherDiamondDungeonGenerator;
 import com.smd.gctcore.common.world.biome.nilfheim.NilfheimBiomes;
 
 import net.minecraftforge.common.DimensionManager;
@@ -92,6 +93,9 @@ public class CommonProxy {
     public void init(FMLInitializationEvent event) {
         NilfheimRecipes.init();
         WorldDimensionIntegrations.init();
+        if (net.minecraftforge.fml.common.Loader.isModLoaded("aether_legacy")) {
+            AetherDiamondDungeonGenerator.register();
+        }
         if (net.minecraftforge.fml.common.Loader.isModLoaded("gct_additions")
                 && net.minecraftforge.fml.common.Loader.isModLoaded("witherstormmod")) {
             com.smd.gctcore.common.integration.witherstorm.WitherStormCompatibility.configureSummoning();
