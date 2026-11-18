@@ -39,6 +39,7 @@ public final class AetherDiamondDungeonGenerator implements IWorldGenerator {
     private static final int FLOOR_Y = 100;
     private static final int CENTER_LOCAL_X = 77;
     private static final int CENTER_LOCAL_Z = 77;
+    private static final long PLACEMENT_SEED_SALT = 0xD1B54A32D192ED03L;
 
     private static boolean registered;
     private final DiamondDungeonMapGen structure = new DiamondDungeonMapGen();
@@ -104,7 +105,13 @@ public final class AetherDiamondDungeonGenerator implements IWorldGenerator {
 
             int primaryChance = Math.max(1, AetherConfig.world_gen.golden_dungeon_primary_chance);
             int secondaryChance = Math.max(1, AetherConfig.world_gen.golden_dungeon_secondary_chance);
-            return this.rand.nextInt(primaryChance) == 0 || this.rand.nextInt(secondaryChance) == 0;
+            long seed = this.world.getSeed() ^ PLACEMENT_SEED_SALT
+                    ^ ((long) chunkX * 341873128712L)
+                    ^ ((long) chunkZ * 132897987541L)
+                    ^ ((long) this.world.provider.getDimension() * 0x9E3779B97F4A7C15L);
+            Random placementRandom = new Random(seed);
+            return placementRandom.nextInt(primaryChance) == 0
+                    || placementRandom.nextInt(secondaryChance) == 0;
         }
 
         @Override
