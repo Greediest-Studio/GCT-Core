@@ -1,6 +1,7 @@
 package com.smd.gctcore.common.mixin.aether;
 
 import com.gildedgames.the_aether.tile_entities.TileEntityTreasureChest;
+import com.smd.gctcore.common.integration.aether.AetherDungeonChestKind;
 import com.smd.gctcore.gctcore;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -44,7 +45,8 @@ public abstract class MixinDiamondDungeonLoot {
     private void gctcore$fillDiamondRewards(EntityPlayer player, CallbackInfo ci) {
         TileEntityTreasureChest chest = (TileEntityTreasureChest) (Object) this;
         World world = chest.getWorld();
-        if (world == null || world.isRemote || chest.getKind() != 3) {
+        if (world == null || world.isRemote
+                || chest.getKind() != AetherDungeonChestKind.GCT_DIAMOND_REWARD) {
             return;
         }
 

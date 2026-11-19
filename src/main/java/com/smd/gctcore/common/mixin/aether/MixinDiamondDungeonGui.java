@@ -2,6 +2,7 @@ package com.smd.gctcore.common.mixin.aether;
 
 import com.gildedgames.the_aether.client.gui.GuiTreasureChest;
 import com.gildedgames.the_aether.tile_entities.TileEntityTreasureChest;
+import com.smd.gctcore.common.integration.aether.AetherDungeonChestKind;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,7 +21,7 @@ public abstract class MixinDiamondDungeonGui {
     private void gctcore$setDiamondChestTitle(InventoryPlayer playerInventory,
                                                TileEntityTreasureChest chest,
                                                CallbackInfo ci) {
-        if (chest.getKind() == 3) {
+        if (chest.getKind() == AetherDungeonChestKind.GCT_DIAMOND_REWARD) {
             this.chestType = I18n.format("gui.gctcore.diamond_reward_chest");
         }
     }

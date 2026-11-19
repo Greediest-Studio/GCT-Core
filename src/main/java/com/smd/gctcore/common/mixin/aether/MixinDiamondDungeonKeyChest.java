@@ -2,6 +2,7 @@ package com.smd.gctcore.common.mixin.aether;
 
 import com.gildedgames.the_aether.blocks.dungeon.BlockTreasureChest;
 import com.gildedgames.the_aether.tile_entities.TileEntityTreasureChest;
+import com.smd.gctcore.common.integration.aether.AetherDungeonChestKind;
 import com.smd.gctcore.misc.ItemRegistry;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,7 +41,7 @@ public abstract class MixinDiamondDungeonKeyChest {
 
         TileEntityTreasureChest chest = (TileEntityTreasureChest) tile;
         if (chest.isLocked()) {
-            chest.unlock(3);
+            chest.unlock(AetherDungeonChestKind.GCT_DIAMOND_REWARD);
             heldStack.shrink(1);
             cir.setReturnValue(true);
         }
