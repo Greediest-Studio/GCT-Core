@@ -8,9 +8,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
 import java.util.List;
-import java.util.Map;
 
 import net.minecraft.item.ItemBucketMilk;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
@@ -20,67 +18,41 @@ import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
 
 import java.util.Collection;
 
-/** 注液和抽液的探测步骤相同，单次 JEI 加载内合并探测，分别保留展示结果。 */
+/** 在一次 JEI 加载内复用填充探测的流体模板，不缓存各容器的配方结果。 */
 public final class TransposerContainerCache {
     private static final int PROBE_AMOUNT = 1000;
     private static final Object UNFILLABLE = new Object();
     private static final String OPENBLOCKS_TANK_HANDLER = "openblocks.common.item.ItemTankBlock$FluidHandler";
     private static final String FORESTRY_FLUID_HANDLER = "forestry.core.items.FluidHandlerItemForestry";
 
-    private static final Map<ItemStack, Pair> CACHE = new IdentityHashMap<>();
-    private static volatile boolean active;
     private static Thread ownerThread;
     private static ProbeEntry[] ownerProbes;
 
     private TransposerContainerCache() {
     }
 
-    public static void beginLoad() {
-        synchronized (CACHE) {
-            CACHE.clear();
-            ownerThread = Thread.currentThread();
-            ownerProbes = buildProbes(FluidRegistry.getRegisteredFluids().values());
-            active = true;
-        }
+    public static synchronized void beginLoad() {
+        ownerThread = Thread.currentThread();
+        ownerProbes = null;
     }
 
-    public static void endLoad() {
-        synchronized (CACHE) {
-            active = false;
-            CACHE.clear();
-            ownerThread = null;
-            ownerProbes = null;
-        }
+    public static synchronized void endLoad() {
+        ownerThread = null;
+        ownerProbes = null;
     }
 
-    public static Pair get(ItemStack container) {
-        if (active) {
-            synchronized (CACHE) {
-                // 使用 JEI 原物品对象的身份，避免合并 NBT 或能力状态不同的容器。
-                Pair cached = CACHE.get(container);
-                if (cached != null) return cached;
-            }
-        }
+    public static Recipes getFillRecipes(ItemStack container) {
         IFluidHandlerItem handler = container.copy().getCapability(
                 CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
-        ProbeEntry[] probes = getProbesForCurrentCall();
-        Pair result = probe(container, handler, probes);
-        if (active) {
-            synchronized (CACHE) {
-                if (active) {
-                    CACHE.putIfAbsent(container, result);
-                }
-            }
-        }
-        return result;
+        return probe(container, handler, getProbesForCurrentCall());
     }
 
-    static Pair probe(ItemStack container, IFluidHandlerItem handler, Iterable<Fluid> fluids) {
+    static Recipes probe(ItemStack container, IFluidHandlerItem handler, Iterable<Fluid> fluids) {
         return probe(container, handler, buildProbes(fluids));
     }
 
-    private static Pair probe(ItemStack container, IFluidHandlerItem handler, ProbeEntry[] probes) {
-        Pair result = new Pair();
+    private static Recipes probe(ItemStack container, IFluidHandlerItem handler, ProbeEntry[] probes) {
+        Recipes result = new Recipes();
         if (handler == null || probes.length == 0) {
             return result;
         }
@@ -103,31 +75,23 @@ public final class TransposerContainerCache {
             }
             if (filled <= 0) continue;
 
-            FluidStack fillFluid = new FluidStack(entry.rawFluid, filled);
-            ItemStack filledContainer = handler.getContainer();
-            result.fill.inputs.add(container);
-            result.fill.outputs.add(filledContainer.copy());
-            result.fill.fluids.add(fillFluid);
-            ItemStack extractInput = filledContainer.copy();
-            FluidStack drained = handler.drain(PROBE_AMOUNT, true);
-            if (drained != null) {
-                result.extract.inputs.add(extractInput);
-                result.extract.outputs.add(handler.getContainer());
-                result.extract.fluids.add(drained);
-            }
+            result.inputs.add(container);
+            result.outputs.add(handler.getContainer().copy());
+            result.fluids.add(new FluidStack(entry.rawFluid, filled));
+            // 还原测试容器，下一种流体才能按原版顺序试填。
+            handler.drain(PROBE_AMOUNT, true);
         }
         return result;
     }
 
-    private static ProbeEntry[] getProbesForCurrentCall() {
-        if (active) {
-            synchronized (CACHE) {
-                if (active && ownerProbes != null && Thread.currentThread() == ownerThread) {
-                    return ownerProbes;
-                }
-            }
+    private static synchronized ProbeEntry[] getProbesForCurrentCall() {
+        if (Thread.currentThread() != ownerThread) {
+            return buildProbes(FluidRegistry.getRegisteredFluids().values());
         }
-        return buildProbes(FluidRegistry.getRegisteredFluids().values());
+        if (ownerProbes == null) {
+            ownerProbes = buildProbes(FluidRegistry.getRegisteredFluids().values());
+        }
+        return ownerProbes;
     }
 
     private static ProbeEntry[] buildProbes(Iterable<Fluid> fluids) {
@@ -228,11 +192,6 @@ public final class TransposerContainerCache {
             this.probeStack = new FluidStack(rawFluid, PROBE_AMOUNT);
             this.resolvedFluid = this.probeStack.getFluid();
         }
-    }
-
-    public static final class Pair {
-        public final Recipes fill = new Recipes();
-        public final Recipes extract = new Recipes();
     }
 
     public static final class Recipes {

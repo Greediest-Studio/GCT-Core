@@ -59,6 +59,8 @@ public class MixinConfig implements ILateMixinLoader {
                 () -> modLoaded("tcomplement") && modLoaded("jei") && GCTMixinConfig.enableJEIStartupOptimizations);
         addMixinCFG("mixins.gctcore.thermalexpansion.jei.json",
                 () -> modLoaded("thermalexpansion") && modLoaded("jei") && GCTMixinConfig.enableJEIStartupOptimizations);
+        addMixinCFG("mixins.gctcore.thermalexpansion.jei.categories.json",
+                () -> modLoaded("thermalexpansion") && modLoaded("jei"));
         addMixinCFG("mixins.gctcore.forestry.json", () -> modLoaded("forestry") && modLoaded("jei"));
         addMixinCFG("mixins.gctcore.smelteryio.json", () -> modLoaded("smelteryio") && modLoaded("jei"));
         addMixinCFG("mixins.gctcore.embers.json", () -> modLoaded("embers") && modLoaded("jei"));
