@@ -120,6 +120,11 @@ public class GCTMixinConfig {
     @Config.RequiresMcRestart
     public static boolean enableKirinoECSScanOptimization = true;
 
+    @Config.Comment({"是否修复失落城市 (Lost Cities) 在 REID/JEID 环境下因 16 位 char 方块状态 ID 截断导致的建筑方块错乱或消失"})
+    @Config.Name("Enable LostCities REID BlockState Fix")
+    @Config.RequiresMcRestart
+    public static boolean enableLostCitiesREIDFix = true;
+
     static {
         ConfigAnytime.register(GCTMixinConfig.class);
     }

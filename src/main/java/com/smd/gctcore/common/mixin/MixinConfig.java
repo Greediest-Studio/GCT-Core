@@ -108,6 +108,9 @@ public class MixinConfig implements ILateMixinLoader {
                 () -> modLoaded("astralsorcery") && GCTMixinConfig.enableAstralPerkTreeLazyBuffers);
         addMixinCFG("mixins.gctcore.betternether.json",
                 () -> modLoaded("betternether") && GCTMixinConfig.enableBetterNetherCityLazyCache);
+        addMixinCFG("mixins.gctcore.lostcities.json",
+                () -> modLoaded("lostcities") && (modLoaded("jeid") || modLoaded("neid"))
+                        && GCTMixinConfig.enableLostCitiesREIDFix);
     }
 
     @Override
