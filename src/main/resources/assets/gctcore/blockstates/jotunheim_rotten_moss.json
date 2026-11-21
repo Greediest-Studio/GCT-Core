@@ -1,7 +1,10 @@
 {
   "variants": {
-    "normal": {
-      "model": "gctcore:jotunheim/rotten_moss"
+    "base=giantstone": {
+      "model": "gctcore:jotunheim/rotten_moss_giantstone"
+    },
+    "base=cloudrock": {
+      "model": "gctcore:jotunheim/rotten_moss_cloudrock"
     }
   }
 }

@@ -1,0 +1,8 @@
+{
+  "parent": "block/inner_stairs",
+  "textures": {
+    "bottom": "gctcore:blocks/jotunheim/sunkenwood_planks",
+    "top": "gctcore:blocks/jotunheim/sunkenwood_planks",
+    "side": "gctcore:blocks/jotunheim/sunkenwood_planks"
+  }
+}

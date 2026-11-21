@@ -1,0 +1,6 @@
+{
+  "parent": "block/fence_side",
+  "textures": {
+    "texture": "gctcore:blocks/jotunheim/fungal_planks"
+  }
+}

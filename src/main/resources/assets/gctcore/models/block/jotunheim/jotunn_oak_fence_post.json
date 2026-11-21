@@ -1,0 +1,6 @@
+{
+  "parent": "block/fence_post",
+  "textures": {
+    "texture": "gctcore:blocks/jotunheim/jotunn_oak_planks"
+  }
+}

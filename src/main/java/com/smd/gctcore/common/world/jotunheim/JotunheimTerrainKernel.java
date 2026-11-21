@@ -5,13 +5,29 @@ import java.util.Arrays;
 /**
  * Stateless, Minecraft-independent four-layer terrain sampler.
  * All random decisions depend only on the seed, absolute coordinates and salts.
- * The same globally anchored 4x2x4 interpolation is used by point and chunk APIs.
+ * Point and chunk APIs share the globally anchored 4x2x4 base interpolation,
+ * followed by the same continuous per-column underside shell.
  */
 public final class JotunheimTerrainKernel {
     public static final int BIOME_COUNT = 8;
     public static final int GRID_XZ = 4;
     public static final int GRID_Y = 2;
     private static final double EMPTY = -32.0D;
+    private static final int RELIEF_BLEND_GRID = 96;
+    // Additional downward mass, ordered LAVA, DEEP, SURFACE, CLOUD. Tops stay unchanged.
+    private static final double[] UNDERSIDE_DEPTH = {6.5D, 16.0D, 18.0D, 12.0D};
+    // Macro amplitude, ridges, sharp escarpments, terraces, caldera, thickness, rolling hills.
+    // Forest, frostwaste, highlands, fen, crystal, storm, volcanic, elder wastes.
+    private static final double[][] RELIEF_STYLES = {
+            {1.02D, 0.12D, 0.05D, 0.00D, 0.00D, 1.00D, 0.60D},
+            {1.35D, 0.65D, 0.25D, 0.20D, 0.00D, 1.16D, 0.00D},
+            {2.15D, 1.75D, 0.90D, 0.00D, 0.00D, 1.42D, 0.00D},
+            {0.52D, 0.00D, 0.00D, 0.48D, 0.00D, 1.05D, 0.28D},
+            {1.85D, 1.45D, 0.80D, 0.10D, 0.00D, 1.32D, 0.00D},
+            {1.55D, 0.80D, 1.25D, 0.20D, 0.00D, 1.15D, 0.00D},
+            {1.75D, 0.90D, 0.45D, 0.00D, 1.85D, 1.38D, 0.00D},
+            {1.12D, 0.15D, 0.28D, 0.72D, 0.00D, 1.24D, 0.40D}
+    };
 
     public enum HeightLayer {
         LAVA(5, 30, 20, 4.0D, 12.0D, 176, 0.78D, 0x153A4B29L),
@@ -137,13 +153,65 @@ public final class JotunheimTerrainKernel {
     }
 
     /**
-     * Eight seed-stable, domain-warped Voronoi regions. No world/biome cache reads.
-     * 0 forest, 1 frozen, 2 plateau, 3 swamp, 4 crystal, 5 thunder, 6 volcano, 7 ruins.
+     * Eight XZ biomes shared by all height layers. The deepest projected island
+     * interior chooses its centre's large-scale biome, pulling most transitions
+     * into the surrounding void. Overlapping strata necessarily share one ID.
+     * Fine, globally anchored noise roughens the remaining boundary, with no
+     * chunk/world reads and no changes to the terrain density field.
      */
     public int biomeIndex(int x, int z) {
-        double scale = settings.biomeScale;
+        double anchorX = x;
+        double anchorZ = z;
+        double bestInterior = -6.0D;
+        boolean anchored = false;
+        double radiusDensity = Math.pow(settings.islandDensity, 0.18D);
+        double edgeNoise = noise2(x / 19.0D, z / 19.0D, 7121L) * 2.5D
+                + noise2(x / 5.0D, z / 5.0D, 7122L) * 1.25D;
+        for (HeightLayer layer : LAYERS) {
+            long salt = layer.salt;
+            double cell = layer.cellSize * settings.islandScale;
+            double wx = x + fbm2(x, z, cell * 0.92D, salt + 1) * cell * 0.13D;
+            double wz = z + fbm2(x, z, cell * 0.92D, salt + 2) * cell * 0.13D;
+            int cellX = floor(wx / cell);
+            int cellZ = floor(wz / cell);
+            double outline = fbm2(x, z, cell * 0.23D, salt + 8) * 0.11D;
+            for (int dz = -1; dz <= 1; dz++) {
+                for (int dx = -1; dx <= 1; dx++) {
+                    int cx = cellX + dx;
+                    int cz = cellZ + dz;
+                    double chance = (value(cx, cz, salt + 3) + 1.0D) * 0.5D;
+                    if (chance > Math.min(0.96D, layer.occurrence * settings.islandDensity)) continue;
+                    double px = (cx + 0.5D + value(cx, cz, salt + 4) * 0.30D) * cell;
+                    double pz = (cz + 0.5D + value(cx, cz, salt + 5) * 0.30D) * cell;
+                    double radius = cell * (0.40D + value(cx, cz, salt + 6) * 0.12D)
+                            * radiusDensity;
+                    double aspect = value(cx, cz, salt + 7) * 0.18D;
+                    double q = 1.0D - Math.sqrt(square((wx-px)/(radius*(1.0D+aspect)))
+                            + square((wz-pz)/(radius*(1.0D-aspect))));
+                    double interior = (q + outline) * radius + edgeNoise * value(cx, cz, salt + 9);
+                    if (interior > bestInterior) {
+                        bestInterior = interior;
+                        anchored = true;
+                        anchorX = px;
+                        anchorZ = pz;
+                    }
+                }
+            }
+        }
+        return regionBiome(anchorX, anchorZ, !anchored);
+    }
+
+    private int regionBiome(double x, double z, boolean roughen) {
+        // Reserve room for an island across a region seam instead of cutting it in half.
+        double scale = settings.biomeScale + 160.0D * settings.islandScale;
         double wx = x + fbm2(x, z, scale * 1.6D, 7101L) * scale * 0.24D;
         double wz = z + fbm2(x, z, scale * 1.6D, 7102L) * scale * 0.24D;
+        if (roughen) {
+            wx += noise2(x / 28.0D, z / 28.0D, 7131L) * 16.0D
+                    + noise2(x / 7.0D, z / 7.0D, 7132L) * 6.0D;
+            wz += noise2(x / 28.0D, z / 28.0D, 7133L) * 16.0D
+                    + noise2(x / 7.0D, z / 7.0D, 7134L) * 6.0D;
+        }
         int cellX = floor(wx / scale);
         int cellZ = floor(wz / scale);
         int biome = 0;
@@ -164,7 +232,7 @@ public final class JotunheimTerrainKernel {
         return biome;
     }
 
-    /** Exact point sample of the same global interpolation used for chunk generation. */
+    /** Exact point sample of the base interpolation and underside shell used by chunks. */
     public double density(int x, int y, int z) {
         if (y < 0 || y > 255 || layerAt(y) == null) return EMPTY;
         int gx = Math.floorDiv(x, GRID_XZ) * GRID_XZ;
@@ -174,16 +242,24 @@ public final class JotunheimTerrainKernel {
         double ty = (y - gy) / (double) GRID_Y;
         double tz = (z - gz) / (double) GRID_XZ;
         double[] values = new double[8];
+        LayerColumn[][] corners = new LayerColumn[4][];
         for (int dz = 0; dz <= 1; dz++) {
             for (int dx = 0; dx <= 1; dx++) {
                 LayerColumn[] column = columns(gx + dx * GRID_XZ, gz + dz * GRID_XZ);
+                corners[dz * 2 + dx] = column;
                 int i = (dz * 2 + dx) * 2;
                 values[i] = rawDensity(column, gx + dx * GRID_XZ, gy, gz + dz * GRID_XZ);
                 values[i + 1] = rawDensity(column, gx + dx * GRID_XZ, gy + GRID_Y, gz + dz * GRID_XZ);
             }
         }
-        return interpolate(values[0], values[2], values[4], values[6],
+        double original = interpolate(values[0], values[2], values[4], values[6],
                 values[1], values[3], values[5], values[7], tx, ty, tz);
+        if (original > 0.0D) return original;
+        HeightLayer layer = layerAt(y);
+        int bottom = originalBottom(corners, layer, gx, gz, tx, tz);
+        if (bottom < 0 || y >= bottom) return original;
+        double lower = extendedBottom(corners, layer, x, z, tx, tz, bottom);
+        return y > lower ? Math.max(original, y-lower) : original;
     }
 
     public boolean isSolid(int x, int y, int z) {
@@ -196,11 +272,13 @@ public final class JotunheimTerrainKernel {
         double tx = (x - gx) / (double) GRID_XZ;
         double tz = (z - gz) / (double) GRID_XZ;
         double[][] grid = new double[4][129];
+        LayerColumn[][] corners = new LayerColumn[4][];
         for (int dz = 0; dz <= 1; dz++) {
             for (int dx = 0; dx <= 1; dx++) {
                 int wx = gx + dx * GRID_XZ;
                 int wz = gz + dz * GRID_XZ;
                 LayerColumn[] column = columns(wx, wz);
+                corners[dz * 2 + dx] = column;
                 for (int iy = 0; iy <= 128; iy++) grid[dz*2+dx][iy] = rawDensity(column, wx, iy*GRID_Y, wz);
             }
         }
@@ -211,6 +289,13 @@ public final class JotunheimTerrainKernel {
             solid[y] = interpolate(grid[0][iy],grid[1][iy],grid[2][iy],grid[3][iy],
                     grid[0][iy+1],grid[1][iy+1],grid[2][iy+1],grid[3][iy+1],
                     tx,y % GRID_Y/(double)GRID_Y,tz) > 0.0D;
+        }
+        for (HeightLayer layer : LAYERS) {
+            int bottom = -1;
+            for (int y = layer.minY; y <= layer.maxY; y++) if (solid[y]) { bottom = y; break; }
+            if (bottom < 0) continue;
+            double lower = extendedBottom(corners, layer, x, z, tx, tz, bottom);
+            for (int y = bottom - 1; y > lower; y--) solid[y] = true;
         }
         int[] result = new int[128];
         int count = 0;
@@ -226,6 +311,7 @@ public final class JotunheimTerrainKernel {
      */
     public SampledChunk sampleChunk(int chunkX, int chunkZ) {
         double[][][] grid = new double[5][5][129];
+        LayerColumn[][][] profiles = new LayerColumn[5][5][];
         int startX = chunkX * 16;
         int startZ = chunkZ * 16;
         for (int ix = 0; ix <= 4; ix++) {
@@ -233,6 +319,7 @@ public final class JotunheimTerrainKernel {
                 int x = startX + ix * GRID_XZ;
                 int z = startZ + iz * GRID_XZ;
                 LayerColumn[] column = columns(x, z);
+                profiles[ix][iz] = column;
                 for (int iy = 0; iy <= 128; iy++) grid[ix][iz][iy] = rawDensity(column, x, iy * GRID_Y, z);
             }
         }
@@ -251,14 +338,90 @@ public final class JotunheimTerrainKernel {
                             tx, y % GRID_Y / (double) GRID_Y, tz);
                     result.densities[(x * 16 + z) * 256 + y] = (float) d;
                 }
+                // Append only below the original lowest solid in each occupied column.
+                // Existing surfaces, caves, density samples and projected coastlines are untouched.
+                LayerColumn[][] corners = {profiles[ix][iz], profiles[ix+1][iz],
+                        profiles[ix][iz+1], profiles[ix+1][iz+1]};
+                for (HeightLayer layer : LAYERS) {
+                    int bottom = -1;
+                    for (int y = layer.minY; y <= layer.maxY; y++) {
+                        if (result.isSolid(x, y, z)) { bottom = y; break; }
+                    }
+                    if (bottom < 0) continue;
+                    double lower = extendedBottom(corners, layer, startX+x, startZ+z, tx, tz, bottom);
+                    for (int y = bottom-1; y > lower; y--) {
+                        int index = (x * 16 + z) * 256 + y;
+                        result.densities[index] = (float) Math.max(result.densities[index], y-lower);
+                    }
+                }
             }
         }
         return result;
     }
 
+    /** Lowest solid of the unmodified field, evaluated only near its possible lower envelope. */
+    private int originalBottom(LayerColumn[][] corners, HeightLayer layer,
+                               int gx, int gz, double tx, double tz) {
+        double minBottom = Double.POSITIVE_INFINITY, maxTop = -Double.MAX_VALUE, maxSide = -Double.MAX_VALUE;
+        for (LayerColumn[] corner : corners) {
+            LayerColumn c = corner[layer.ordinal()];
+            minBottom = Math.min(minBottom, c.bottom);
+            maxTop = Math.max(maxTop, c.top);
+            maxSide = Math.max(maxSide, c.side);
+        }
+        double erosion = 1.35D * settings.erosion * (layer == HeightLayer.DEEP ? 2.6D : 1.9D);
+        if (maxSide < -erosion) return -1;
+        int first = Math.max(layer.minY, floor(minBottom-erosion)-GRID_Y);
+        int last = Math.min(layer.maxY, (int)Math.ceil(maxTop+erosion)+GRID_Y);
+        int gy = Math.floorDiv(first, GRID_Y) * GRID_Y;
+        double low = originalGridDensity(corners, gx, gy, gz, tx, tz);
+        for (; gy <= last; gy += GRID_Y) {
+            double high = originalGridDensity(corners, gx, gy+GRID_Y, gz, tx, tz);
+            for (int dy = 0; dy < GRID_Y; dy++) {
+                int y = gy+dy;
+                if (y >= first && y <= last && lerp(low, high, dy/(double)GRID_Y) > 0.0D) return y;
+            }
+            low = high;
+        }
+        return -1;
+    }
+
+    private double originalGridDensity(LayerColumn[][] corners, int gx, int y, int gz, double tx, double tz) {
+        return lerp(lerp(rawDensity(corners[0], gx, y, gz), rawDensity(corners[1], gx+GRID_XZ, y, gz), tx),
+                lerp(rawDensity(corners[2], gx, y, gz+GRID_XZ),
+                        rawDensity(corners[3], gx+GRID_XZ, y, gz+GRID_XZ), tx), tz);
+    }
+
+    /**
+     * A connected lower shell: broad hanging masses, diagonal rock ribs and smaller
+     * tapered pendants. All fields are continuous in world XZ, never per-column RNG.
+     * Smoothly running out of room above the stratum floor avoids a clipped flat base.
+     */
+    private double extendedBottom(LayerColumn[][] corners, HeightLayer layer, int x, int z,
+                                  double tx, double tz, int originalBottom) {
+        int index = layer.ordinal();
+        double side = lerp(lerp(corners[0][index].side, corners[1][index].side, tx),
+                lerp(corners[2][index].side, corners[3][index].side, tx), tz);
+        double interior = 0.20D + 0.80D * fade(clamp((side+1.5D)/24.0D, 0.0D, 1.0D));
+        double scale = layer.cellSize * settings.islandScale;
+        long salt = layer.salt;
+        double bulk = 0.5D + 0.5D * fbm2(x, z, scale*0.32D, salt+51L);
+        double ribs = Math.pow(Math.max(0.0D, 1.0D-Math.abs(noise2(
+                (x+z*0.38D)/(scale*0.15D), (z-x*0.25D)/(scale*0.30D), salt+52L))*1.8D), 3.0D);
+        double pendants = Math.pow(clamp(0.5D+0.5D*noise2(
+                x/(scale*0.075D), z/(scale*0.075D), salt+53L), 0.0D, 1.0D), 2.5D);
+        double requested = UNDERSIDE_DEPTH[index] * settings.thickness * interior
+                * (0.40D + bulk*0.60D + ribs*0.62D + pendants*0.70D);
+        double reserve = 2.2D + noise2(x/(scale*0.14D), z/(scale*0.14D), salt+54L);
+        double room = Math.max(0.0D, originalBottom-layer.minY-reserve);
+        return originalBottom - (room == 0.0D ? 0.0D : room * (1.0D-Math.exp(-requested/room)));
+    }
+
     private LayerColumn[] columns(int x, int z) {
         LayerColumn[] result = new LayerColumn[LAYERS.length];
-        // Noise-only morphology keeps terrain continuous across hard biome ID borders.
+        // Interpolate morphology independently from hard biome IDs: a jagged material
+        // boundary must never turn into a density discontinuity or a chunk seam.
+        double[] style = reliefStyle(x, z);
         double broadRelief = fbm2(x, z, 290.0D, 8101L);
         for (HeightLayer layer : LAYERS) {
             long salt = layer.salt;
@@ -292,17 +455,62 @@ public final class JotunheimTerrainKernel {
             }
             double relief = fbm2(x, z, cell * 0.75D, salt + 11) * 1.45D
                     + fbm2(x, z, cell * 0.18D, salt + 12) * 0.28D + broadRelief * 0.15D;
-            double top = layer.typicalSurface + relief * layer.variation * settings.heightVariation;
+            double ridge = 1.0D - Math.abs(fbm2(x, z, cell * 0.24D, salt + 41)) * 1.6D;
+            ridge = square(Math.max(0.0D, ridge)) - 0.46D;
+            double cliff = Math.tanh(noise2(x / (cell * 0.24D), z / (cell * 0.24D), salt + 42) * 5.0D);
+            double shaped = relief * style[0] + ridge * style[1] + cliff * style[2] * 0.40D;
+            // Broad, smooth hummocks give the gentler biomes local relief without
+            // introducing the sharp ridge/cliff profile used by mountainous regions.
+            double hills = noise2(x / (cell * 0.28D), z / (cell * 0.28D), salt + 43) * 0.80D
+                    + noise2(x / (cell * 0.53D), z / (cell * 0.53D), salt + 44) * 0.20D;
+            shaped += hills * style[6];
+            shaped = lerp(shaped, terrace(shaped, 0.32D), style[3]);
+            double distance = 1.0D - clamp(bestQ, 0.0D, 1.0D);
+            double caldera = Math.exp(-square((distance - 0.43D) / 0.20D)) * 0.95D
+                    - Math.pow(clamp(bestQ, 0.0D, 1.0D), 6.0D) * 1.05D - 0.12D;
+            shaped += caldera * style[4];
+            double top = layer.typicalSurface + shaped * layer.variation * settings.heightVariation;
             top -= square(1.0D - clamp(bestQ, 0.0D, 1.0D)) * (layer == HeightLayer.DEEP ? 6.0D : 4.0D);
-            // Cloud soil remains <=232: at least 18 blocks reserved for future crowns.
-            top = clamp(top, layer.minY + 8.0D, layer == HeightLayer.CLOUD ? 232.0D : layer.maxY - 4.0D);
+            // Cloud geometry stays <=232; fine erosion can add a block. Tree plans
+            // adapt to the actual remaining room beneath the cloud layer's ceiling.
+            top = boundedRelief(top, layer.typicalSurface, layer.minY + 8.0D,
+                    layer == HeightLayer.CLOUD ? 232.0D : layer.maxY - 4.0D);
             double thick = layer.thickness * settings.thickness
-                    * (0.87D + fbm2(x, z, cell * 0.55D, salt + 13) * 0.27D);
+                    * (0.87D + fbm2(x, z, cell * 0.55D, salt + 13) * 0.27D) * style[5];
             thick *= 0.12D + 0.88D * Math.pow(clamp(bestQ, 0.0D, 1.0D), 0.6D);
             thick = Math.min(thick + 1.8D, top - layer.minY - 1.0D);
             result[layer.ordinal()] = new LayerColumn(layer, bestQ * bestRadius * 0.48D, top, top - thick);
         }
         return result;
+    }
+
+    private double[] reliefStyle(int x, int z) {
+        int gx = Math.floorDiv(x, RELIEF_BLEND_GRID) * RELIEF_BLEND_GRID;
+        int gz = Math.floorDiv(z, RELIEF_BLEND_GRID) * RELIEF_BLEND_GRID;
+        double tx = fade((x - gx) / (double) RELIEF_BLEND_GRID);
+        double tz = fade((z - gz) / (double) RELIEF_BLEND_GRID);
+        double[] a = RELIEF_STYLES[biomeIndex(gx, gz)];
+        double[] b = RELIEF_STYLES[biomeIndex(gx + RELIEF_BLEND_GRID, gz)];
+        double[] c = RELIEF_STYLES[biomeIndex(gx, gz + RELIEF_BLEND_GRID)];
+        double[] d = RELIEF_STYLES[biomeIndex(gx + RELIEF_BLEND_GRID, gz + RELIEF_BLEND_GRID)];
+        double[] result = new double[7];
+        for (int i = 0; i < result.length; i++) result[i] = lerp(lerp(a[i], b[i], tx), lerp(c[i], d[i], tx), tz);
+        return result;
+    }
+
+    /** Continuous shelves joined by a narrow smooth ramp; no rounded-height steps. */
+    private static double terrace(double height, double step) {
+        double scaled = height / step;
+        double shelf = Math.floor(scaled);
+        double ramp = clamp((scaled - shelf - 0.58D) / 0.42D, 0.0D, 1.0D);
+        return (shelf + fade(ramp)) * step;
+    }
+
+    /** Smooth saturation retains relief near a layer's limit instead of clipping flat caps. */
+    private static double boundedRelief(double height, double centre, double low, double high) {
+        double delta = height - centre;
+        double span = delta < 0.0D ? centre - low : high - centre;
+        return centre + Math.signum(delta) * span * (1.0D - Math.exp(-Math.abs(delta) / span));
     }
 
     private double rawDensity(LayerColumn[] columns, int x, int y, int z) {

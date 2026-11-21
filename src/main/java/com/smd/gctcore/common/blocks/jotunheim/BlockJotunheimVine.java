@@ -29,7 +29,7 @@ public class BlockJotunheimVine extends BlockVine {
 
     @Override
     public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
-        // Spreading and ecological generation are reserved for the vegetation stage.
+        // World generation places bounded hanging strands; they do not spread every tick.
     }
 
     @Override
@@ -47,7 +47,8 @@ public class BlockJotunheimVine extends BlockVine {
 
     private boolean acceptableNeighbor(World world, BlockPos pos, EnumFacing side) {
         IBlockState neighbor = world.getBlockState(pos);
-        return neighbor.getBlockFaceShape(world, pos, side) == BlockFaceShape.SOLID
+        return (neighbor.getBlockFaceShape(world, pos, side) == BlockFaceShape.SOLID
+                || neighbor.getBlock().isLeaves(neighbor, world, pos))
                 && !isExceptBlockForAttaching(neighbor.getBlock());
     }
 

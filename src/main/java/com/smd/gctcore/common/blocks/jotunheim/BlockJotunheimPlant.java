@@ -33,8 +33,14 @@ public class BlockJotunheimPlant extends BlockBush {
     protected boolean canSustainBush(IBlockState state) {
         Material material = state.getMaterial();
         return material == Material.GROUND || material == Material.GRASS || material == Material.SAND
-                || rockPlant && (material == Material.ROCK || material == Material.ICE || material == Material.PACKED_ICE)
+                || rockPlant && state.isFullCube() && (material == Material.ROCK || material == Material.ICE
+                || material == Material.PACKED_ICE || material == Material.GLASS)
                 || super.canSustainBush(state);
+    }
+
+    /** Generation can test an existing primer surface without reading or loading world chunks. */
+    public boolean canGrowOn(IBlockState ground) {
+        return canSustainBush(ground);
     }
 
     @Override

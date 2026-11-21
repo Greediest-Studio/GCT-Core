@@ -3,6 +3,7 @@ package com.smd.gctcore.misc;
 import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimAercloud;
 import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimLeaves;
 import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimLog;
+import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimMoss;
 import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimNatural;
 import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimPlant;
 import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimReed;
@@ -18,6 +19,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -27,7 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Static registry data transcribed from the approved 66-entry art manifest. */
+/** Static natural-block registry, mirrored by the Jotunheim art manifests. */
 public final class JotunheimBlocks {
     public static final class Entry {
         private final String key;
@@ -42,6 +44,8 @@ public final class JotunheimBlocks {
 
     private static final Map<String, Entry> ENTRIES = new LinkedHashMap<>();
     private static final List<Block> BLOCKS = new ArrayList<>();
+    private static final ResourceLocation REMOVED_CLOUDROCK =
+            new ResourceLocation("gctcore", "jotunheim_luminous_cloudrock");
 
     public static void init() {
         if (!ENTRIES.isEmpty()) return;
@@ -50,7 +54,7 @@ public final class JotunheimBlocks {
         soil("jotun_permafrost", "jotunheim_permafrost", false, 0);
         soil("humus", "jotunheim_humus", false, 0);
         soil("jotunn_moss", "jotunheim_moss", true, 0);
-        soil("rotten_moss", "jotunheim_rotten_moss", true, 0);
+        add("rotten_moss", new BlockJotunheimMoss("jotunheim_rotten_moss"), 0);
         soil("luminous_moss", "jotunheim_luminous_moss", true, 5);
         soil("volcanic_ash", "jotunheim_volcanic_ash", false, 0);
         add("steam", new BlockJotunheimSteam("jotunheim_steam"), 0);
@@ -74,33 +78,35 @@ public final class JotunheimBlocks {
         log("fungal_stem", "jotunheim_fungal_stem");
         fungus("luminous_fungal_block", "jotunheim_luminous_fungal_block", 7);
         fungus("ember_fungus_block", "jotunheim_ember_fungus_block", 5);
-        add("cloudvine", new BlockJotunheimVine("jotunheim_cloudvine"), 0);
-        add("mistvine", new BlockJotunheimVine("jotunheim_mistvine"), 0);
-        add("giant_reed", new BlockJotunheimReed("jotunheim_giant_reed"), 0);
+        add("cloudvine", new BlockJotunheimVine("jotunheim_cloudvine"), 7);
+        add("mistvine", new BlockJotunheimVine("jotunheim_mistvine"), 8);
+        add("giant_reed", new BlockJotunheimReed("jotunheim_giant_reed"), 5);
 
-        plant("cloud_bellflower", "jotunheim_cloud_bellflower", false);
-        plant("rootshade_fern", "jotunheim_rootshade_fern", false);
-        plant("frost_cup_flower", "jotunheim_frost_cup_flower", true);
-        plant("silverneedle_grass", "jotunheim_silverneedle_grass", true);
-        plant("crag_blossom", "jotunheim_crag_blossom", true);
+        // Most small flora emits actual block light, with softer stems and brighter flowers/fungi.
+        plant("cloud_bellflower", "jotunheim_cloud_bellflower", false, 10);
+        plant("rootshade_fern", "jotunheim_rootshade_fern", false, 7);
+        plant("frost_cup_flower", "jotunheim_frost_cup_flower", true, 9);
+        plant("silverneedle_grass", "jotunheim_silverneedle_grass", true, 6);
+        plant("crag_blossom", "jotunheim_crag_blossom", true, 7);
         plant("giant_seedgrass", "jotunheim_giant_seedgrass", false);
-        plant("fen_lantern_sedge", "jotunheim_fen_lantern_sedge", false);
-        plant("mistcup_fungus", "jotunheim_mistcup_fungus", false);
-        plant("crystal_fern", "jotunheim_crystal_fern", true);
-        plant("violet_starflower", "jotunheim_violet_starflower", true);
-        plant("thunderwhisker_grass", "jotunheim_thunderwhisker_grass", true);
-        plant("windwool_flower", "jotunheim_windwool_flower", true);
+        plant("fen_lantern_sedge", "jotunheim_fen_lantern_sedge", false, 12);
+        plant("mistcup_fungus", "jotunheim_mistcup_fungus", false, 10);
+        plant("crystal_fern", "jotunheim_crystal_fern", true, 9);
+        plant("violet_starflower", "jotunheim_violet_starflower", true, 10);
+        plant("thunderwhisker_grass", "jotunheim_thunderwhisker_grass", true, 10);
+        plant("windwool_flower", "jotunheim_windwool_flower", true, 8);
         plant("ash_fern", "jotunheim_ash_fern", true);
-        plant("ember_mushroom", "jotunheim_ember_mushroom", true);
-        plant("rune_lichen", "jotunheim_rune_lichen", true);
-        plant("pale_droopflower", "jotunheim_pale_droopflower", false);
+        plant("ember_mushroom", "jotunheim_ember_mushroom", true, 11);
+        plant("rune_lichen", "jotunheim_rune_lichen", true, 8);
+        plant("pale_droopflower", "jotunheim_pale_droopflower", false, 11);
 
         stone("cloudrock", "jotunheim_cloudrock", 1.5F);
         stone("giantstone", "jotunheim_giantstone", 2.5F);
         stone("weathered_giantstone", "jotunheim_weathered_giantstone", 2.0F);
         stone("volcanic_rock", "jotunheim_volcanic_rock", 2.5F);
+        stone("heated_rock", "jotunheim_heated_rock", 2.8F);
+        get("heated_rock").setLightLevel(9.0F / 15.0F);
         stone("obsidian_rock", "jotunheim_obsidian_rock", 5.0F);
-        get("obsidian_rock").setHarvestLevel("pickaxe", 3);
         stone("thunderstone", "jotunheim_thunderstone", 2.5F);
         stone("windworn_stone", "jotunheim_windworn_stone", 1.8F);
         transparent("ancient_ice", "jotunheim_ancient_ice", Material.ICE, false);
@@ -142,11 +148,16 @@ public final class JotunheimBlocks {
                 "axe", 0.4F, BlockRenderLayer.SOLID, false), light);
     }
     private static void plant(String key, String name, boolean rockPlant) {
-        add(key, new BlockJotunheimPlant(name, rockPlant, "rune_lichen".equals(key)), 0);
+        plant(key, name, rockPlant, 0);
+    }
+    private static void plant(String key, String name, boolean rockPlant, int light) {
+        add(key, new BlockJotunheimPlant(name, rockPlant, "rune_lichen".equals(key)), light);
     }
     private static void stone(String key, String name, float hardness) {
-        add(key, new BlockJotunheimNatural(name, Material.ROCK, SoundType.STONE,
-                "pickaxe", hardness, BlockRenderLayer.SOLID, false), 0);
+        Block block = new BlockJotunheimNatural(name, Material.ROCK, SoundType.STONE,
+                "pickaxe", hardness, BlockRenderLayer.SOLID, false);
+        block.setHarvestLevel("pickaxe", 13);
+        add(key, block, 0);
     }
     private static void transparent(String key, String name, Material material, boolean cluster) {
         add(key, new BlockJotunheimNatural(name, material, SoundType.GLASS,
@@ -175,6 +186,22 @@ public final class JotunheimBlocks {
                     ? new ItemBlockJotunheimAercloud((BlockJotunheimAercloud) block) : new ItemBlock(block);
             item.setRegistryName(block.getRegistryName());
             event.getRegistry().register(item);
+        }
+    }
+
+    @SubscribeEvent
+    public void remapRemovedBlocks(RegistryEvent.MissingMappings<Block> event) {
+        for (RegistryEvent.MissingMappings.Mapping<Block> mapping : event.getAllMappings()) {
+            if (REMOVED_CLOUDROCK.equals(mapping.key)) mapping.remap(get("cloudrock"));
+        }
+    }
+
+    @SubscribeEvent
+    public void remapRemovedItems(RegistryEvent.MissingMappings<Item> event) {
+        for (RegistryEvent.MissingMappings.Mapping<Item> mapping : event.getAllMappings()) {
+            if (REMOVED_CLOUDROCK.equals(mapping.key)) {
+                mapping.remap(Item.getItemFromBlock(get("cloudrock")));
+            }
         }
     }
 }

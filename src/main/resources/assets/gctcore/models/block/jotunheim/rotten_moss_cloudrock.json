@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "top": "gctcore:blocks/jotunheim/rotten_moss",
+    "side": "gctcore:blocks/jotunheim/rotten_moss_side_cloudrock",
+    "bottom": "gctcore:blocks/jotunheim/cloudrock"
+  }
+}

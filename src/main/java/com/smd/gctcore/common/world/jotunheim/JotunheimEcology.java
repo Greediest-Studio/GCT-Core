@@ -4,7 +4,7 @@ import com.smd.gctcore.common.world.jotunheim.JotunheimTerrainKernel.HeightLayer
 
 /**
  * Stable 8x4 ecological addressing without changing vanilla's two-dimensional biome array.
- * Stage three defines substrate only; decorations, spawns and local weather are deliberately absent.
+ * Substrate profiles are separate from the matching 8x4 vegetation profiles.
  */
 public final class JotunheimEcology {
     public static final class Profile {
@@ -31,7 +31,7 @@ public final class JotunheimEcology {
         // Columns in each row: lava, deep, surface, cloud.
         row(0, new String[][] {
                 {"basalt", "volcanic_ash", "volcanic_rock"},
-                {"giantstone", "jotunn_moss", "humus"},
+                {"giantstone", "jotunn_moss", "giantstone"},
                 {"giantstone", "jotun_grass", "jotun_dirt"},
                 {"cloudrock", "jotun_grass", "jotun_dirt"}});
         row(1, new String[][] {
@@ -46,21 +46,21 @@ public final class JotunheimEcology {
                 {"cloudrock", "windworn_stone", "cloudrock"}});
         row(3, new String[][] {
                 {"volcanic_rock", "volcanic_ash", "obsidian_rock"},
-                {"giantstone", "rotten_moss", "humus"},
-                {"giantstone", "jotunn_moss", "humus"},
-                {"cloudrock", "rotten_moss", "humus"}});
+                {"giantstone", "rotten_moss", "giantstone"},
+                {"giantstone", "jotunn_moss", "giantstone"},
+                {"cloudrock", "rotten_moss", "cloudrock"}});
         row(4, new String[][] {
                 {"crimson_crystal_stone", "crimson_crystal_stone", "obsidian_rock"},
                 {"violet_crystal_stone", "azure_crystal_stone", "violet_crystal_stone"},
                 {"giantstone", "crystal_sand", "azure_crystal_stone"},
                 {"cloudrock", "crystal_sand", "azure_crystal_stone"}});
         row(5, new String[][] {
-                {"thunderstone", "magma", "obsidian_rock"},
+                {"thunderstone", "heated_rock", "obsidian_rock"},
                 {"thunderstone", "thunderstone", "giantstone"},
                 {"giantstone", "thunderstone", "windworn_stone"},
                 {"cloudrock", "thunderstone", "cloudrock"}});
         row(6, new String[][] {
-                {"basalt", "magma", "volcanic_rock"},
+                {"basalt", "heated_rock", "volcanic_rock"},
                 {"basalt", "volcanic_ash", "volcanic_rock"},
                 {"volcanic_rock", "volcanic_ash", "volcanic_rock"},
                 {"cloudrock", "volcanic_ash", "volcanic_rock"}});

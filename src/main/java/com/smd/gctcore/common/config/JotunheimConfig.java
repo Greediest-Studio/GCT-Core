@@ -8,7 +8,7 @@ import net.minecraftforge.common.config.Config;
 /** Generation settings are snapshotted when a world provider is opened. */
 @Config(modid = Tags.MOD_ID, name = "GCTCore/Jotunheim")
 public final class JotunheimConfig {
-    @Config.Comment("XZ biome region scale in blocks. Restart the world; only new chunks change.")
+    @Config.Comment("Base XZ biome region scale in blocks. Island coherence adds 160 * islandScale blocks. Restart the world; only new chunks change.")
     @Config.RangeDouble(min = 256, max = 4096)
     @Config.RequiresWorldRestart
     public static double biomeScale = 640.0D;
@@ -23,7 +23,7 @@ public final class JotunheimConfig {
     @Config.RequiresWorldRestart
     public static double islandScale = 1.0D;
 
-    @Config.Comment("Island thickness multiplier, bounded inside each height band.")
+    @Config.Comment("Island body and downward root thickness multiplier, bounded inside each height band. Does not raise island surfaces.")
     @Config.RangeDouble(min = 0.55D, max = 1.5D)
     @Config.RequiresWorldRestart
     public static double thickness = 1.0D;

@@ -1,5 +1,6 @@
 package com.smd.gctcore.common.world.jotunheim;
 
+import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimMoss;
 import com.smd.gctcore.common.config.JotunheimConfig;
 import com.smd.gctcore.common.world.biome.jotunheim.JotunheimBiomes;
 import com.smd.gctcore.common.world.biome.jotunheim.JotunheimBiomeStorage;
@@ -25,10 +26,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Base terrain only: no cross-chunk world reads, structures, ores, flora or mobs. */
+/** Layered terrain and vegetation without cross-chunk world reads or cascading population. */
 public final class ChunkGeneratorJotunheim implements IChunkGenerator {
     private final World world;
     private final JotunheimTerrainKernel kernel;
+    private final JotunheimVegetation vegetation;
+    private final JotunheimSkyFeatures skyFeatures;
     private final IBlockState[][][] palette = new IBlockState[8][4][3];
 
     public ChunkGeneratorJotunheim(World world) {
@@ -38,12 +41,15 @@ public final class ChunkGeneratorJotunheim implements IChunkGenerator {
     public ChunkGeneratorJotunheim(World world, JotunheimTerrainKernel kernel) {
         this.world = world;
         this.kernel = kernel;
+        this.vegetation = new JotunheimVegetation(world.getSeed(), kernel);
+        this.skyFeatures = new JotunheimSkyFeatures(world.getSeed(), kernel);
         Map<String, IBlockState> states = new HashMap<>();
         for (int biome = 0; biome < 8; biome++) {
             for (JotunheimTerrainKernel.HeightLayer layer : JotunheimTerrainKernel.HeightLayer.values()) {
                 JotunheimEcology.Profile profile = JotunheimEcology.resolve(biome, layer);
                 palette[biome][layer.ordinal()][0] = state(states, profile.rock);
-                palette[biome][layer.ordinal()][1] = state(states, profile.top);
+                palette[biome][layer.ordinal()][1] = BlockJotunheimMoss.withBase(
+                        state(states, profile.top), "cloudrock".equals(profile.rock));
                 palette[biome][layer.ordinal()][2] = state(states, profile.filler);
             }
         }
@@ -72,9 +78,11 @@ public final class ChunkGeneratorJotunheim implements IChunkGenerator {
         ChunkPrimer primer = new ChunkPrimer();
         JotunheimTerrainKernel.SampledChunk sampled = kernel.sampleChunk(chunkX, chunkZ);
         Biome[] biomes = new Biome[256];
+        int[] biomeIndices = new int[256];
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 int biome = kernel.biomeIndex(chunkX * 16 + x, chunkZ * 16 + z);
+                biomeIndices[z * 16 + x] = biome;
                 biomes[z * 16 + x] = JotunheimBiomes.byIndex(biome);
                 int depth = 0;
                 for (int y = 255; y >= 0; y--) {
@@ -90,15 +98,18 @@ public final class ChunkGeneratorJotunheim implements IChunkGenerator {
                 }
             }
         }
+        vegetation.decorate(primer, chunkX, chunkZ, sampled, biomeIndices);
+        skyFeatures.decorate(primer, chunkX, chunkZ);
         Chunk chunk = new Chunk(world, primer, chunkX, chunkZ);
         JotunheimBiomeStorage.write(chunk, biomes);
         chunk.generateSkylightMap();
+        JotunheimSkyFeatures.initializeBlockLight(chunk);
         return chunk;
     }
 
     @Override
     public void populate(int chunkX, int chunkZ) {
-        // Stage four adds biome x height decorations using explicitly enumerated surfaces.
+        // Vegetation is already in the new chunk primer; never load neighbouring world chunks here.
     }
 
     @Override

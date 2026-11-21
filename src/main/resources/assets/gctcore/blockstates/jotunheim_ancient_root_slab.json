@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=bottom,variant=default": {
+      "model": "gctcore:jotunheim/ancient_root_slab_bottom"
+    },
+    "half=top,variant=default": {
+      "model": "gctcore:jotunheim/ancient_root_slab_top"
+    }
+  }
+}

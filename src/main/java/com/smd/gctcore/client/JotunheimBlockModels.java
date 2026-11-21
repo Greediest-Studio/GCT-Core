@@ -1,6 +1,9 @@
 package com.smd.gctcore.client;
 
 import com.smd.gctcore.misc.JotunheimBlocks;
+import com.smd.gctcore.misc.JotunheimWoodBlocks;
+import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimSlab;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockVine;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -28,5 +31,20 @@ public final class JotunheimBlockModels {
                     entry.getMetadata(), new ModelResourceLocation(
                             new ResourceLocation("gctcore", entry.getModelPath()), "inventory"));
         }
+        for (JotunheimWoodBlocks.Family family : JotunheimWoodBlocks.families()) {
+            // A single variant is used by the shared slab implementation.
+            ModelLoader.setCustomStateMapper(family.doubleSlab,
+                    new StateMap.Builder().ignore(BlockNilfheimSlab.VARIANT).build());
+            woodItem(family.planks, family.key + "_planks");
+            woodItem(family.slab, family.key + "_slab");
+            woodItem(family.stairs, family.key + "_stairs");
+            woodItem(family.fence, family.key + "_fence");
+            woodItem(family.fenceGate, family.key + "_fence_gate");
+        }
+    }
+
+    private static void woodItem(Block block, String key) {
+        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), 0,
+                new ModelResourceLocation(new ResourceLocation("gctcore", "jotunheim/" + key), "inventory"));
     }
 }

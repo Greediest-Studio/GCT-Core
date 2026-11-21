@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=bottom,variant=default": {
+      "model": "gctcore:jotunheim/lightning_struck_slab_bottom"
+    },
+    "half=top,variant=default": {
+      "model": "gctcore:jotunheim/lightning_struck_slab_top"
+    }
+  }
+}
