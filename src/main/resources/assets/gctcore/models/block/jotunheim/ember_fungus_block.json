@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "top": "gctcore:blocks/jotunheim/ember_fungus_block_top",
+    "side": "gctcore:blocks/jotunheim/ember_fungus_block_side",
+    "bottom": "gctcore:blocks/jotunheim/ember_fungus_block_bottom"
+  }
+}

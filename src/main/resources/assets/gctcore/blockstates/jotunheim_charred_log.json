@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "gctcore:jotunheim/charred_log"
+    },
+    "axis=x": {
+      "model": "gctcore:jotunheim/charred_log",
+      "x": 90,
+      "y": 90
+    },
+    "axis=z": {
+      "model": "gctcore:jotunheim/charred_log",
+      "x": 90
+    },
+    "axis=none": {
+      "model": "gctcore:jotunheim/charred_log_all_bark"
+    }
+  }
+}

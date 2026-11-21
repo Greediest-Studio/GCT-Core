@@ -1,0 +1,7 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "gctcore:blocks/jotunheim/frost_cup_flower"
+  },
+  "ambientocclusion": false
+}

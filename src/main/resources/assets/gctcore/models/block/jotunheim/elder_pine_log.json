@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "side": "gctcore:blocks/jotunheim/elder_pine_log",
+    "end": "gctcore:blocks/jotunheim/elder_pine_log_top"
+  }
+}

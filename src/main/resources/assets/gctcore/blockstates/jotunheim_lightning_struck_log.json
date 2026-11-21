@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "gctcore:jotunheim/lightning_struck_log"
+    },
+    "axis=x": {
+      "model": "gctcore:jotunheim/lightning_struck_log",
+      "x": 90,
+      "y": 90
+    },
+    "axis=z": {
+      "model": "gctcore:jotunheim/lightning_struck_log",
+      "x": 90
+    },
+    "axis=none": {
+      "model": "gctcore:jotunheim/lightning_struck_log_all_bark"
+    }
+  }
+}

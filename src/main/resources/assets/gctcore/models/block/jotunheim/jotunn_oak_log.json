@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "side": "gctcore:blocks/jotunheim/jotunn_oak_log",
+    "end": "gctcore:blocks/jotunheim/jotunn_oak_log_top"
+  }
+}

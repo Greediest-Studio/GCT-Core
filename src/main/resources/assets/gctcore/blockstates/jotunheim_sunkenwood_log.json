@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "gctcore:jotunheim/sunkenwood_log"
+    },
+    "axis=x": {
+      "model": "gctcore:jotunheim/sunkenwood_log",
+      "x": 90,
+      "y": 90
+    },
+    "axis=z": {
+      "model": "gctcore:jotunheim/sunkenwood_log",
+      "x": 90
+    },
+    "axis=none": {
+      "model": "gctcore:jotunheim/sunkenwood_log_all_bark"
+    }
+  }
+}

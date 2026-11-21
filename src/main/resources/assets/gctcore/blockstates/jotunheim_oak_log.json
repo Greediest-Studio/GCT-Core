@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "gctcore:jotunheim/jotunn_oak_log"
+    },
+    "axis=x": {
+      "model": "gctcore:jotunheim/jotunn_oak_log",
+      "x": 90,
+      "y": 90
+    },
+    "axis=z": {
+      "model": "gctcore:jotunheim/jotunn_oak_log",
+      "x": 90
+    },
+    "axis=none": {
+      "model": "gctcore:jotunheim/jotunn_oak_log_all_bark"
+    }
+  }
+}

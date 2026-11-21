@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "gctcore:jotunheim/elder_pine_log"
+    },
+    "axis=x": {
+      "model": "gctcore:jotunheim/elder_pine_log",
+      "x": 90,
+      "y": 90
+    },
+    "axis=z": {
+      "model": "gctcore:jotunheim/elder_pine_log",
+      "x": 90
+    },
+    "axis=none": {
+      "model": "gctcore:jotunheim/elder_pine_log_all_bark"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "gctcore:jotunheim/ancient_root"
+    },
+    "axis=x": {
+      "model": "gctcore:jotunheim/ancient_root",
+      "x": 90,
+      "y": 90
+    },
+    "axis=z": {
+      "model": "gctcore:jotunheim/ancient_root",
+      "x": 90
+    },
+    "axis=none": {
+      "model": "gctcore:jotunheim/ancient_root_all_bark"
+    }
+  }
+}

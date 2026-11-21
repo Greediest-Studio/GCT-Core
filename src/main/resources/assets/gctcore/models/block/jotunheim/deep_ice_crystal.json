@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "side": "gctcore:blocks/jotunheim/deep_ice_crystal",
+    "end": "gctcore:blocks/jotunheim/deep_ice_crystal_top"
+  }
+}

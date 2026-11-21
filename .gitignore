@@ -23,3 +23,5 @@ eclipse
 run
 references
 src/main/java/com/smd/gctcore/common/tile/botania/TileGctManaPool.java
+/art
+/tools

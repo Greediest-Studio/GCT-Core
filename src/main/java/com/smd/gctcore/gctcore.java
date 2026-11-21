@@ -10,7 +10,6 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import software.bernie.geckolib3.GeckoLib;
 
 @Mod(
@@ -50,4 +49,5 @@ public class gctcore {
     public void postInit(FMLPostInitializationEvent event) {
         proxy.postInit(event);
     }
+
 }

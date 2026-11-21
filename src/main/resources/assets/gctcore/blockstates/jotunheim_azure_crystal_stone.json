@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "normal": {
+      "model": "gctcore:jotunheim/azure_crystal_stone"
+    }
+  }
+}

@@ -313,6 +313,7 @@ public class BlockRegistry {
     @SubscribeEvent
     public void registerBiomes(RegistryEvent.Register<net.minecraft.world.biome.Biome> event) {
         com.smd.gctcore.common.world.biome.nilfheim.NilfheimBiomes.register(event);
+        com.smd.gctcore.common.world.biome.jotunheim.JotunheimBiomes.register(event);
     }
 
     @SubscribeEvent

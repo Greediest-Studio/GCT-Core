@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "side": "gctcore:blocks/jotunheim/lightning_struck_log",
+    "end": "gctcore:blocks/jotunheim/lightning_struck_log_top"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "gctcore:blocks/jotunheim/giant_reed_lower"
+  }
+}

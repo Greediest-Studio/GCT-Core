@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "side": "gctcore:blocks/jotunheim/fungal_stem",
+    "end": "gctcore:blocks/jotunheim/fungal_stem_top"
+  }
+}

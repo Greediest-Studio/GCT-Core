@@ -1,0 +1,7 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "gctcore:blocks/jotunheim/cloud_bellflower"
+  },
+  "ambientocclusion": false
+}

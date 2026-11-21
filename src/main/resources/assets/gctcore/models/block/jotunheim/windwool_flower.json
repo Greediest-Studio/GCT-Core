@@ -1,0 +1,7 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "gctcore:blocks/jotunheim/windwool_flower"
+  },
+  "ambientocclusion": false
+}

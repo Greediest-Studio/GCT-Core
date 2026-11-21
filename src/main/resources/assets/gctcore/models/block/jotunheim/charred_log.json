@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "side": "gctcore:blocks/jotunheim/charred_log",
+    "end": "gctcore:blocks/jotunheim/charred_log_top"
+  }
+}

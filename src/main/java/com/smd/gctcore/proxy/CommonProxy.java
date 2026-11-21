@@ -26,6 +26,8 @@ import com.smd.gctcore.common.world.OrderCore.DimensionTypeOrderCore;
 import com.smd.gctcore.common.world.ShadowberryCaveGenerator;
 import com.smd.gctcore.common.world.AetherDiamondDungeonGenerator;
 import com.smd.gctcore.common.world.biome.nilfheim.NilfheimBiomes;
+import com.smd.gctcore.common.world.biome.jotunheim.JotunheimBiomes;
+import com.smd.gctcore.common.world.jotunheim.JotunheimDimension;
 
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
@@ -43,8 +45,10 @@ public class CommonProxy {
         GctNetworkHandler.init();
         PotionsItemRegistry.init();
         BlockRegistry.init();
+        JotunheimBlocks.init();
         ExtendedCraftingAutomation.init();
         NilfheimBiomes.init();
+        JotunheimBiomes.init();
         // Mekanism upgrade types must exist before upgrade items are constructed
         if (Mods.MEKANISM.isLoading()) {
             com.smd.gctcore.common.integration.mekanism.GctMekanismUpgrades.init();
@@ -61,6 +65,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new NilfheimErosionHandler());
         MinecraftForge.EVENT_BUS.register(new TimeLockedSyncHandler());
         MinecraftForge.EVENT_BUS.register(new BlockRegistry());
+        MinecraftForge.EVENT_BUS.register(new JotunheimBlocks());
         MinecraftForge.EVENT_BUS.register(new ItemRegistry());
         if (ExtendedCraftingAutomation.enabled()) {
             MinecraftForge.EVENT_BUS.register(new ExtendedCraftingAutomation());
@@ -84,6 +89,7 @@ public class CommonProxy {
         DimensionManager.registerDimension(-114514, DimensionTypeNothingness.nothingness);
         DimensionManager.registerDimension(103, DimensionTypeOrderCore.ordercore);
         DimensionManager.registerDimension(NilfheimBiomes.DIMENSION_ID, DimensionTypeNilfheim.NILFHEIM);
+        JotunheimDimension.register();
 
         //注册世界生成器
         GameRegistry.registerWorldGenerator(new CrimsonTempleGenerator(), 0);

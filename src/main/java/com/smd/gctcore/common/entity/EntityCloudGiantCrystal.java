@@ -27,7 +27,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 import java.util.UUID;
 
 /** A fixed arena crystal whose only vulnerable state is active. */
-public class EntityCloudGiantCrystal extends EntityMob implements IAnimatable {
+public class EntityCloudGiantCrystal extends EntityMob implements IAnimatable, ICloudGiantAlly {
 
     private static final byte DORMANT = 0;
     private static final byte CHARGING = 1;

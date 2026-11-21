@@ -40,6 +40,57 @@
       "gctcore:cloud_giant_priest_death"
     ]
   },
+  "cloud_giant_sentinel_hurt": {
+    "subtitle": "subtitles.gctcore.cloud_giant_sentinel_hurt",
+    "sounds": [
+      "gctcore:cloud_giant_priest_hurt"
+    ]
+  },
+  "cloud_giant_sentinel_death": {
+    "subtitle": "subtitles.gctcore.cloud_giant_sentinel_death",
+    "sounds": [
+      "gctcore:cloud_giant_priest_death"
+    ]
+  },
+  "cloud_giant_sentinel_attack": {
+    "subtitle": "subtitles.gctcore.cloud_giant_sentinel_attack",
+    "sounds": [
+      {
+        "name": "minecraft:entity.player.attack.sweep",
+        "type": "event"
+      }
+    ]
+  },
+  "cloud_giant_crossbowman_hurt": {
+    "subtitle": "subtitles.gctcore.cloud_giant_crossbowman_hurt",
+    "sounds": [
+      "gctcore:cloud_giant_priest_hurt"
+    ]
+  },
+  "cloud_giant_crossbowman_death": {
+    "subtitle": "subtitles.gctcore.cloud_giant_crossbowman_death",
+    "sounds": [
+      "gctcore:cloud_giant_priest_death"
+    ]
+  },
+  "cloud_giant_crossbowman_reload": {
+    "subtitle": "subtitles.gctcore.cloud_giant_crossbowman_reload",
+    "sounds": [
+      {
+        "name": "minecraft:item.armor.equip_iron",
+        "type": "event"
+      }
+    ]
+  },
+  "cloud_giant_crossbowman_shoot": {
+    "subtitle": "subtitles.gctcore.cloud_giant_crossbowman_shoot",
+    "sounds": [
+      {
+        "name": "minecraft:entity.arrow.shoot",
+        "type": "event"
+      }
+    ]
+  },
   "cloud_giant_crystal_hurt": {
     "subtitle": "subtitles.gctcore.cloud_giant_crystal_hurt",
     "sounds": [

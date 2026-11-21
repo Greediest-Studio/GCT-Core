@@ -1,0 +1,47 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "north": "true"
+      },
+      "apply": {
+        "model": "gctcore:jotunheim/cloudvine_north"
+      }
+    },
+    {
+      "when": {
+        "east": "true"
+      },
+      "apply": {
+        "model": "gctcore:jotunheim/cloudvine_east"
+      }
+    },
+    {
+      "when": {
+        "south": "true"
+      },
+      "apply": {
+        "model": "gctcore:jotunheim/cloudvine_south"
+      }
+    },
+    {
+      "when": {
+        "west": "true"
+      },
+      "apply": {
+        "model": "gctcore:jotunheim/cloudvine_west"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "east": "false",
+        "south": "false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "gctcore:jotunheim/cloudvine_north"
+      }
+    }
+  ]
+}

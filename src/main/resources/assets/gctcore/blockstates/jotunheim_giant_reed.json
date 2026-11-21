@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "segment=lower": {
+      "model": "gctcore:jotunheim/giant_reed_lower"
+    },
+    "segment=middle": {
+      "model": "gctcore:jotunheim/giant_reed_middle"
+    },
+    "segment=top": {
+      "model": "gctcore:jotunheim/giant_reed_top"
+    }
+  }
+}

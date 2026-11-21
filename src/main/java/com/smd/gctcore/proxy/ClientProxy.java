@@ -15,6 +15,7 @@ import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingAutom
 import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingTier;
 import com.smd.gctcore.common.integration.extendedcrafting.ExtendedPatternData;
 import com.smd.gctcore.common.events.MiningSpeedHandler;
+import com.smd.gctcore.client.JotunheimBlockModels;
 import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
 import com.smd.gctcore.common.tile.botania.TileGctManaPool;
 import com.smd.gctcore.common.tile.botania.TileGctManaSpreader;
@@ -155,6 +156,7 @@ public class ClientProxy extends CommonProxy {
             registerGctManaTierModels();
             registerGctManaWoodModels();
             registerNilfheimBlockModels();
+            JotunheimBlockModels.registerModels();
             registerSoulGemMeshModel();
             registerExtendedCraftingModels();
             registerEternalAstralSorceryModels();

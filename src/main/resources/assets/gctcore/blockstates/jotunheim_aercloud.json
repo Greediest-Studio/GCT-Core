@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "variant=frostbound": {
+      "model": "gctcore:jotunheim/frostbound_aercloud"
+    },
+    "variant=ashen": {
+      "model": "gctcore:jotunheim/ashen_aercloud"
+    },
+    "variant=thundering": {
+      "model": "gctcore:jotunheim/thundering_aercloud"
+    }
+  }
+}

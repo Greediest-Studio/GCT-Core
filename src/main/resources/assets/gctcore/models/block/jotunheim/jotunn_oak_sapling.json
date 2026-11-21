@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "gctcore:blocks/jotunheim/jotunn_oak_sapling"
+  }
+}

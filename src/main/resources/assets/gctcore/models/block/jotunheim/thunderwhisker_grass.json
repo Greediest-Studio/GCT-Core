@@ -1,0 +1,7 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "gctcore:blocks/jotunheim/thunderwhisker_grass"
+  },
+  "ambientocclusion": false
+}

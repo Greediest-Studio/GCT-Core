@@ -1,0 +1,7 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "gctcore:blocks/jotunheim/pale_droopflower"
+  },
+  "ambientocclusion": false
+}

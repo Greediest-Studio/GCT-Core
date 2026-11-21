@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "side": "gctcore:blocks/jotunheim/ancient_ice",
+    "end": "gctcore:blocks/jotunheim/ancient_ice_top"
+  }
+}

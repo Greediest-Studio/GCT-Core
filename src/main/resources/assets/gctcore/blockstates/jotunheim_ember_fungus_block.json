@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "normal": {
+      "model": "gctcore:jotunheim/ember_fungus_block"
+    }
+  }
+}

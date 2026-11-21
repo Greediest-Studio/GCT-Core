@@ -56,7 +56,7 @@ import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 /** Server-authoritative combat; the authored Blockbench animations are played on clients. */
-public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
+public class EntityCloudGiantPriest extends EntityMob implements IAnimatable, ICloudGiantAlly {
 
     public static final String BOSS_TITLE_SUFFIX = ", 云巨人祭司";
     public static final int SWEEP_TICKS = 34;
@@ -376,6 +376,26 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
                 && (!(target instanceof EntityPlayer) || !((EntityPlayer) target).isSpectator());
     }
 
+    @Override
+    public boolean isOnSameTeam(Entity entity) {
+        return entity instanceof ICloudGiantAlly || super.isOnSameTeam(entity);
+    }
+
+    @Override
+    public boolean canAttackClass(Class<? extends EntityLivingBase> type) {
+        return !ICloudGiantAlly.class.isAssignableFrom(type) && super.canAttackClass(type);
+    }
+
+    @Override
+    public void setAttackTarget(EntityLivingBase target) {
+        super.setAttackTarget(target instanceof ICloudGiantAlly ? null : target);
+    }
+
+    @Override
+    public void setRevengeTarget(EntityLivingBase target) {
+        super.setRevengeTarget(target instanceof ICloudGiantAlly ? null : target);
+    }
+
     private void activateSecondPhaseIfThresholdReached() {
         if (!isEntityAlive() || dataManager.get(SECOND_PHASE) || getHealth() > getMaxHealth() * 0.5F) {
             return;
@@ -627,7 +647,8 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable {
     }
 
     private boolean damageTarget(EntityLivingBase target, float amount, boolean creativeFlightDamage) {
-        if (target instanceof EntityPlayer && ((EntityPlayer) target).isCreative()) {
+        if (!isValidCombatTarget(target)
+                || target instanceof EntityPlayer && ((EntityPlayer) target).isCreative()) {
             return false;
         }
         // Exact skill damage is not multiplied by Minecraft's difficulty multiplier.

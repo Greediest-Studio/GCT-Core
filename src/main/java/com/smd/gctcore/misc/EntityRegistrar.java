@@ -4,6 +4,9 @@ import com.smd.gctcore.Tags;
 import com.smd.gctcore.common.entity.EntityReversedAlfMaster;
 import com.smd.gctcore.common.entity.EntityCloudGiantPriest;
 import com.smd.gctcore.common.entity.EntityCloudGiantCrystal;
+import com.smd.gctcore.common.entity.EntityCloudGiantSentinel;
+import com.smd.gctcore.common.entity.EntityCloudGiantCrossbowman;
+import com.smd.gctcore.common.entity.EntityCloudGiantBolt;
 import com.smd.gctcore.common.entity.botania.EntityAlfSpark;
 import com.smd.gctcore.common.entity.botania.EntityGaiaSpark;
 import com.smd.gctcore.common.entity.botania.EntityJoetunheimSpark;
@@ -25,6 +28,9 @@ public class EntityRegistrar {
     public static EntityEntry VANAHEIM_SPARK;
     public static EntityEntry CLOUD_GIANT_PRIEST;
     public static EntityEntry CLOUD_GIANT_CRYSTAL;
+    public static EntityEntry CLOUD_GIANT_SENTINEL;
+    public static EntityEntry CLOUD_GIANT_CROSSBOWMAN;
+    public static EntityEntry CLOUD_GIANT_BOLT;
 
     public static void init() {
         REVERSED_ALF_MASTER = EntityEntryBuilder.create()
@@ -84,6 +90,29 @@ public class EntityRegistrar {
                 .name("cloud_giant_crystal")
                 .tracker(128, 1, true)
                 .build();
+
+        CLOUD_GIANT_SENTINEL = EntityEntryBuilder.create()
+                .entity(EntityCloudGiantSentinel.class)
+                .id(new ResourceLocation(Tags.MOD_ID, "cloud_giant_sentinel"), 9)
+                .name("cloud_giant_sentinel")
+                .tracker(128, 1, true)
+                .egg(0xDBDFD4, 0x758EAA)
+                .build();
+
+        CLOUD_GIANT_CROSSBOWMAN = EntityEntryBuilder.create()
+                .entity(EntityCloudGiantCrossbowman.class)
+                .id(new ResourceLocation(Tags.MOD_ID, "cloud_giant_crossbowman"), 10)
+                .name("cloud_giant_crossbowman")
+                .tracker(128, 1, true)
+                .egg(0x39536F, 0xDBDFD4)
+                .build();
+
+        CLOUD_GIANT_BOLT = EntityEntryBuilder.create()
+                .entity(EntityCloudGiantBolt.class)
+                .id(new ResourceLocation(Tags.MOD_ID, "cloud_giant_bolt"), 11)
+                .name("cloud_giant_bolt")
+                .tracker(128, 1, true)
+                .build();
     }
 
     @SubscribeEvent
@@ -96,7 +125,10 @@ public class EntityRegistrar {
                 NIDAVELLIR_SPARK,
                 VANAHEIM_SPARK,
                 CLOUD_GIANT_PRIEST,
-                CLOUD_GIANT_CRYSTAL
+                CLOUD_GIANT_CRYSTAL,
+                CLOUD_GIANT_SENTINEL,
+                CLOUD_GIANT_CROSSBOWMAN,
+                CLOUD_GIANT_BOLT
         );
     }
 }
