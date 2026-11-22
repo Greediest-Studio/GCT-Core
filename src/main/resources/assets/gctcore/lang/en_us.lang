@@ -7,6 +7,7 @@ key.gctcore.mining_speed_add=MiningSpeedIncreased
 key.gctcore.mining_speed_minus=ReducedDiggingSpeed
 
 hud.mining_speed=miningMultiplier：%sx
+effect.gctcore.immobilized=Immobilized
 
 entity.gctcore.aether_zephyr.name=Zephyr
 entity.alf_spark.name=Alf Spark
@@ -20,6 +21,10 @@ entity.cloud_giant_crystal.name=Cloud Giant Crystal
 entity.cloud_giant_sentinel.name=Cloud Giant Sentinel
 entity.cloud_giant_crossbowman.name=Cloud Giant Crossbowman
 entity.cloud_giant_bolt.name=Cloud Giant Bolt
+entity.hill_giant.name=Hill Giant
+subtitles.gctcore.hill_giant_ambient=Hill Giant growls
+subtitles.gctcore.hill_giant_hurt=Hill Giant is hurt
+subtitles.gctcore.hill_giant_death=Hill Giant dies
 subtitles.gctcore.cloud_giant_crossbowman_hurt=Cloud Giant Crossbowman is hurt
 subtitles.gctcore.cloud_giant_crossbowman_death=Cloud Giant Crossbowman dies
 subtitles.gctcore.cloud_giant_crossbowman_reload=Cloud Giant Crossbowman reloads

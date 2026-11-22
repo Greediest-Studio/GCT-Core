@@ -108,5 +108,23 @@
     "sounds": [
       "gctcore:cloud_giant_crystal_activated"
     ]
+  },
+  "hill_giant_ambient": {
+    "subtitle": "subtitles.gctcore.hill_giant_ambient",
+    "sounds": [
+      "gctcore:cloud_giant_priest_ambient"
+    ]
+  },
+  "hill_giant_hurt": {
+    "subtitle": "subtitles.gctcore.hill_giant_hurt",
+    "sounds": [
+      "gctcore:cloud_giant_priest_hurt"
+    ]
+  },
+  "hill_giant_death": {
+    "subtitle": "subtitles.gctcore.hill_giant_death",
+    "sounds": [
+      "gctcore:cloud_giant_priest_death"
+    ]
   }
 }

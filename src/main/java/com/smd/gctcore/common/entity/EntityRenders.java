@@ -11,6 +11,7 @@ import com.smd.gctcore.client.render.entity.RenderCloudGiantCrystal;
 import com.smd.gctcore.client.render.entity.RenderCloudGiantSentinel;
 import com.smd.gctcore.client.render.entity.RenderCloudGiantCrossbowman;
 import com.smd.gctcore.client.render.entity.RenderCloudGiantBolt;
+import com.smd.gctcore.client.render.entity.RenderHillGiant;
 import com.smd.gctcore.common.entity.botania.EntityAlfSpark;
 import com.smd.gctcore.common.entity.botania.EntityGaiaSpark;
 import com.smd.gctcore.common.entity.botania.EntityJoetunheimSpark;
@@ -42,6 +43,10 @@ public class EntityRenders {
         RenderingRegistry.registerEntityRenderingHandler(
                 EntityCloudGiantBolt.class,
                 RenderCloudGiantBolt::new
+        );
+        RenderingRegistry.registerEntityRenderingHandler(
+                EntityHillGiant.class,
+                RenderHillGiant::new
         );
 
         RenderingRegistry.registerEntityRenderingHandler(

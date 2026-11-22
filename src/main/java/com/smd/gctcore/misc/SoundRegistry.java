@@ -26,6 +26,9 @@ public class SoundRegistry {
     public static final SoundEvent CLOUD_GIANT_CRYSTAL_HURT = sound("cloud_giant_crystal_hurt");
     public static final SoundEvent CLOUD_GIANT_CRYSTAL_DEPLETED = sound("cloud_giant_crystal_depleted");
     public static final SoundEvent CLOUD_GIANT_CRYSTAL_ACTIVATED = sound("cloud_giant_crystal_activated");
+    public static final SoundEvent HILL_GIANT_AMBIENT = sound("hill_giant_ambient");
+    public static final SoundEvent HILL_GIANT_HURT = sound("hill_giant_hurt");
+    public static final SoundEvent HILL_GIANT_DEATH = sound("hill_giant_death");
 
     private static SoundEvent sound(String name) {
         return new SoundEvent(new ResourceLocation(Tags.MOD_ID, name)).setRegistryName(Tags.MOD_ID, name);
@@ -50,7 +53,10 @@ public class SoundRegistry {
                 CLOUD_GIANT_CROSSBOWMAN_SHOOT,
                 CLOUD_GIANT_CRYSTAL_HURT,
                 CLOUD_GIANT_CRYSTAL_DEPLETED,
-                CLOUD_GIANT_CRYSTAL_ACTIVATED
+                CLOUD_GIANT_CRYSTAL_ACTIVATED,
+                HILL_GIANT_AMBIENT,
+                HILL_GIANT_HURT,
+                HILL_GIANT_DEATH
         );
     }
 }

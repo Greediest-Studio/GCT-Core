@@ -7,6 +7,7 @@ import com.smd.gctcore.common.entity.EntityCloudGiantCrystal;
 import com.smd.gctcore.common.entity.EntityCloudGiantSentinel;
 import com.smd.gctcore.common.entity.EntityCloudGiantCrossbowman;
 import com.smd.gctcore.common.entity.EntityCloudGiantBolt;
+import com.smd.gctcore.common.entity.EntityHillGiant;
 import com.smd.gctcore.common.entity.botania.EntityAlfSpark;
 import com.smd.gctcore.common.entity.botania.EntityGaiaSpark;
 import com.smd.gctcore.common.entity.botania.EntityJoetunheimSpark;
@@ -31,6 +32,7 @@ public class EntityRegistrar {
     public static EntityEntry CLOUD_GIANT_SENTINEL;
     public static EntityEntry CLOUD_GIANT_CROSSBOWMAN;
     public static EntityEntry CLOUD_GIANT_BOLT;
+    public static EntityEntry HILL_GIANT;
 
     public static void init() {
         REVERSED_ALF_MASTER = EntityEntryBuilder.create()
@@ -113,6 +115,14 @@ public class EntityRegistrar {
                 .name("cloud_giant_bolt")
                 .tracker(128, 1, true)
                 .build();
+
+        HILL_GIANT = EntityEntryBuilder.create()
+                .entity(EntityHillGiant.class)
+                .id(new ResourceLocation(Tags.MOD_ID, "hill_giant"), 12)
+                .name("hill_giant")
+                .tracker(128, 1, true)
+                .egg(0xB7925C, 0x4B3320)
+                .build();
     }
 
     @SubscribeEvent
@@ -128,7 +138,8 @@ public class EntityRegistrar {
                 CLOUD_GIANT_CRYSTAL,
                 CLOUD_GIANT_SENTINEL,
                 CLOUD_GIANT_CROSSBOWMAN,
-                CLOUD_GIANT_BOLT
+                CLOUD_GIANT_BOLT,
+                HILL_GIANT
         );
     }
 }

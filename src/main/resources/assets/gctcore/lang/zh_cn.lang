@@ -5,6 +5,7 @@ key.gctcore.mining_speed_minus=挖掘速度降低
 hud.mining_speed=挖掘倍率：%sx
 info.gct.energy=充能
 effect.sukhavati=极乐净土
+effect.gctcore.immobilized=定身
 death.attack.nilfheim_erosion=%1$s被蚀雾吞没了
 
 # Entities
@@ -20,6 +21,10 @@ entity.cloud_giant_crystal.name=云巨人水晶
 entity.cloud_giant_sentinel.name=云巨人哨卫
 entity.cloud_giant_crossbowman.name=云巨人弩手
 entity.cloud_giant_bolt.name=云巨人弩箭
+entity.hill_giant.name=山丘巨人
+subtitles.gctcore.hill_giant_ambient=山丘巨人低吼
+subtitles.gctcore.hill_giant_hurt=山丘巨人受伤
+subtitles.gctcore.hill_giant_death=山丘巨人死亡
 subtitles.gctcore.cloud_giant_crossbowman_hurt=云巨人弩手受伤
 subtitles.gctcore.cloud_giant_crossbowman_death=云巨人弩手死亡
 subtitles.gctcore.cloud_giant_crossbowman_reload=云巨人弩手装填弩箭
