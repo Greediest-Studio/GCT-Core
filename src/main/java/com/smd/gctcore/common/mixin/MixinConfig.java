@@ -31,6 +31,8 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.moretcon.json", "moretcon");
         addModdedMixinCFG("mixins.gctcore.industrialforegoing.json", "industrialforegoing");
         addModdedMixinCFG("mixins.gctcore.bloodmagic.json", "bloodmagic");
+        addMixinCFG("mixins.gctcore.bloodarsenal.json",
+                () -> modLoaded("bloodarsenal") && modLoaded("tconstruct"));
         addModdedMixinCFG("mixins.gctcore.pewter.json", "pewter");
         addModdedMixinCFG("mixins.gctcore.ToroHUD.json", "torohud");
         addModdedMixinCFG("mixins.gctcore.thaumicrestoration.json", "thaumicrestoration");
