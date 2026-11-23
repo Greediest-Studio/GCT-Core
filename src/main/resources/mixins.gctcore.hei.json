@@ -9,6 +9,7 @@
     "MixinAnvilRecipeMaker"
   ],
   "client": [
+    "MixinIngredientListBatchRenderer",
     "MixinItemStackHelper",
     "MixinFluidStackHelper",
     "MixinJeiStarter",
