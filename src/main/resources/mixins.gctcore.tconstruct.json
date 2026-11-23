@@ -11,11 +11,14 @@
     "MixinTileHeatingStructure",
     "MixinTileSmeltery",
     "MixinToolPart",
+    "MixinTConstructConfig",
     "MixinExploder"
   ],
   "server": [],
   "client": [
     "MixinSmeltingRecipeWrapper",
-    "MixinMaterialWrapper"
+    "MixinMaterialWrapper",
+    "MixinPartListAllMaterials",
+    "MixinBoltCore"
   ]
 }
