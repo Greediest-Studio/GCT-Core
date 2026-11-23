@@ -29,6 +29,15 @@ public class SoundRegistry {
     public static final SoundEvent HILL_GIANT_AMBIENT = sound("hill_giant_ambient");
     public static final SoundEvent HILL_GIANT_HURT = sound("hill_giant_hurt");
     public static final SoundEvent HILL_GIANT_DEATH = sound("hill_giant_death");
+    public static final SoundEvent STONE_GIANT_AMBIENT = sound("stone_giant_ambient");
+    public static final SoundEvent STONE_GIANT_HURT = sound("stone_giant_hurt");
+    public static final SoundEvent STONE_GIANT_DEATH = sound("stone_giant_death");
+    public static final SoundEvent FOMORIAN_NOBLE_AMBIENT = sound("fomorian_noble_ambient");
+    public static final SoundEvent FOMORIAN_NOBLE_HURT = sound("fomorian_noble_hurt");
+    public static final SoundEvent FOMORIAN_NOBLE_DEATH = sound("fomorian_noble_death");
+    public static final SoundEvent FOMORIAN_WARLOCK_AMBIENT = sound("fomorian_warlock_ambient");
+    public static final SoundEvent FOMORIAN_WARLOCK_HURT = sound("fomorian_warlock_hurt");
+    public static final SoundEvent FOMORIAN_WARLOCK_DEATH = sound("fomorian_warlock_death");
 
     private static SoundEvent sound(String name) {
         return new SoundEvent(new ResourceLocation(Tags.MOD_ID, name)).setRegistryName(Tags.MOD_ID, name);
@@ -56,7 +65,16 @@ public class SoundRegistry {
                 CLOUD_GIANT_CRYSTAL_ACTIVATED,
                 HILL_GIANT_AMBIENT,
                 HILL_GIANT_HURT,
-                HILL_GIANT_DEATH
+                HILL_GIANT_DEATH,
+                STONE_GIANT_AMBIENT,
+                STONE_GIANT_HURT,
+                STONE_GIANT_DEATH,
+                FOMORIAN_NOBLE_AMBIENT,
+                FOMORIAN_NOBLE_HURT,
+                FOMORIAN_NOBLE_DEATH,
+                FOMORIAN_WARLOCK_AMBIENT,
+                FOMORIAN_WARLOCK_HURT,
+                FOMORIAN_WARLOCK_DEATH
         );
     }
 }

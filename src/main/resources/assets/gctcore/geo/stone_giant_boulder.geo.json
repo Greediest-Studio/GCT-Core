@@ -1,0 +1,79 @@
+{
+  "format_version": "1.12.0",
+  "minecraft:geometry": [
+    {
+      "description": {
+        "identifier": "geometry.stone_giant_boulder",
+        "texture_width": 256,
+        "texture_height": 256,
+        "visible_bounds_width": 4,
+        "visible_bounds_height": 4,
+        "visible_bounds_offset": [
+          0,
+          0,
+          0
+        ]
+      },
+      "bones": [
+        {
+          "name": "root",
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "cubes": [
+            {
+              "origin": [
+                -11,
+                -9.5,
+                -11
+              ],
+              "size": [
+                22,
+                18,
+                22
+              ],
+              "uv": [
+                111,
+                1
+              ]
+            },
+            {
+              "origin": [
+                -9,
+                8.5,
+                -9
+              ],
+              "size": [
+                18,
+                3,
+                18
+              ],
+              "uv": [
+                41,
+                225
+              ]
+            },
+            {
+              "origin": [
+                -9,
+                -11.5,
+                -9
+              ],
+              "size": [
+                18,
+                2,
+                18
+              ],
+              "uv": [
+                179,
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

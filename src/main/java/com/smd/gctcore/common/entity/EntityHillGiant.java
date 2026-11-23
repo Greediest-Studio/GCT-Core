@@ -8,7 +8,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
@@ -92,8 +91,8 @@ public class EntityHillGiant extends EntityMob implements IAnimatable {
         tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.8D));
         tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 16.0F));
         tasks.addTask(7, new EntityAILookIdle(this));
+        // Neutral: retaliate against attackers without proactively targeting players.
         targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-        targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
     }
 
     @Override

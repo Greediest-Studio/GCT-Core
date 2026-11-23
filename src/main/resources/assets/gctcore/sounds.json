@@ -126,5 +126,41 @@
     "sounds": [
       "gctcore:cloud_giant_priest_death"
     ]
+  },
+  "stone_giant_ambient": {
+    "subtitle": "subtitles.gctcore.stone_giant_ambient",
+    "sounds": ["gctcore:cloud_giant_priest_ambient"]
+  },
+  "stone_giant_hurt": {
+    "subtitle": "subtitles.gctcore.stone_giant_hurt",
+    "sounds": ["gctcore:cloud_giant_priest_hurt"]
+  },
+  "stone_giant_death": {
+    "subtitle": "subtitles.gctcore.stone_giant_death",
+    "sounds": ["gctcore:cloud_giant_priest_death"]
+  },
+  "fomorian_noble_ambient": {
+    "subtitle": "subtitles.gctcore.fomorian_noble_ambient",
+    "sounds": ["gctcore:cloud_giant_priest_ambient"]
+  },
+  "fomorian_noble_hurt": {
+    "subtitle": "subtitles.gctcore.fomorian_noble_hurt",
+    "sounds": ["gctcore:cloud_giant_priest_hurt"]
+  },
+  "fomorian_noble_death": {
+    "subtitle": "subtitles.gctcore.fomorian_noble_death",
+    "sounds": ["gctcore:cloud_giant_priest_death"]
+  },
+  "fomorian_warlock_ambient": {
+    "subtitle": "subtitles.gctcore.fomorian_warlock_ambient",
+    "sounds": ["gctcore:cloud_giant_priest_ambient"]
+  },
+  "fomorian_warlock_hurt": {
+    "subtitle": "subtitles.gctcore.fomorian_warlock_hurt",
+    "sounds": ["gctcore:cloud_giant_priest_hurt"]
+  },
+  "fomorian_warlock_death": {
+    "subtitle": "subtitles.gctcore.fomorian_warlock_death",
+    "sounds": ["gctcore:cloud_giant_priest_death"]
   }
 }

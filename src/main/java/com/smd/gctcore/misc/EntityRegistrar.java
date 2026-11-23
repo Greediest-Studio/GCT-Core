@@ -8,6 +8,11 @@ import com.smd.gctcore.common.entity.EntityCloudGiantSentinel;
 import com.smd.gctcore.common.entity.EntityCloudGiantCrossbowman;
 import com.smd.gctcore.common.entity.EntityCloudGiantBolt;
 import com.smd.gctcore.common.entity.EntityHillGiant;
+import com.smd.gctcore.common.entity.EntityStoneGiant;
+import com.smd.gctcore.common.entity.EntityStoneGiantBoulder;
+import com.smd.gctcore.common.entity.EntityFomorianNoble;
+import com.smd.gctcore.common.entity.EntityFomorianWarlock;
+import com.smd.gctcore.common.entity.EntityGiantSpell;
 import com.smd.gctcore.common.entity.botania.EntityAlfSpark;
 import com.smd.gctcore.common.entity.botania.EntityGaiaSpark;
 import com.smd.gctcore.common.entity.botania.EntityJoetunheimSpark;
@@ -33,6 +38,11 @@ public class EntityRegistrar {
     public static EntityEntry CLOUD_GIANT_CROSSBOWMAN;
     public static EntityEntry CLOUD_GIANT_BOLT;
     public static EntityEntry HILL_GIANT;
+    public static EntityEntry STONE_GIANT;
+    public static EntityEntry STONE_GIANT_BOULDER;
+    public static EntityEntry FOMORIAN_NOBLE;
+    public static EntityEntry FOMORIAN_WARLOCK;
+    public static EntityEntry GIANT_SPELL;
 
     public static void init() {
         REVERSED_ALF_MASTER = EntityEntryBuilder.create()
@@ -123,6 +133,44 @@ public class EntityRegistrar {
                 .tracker(128, 1, true)
                 .egg(0xB7925C, 0x4B3320)
                 .build();
+
+        STONE_GIANT = EntityEntryBuilder.create()
+                .entity(EntityStoneGiant.class)
+                .id(new ResourceLocation(Tags.MOD_ID, "stone_giant"), 13)
+                .name("stone_giant")
+                .tracker(128, 1, true)
+                .egg(0x858E91, 0x72C8CE)
+                .build();
+
+        STONE_GIANT_BOULDER = EntityEntryBuilder.create()
+                .entity(EntityStoneGiantBoulder.class)
+                .id(new ResourceLocation(Tags.MOD_ID, "stone_giant_boulder"), 14)
+                .name("stone_giant_boulder")
+                .tracker(128, 1, true)
+                .build();
+
+        FOMORIAN_NOBLE = EntityEntryBuilder.create()
+                .entity(EntityFomorianNoble.class)
+                .id(new ResourceLocation(Tags.MOD_ID, "fomorian_noble"), 15)
+                .name("fomorian_noble")
+                .tracker(128, 1, true)
+                .egg(0xA38CAA, 0x397D78)
+                .build();
+
+        FOMORIAN_WARLOCK = EntityEntryBuilder.create()
+                .entity(EntityFomorianWarlock.class)
+                .id(new ResourceLocation(Tags.MOD_ID, "fomorian_warlock"), 16)
+                .name("fomorian_warlock")
+                .tracker(128, 1, true)
+                .egg(0x736C8B, 0xD3B24C)
+                .build();
+
+        GIANT_SPELL = EntityEntryBuilder.create()
+                .entity(EntityGiantSpell.class)
+                .id(new ResourceLocation(Tags.MOD_ID, "giant_spell"), 17)
+                .name("giant_spell")
+                .tracker(128, 1, true)
+                .build();
     }
 
     @SubscribeEvent
@@ -139,7 +187,12 @@ public class EntityRegistrar {
                 CLOUD_GIANT_SENTINEL,
                 CLOUD_GIANT_CROSSBOWMAN,
                 CLOUD_GIANT_BOLT,
-                HILL_GIANT
+                HILL_GIANT,
+                STONE_GIANT,
+                STONE_GIANT_BOULDER,
+                FOMORIAN_NOBLE,
+                FOMORIAN_WARLOCK,
+                GIANT_SPELL
         );
     }
 }

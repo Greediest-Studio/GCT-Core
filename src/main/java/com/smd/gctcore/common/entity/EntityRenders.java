@@ -12,6 +12,11 @@ import com.smd.gctcore.client.render.entity.RenderCloudGiantSentinel;
 import com.smd.gctcore.client.render.entity.RenderCloudGiantCrossbowman;
 import com.smd.gctcore.client.render.entity.RenderCloudGiantBolt;
 import com.smd.gctcore.client.render.entity.RenderHillGiant;
+import com.smd.gctcore.client.render.entity.RenderStoneGiant;
+import com.smd.gctcore.client.render.entity.RenderStoneGiantBoulder;
+import com.smd.gctcore.client.render.entity.RenderFomorianNoble;
+import com.smd.gctcore.client.render.entity.RenderFomorianWarlock;
+import com.smd.gctcore.client.render.entity.RenderGiantSpell;
 import com.smd.gctcore.common.entity.botania.EntityAlfSpark;
 import com.smd.gctcore.common.entity.botania.EntityGaiaSpark;
 import com.smd.gctcore.common.entity.botania.EntityJoetunheimSpark;
@@ -48,6 +53,11 @@ public class EntityRenders {
                 EntityHillGiant.class,
                 RenderHillGiant::new
         );
+        RenderingRegistry.registerEntityRenderingHandler(EntityStoneGiant.class, RenderStoneGiant::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityStoneGiantBoulder.class, RenderStoneGiantBoulder::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityFomorianNoble.class, RenderFomorianNoble::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityFomorianWarlock.class, RenderFomorianWarlock::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityGiantSpell.class, RenderGiantSpell::new);
 
         RenderingRegistry.registerEntityRenderingHandler(
                 EntityReversedAlfMaster.class,

@@ -79,7 +79,7 @@ public class EntityCloudGiantCrossbowman extends EntityMob implements IAnimatabl
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(80.0D);
+        getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(120.0D);
         getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.345D);
         getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(AGGRO_RANGE);
     }
