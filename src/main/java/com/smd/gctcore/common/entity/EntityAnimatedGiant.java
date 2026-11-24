@@ -168,7 +168,7 @@ public abstract class EntityAnimatedGiant extends EntityMob implements IAnimatab
         if (horizontal < 1.0E-6D) { return true; }
         double yaw = Math.toRadians(rotationYaw);
         return (-Math.sin(yaw) * direction.x + Math.cos(yaw) * direction.z) / horizontal
-                >= Math.cos(Math.toRadians(halfAngleDegrees));
+                >= Math.cos(Math.toRadians(halfAngleDegrees)) - 1.0E-7D;
     }
 
     protected void knockAway(EntityLivingBase target, float strength) {
@@ -354,10 +354,12 @@ public abstract class EntityAnimatedGiant extends EntityMob implements IAnimatab
         @Override
         public void updateTask() {
             EntityLivingBase target = isPerformingAction() ? actionTarget : getAttackTarget();
-            if (isValidCombatTarget(target) && (!isPerformingAction()
-                    || shouldTrackTargetDuringAction(getAction(), getActionElapsed()))) {
+            if (isValidCombatTarget(target)) {
                 getLookHelper().setLookPositionWithEntity(target, 30.0F, 30.0F);
-                faceEntity(target, 20.0F, 20.0F);
+                if (!isPerformingAction()
+                        || shouldTrackTargetDuringAction(getAction(), getActionElapsed())) {
+                    faceEntity(target, 20.0F, 20.0F);
+                }
             }
             if (isPerformingAction()) {
                 stopWalking();

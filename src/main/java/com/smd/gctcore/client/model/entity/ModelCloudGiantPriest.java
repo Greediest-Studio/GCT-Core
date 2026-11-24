@@ -5,10 +5,9 @@ import com.smd.gctcore.common.entity.EntityCloudGiantPriest;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 @SideOnly(Side.CLIENT)
-public class ModelCloudGiantPriest extends AnimatedGeoModel<EntityCloudGiantPriest> {
+public class ModelCloudGiantPriest extends GiantHeadLookModel<EntityCloudGiantPriest> {
 
     private static final ResourceLocation MODEL = new ResourceLocation(
             Tags.MOD_ID, "geo/cloud_giant_wanderer.geo.json");

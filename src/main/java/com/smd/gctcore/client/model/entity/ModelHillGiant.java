@@ -5,10 +5,9 @@ import com.smd.gctcore.common.entity.EntityHillGiant;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 @SideOnly(Side.CLIENT)
-public class ModelHillGiant extends AnimatedGeoModel<EntityHillGiant> {
+public class ModelHillGiant extends GiantHeadLookModel<EntityHillGiant> {
 
     private static final ResourceLocation MODEL = new ResourceLocation(
             Tags.MOD_ID, "geo/hill_giant.geo.json");

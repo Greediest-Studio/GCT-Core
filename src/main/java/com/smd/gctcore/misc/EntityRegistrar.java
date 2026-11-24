@@ -8,6 +8,9 @@ import com.smd.gctcore.common.entity.EntityCloudGiantSentinel;
 import com.smd.gctcore.common.entity.EntityCloudGiantCrossbowman;
 import com.smd.gctcore.common.entity.EntityCloudGiantBolt;
 import com.smd.gctcore.common.entity.EntityHillGiant;
+import com.smd.gctcore.common.entity.EntityFrostGiant;
+import com.smd.gctcore.common.entity.EntityFireGiant;
+import com.smd.gctcore.common.entity.EntityFireGiantChain;
 import com.smd.gctcore.common.entity.EntityStoneGiant;
 import com.smd.gctcore.common.entity.EntityStoneGiantBoulder;
 import com.smd.gctcore.common.entity.EntityFomorianNoble;
@@ -43,6 +46,9 @@ public class EntityRegistrar {
     public static EntityEntry FOMORIAN_NOBLE;
     public static EntityEntry FOMORIAN_WARLOCK;
     public static EntityEntry GIANT_SPELL;
+    public static EntityEntry FROST_GIANT;
+    public static EntityEntry FIRE_GIANT;
+    public static EntityEntry FIRE_GIANT_CHAIN;
 
     public static void init() {
         REVERSED_ALF_MASTER = EntityEntryBuilder.create()
@@ -171,6 +177,29 @@ public class EntityRegistrar {
                 .name("giant_spell")
                 .tracker(128, 1, true)
                 .build();
+
+        FROST_GIANT = EntityEntryBuilder.create()
+                .entity(EntityFrostGiant.class)
+                .id(new ResourceLocation(Tags.MOD_ID, "frost_giant"), 18)
+                .name("frost_giant")
+                .tracker(128, 1, true)
+                .egg(0x88B3C8, 0xE3EBE5)
+                .build();
+
+        FIRE_GIANT = EntityEntryBuilder.create()
+                .entity(EntityFireGiant.class)
+                .id(new ResourceLocation(Tags.MOD_ID, "fire_giant"), 19)
+                .name("fire_giant")
+                .tracker(128, 1, true)
+                .egg(0x3D2925, 0xFF8B22)
+                .build();
+
+        FIRE_GIANT_CHAIN = EntityEntryBuilder.create()
+                .entity(EntityFireGiantChain.class)
+                .id(new ResourceLocation(Tags.MOD_ID, "fire_giant_chain"), 20)
+                .name("fire_giant_chain")
+                .tracker(128, 1, true)
+                .build();
     }
 
     @SubscribeEvent
@@ -192,7 +221,10 @@ public class EntityRegistrar {
                 STONE_GIANT_BOULDER,
                 FOMORIAN_NOBLE,
                 FOMORIAN_WARLOCK,
-                GIANT_SPELL
+                GIANT_SPELL,
+                FROST_GIANT,
+                FIRE_GIANT,
+                FIRE_GIANT_CHAIN
         );
     }
 }

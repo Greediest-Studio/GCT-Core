@@ -7,10 +7,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.processor.IBone;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 @SideOnly(Side.CLIENT)
-public class ModelCloudGiantCrossbowman extends AnimatedGeoModel<EntityCloudGiantCrossbowman> {
+public class ModelCloudGiantCrossbowman extends GiantHeadLookModel<EntityCloudGiantCrossbowman> {
 
     private static final ResourceLocation MODEL = new ResourceLocation(
             Tags.MOD_ID, "geo/cloud_giant_crossbowman.geo.json");

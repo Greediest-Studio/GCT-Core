@@ -32,6 +32,12 @@ public class SoundRegistry {
     public static final SoundEvent STONE_GIANT_AMBIENT = sound("stone_giant_ambient");
     public static final SoundEvent STONE_GIANT_HURT = sound("stone_giant_hurt");
     public static final SoundEvent STONE_GIANT_DEATH = sound("stone_giant_death");
+    public static final SoundEvent FROST_GIANT_AMBIENT = sound("frost_giant_ambient");
+    public static final SoundEvent FROST_GIANT_HURT = sound("frost_giant_hurt");
+    public static final SoundEvent FROST_GIANT_DEATH = sound("frost_giant_death");
+    public static final SoundEvent FIRE_GIANT_AMBIENT = sound("fire_giant_ambient");
+    public static final SoundEvent FIRE_GIANT_HURT = sound("fire_giant_hurt");
+    public static final SoundEvent FIRE_GIANT_DEATH = sound("fire_giant_death");
     public static final SoundEvent FOMORIAN_NOBLE_AMBIENT = sound("fomorian_noble_ambient");
     public static final SoundEvent FOMORIAN_NOBLE_HURT = sound("fomorian_noble_hurt");
     public static final SoundEvent FOMORIAN_NOBLE_DEATH = sound("fomorian_noble_death");
@@ -69,6 +75,12 @@ public class SoundRegistry {
                 STONE_GIANT_AMBIENT,
                 STONE_GIANT_HURT,
                 STONE_GIANT_DEATH,
+                FROST_GIANT_AMBIENT,
+                FROST_GIANT_HURT,
+                FROST_GIANT_DEATH,
+                FIRE_GIANT_AMBIENT,
+                FIRE_GIANT_HURT,
+                FIRE_GIANT_DEATH,
                 FOMORIAN_NOBLE_AMBIENT,
                 FOMORIAN_NOBLE_HURT,
                 FOMORIAN_NOBLE_DEATH,

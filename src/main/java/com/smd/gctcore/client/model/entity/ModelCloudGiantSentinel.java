@@ -5,10 +5,9 @@ import com.smd.gctcore.common.entity.EntityCloudGiantSentinel;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 @SideOnly(Side.CLIENT)
-public class ModelCloudGiantSentinel extends AnimatedGeoModel<EntityCloudGiantSentinel> {
+public class ModelCloudGiantSentinel extends GiantHeadLookModel<EntityCloudGiantSentinel> {
 
     private static final ResourceLocation MODEL = new ResourceLocation(
             Tags.MOD_ID, "geo/cloud_giant_sentinel.geo.json");

@@ -5,10 +5,9 @@ import com.smd.gctcore.common.entity.EntityFomorianWarlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
 
 @SideOnly(Side.CLIENT)
-public class ModelFomorianWarlock extends AnimatedGeoModel<EntityFomorianWarlock> {
+public class ModelFomorianWarlock extends GiantHeadLookModel<EntityFomorianWarlock> {
 
     private static final ResourceLocation MODEL = new ResourceLocation(
             Tags.MOD_ID, "geo/fomorian_warlock.geo.json");

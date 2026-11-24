@@ -159,6 +159,30 @@
     "subtitle": "subtitles.gctcore.fomorian_warlock_hurt",
     "sounds": ["gctcore:cloud_giant_priest_hurt"]
   },
+  "frost_giant_ambient": {
+    "subtitle": "subtitles.gctcore.frost_giant_ambient",
+    "sounds": ["gctcore:cloud_giant_priest_ambient"]
+  },
+  "fire_giant_ambient": {
+    "subtitle": "subtitles.gctcore.fire_giant_ambient",
+    "sounds": ["gctcore:cloud_giant_priest_ambient"]
+  },
+  "fire_giant_hurt": {
+    "subtitle": "subtitles.gctcore.fire_giant_hurt",
+    "sounds": ["gctcore:cloud_giant_priest_hurt"]
+  },
+  "fire_giant_death": {
+    "subtitle": "subtitles.gctcore.fire_giant_death",
+    "sounds": ["gctcore:cloud_giant_priest_death"]
+  },
+  "frost_giant_hurt": {
+    "subtitle": "subtitles.gctcore.frost_giant_hurt",
+    "sounds": ["gctcore:cloud_giant_priest_hurt"]
+  },
+  "frost_giant_death": {
+    "subtitle": "subtitles.gctcore.frost_giant_death",
+    "sounds": ["gctcore:cloud_giant_priest_death"]
+  },
   "fomorian_warlock_death": {
     "subtitle": "subtitles.gctcore.fomorian_warlock_death",
     "sounds": ["gctcore:cloud_giant_priest_death"]
