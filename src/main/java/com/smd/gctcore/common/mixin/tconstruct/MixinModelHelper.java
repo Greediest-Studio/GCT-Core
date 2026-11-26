@@ -1,42 +1,30 @@
 package com.smd.gctcore.common.mixin.tconstruct;
 
-import net.minecraft.client.resources.IResourceManager;
-import net.minecraft.util.ResourceLocation;
+import org.apache.logging.log4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import slimeknights.tconstruct.library.client.model.ModelHelper;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import slimeknights.tconstruct.library.client.model.ModifierModelLoader;
 
 import java.io.IOException;
-import java.io.Reader;
 
-@Mixin(ModelHelper.class)
-public class MixinModelHelper {
+@Mixin(value = ModifierModelLoader.class, remap = false)
+public abstract class MixinModelHelper {
 
-    @Inject(
-            method = "getReaderForResource(Lnet/minecraft/util/ResourceLocation;Lnet/minecraft/client/resources/IResourceManager;)Ljava/io/Reader;",
+    @Redirect(
+            method = "loadFilesIntoCache()V",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/resources/IResourceManager;func_110536_a(Lnet/minecraft/util/ResourceLocation;)Lnet/minecraft/client/resources/IResource;",
+                    target = "Lorg/apache/logging/log4j/Logger;error(Ljava/lang/String;Ljava/lang/Throwable;)V",
                     remap = false
             ),
-            locals = LocalCapture.CAPTURE_FAILHARD,
-            cancellable = true,
             remap = false
     )
-    private static void suppressMissingModifierModels(ResourceLocation location,
-                                                      IResourceManager resourceManager,
-                                                      CallbackInfoReturnable<Reader> cir,
-                                                      ResourceLocation file) {
-
-        if (file.getPath().contains("modifiers/")) {
-            try {
-                resourceManager.getResource(file);
-            } catch (IOException e) {
-                cir.setReturnValue(null);
-            }
+    private void gctcore$suppressMissingModifierModelLog(Logger logger, String message, Throwable throwable) {
+        if (throwable instanceof IOException) {
+            logger.debug(message);
+            return;
         }
+        logger.error(message, throwable);
     }
 }

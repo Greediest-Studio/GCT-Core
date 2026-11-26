@@ -7,7 +7,6 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinToolHelper",
-    "MixinModelHelper",
     "MixinTileHeatingStructure",
     "MixinTileSmeltery",
     "MixinToolPart",
@@ -16,6 +15,7 @@
   ],
   "server": [],
   "client": [
+    "MixinModelHelper",
     "MixinSmeltingRecipeWrapper",
     "MixinMaterialWrapper",
     "MixinPartListAllMaterials",
