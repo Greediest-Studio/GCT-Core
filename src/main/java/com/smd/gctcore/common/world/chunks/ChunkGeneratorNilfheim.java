@@ -888,8 +888,7 @@ public class ChunkGeneratorNilfheim implements IChunkGenerator {
                 || block == BlockRegistry.PERMAFROST
                 || block == BlockRegistry.ANCIENT_SNOW
                 || block == BlockRegistry.ASHEN_SOIL
-                || block == BlockRegistry.BOILING_MUD
-                || block == BlockRegistry.SOUL_ICE);
+                || block == BlockRegistry.BOILING_MUD);
     }
 
     private int snowLayersAt(int worldX, int worldZ) {

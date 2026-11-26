@@ -5,6 +5,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -35,6 +36,14 @@ public class BlockSoulIce extends Block {
     @Override
     public boolean isTranslucent(IBlockState state) {
         return true;
+    }
+
+    @Override
+    public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos,
+                                    EntityLiving.SpawnPlacementType type) {
+        // Ice is translucent, but its full surface can still support ground spawns.
+        return type == EntityLiving.SpawnPlacementType.ON_GROUND
+                || super.canCreatureSpawn(state, world, pos, type);
     }
 
     @Override
