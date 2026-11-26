@@ -89,6 +89,7 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.projecte.json", "projecte");
         addModdedMixinCFG("mixins.gctcore.cyclic.json", "cyclic");
         addModdedMixinCFG("mixins.gctcore.dungeonsmod.json", "dungeonsmod");
+        addModdedMixinCFG("mixins.gctcore.dungeonadditions.json", "da");
         addModdedMixinCFG("mixins.gctcore.scalingguis.json", "scalingguis");
         if(GCTMixinConfig.enableMixinItemToolSceptre) {
             addModdedMixinCFG("mixins.gctcore.tconevo.json", "tconevo");
