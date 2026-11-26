@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "gctcore:blocks/jotunheim/ymir/chiseled_dark_ymir_stone"
+  }
+}

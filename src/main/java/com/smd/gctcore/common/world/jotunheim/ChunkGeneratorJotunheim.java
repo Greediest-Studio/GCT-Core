@@ -33,6 +33,8 @@ public final class ChunkGeneratorJotunheim implements IChunkGenerator {
     private final JotunheimTerrainKernel kernel;
     private final JotunheimVegetation vegetation;
     private final JotunheimSkyFeatures skyFeatures;
+    private final JotunheimYmirWells ymirWells;
+    private final boolean structuresEnabled;
     private final IBlockState[][][] palette = new IBlockState[8][4][3];
 
     public ChunkGeneratorJotunheim(World world) {
@@ -44,6 +46,8 @@ public final class ChunkGeneratorJotunheim implements IChunkGenerator {
         this.kernel = kernel;
         this.vegetation = new JotunheimVegetation(world.getSeed(), kernel);
         this.skyFeatures = new JotunheimSkyFeatures(world.getSeed(), kernel);
+        this.ymirWells = new JotunheimYmirWells(world.getSeed(), kernel);
+        this.structuresEnabled = world.getWorldInfo().isMapFeaturesEnabled();
         Map<String, IBlockState> states = new HashMap<>();
         for (int biome = 0; biome < 8; biome++) {
             for (JotunheimTerrainKernel.HeightLayer layer : JotunheimTerrainKernel.HeightLayer.values()) {
@@ -101,6 +105,7 @@ public final class ChunkGeneratorJotunheim implements IChunkGenerator {
         }
         vegetation.decorate(primer, chunkX, chunkZ, sampled, biomeIndices);
         skyFeatures.decorate(primer, chunkX, chunkZ);
+        if (structuresEnabled) ymirWells.decorate(primer, chunkX, chunkZ);
         Chunk chunk = new Chunk(world, primer, chunkX, chunkZ);
         JotunheimBiomeStorage.write(chunk, biomes);
         chunk.generateSkylightMap();
@@ -124,9 +129,14 @@ public final class ChunkGeneratorJotunheim implements IChunkGenerator {
 
     @Override public boolean generateStructures(Chunk chunk, int chunkX, int chunkZ) { return false; }
     @Override public void recreateStructures(Chunk chunk, int chunkX, int chunkZ) {}
-    @Override public boolean isInsideStructure(World world, String name, BlockPos pos) { return false; }
+    @Override public boolean isInsideStructure(World world, String name, BlockPos pos) {
+        return structuresEnabled && JotunheimYmirWells.acceptsName(name) && ymirWells.isInside(pos);
+    }
     @Override @Nullable
-    public BlockPos getNearestStructurePos(World world, String name, BlockPos pos, boolean findUnexplored) { return null; }
+    public BlockPos getNearestStructurePos(World world, String name, BlockPos pos, boolean findUnexplored) {
+        return structuresEnabled && JotunheimYmirWells.acceptsName(name)
+                ? ymirWells.nearest(pos, findUnexplored, world) : null;
+    }
 
     /** Current world blocks, rather than predicted terrain: honors edits and cached saves. No chunk loads. */
     public static List<BlockPos> enumerateStandingSurfaces(World world, int x, int z,

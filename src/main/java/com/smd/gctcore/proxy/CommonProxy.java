@@ -47,6 +47,7 @@ public class CommonProxy {
         BlockRegistry.init();
         JotunheimBlocks.init();
         JotunheimWoodBlocks.init();
+        YmirBlocks.init();
         ExtendedCraftingAutomation.init();
         NilfheimBiomes.init();
         JotunheimBiomes.init();
@@ -68,6 +69,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(new BlockRegistry());
         MinecraftForge.EVENT_BUS.register(new JotunheimBlocks());
         MinecraftForge.EVENT_BUS.register(new JotunheimWoodBlocks());
+        MinecraftForge.EVENT_BUS.register(new YmirBlocks());
         MinecraftForge.EVENT_BUS.register(new ItemRegistry());
         if (ExtendedCraftingAutomation.enabled()) {
             MinecraftForge.EVENT_BUS.register(new ExtendedCraftingAutomation());
@@ -102,6 +104,8 @@ public class CommonProxy {
         NilfheimRecipes.init();
         JotunheimWoodBlocks.registerOreDictionary();
         JotunheimWoodRecipes.init();
+        YmirBlocks.registerOreDictionary();
+        YmirRecipes.init();
         WorldDimensionIntegrations.init();
         if (net.minecraftforge.fml.common.Loader.isModLoaded("aether_legacy")) {
             AetherDiamondDungeonGenerator.register();

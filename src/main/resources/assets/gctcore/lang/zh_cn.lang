@@ -438,8 +438,29 @@ tile.gctcore.jotunheim_fungal_double_slab.name=巨菌双台阶
 # END JOTUNHEIM WOOD PRODUCTS
 
 entity.ettin.name=双头巨人
+entity.gctcore.ettin.name=双头巨人
 subtitles.gctcore.ettin_ambient=双头巨人：低吼
 subtitles.gctcore.ettin_hurt=双头巨人：受伤
 subtitles.gctcore.ettin_death=双头巨人：死亡
 subtitles.gctcore.ettin_attack=双头巨人：攻击
 subtitles.gctcore.ettin_roar=双头巨人：咆哮
+
+# Ymir masonry
+tile.gctcore.ymir_stone.name=尤弥尔岩石
+tile.gctcore.ymir_stone_bricks.name=尤弥尔石砖
+tile.gctcore.cracked_ymir_stone_bricks.name=裂纹尤弥尔石砖
+tile.gctcore.chiseled_ymir_stone.name=錾制尤弥尔岩石
+tile.gctcore.ymir_stone_pillar.name=尤弥尔石柱
+tile.gctcore.ymir_stone_stairs.name=尤弥尔石砖楼梯
+tile.gctcore.ymir_stone_slab.name=尤弥尔石砖台阶
+tile.gctcore.ymir_stone_double_slab.name=双层尤弥尔石砖台阶
+tile.gctcore.ymir_stone_wall.name=尤弥尔石砖墙
+tile.gctcore.dark_ymir_stone.name=暗色尤弥尔岩石
+tile.gctcore.dark_ymir_stone_bricks.name=暗色尤弥尔石砖
+tile.gctcore.cracked_dark_ymir_stone_bricks.name=裂纹暗色尤弥尔石砖
+tile.gctcore.chiseled_dark_ymir_stone.name=錾制暗色尤弥尔岩石
+tile.gctcore.dark_ymir_stone_pillar.name=暗色尤弥尔石柱
+tile.gctcore.dark_ymir_stone_stairs.name=暗色尤弥尔石砖楼梯
+tile.gctcore.dark_ymir_stone_slab.name=暗色尤弥尔石砖台阶
+tile.gctcore.dark_ymir_stone_double_slab.name=双层暗色尤弥尔石砖台阶
+tile.gctcore.dark_ymir_stone_wall.name=暗色尤弥尔石砖墙

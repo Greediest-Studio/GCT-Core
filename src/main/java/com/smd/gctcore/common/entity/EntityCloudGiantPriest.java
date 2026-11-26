@@ -173,8 +173,10 @@ public class EntityCloudGiantPriest extends EntityMob implements IAnimatable, IC
         tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.8D));
         tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 16.0F));
         tasks.addTask(7, new EntityAILookIdle(this));
+        targetTasks.addTask(2, new EntityAIGiantRivalTarget(this,
+                getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue()));
         // Vanilla target goals discard creative players and targets beyond follow range.
-        // Acquisition and retention are handled below so a flying aggro target stays valid.
+        // Player acquisition and retention below keep a flying aggro target valid.
     }
 
     @Override

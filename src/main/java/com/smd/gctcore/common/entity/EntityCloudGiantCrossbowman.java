@@ -91,6 +91,7 @@ public class EntityCloudGiantCrossbowman extends EntityMob implements IAnimatabl
         tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.8D));
         tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 24.0F));
         tasks.addTask(7, new EntityAILookIdle(this));
+        targetTasks.addTask(2, new EntityAIGiantRivalTarget(this, ACQUIRE_RANGE));
         // Acquisition deliberately uses 24 blocks; only an existing aggro target uses 128.
     }
 

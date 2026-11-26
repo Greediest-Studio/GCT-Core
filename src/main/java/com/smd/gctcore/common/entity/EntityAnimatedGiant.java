@@ -76,6 +76,7 @@ public abstract class EntityAnimatedGiant extends EntityMob implements IAnimatab
         tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 16.0F));
         tasks.addTask(7, new EntityAILookIdle(this));
         targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+        targetTasks.addTask(2, new EntityAIGiantRivalTarget(this, getAcquireRange()));
         if (!isNeutralGiant()) {
             targetTasks.addTask(2, new EntityAINearestAttackableTarget<EntityPlayer>(
                     this, EntityPlayer.class, true) {

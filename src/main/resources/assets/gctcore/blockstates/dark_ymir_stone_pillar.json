@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "gctcore:jotunheim/ymir/dark_ymir_stone_pillar"
+    },
+    "axis=z": {
+      "model": "gctcore:jotunheim/ymir/dark_ymir_stone_pillar",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "gctcore:jotunheim/ymir/dark_ymir_stone_pillar",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

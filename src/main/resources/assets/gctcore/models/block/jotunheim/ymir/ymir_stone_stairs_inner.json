@@ -1,0 +1,8 @@
+{
+  "parent": "block/inner_stairs",
+  "textures": {
+    "bottom": "gctcore:blocks/jotunheim/ymir/ymir_stone_bricks",
+    "top": "gctcore:blocks/jotunheim/ymir/ymir_stone_bricks",
+    "side": "gctcore:blocks/jotunheim/ymir/ymir_stone_bricks"
+  }
+}

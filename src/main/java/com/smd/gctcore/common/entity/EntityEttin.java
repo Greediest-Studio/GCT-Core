@@ -6,7 +6,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -16,9 +15,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.world.BossInfo;
-import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 import software.bernie.geckolib3.core.AnimationState;
@@ -57,8 +53,6 @@ public class EntityEttin extends EntityAnimatedGiant {
     private static final DataParameter<Integer> ANIMATION_SEQUENCE = EntityDataManager.createKey(
             EntityEttin.class, DataSerializers.VARINT);
 
-    private final BossInfoServer bossInfo = new BossInfoServer(
-            new TextComponentTranslation("entity.ettin.name"), BossInfo.Color.RED, BossInfo.Overlay.PROGRESS);
     private int doubleCooldown = DOUBLE_COOLDOWN_TICKS;
     private boolean introPlayed;
     private boolean nextClub;
@@ -73,7 +67,6 @@ public class EntityEttin extends EntityAnimatedGiant {
         setSize(1.8F, 4.5F);
         experienceValue = 80;
         enablePersistence();
-        bossInfo.setDarkenSky(false).setPlayEndBossMusic(false).setCreateFog(false);
     }
 
     @Override
@@ -195,7 +188,8 @@ public class EntityEttin extends EntityAnimatedGiant {
     }
 
     private boolean isEngagedVictim(EntityLivingBase victim, EntityLivingBase target) {
-        return victim instanceof EntityPlayer || victim == target || victim == getAttackTarget()
+        return victim instanceof EntityPlayer || EntityAIGiantRivalTarget.isOtherGiant(victim)
+                || victim == target || victim == getAttackTarget()
                 || victim == getRevengeTarget();
     }
 
@@ -262,9 +256,6 @@ public class EntityEttin extends EntityAnimatedGiant {
             if (isEntityAlive() && isValidCombatTarget(getAttackTarget()) && doubleCooldown > 0) {
                 doubleCooldown--;
             }
-            bossInfo.setPercent(getHealth() / getMaxHealth());
-            bossInfo.setName(getDisplayName());
-            bossInfo.setVisible(isEntityAlive());
         }
         super.onLivingUpdate();
     }
@@ -275,7 +266,6 @@ public class EntityEttin extends EntityAnimatedGiant {
         if (!world.isRemote && dead && dataManager.get(DEATH_START) == Integer.MIN_VALUE) {
             dataManager.set(DEATH_START, (int) world.getTotalWorldTime());
             nextAnimation();
-            bossInfo.setVisible(false);
             stopWalking();
         }
     }
@@ -316,18 +306,6 @@ public class EntityEttin extends EntityAnimatedGiant {
     protected ResourceLocation getLootTable() { return LOOT; }
 
     @Override
-    public void addTrackingPlayer(EntityPlayerMP player) {
-        super.addTrackingPlayer(player);
-        bossInfo.addPlayer(player);
-    }
-
-    @Override
-    public void removeTrackingPlayer(EntityPlayerMP player) {
-        super.removeTrackingPlayer(player);
-        bossInfo.removePlayer(player);
-    }
-
-    @Override
     protected SoundEvent getAmbientSound() { return SoundRegistry.ETTIN_AMBIENT; }
 
     @Override
@@ -356,7 +334,6 @@ public class EntityEttin extends EntityAnimatedGiant {
         deathExperienceAwarded = tag.getBoolean("EttinDeathExperienceAwarded");
         if (getHealth() <= 0.0F) {
             dataManager.set(DEATH_START, (int) world.getTotalWorldTime() - deathTime);
-            bossInfo.setVisible(false);
         }
     }
 

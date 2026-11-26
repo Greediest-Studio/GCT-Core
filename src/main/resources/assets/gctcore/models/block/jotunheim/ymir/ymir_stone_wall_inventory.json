@@ -1,0 +1,6 @@
+{
+  "parent": "block/wall_inventory",
+  "textures": {
+    "wall": "gctcore:blocks/jotunheim/ymir/ymir_stone_bricks"
+  }
+}

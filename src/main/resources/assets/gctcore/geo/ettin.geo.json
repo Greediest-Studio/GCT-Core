@@ -955,9 +955,9 @@
           ],
           "parent": "forearm_left",
           "rotation": [
-            25,
-            0,
-            0
+            90,
+            5,
+            90
           ],
           "cubes": [
             {
@@ -1169,9 +1169,9 @@
           ],
           "parent": "forearm_right",
           "rotation": [
-            25,
-            0,
-            0
+            88.23167,
+            1.76749,
+            44.97272
           ],
           "cubes": [
             {

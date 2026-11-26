@@ -91,8 +91,9 @@ public class EntityHillGiant extends EntityMob implements IAnimatable {
         tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.8D));
         tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 16.0F));
         tasks.addTask(7, new EntityAILookIdle(this));
-        // Neutral: retaliate against attackers without proactively targeting players.
+        // Neutral toward players; ettins are natural enemies.
         targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+        targetTasks.addTask(2, new EntityAIGiantRivalTarget(this, 40.0D));
     }
 
     @Override

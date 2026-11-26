@@ -430,8 +430,29 @@ tile.gctcore.jotunheim_fungal_double_slab.name=Giant Fungal Double Slab
 # END JOTUNHEIM WOOD PRODUCTS
 
 entity.ettin.name=Ettin
+entity.gctcore.ettin.name=Ettin
 subtitles.gctcore.ettin_ambient=Ettin growls
 subtitles.gctcore.ettin_hurt=Ettin is hurt
 subtitles.gctcore.ettin_death=Ettin dies
 subtitles.gctcore.ettin_attack=Ettin attacks
 subtitles.gctcore.ettin_roar=Ettin roars
+
+# Ymir masonry
+tile.gctcore.ymir_stone.name=Ymir Stone
+tile.gctcore.ymir_stone_bricks.name=Ymir Stone Bricks
+tile.gctcore.cracked_ymir_stone_bricks.name=Cracked Ymir Stone Bricks
+tile.gctcore.chiseled_ymir_stone.name=Chiseled Ymir Stone
+tile.gctcore.ymir_stone_pillar.name=Ymir Stone Pillar
+tile.gctcore.ymir_stone_stairs.name=Ymir Stone Brick Stairs
+tile.gctcore.ymir_stone_slab.name=Ymir Stone Brick Slab
+tile.gctcore.ymir_stone_double_slab.name=Double Ymir Stone Brick Slab
+tile.gctcore.ymir_stone_wall.name=Ymir Stone Brick Wall
+tile.gctcore.dark_ymir_stone.name=Dark Ymir Stone
+tile.gctcore.dark_ymir_stone_bricks.name=Dark Ymir Stone Bricks
+tile.gctcore.cracked_dark_ymir_stone_bricks.name=Cracked Dark Ymir Stone Bricks
+tile.gctcore.chiseled_dark_ymir_stone.name=Chiseled Dark Ymir Stone
+tile.gctcore.dark_ymir_stone_pillar.name=Dark Ymir Stone Pillar
+tile.gctcore.dark_ymir_stone_stairs.name=Dark Ymir Stone Brick Stairs
+tile.gctcore.dark_ymir_stone_slab.name=Dark Ymir Stone Brick Slab
+tile.gctcore.dark_ymir_stone_double_slab.name=Double Dark Ymir Stone Brick Slab
+tile.gctcore.dark_ymir_stone_wall.name=Dark Ymir Stone Brick Wall

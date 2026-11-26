@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "side": "gctcore:blocks/jotunheim/ymir/dark_ymir_stone_pillar",
+    "end": "gctcore:blocks/jotunheim/ymir/dark_ymir_stone_pillar_top"
+  }
+}

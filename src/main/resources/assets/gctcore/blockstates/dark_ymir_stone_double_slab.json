@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "variant=default": {
+      "model": "gctcore:jotunheim/ymir/dark_ymir_stone_double_slab"
+    }
+  }
+}

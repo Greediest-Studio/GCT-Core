@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "normal": {
+      "model": "gctcore:jotunheim/ymir/ymir_stone_bricks"
+    }
+  }
+}

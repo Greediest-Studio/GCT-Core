@@ -206,7 +206,7 @@ public class EntityRegistrar {
         ETTIN = EntityEntryBuilder.create()
                 .entity(EntityEttin.class)
                 .id(new ResourceLocation(Tags.MOD_ID, "ettin"), 21)
-                .name("ettin")
+                .name(Tags.MOD_ID + ".ettin")
                 .tracker(128, 1, true)
                 .egg(0xA89C7D, 0x4C3D2C)
                 .build();

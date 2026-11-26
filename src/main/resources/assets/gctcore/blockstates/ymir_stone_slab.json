@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=bottom,variant=default": {
+      "model": "gctcore:jotunheim/ymir/ymir_stone_slab"
+    },
+    "half=top,variant=default": {
+      "model": "gctcore:jotunheim/ymir/ymir_stone_slab_top"
+    }
+  }
+}

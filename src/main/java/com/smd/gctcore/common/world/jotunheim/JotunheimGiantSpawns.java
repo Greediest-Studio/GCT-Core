@@ -4,6 +4,7 @@ import com.smd.gctcore.Tags;
 import com.smd.gctcore.common.config.JotunheimConfig;
 import com.smd.gctcore.common.entity.EntityCloudGiantCrossbowman;
 import com.smd.gctcore.common.entity.EntityCloudGiantSentinel;
+import com.smd.gctcore.common.entity.EntityEttin;
 import com.smd.gctcore.common.entity.EntityFireGiant;
 import com.smd.gctcore.common.entity.EntityFomorianNoble;
 import com.smd.gctcore.common.entity.EntityFomorianWarlock;
@@ -44,6 +45,7 @@ public final class JotunheimGiantSpawns {
     private static final Biome.SpawnListEntry WARLOCK = entry(EntityFomorianWarlock.class);
     private static final Biome.SpawnListEntry FIRE = entry(EntityFireGiant.class);
     private static final Biome.SpawnListEntry FROST = entry(EntityFrostGiant.class);
+    private static final Biome.SpawnListEntry ETTIN = entry(EntityEttin.class);
     private static final List<List<List<Biome.SpawnListEntry>>> LISTS = createLists();
 
     private JotunheimGiantSpawns() {}
@@ -68,6 +70,7 @@ public final class JotunheimGiantSpawns {
                 // These are additions to the layer's residents, at every altitude band.
                 if (biome == 6) entries.add(FIRE);
                 if (biome == 1) entries.add(FROST);
+                if (layer != JotunheimTerrainKernel.HeightLayer.CLOUD) entries.add(ETTIN);
                 layers.add(Collections.unmodifiableList(entries));
             }
             biomes.add(Collections.unmodifiableList(layers));
@@ -88,7 +91,8 @@ public final class JotunheimGiantSpawns {
         return type == EntityCloudGiantSentinel.class || type == EntityCloudGiantCrossbowman.class
                 || type == EntityHillGiant.class || type == EntityStoneGiant.class
                 || type == EntityFomorianNoble.class || type == EntityFomorianWarlock.class
-                || type == EntityFireGiant.class || type == EntityFrostGiant.class;
+                || type == EntityFireGiant.class || type == EntityFrostGiant.class
+                || type == EntityEttin.class;
     }
 
     /** Rare, solitary giants may inhabit bright clouds and luminous undergrowth too. */

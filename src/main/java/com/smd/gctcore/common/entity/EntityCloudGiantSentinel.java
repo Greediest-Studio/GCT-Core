@@ -83,6 +83,7 @@ public class EntityCloudGiantSentinel extends EntityMob implements IAnimatable, 
         tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 16.0F));
         tasks.addTask(7, new EntityAILookIdle(this));
         targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+        targetTasks.addTask(2, new EntityAIGiantRivalTarget(this, 40.0D));
         targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
     }
 
