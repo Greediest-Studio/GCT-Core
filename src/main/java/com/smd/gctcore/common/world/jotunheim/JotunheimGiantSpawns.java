@@ -37,40 +37,65 @@ import java.util.List;
 public final class JotunheimGiantSpawns {
     private static final double LOCAL_RADIUS = 64.0D;
     private static final double LOCAL_HEIGHT = 24.0D;
+    private static final int RESIDENT_WEIGHT = 4;
+    private static final int ELEMENTAL_WEIGHT = 12;
+    private static final int VISITOR_WEIGHT = 1;
     private static final Biome.SpawnListEntry SENTINEL = entry(EntityCloudGiantSentinel.class);
     private static final Biome.SpawnListEntry CROSSBOWMAN = entry(EntityCloudGiantCrossbowman.class);
     private static final Biome.SpawnListEntry HILL = entry(EntityHillGiant.class);
     private static final Biome.SpawnListEntry STONE = entry(EntityStoneGiant.class);
     private static final Biome.SpawnListEntry NOBLE = entry(EntityFomorianNoble.class);
     private static final Biome.SpawnListEntry WARLOCK = entry(EntityFomorianWarlock.class);
-    private static final Biome.SpawnListEntry FIRE = entry(EntityFireGiant.class);
-    private static final Biome.SpawnListEntry FROST = entry(EntityFrostGiant.class);
+    private static final Biome.SpawnListEntry FIRE = entry(EntityFireGiant.class, ELEMENTAL_WEIGHT);
+    private static final Biome.SpawnListEntry FROST = entry(EntityFrostGiant.class, ELEMENTAL_WEIGHT);
     private static final Biome.SpawnListEntry ETTIN = entry(EntityEttin.class);
     private static final List<List<List<Biome.SpawnListEntry>>> LISTS = createLists();
 
     private JotunheimGiantSpawns() {}
 
     private static Biome.SpawnListEntry entry(Class<? extends EntityLiving> type) {
-        return new Biome.SpawnListEntry(type, 1, 1, 1);
+        return entry(type, RESIDENT_WEIGHT);
+    }
+
+    private static Biome.SpawnListEntry entry(Class<? extends EntityLiving> type, int weight) {
+        return new Biome.SpawnListEntry(type, weight, 1, 1);
+    }
+
+    private static void addResident(List<Biome.SpawnListEntry> entries, Biome.SpawnListEntry resident,
+                                    boolean elementalBiome) {
+        entries.add(elementalBiome ? entry(resident.entityClass, VISITOR_WEIGHT) : resident);
+    }
+
+    private static boolean isElementalResident(Class<?> type, int biomeIndex) {
+        // Fire giants extend frost giants, so use exact classes to keep their habitats separate.
+        return biomeIndex == 1 && type == EntityFrostGiant.class
+                || biomeIndex == 6 && type == EntityFireGiant.class;
     }
 
     private static List<List<List<Biome.SpawnListEntry>>> createLists() {
         List<List<List<Biome.SpawnListEntry>>> biomes = new ArrayList<>();
         for (int biome = 0; biome < JotunheimTerrainKernel.BIOME_COUNT; biome++) {
+            boolean elementalBiome = biome == 1 || biome == 6;
             List<List<Biome.SpawnListEntry>> layers = new ArrayList<>();
             for (JotunheimTerrainKernel.HeightLayer layer : JotunheimTerrainKernel.HeightLayer.values()) {
                 List<Biome.SpawnListEntry> entries = new ArrayList<>();
                 switch (layer) {
-                    case CLOUD: entries.add(SENTINEL); entries.add(CROSSBOWMAN); break;
-                    case SURFACE: entries.add(HILL); break;
-                    case DEEP: entries.add(STONE); break;
-                    case LAVA: entries.add(NOBLE); entries.add(WARLOCK); break;
+                    case CLOUD:
+                        addResident(entries, SENTINEL, elementalBiome);
+                        addResident(entries, CROSSBOWMAN, elementalBiome);
+                        break;
+                    case SURFACE: addResident(entries, HILL, elementalBiome); break;
+                    case DEEP: addResident(entries, STONE, elementalBiome); break;
+                    case LAVA:
+                        addResident(entries, NOBLE, elementalBiome);
+                        addResident(entries, WARLOCK, elementalBiome);
+                        break;
                     default: break;
                 }
-                // These are additions to the layer's residents, at every altitude band.
+                // Frost/fire giants dominate their own biomes across all four altitude bands.
                 if (biome == 6) entries.add(FIRE);
                 if (biome == 1) entries.add(FROST);
-                if (layer != JotunheimTerrainKernel.HeightLayer.CLOUD) entries.add(ETTIN);
+                if (layer != JotunheimTerrainKernel.HeightLayer.CLOUD) addResident(entries, ETTIN, elementalBiome);
                 layers.add(Collections.unmodifiableList(entries));
             }
             biomes.add(Collections.unmodifiableList(layers));
@@ -115,9 +140,10 @@ public final class JotunheimGiantSpawns {
         BlockPos feet = new BlockPos(giant.posX, box.minY, giant.posZ);
         Biome biome = world.getBiome(feet);
         if (!(biome instanceof BiomeJotunheimBase)) return;
+        int biomeIndex = ((BiomeJotunheimBase) biome).index();
         boolean eligible = false;
         for (Biome.SpawnListEntry entry : getPossibleCreatures(EnumCreatureType.MONSTER,
-                ((BiomeJotunheimBase) biome).index(), feet)) {
+                biomeIndex, feet)) {
             if (entry.entityClass == giant.getClass()) { eligible = true; break; }
         }
         if (!eligible || !world.getWorldBorder().contains(feet)) return;
@@ -126,7 +152,11 @@ public final class JotunheimGiantSpawns {
                 || !floor.canEntitySpawn(giant)) return;
 
         // Weights only select a species; an independent roll controls actual rarity.
-        if (world.rand.nextInt(Math.max(1, JotunheimConfig.giantSpawnRoll)) != 0) return;
+        int spawnRoll = Math.max(1, JotunheimConfig.giantSpawnRoll);
+        if (isElementalResident(giant.getClass(), biomeIndex)) {
+            spawnRoll = Math.max(1, (spawnRoll + 3) / 4);
+        }
+        if (world.rand.nextInt(spawnRoll) != 0) return;
         // Ettins pass only one in four of their formerly eligible natural spawn attempts.
         if (giant instanceof EntityEttin && world.rand.nextInt(4) != 0) return;
         if (!giant.isNotColliding()) return;

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "tier=joetunheim": { "model": "gctcore:pylon_joetunheim" },
+    "tier=nidavellir": { "model": "gctcore:pylon_nidavellir" },
+    "tier=vanaheim": { "model": "gctcore:pylon_vanaheim" }
+  }
+}

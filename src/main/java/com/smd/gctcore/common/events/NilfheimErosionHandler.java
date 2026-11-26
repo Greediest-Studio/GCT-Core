@@ -15,8 +15,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
@@ -71,56 +69,12 @@ public class NilfheimErosionHandler {
         syncIfNeeded((EntityPlayerMP) player, erosion, true, false);
     }
 
-    @SubscribeEvent
-    public void onWorldTick(TickEvent.WorldTickEvent event) {
-        if (event.phase != TickEvent.Phase.END || event.world.isRemote || event.world.provider.getDimension() != NilfheimBiomes.DIMENSION_ID) {
-            return;
-        }
-
-        applyLocalSnow((WorldServer) event.world);
-    }
-
     private float growthFor(EntityPlayer player) {
         if (player.world.getBiome(player.getPosition()) == NilfheimBiomes.MISTVEIL_DEPTHS
                 || player.world.getBiome(player.getPosition()) == NilfheimBiomes.HOWLING_ICEFIELD) {
             return FAST_GROWTH_PER_TICK;
         }
         return GROWTH_PER_TICK;
-    }
-
-    private void applyLocalSnow(WorldServer world) {
-        if (world.getTotalWorldTime() % 4L != 0L) {
-            return;
-        }
-
-        for (EntityPlayer player : world.playerEntities) {
-            for (int i = 0; i < 4; i++) {
-                int x = (int) player.posX + world.rand.nextInt(33) - 16;
-                int z = (int) player.posZ + world.rand.nextInt(33) - 16;
-                BlockPos column = new BlockPos(x, 0, z);
-                if (!world.isBlockLoaded(column, false)) {
-                    continue;
-                }
-
-                BlockPos top = world.getPrecipitationHeight(column);
-                BlockPos below = top.down();
-                if (!world.isBlockLoaded(below, false) || !world.isAreaLoaded(below, 1)) {
-                    continue;
-                }
-
-                Chunk chunk = world.getChunk(below);
-                if (!world.provider.canDoRainSnowIce(chunk)) {
-                    continue;
-                }
-
-                if (world.canBlockFreezeNoWater(below)) {
-                    world.setBlockState(below, Blocks.ICE.getDefaultState(), 2);
-                }
-                if (world.canSnowAt(top, true)) {
-                    world.setBlockState(top, Blocks.SNOW_LAYER.getDefaultState(), 2);
-                }
-            }
-        }
     }
 
     private boolean isNearMistRepellingLight(World world, BlockPos center) {

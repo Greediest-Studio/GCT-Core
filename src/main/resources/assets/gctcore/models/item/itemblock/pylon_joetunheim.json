@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gctcore:items/pylon_joetunheim"
+  }
+}

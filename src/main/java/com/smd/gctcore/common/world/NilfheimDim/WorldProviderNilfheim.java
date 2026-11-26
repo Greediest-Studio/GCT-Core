@@ -3,6 +3,7 @@ package com.smd.gctcore.common.world.NilfheimDim;
 import com.smd.gctcore.common.world.biome.nilfheim.BiomeProviderNilfheim;
 import com.smd.gctcore.common.world.chunks.ChunkGeneratorNilfheim;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
@@ -75,7 +76,43 @@ public class WorldProviderNilfheim extends WorldProvider {
 
     @Override
     public boolean canDoRainSnowIce(net.minecraft.world.chunk.Chunk chunk) {
-        return true;
+        return false;
+    }
+
+    @Override
+    public boolean canBlockFreeze(BlockPos pos, boolean byWater) {
+        return false;
+    }
+
+    @Override
+    public boolean canSnowAt(BlockPos pos, boolean checkLight) {
+        return false;
+    }
+
+    @Override
+    public void calculateInitialWeather() {
+        clearWeatherStrengths();
+    }
+
+    @Override
+    public void updateWeather() {
+        // The client renderer draws permanent snowfall without ticking actual weather.
+        clearWeatherStrengths();
+    }
+
+    @Override
+    public void resetRainAndThunder() {
+        clearWeatherStrengths();
+    }
+
+    private void clearWeatherStrengths() {
+        // Derived dimension WorldInfo may share the overworld's weather flags/timers.
+        // Clear only this world's strengths and never advance those timers.
+        // The public fields are shared-side; the corresponding setters are client-only.
+        world.prevRainingStrength = 0.0F;
+        world.rainingStrength = 0.0F;
+        world.prevThunderingStrength = 0.0F;
+        world.thunderingStrength = 0.0F;
     }
 
     @Override

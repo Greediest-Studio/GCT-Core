@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.client.render.tile.RenderNilfheimPortal;
 import com.smd.gctcore.client.render.tile.RenderGctManaSpreader;
+import com.smd.gctcore.client.render.tile.RenderGctManaPylon;
 import com.smd.gctcore.common.blocks.botania.BlockGctManaPool;
 import com.smd.gctcore.common.botania.GctManaPoolTier;
 import com.smd.gctcore.common.botania.GctManaWoodVariant;
@@ -21,6 +22,7 @@ import com.smd.gctcore.client.YmirForceOverlay;
 import com.smd.gctcore.common.items.ItemGiantTalisman;
 import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
 import com.smd.gctcore.common.tile.botania.TileGctManaPool;
+import com.smd.gctcore.common.tile.botania.TileGctManaPylon;
 import com.smd.gctcore.common.tile.botania.TileGctManaSpreader;
 import com.smd.gctcore.misc.BlockRegistry;
 import com.smd.gctcore.misc.ItemRegistry;
@@ -73,6 +75,7 @@ public class ClientProxy extends CommonProxy {
         // 注册实体渲染器
         EntityRenders.registerEntityRenders();
         ClientRegistry.bindTileEntitySpecialRenderer(NilfheimPortalTileEntity.class, new RenderNilfheimPortal());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileGctManaPylon.class, new RenderGctManaPylon());
         if (com.smd.gctcore.misc.Mods.BOT.isLoading()) {
             ClientRegistry.bindTileEntitySpecialRenderer(TileGctManaPool.class, new RenderTilePool());
             ClientRegistry.bindTileEntitySpecialRenderer(TileGctManaSpreader.class, new RenderGctManaSpreader());
@@ -281,8 +284,12 @@ public class ClientProxy extends CommonProxy {
 
             Item rock = Item.getItemFromBlock(BlockRegistry.GCT_MANA_ROCK);
             Item pool = Item.getItemFromBlock(BlockRegistry.GCT_MANA_POOL);
+            Item pylon = Item.getItemFromBlock(BlockRegistry.GCT_MANA_PYLON);
             Item spreader = Item.getItemFromBlock(BlockRegistry.GCT_MANA_SPREADER);
             for (GctManaPoolTier tier : GctManaPoolTier.values()) {
+                ModelLoader.setCustomModelResourceLocation(pylon, tier.ordinal(),
+                        new ModelResourceLocation(new ResourceLocation(Tags.MOD_ID,
+                                "itemblock/pylon_" + tier.getName()), "inventory"));
                 ModelLoader.setCustomModelResourceLocation(rock, tier.ordinal(),
                         new ModelResourceLocation(
                                 new ResourceLocation(Tags.MOD_ID, tier.getName() + "_rock"),

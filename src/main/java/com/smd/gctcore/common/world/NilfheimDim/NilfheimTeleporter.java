@@ -56,6 +56,8 @@ public class NilfheimTeleporter extends Teleporter {
 
                     BlockPos found = findSafeColumnPosition(world, baseX + dx, baseZ + dz);
                     if (found != null) {
+                        clearArrivalSnow(world, found);
+                        clearArrivalSnow(world, found.up());
                         return found;
                     }
                 }
@@ -87,8 +89,23 @@ public class NilfheimTeleporter extends Teleporter {
                 && belowMaterial.blocksMovement()
                 && !belowMaterial.isLiquid()
                 && below.getBlock() != Blocks.FIRE
-                && feetState.getBlock().isAir(feetState, world, feet)
-                && headState.getBlock().isAir(headState, world, feet.up());
+                && below.getBlock() != Blocks.MAGMA
+                && below.getBlock() != Blocks.CACTUS
+                && isArrivalSpace(world, feet, feetState)
+                && isArrivalSpace(world, feet.up(), headState);
+    }
+
+    private static boolean isArrivalSpace(WorldServer world, BlockPos pos, IBlockState state) {
+        // Snow on an otherwise safe floor can be cleared once this candidate
+        // is selected. Other replaceable plants, fluids and solid blocks stay
+        // obstacles; searching for a destination must not alter the terrain.
+        return state.getBlock() == Blocks.SNOW_LAYER || state.getBlock().isAir(state, world, pos);
+    }
+
+    private static void clearArrivalSnow(WorldServer world, BlockPos pos) {
+        if (world.getBlockState(pos).getBlock() == Blocks.SNOW_LAYER) {
+            world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
+        }
     }
 
     private static void prepareFallbackPlatform(WorldServer world, BlockPos base) {

@@ -5,6 +5,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -50,6 +51,16 @@ public class BlockJotunheimNatural extends Block {
     @Override
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
         return cluster ? new AxisAlignedBB(0.125D, 0.0D, 0.125D, 0.875D, 1.0D, 0.875D) : FULL_BLOCK_AABB;
+    }
+
+    @Override
+    public boolean canCreatureSpawn(IBlockState state, IBlockAccess world, BlockPos pos,
+                                    EntityLiving.SpawnPlacementType type) {
+        // The cloud/deep frost islands have full ice floors. Their translucency must not
+        // exclude them in vanilla's ground check, which runs before CheckSpawn events.
+        if (!cluster && state.getMaterial() == Material.ICE
+                && type == EntityLiving.SpawnPlacementType.ON_GROUND) return true;
+        return super.canCreatureSpawn(state, world, pos, type);
     }
 
     @Override

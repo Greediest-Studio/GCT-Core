@@ -1,10 +1,14 @@
 package com.smd.gctcore.common.world.chunks;
 
 import com.smd.gctcore.common.world.biome.nilfheim.NilfheimBiomes;
+import com.smd.gctcore.common.world.biome.jotunheim.JotunheimBiomeStorage;
 import com.smd.gctcore.common.blocks.nilfheim.BlockNilfheimFluid;
 import com.smd.gctcore.misc.BlockRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBush;
+import net.minecraft.block.BlockSnow;
 import net.minecraft.block.BlockVine;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
@@ -64,12 +68,12 @@ public class ChunkGeneratorNilfheim implements IChunkGenerator {
         floodSunkenTearAirPockets(primer, biomes);
         generateBiomeFeaturesInPrimer(primer, chunkX, chunkZ, biomes);
         generateTreesInPrimer(primer, chunkX, chunkZ);
+        generateSnowInPrimer(primer, chunkX, chunkZ);
 
         Chunk chunk = new Chunk(world, primer, chunkX, chunkZ);
-        byte[] biomeArray = chunk.getBiomeArray();
-        for (int i = 0; i < biomeArray.length; i++) {
-            biomeArray[i] = (byte) Biome.getIdForBiome(biomes[i]);
-        }
+        // Share the extended biome-ID backend already used by Jotunheim.
+        // REID's getBiomeArray() returns dummy bytes, not writable biome storage.
+        JotunheimBiomeStorage.write(chunk, biomes);
 
         chunk.generateSkylightMap();
         return chunk;
@@ -580,7 +584,7 @@ public class ChunkGeneratorNilfheim implements IChunkGenerator {
 
     private void decorateSurface(Random rand, BlockPos surface, Biome biome) {
         BlockPos pos = surface;
-        if (!world.isAirBlock(pos)) {
+        if (!isSurfaceDecorationSpace(world.getBlockState(pos))) {
             pos = pos.up();
         }
         BlockPos ground = pos.down();
@@ -606,9 +610,24 @@ public class ChunkGeneratorNilfheim implements IChunkGenerator {
     }
 
     private void placePlant(BlockPos pos, IBlockState plant) {
-        if (world.isAirBlock(pos) && plant.getBlock().canPlaceBlockAt(world, pos)) {
+        // Small plants populate after primer terrain. Let them replace the
+        // generated snow cover instead of losing the dimension's vegetation.
+        IBlockState previous = world.getBlockState(pos);
+        if (!isSurfaceDecorationSpace(previous)) {
+            return;
+        }
+        // Vanilla only considers one-layer snow replaceable. Check a bush's
+        // real support directly when replacing our thicker drifts instead.
+        boolean canPlace = previous.getBlock() == Blocks.SNOW_LAYER && plant.getBlock() instanceof BlockBush
+                ? ((BlockBush) plant.getBlock()).canBlockStay(world, pos, plant)
+                : plant.getBlock().canPlaceBlockAt(world, pos);
+        if (canPlace) {
             world.setBlockState(pos, plant, 2);
         }
+    }
+
+    private static boolean isSurfaceDecorationSpace(IBlockState state) {
+        return state.getBlock() == Blocks.AIR || state.getBlock() == Blocks.SNOW_LAYER;
     }
 
     private void hangVine(BlockPos pos, IBlockState vine, int length) {
@@ -807,6 +826,79 @@ public class ChunkGeneratorNilfheim implements IChunkGenerator {
         if (primer.getBlockState(localX, pos.getY(), localZ).getBlock() == Blocks.AIR) {
             primer.setBlockState(localX, pos.getY(), localZ, state);
         }
+    }
+
+    private void generateSnowInPrimer(ChunkPrimer primer, int chunkX, int chunkZ) {
+        for (int x = 0; x < 16; x++) {
+            for (int z = 0; z < 16; z++) {
+                int layers = snowLayersAt(chunkX * 16 + x, chunkZ * 16 + z);
+                boolean passedCanopy = false;
+
+                // Stop at the first solid surface or liquid. Foliage may let
+                // snow reach the forest floor, but a cave/roof never does.
+                for (int y = 255; y > 0; y--) {
+                    IBlockState support = primer.getBlockState(x, y, z);
+                    Block block = support.getBlock();
+                    Material material = support.getMaterial();
+                    if (block == Blocks.AIR || block == Blocks.SNOW_LAYER) {
+                        continue;
+                    }
+                    if (material.isLiquid()) {
+                        break;
+                    }
+                    if (material == Material.LEAVES) {
+                        // Snow only the canopy's outermost top, not every
+                        // internal gap between tiers of pine leaves.
+                        if (!passedCanopy && y < 255
+                                && primer.getBlockState(x, y + 1, z).getBlock() == Blocks.AIR) {
+                            primer.setBlockState(x, y + 1, z, Blocks.SNOW_LAYER.getDefaultState()
+                                    .withProperty(BlockSnow.LAYERS, Math.min(2, layers)));
+                        }
+                        passedCanopy = true;
+                        continue;
+                    }
+                    if (material == Material.PLANTS || material == Material.VINE) {
+                        // Existing plants remain untouched. A hanging vine
+                        // does not prevent snow on open terrain far below it.
+                        continue;
+                    }
+                    if (y < 255 && canSupportNaturalSnow(support)
+                            && primer.getBlockState(x, y + 1, z).getBlock() == Blocks.AIR) {
+                        primer.setBlockState(x, y + 1, z, Blocks.SNOW_LAYER.getDefaultState()
+                                .withProperty(BlockSnow.LAYERS, layers));
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    private static boolean canSupportNaturalSnow(IBlockState state) {
+        Block block = state.getBlock();
+        // Deliberately list terrain, not all solid blocks: paths, masonry,
+        // technical blocks and ores keep their appearance. Glassrock is a
+        // natural top block with a solid UP face despite its non-full render.
+        if (block == BlockRegistry.GLASSROCK) {
+            return true;
+        }
+        return state.isFullCube() && (block == BlockRegistry.RIMESTEEL_STONE
+                || block == BlockRegistry.BLACK_RIME_STONE
+                || block == BlockRegistry.MIST_CRYSTAL_STONE
+                || block == BlockRegistry.EROSION_MOSS
+                || block == BlockRegistry.PERMAFROST
+                || block == BlockRegistry.ANCIENT_SNOW
+                || block == BlockRegistry.ASHEN_SOIL
+                || block == BlockRegistry.BOILING_MUD
+                || block == BlockRegistry.SOUL_ICE);
+    }
+
+    private int snowLayersAt(int worldX, int worldZ) {
+        // Continuous world-space noise makes drifts span chunk boundaries;
+        // squaring the field keeps thin snow common and deeper patches rare.
+        double drift = 0.5D + noise(worldX, worldZ, 0.018D, 2601L) * 0.32D
+                + noise(worldX, worldZ, 0.065D, 2602L) * 0.18D;
+        drift = Math.max(0.0D, Math.min(1.0D, drift));
+        return clamp(1 + (int) Math.floor(drift * drift * 5.0D), 1, 5);
     }
 
     private void generateCrystalCluster(World world, Random rand, BlockPos pos) {

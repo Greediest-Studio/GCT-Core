@@ -8,7 +8,7 @@ import net.minecraftforge.common.config.Config;
 /** Generation settings are snapshotted when a world provider is opened. */
 @Config(modid = Tags.MOD_ID, name = "GCTCore/Jotunheim")
 public final class JotunheimConfig {
-    @Config.Comment("One in this many otherwise valid giant natural-spawn attempts succeeds. Lower values spawn more giants; independent of species weights.")
+    @Config.Comment("One in this many otherwise valid giant natural-spawn attempts succeeds. Lower values spawn more giants; independent of species weights. Frost giants in Frostwaste and fire giants in Obsidian Caldera use one quarter of this roll (rounded up). Ettins pass an additional one-in-four roll.")
     @Config.RangeInt(min = 1, max = 128)
     public static int giantSpawnRoll = 24;
 

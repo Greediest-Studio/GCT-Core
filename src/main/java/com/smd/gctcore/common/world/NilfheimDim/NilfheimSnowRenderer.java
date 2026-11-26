@@ -15,6 +15,7 @@ import net.minecraftforge.client.IRenderHandler;
 
 import java.util.Random;
 
+/** Client-only perpetual snow, independent of rain strength and server weather. */
 public class NilfheimSnowRenderer extends IRenderHandler {
     private static final ResourceLocation SNOW_TEXTURES = new ResourceLocation("textures/environment/snow.png");
     private final Random random = new Random();
