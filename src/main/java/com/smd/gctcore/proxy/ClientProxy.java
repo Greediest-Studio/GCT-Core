@@ -17,6 +17,8 @@ import com.smd.gctcore.common.integration.extendedcrafting.ExtendedPatternData;
 import com.smd.gctcore.common.events.MiningSpeedHandler;
 import com.smd.gctcore.client.JotunheimBlockModels;
 import com.smd.gctcore.client.YmirBlockModels;
+import com.smd.gctcore.client.YmirForceOverlay;
+import com.smd.gctcore.common.items.ItemGiantTalisman;
 import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
 import com.smd.gctcore.common.tile.botania.TileGctManaPool;
 import com.smd.gctcore.common.tile.botania.TileGctManaSpreader;
@@ -64,6 +66,7 @@ public class ClientProxy extends CommonProxy {
         MinecraftForge.EVENT_BUS.register(this);
 
         MinecraftForge.EVENT_BUS.register(new MiningSpeedHandler());
+        MinecraftForge.EVENT_BUS.register(new YmirForceOverlay());
         ClientRegistry.registerKeyBinding(MiningSpeedHandler.KEY_MINING_SPEED_ADD);
         ClientRegistry.registerKeyBinding(MiningSpeedHandler.KEY_MINING_SPEED_MINUS);
 
@@ -144,6 +147,11 @@ public class ClientProxy extends CommonProxy {
             registerItemModel(ItemRegistry.TIME_ADJUSTER);
             registerItemModel(ItemRegistry.DIAMOND_DUNGEON_KEY);
             registerItemModel(ItemRegistry.HIGHFIELD_GEM);
+            for (int metadata = 0; metadata < ItemGiantTalisman.VARIANT_COUNT; metadata++) {
+                ModelLoader.setCustomModelResourceLocation(ItemRegistry.GIANT_TALISMAN, metadata,
+                        new ModelResourceLocation(new ResourceLocation(Tags.MOD_ID,
+                                "giant_talisman_" + ItemGiantTalisman.variantNameForMetadata(metadata)), "inventory"));
+            }
             if (ItemRegistry.MINING_LEVEL_UPGRADE != null) {
                 registerItemModel(ItemRegistry.MINING_LEVEL_UPGRADE);
             }

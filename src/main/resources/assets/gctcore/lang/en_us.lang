@@ -3,6 +3,25 @@ key.gctcore.categories=Gct Core
 tile.gctcore.apathy_ore.name=Apathy Ore
 item.gctcore.apathy_ingot.name=Apathy Ingot
 death.attack.nilfheim_erosion=%1$s was consumed by the Erosion Mist
+death.attack.ymir_force=%1$s was crushed by the Ymir force field of the giants' realm
+
+# Ymir force field and giant talisman
+item.gctcore.giant_talisman.name=Giant Talisman
+item.gctcore.giant_talisman.cloud.name=Giant Talisman (Cloud)
+item.gctcore.giant_talisman.surface.name=Giant Talisman (Surface)
+item.gctcore.giant_talisman.deep.name=Giant Talisman (Deep)
+item.gctcore.giant_talisman.lava.name=Giant Talisman (Infernal)
+tooltip.gctcore.giant_talisman.layer=Attuned realm: %s
+tooltip.gctcore.giant_talisman.layer.cloud=Cloud Realm
+tooltip.gctcore.giant_talisman.layer.surface=Surface Realm
+tooltip.gctcore.giant_talisman.layer.deep=Deep Realm
+tooltip.gctcore.giant_talisman.layer.lava=Infernal Realm
+tooltip.gctcore.giant_talisman.switch=Traverse Ymir's Hell to attune to the destination realm
+tooltip.gctcore.giant_talisman.use=Carry in your inventory to resist that realm's Ymir force field
+gui.gctcore.ymir_force.cloud=Cloud
+gui.gctcore.ymir_force.surface=Surface
+gui.gctcore.ymir_force.deep=Deep
+gui.gctcore.ymir_force.lava=Lava
 key.gctcore.mining_speed_add=MiningSpeedIncreased
 key.gctcore.mining_speed_minus=ReducedDiggingSpeed
 

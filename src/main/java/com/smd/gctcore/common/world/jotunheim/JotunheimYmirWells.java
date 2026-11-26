@@ -69,6 +69,16 @@ public final class JotunheimYmirWells {
             return new BlockPos(x + DX[upperExit] * 11, upperFloorY + 1,
                     z + DZ[upperExit] * 11);
         }
+
+        /** Walkable interior, crown gallery and three-wide approaches, excluding the outer facade. */
+        public boolean shelters(BlockPos pos) {
+            if (!contains(pos.getX(), pos.getY(), pos.getZ())) return false;
+            int dx = pos.getX() - x, dz = pos.getZ() - z, y = pos.getY();
+            if (octagon(dx, dz, 7, 11) && y > lowerFloorY && y <= upperFloorY + 6) return true;
+            if (y > upperFloorY && y <= upperFloorY + 6 && octagon(dx, dz, 12, 18)) return true;
+            return (inEntrance(dx, dz, lowerExit) && y > lowerFloorY - lowerDrop && y <= lowerFloorY + 6)
+                    || (inEntrance(dx, dz, upperExit) && y > upperFloorY - upperDrop && y <= upperFloorY + 6);
+        }
     }
 
     private final long seed;
@@ -474,8 +484,14 @@ public final class JotunheimYmirWells {
     }
 
     public boolean isInside(BlockPos pos) {
-        Plan plan = planForRegion(Math.floorDiv(pos.getX(), REGION_BLOCKS), Math.floorDiv(pos.getZ(), REGION_BLOCKS));
+        Plan plan = wellAt(pos);
         return plan != null && plan.contains(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    @Nullable
+    public Plan wellAt(BlockPos pos) {
+        Plan plan = planForRegion(Math.floorDiv(pos.getX(), REGION_BLOCKS), Math.floorDiv(pos.getZ(), REGION_BLOCKS));
+        return plan != null && plan.contains(pos.getX(), pos.getY(), pos.getZ()) ? plan : null;
     }
 
     /** Bounded locator. Terrain prediction never loads/generates the destination chunks. */

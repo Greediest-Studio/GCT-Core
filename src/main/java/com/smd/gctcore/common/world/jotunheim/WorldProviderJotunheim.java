@@ -14,21 +14,24 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public final class WorldProviderJotunheim extends WorldProvider {
     private JotunheimTerrainKernel kernel;
+    private JotunheimYmirWells wells;
 
     @Override
     public void init() {
         kernel = new JotunheimTerrainKernel(world.getSeed(), JotunheimConfig.snapshot());
+        wells = new JotunheimYmirWells(world.getSeed(), kernel);
         biomeProvider = new BiomeProviderJotunheim(kernel);
         hasSkyLight = true;
     }
 
     public JotunheimTerrainKernel terrainKernel() { return kernel; }
+    public JotunheimYmirWells ymirWells() { return wells; }
 
     @Override
     public DimensionType getDimensionType() { return JotunheimDimension.TYPE; }
 
     @Override
-    public IChunkGenerator createChunkGenerator() { return new ChunkGeneratorJotunheim(world, kernel); }
+    public IChunkGenerator createChunkGenerator() { return new ChunkGeneratorJotunheim(world, kernel, wells); }
 
     @Override
     public boolean isSurfaceWorld() { return true; }

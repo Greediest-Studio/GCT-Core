@@ -42,11 +42,15 @@ public final class ChunkGeneratorJotunheim implements IChunkGenerator {
     }
 
     public ChunkGeneratorJotunheim(World world, JotunheimTerrainKernel kernel) {
+        this(world, kernel, new JotunheimYmirWells(world.getSeed(), kernel));
+    }
+
+    public ChunkGeneratorJotunheim(World world, JotunheimTerrainKernel kernel, JotunheimYmirWells wells) {
         this.world = world;
         this.kernel = kernel;
         this.vegetation = new JotunheimVegetation(world.getSeed(), kernel);
         this.skyFeatures = new JotunheimSkyFeatures(world.getSeed(), kernel);
-        this.ymirWells = new JotunheimYmirWells(world.getSeed(), kernel);
+        this.ymirWells = wells;
         this.structuresEnabled = world.getWorldInfo().isMapFeaturesEnabled();
         Map<String, IBlockState> states = new HashMap<>();
         for (int biome = 0; biome < 8; biome++) {

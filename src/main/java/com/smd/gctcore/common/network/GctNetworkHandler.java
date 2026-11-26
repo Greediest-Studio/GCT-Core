@@ -15,5 +15,6 @@ public final class GctNetworkHandler {
         CHANNEL.registerMessage(PacketNilfheimErosion.class, PacketNilfheimErosion.class, packetId++, Side.CLIENT);
         CHANNEL.registerMessage(PacketExtendedPatternTerminal.Handler.class, PacketExtendedPatternTerminal.class, packetId++, Side.SERVER);
         CHANNEL.registerMessage(PacketTimeLockedSync.class, PacketTimeLockedSync.class, packetId++, Side.CLIENT);
+        CHANNEL.registerMessage(PacketYmirForce.class, PacketYmirForce.class, packetId++, Side.CLIENT);
     }
 }

@@ -39,6 +39,7 @@ public class ItemRegistry {
     public static Item TIME_ADJUSTER;
     public static Item DIAMOND_DUNGEON_KEY;
     public static Item HIGHFIELD_GEM;
+    public static ItemGiantTalisman GIANT_TALISMAN;
     public static Item MINING_LEVEL_UPGRADE;
     public static Item ENERGY_MK2_UPGRADE;
 
@@ -71,6 +72,7 @@ public class ItemRegistry {
                 .setRegistryName("highfield_gem")
                 .setTranslationKey("gctcore.highfield_gem")
                 .setCreativeTab(CreativeTabs.MATERIALS);
+        GIANT_TALISMAN = new ItemGiantTalisman();
         OreDictionary.registerOre("gemHighfield", HIGHFIELD_GEM);
         if (Loader.isModLoaded("mekanism")) {
             MINING_LEVEL_UPGRADE = new ItemMiningLevelUpgrade();
@@ -98,7 +100,8 @@ public class ItemRegistry {
                 BIRD_OF_EDWIN,
                 TIME_ADJUSTER,
                 DIAMOND_DUNGEON_KEY,
-                HIGHFIELD_GEM
+                HIGHFIELD_GEM,
+                GIANT_TALISMAN
         );
         if (MINING_LEVEL_UPGRADE != null) {
             event.getRegistry().register(MINING_LEVEL_UPGRADE);

@@ -15,6 +15,7 @@ public class MixinConfig implements ILateMixinLoader {
     static {
         addModdedMixinCFG("mixins.gctcore.babymobs.json", "babymobs");
         addModdedMixinCFG("mixins.gctcore.aether.json", "aether_legacy");
+        addModdedMixinCFG("mixins.gctcore.battletowers.json", "battletowers");
         addModdedMixinCFG("mixins.gctcore.additions.json", "additions");
         addModdedMixinCFG("mixins.gctcore.avaritia.json", "avaritia");
         addModdedMixinCFG("mixins.gctcore.spiceoflife.json", "spiceoflife");

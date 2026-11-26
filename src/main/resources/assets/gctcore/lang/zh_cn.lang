@@ -7,6 +7,25 @@ info.gct.energy=充能
 effect.sukhavati=极乐净土
 effect.gctcore.immobilized=定身
 death.attack.nilfheim_erosion=%1$s被蚀雾吞没了
+death.attack.ymir_force=%1$s被巨人国度的尤弥尔力场压扁了
+
+# Ymir force field and giant talisman
+item.gctcore.giant_talisman.name=巨人护符
+item.gctcore.giant_talisman.cloud.name=巨人护符（云层）
+item.gctcore.giant_talisman.surface.name=巨人护符（地面层）
+item.gctcore.giant_talisman.deep.name=巨人护符（地下层）
+item.gctcore.giant_talisman.lava.name=巨人护符（熔岩层）
+tooltip.gctcore.giant_talisman.layer=当前适应：%s
+tooltip.gctcore.giant_talisman.layer.cloud=云层
+tooltip.gctcore.giant_talisman.layer.surface=地面层
+tooltip.gctcore.giant_talisman.layer.deep=地下层
+tooltip.gctcore.giant_talisman.layer.lava=熔岩层
+tooltip.gctcore.giant_talisman.switch=穿越尤弥尔之井后自动适应目的层
+tooltip.gctcore.giant_talisman.use=携带于背包中即可抵御对应层的尤弥尔力场
+gui.gctcore.ymir_force.cloud=云层
+gui.gctcore.ymir_force.surface=地面
+gui.gctcore.ymir_force.deep=地下
+gui.gctcore.ymir_force.lava=熔岩
 
 # Entities
 entity.gctcore.aether_zephyr.name=西风啸云

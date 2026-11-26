@@ -4,6 +4,7 @@ import com.smd.gctcore.common.events.EventHooks;
 import com.smd.gctcore.common.events.MoreTconBedrockHandler;
 import com.smd.gctcore.common.events.NilfheimErosionHandler;
 import com.smd.gctcore.common.events.TimeLockedSyncHandler;
+import com.smd.gctcore.common.events.YmirForceHandler;
 import com.smd.gctcore.common.integration.aether.AetherZephyrNameFix;
 import com.smd.gctcore.common.integration.WorldDimensionIntegrations;
 import com.smd.gctcore.common.integration.extendedcrafting.ExtendedCraftingAutomation;
@@ -66,6 +67,7 @@ public class CommonProxy {
         MinecraftForge.EVENT_BUS.register(EventHooks.INSTANCE);
         MinecraftForge.EVENT_BUS.register(new NilfheimErosionHandler());
         MinecraftForge.EVENT_BUS.register(new TimeLockedSyncHandler());
+        MinecraftForge.EVENT_BUS.register(new YmirForceHandler());
         MinecraftForge.EVENT_BUS.register(new BlockRegistry());
         MinecraftForge.EVENT_BUS.register(new JotunheimBlocks());
         MinecraftForge.EVENT_BUS.register(new JotunheimWoodBlocks());

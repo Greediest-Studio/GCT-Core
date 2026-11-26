@@ -35,8 +35,10 @@ public final class JotunheimTerrainKernel {
         SURFACE(115, 190, 154, 14.0D, 25.0D, 256, 0.88D, 0x38A25C17L),
         CLOUD(200, 250, 224, 7.0D, 14.0D, 192, 0.66D, 0x491C7E63L);
 
+        /** Lowest allowed island-body block, including the extended underside; not the surface. */
         public final int minY;
         public final int maxY;
+        /** Terrain shaping reference only; digging below it must not change the force-field layer. */
         public final int typicalSurface;
         private final double variation;
         private final double thickness;

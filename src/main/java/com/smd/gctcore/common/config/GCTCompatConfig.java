@@ -45,6 +45,39 @@ public class GCTCompatConfig {
     @Config.Name("Extended Crafting Automation")
     public static ExtendedCraftingAutomation extendedCraftingAutomation = new ExtendedCraftingAutomation();
 
+    @Config.Comment("Battle Towers natural-generation dimension filter; compatible with Battle Towers Fixes")
+    @Config.Name("Battle Towers")
+    public static BattleTowers battleTowers = new BattleTowers();
+
+    public static class BattleTowers {
+        @Config.Comment({
+                "Apply the GCT-Core dimension filter to natural Battle Tower generation.",
+                "Manual tower spawn, regenerate and delete commands are unaffected.",
+                "The original Battle Towers and Battle Towers Fixes generation checks still apply."
+        })
+        @Config.Name("Enable Dimension Filter")
+        @Config.RequiresWorldRestart
+        public boolean enableDimensionFilter = true;
+
+        @Config.Comment({
+                "True: only the Dimension IDs list is allowed (whitelist).",
+                "False: every dimension except the listed IDs is allowed (blacklist).",
+                "An empty whitelist blocks all natural towers; an empty blacklist allows all."
+        })
+        @Config.Name("Use Dimension Whitelist")
+        @Config.RequiresWorldRestart
+        public boolean dimensionListIsWhitelist = true;
+
+        @Config.Comment({
+                "Numeric dimension IDs for the natural-generation whitelist or blacklist.",
+                "Defaults: -1 = Nether, 0 = Overworld, 1 = End.",
+                "This only adds a restriction: biome/provider checks and other mods' filters remain active."
+        })
+        @Config.Name("Dimension IDs")
+        @Config.RequiresWorldRestart
+        public int[] dimensionIds = {-1, 0, 1};
+    }
+
     public static class ExtendedCraftingAutomation {
         @Config.Comment({
             "Ticks required for an Extended Molecular Assembler to finish one batch (minimum 5).",
