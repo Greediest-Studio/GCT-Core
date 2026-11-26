@@ -186,5 +186,25 @@
   "fomorian_warlock_death": {
     "subtitle": "subtitles.gctcore.fomorian_warlock_death",
     "sounds": ["gctcore:cloud_giant_priest_death"]
+  },
+  "ettin_ambient": {
+    "subtitle": "subtitles.gctcore.ettin_ambient",
+    "sounds": ["gctcore:cloud_giant_priest_ambient"]
+  },
+  "ettin_hurt": {
+    "subtitle": "subtitles.gctcore.ettin_hurt",
+    "sounds": ["gctcore:cloud_giant_priest_hurt"]
+  },
+  "ettin_death": {
+    "subtitle": "subtitles.gctcore.ettin_death",
+    "sounds": ["gctcore:cloud_giant_priest_death"]
+  },
+  "ettin_attack": {
+    "subtitle": "subtitles.gctcore.ettin_attack",
+    "sounds": [{"name": "minecraft:entity.player.attack.sweep", "type": "event"}]
+  },
+  "ettin_roar": {
+    "subtitle": "subtitles.gctcore.ettin_roar",
+    "sounds": ["gctcore:cloud_giant_priest_ambient"]
   }
 }

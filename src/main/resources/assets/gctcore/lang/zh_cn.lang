@@ -436,3 +436,10 @@ tile.gctcore.jotunheim_fungal_fence.name=巨菌栅栏
 tile.gctcore.jotunheim_fungal_fence_gate.name=巨菌栅栏门
 tile.gctcore.jotunheim_fungal_double_slab.name=巨菌双台阶
 # END JOTUNHEIM WOOD PRODUCTS
+
+entity.ettin.name=双头巨人
+subtitles.gctcore.ettin_ambient=双头巨人：低吼
+subtitles.gctcore.ettin_hurt=双头巨人：受伤
+subtitles.gctcore.ettin_death=双头巨人：死亡
+subtitles.gctcore.ettin_attack=双头巨人：攻击
+subtitles.gctcore.ettin_roar=双头巨人：咆哮

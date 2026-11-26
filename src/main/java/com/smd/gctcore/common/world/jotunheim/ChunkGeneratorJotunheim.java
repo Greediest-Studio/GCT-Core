@@ -4,6 +4,7 @@ import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimMoss;
 import com.smd.gctcore.common.config.JotunheimConfig;
 import com.smd.gctcore.common.world.biome.jotunheim.JotunheimBiomes;
 import com.smd.gctcore.common.world.biome.jotunheim.JotunheimBiomeStorage;
+import com.smd.gctcore.common.world.biome.jotunheim.BiomeJotunheimBase;
 import com.smd.gctcore.misc.JotunheimBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -114,7 +115,11 @@ public final class ChunkGeneratorJotunheim implements IChunkGenerator {
 
     @Override
     public List<Biome.SpawnListEntry> getPossibleCreatures(EnumCreatureType type, BlockPos pos) {
-        return Collections.emptyList();
+        if (type != EnumCreatureType.MONSTER || !world.isBlockLoaded(pos, false)) return Collections.emptyList();
+        Biome biome = world.getBiome(pos);
+        return biome instanceof BiomeJotunheimBase
+                ? JotunheimGiantSpawns.getPossibleCreatures(type, ((BiomeJotunheimBase) biome).index(), pos)
+                : Collections.emptyList();
     }
 
     @Override public boolean generateStructures(Chunk chunk, int chunkX, int chunkZ) { return false; }

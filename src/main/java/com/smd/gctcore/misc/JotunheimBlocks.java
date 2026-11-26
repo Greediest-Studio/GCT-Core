@@ -8,10 +8,12 @@ import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimNatural;
 import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimPlant;
 import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimReed;
 import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimSand;
+import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimSapling;
 import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimSoil;
 import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimSteam;
 import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimVine;
 import com.smd.gctcore.common.blocks.jotunheim.ItemBlockJotunheimAercloud;
+import com.smd.gctcore.common.world.jotunheim.JotunheimFloraProfiles;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -62,15 +64,15 @@ public final class JotunheimBlocks {
         log("jotunn_oak_log", "jotunheim_oak_log");
         bark("jotunn_oak_bark", "jotunheim_oak_bark");
         leaves("jotunn_oak_leaves", "jotunheim_oak_leaves", "jotunn_oak_sapling");
-        plant("jotunn_oak_sapling", "jotunheim_oak_sapling", false);
+        sapling("jotunn_oak_sapling", "jotunheim_oak_sapling", JotunheimFloraProfiles.Tree.OAK);
         log("elder_pine_log", "jotunheim_elder_pine_log");
         bark("elder_pine_bark", "jotunheim_elder_pine_bark");
         leaves("elder_pine_leaves", "jotunheim_elder_pine_leaves", "elder_pine_sapling");
-        plant("elder_pine_sapling", "jotunheim_elder_pine_sapling", false);
+        sapling("elder_pine_sapling", "jotunheim_elder_pine_sapling", JotunheimFloraProfiles.Tree.ELDER_PINE);
         log("sunkenwood_log", "jotunheim_sunkenwood_log");
         bark("sunkenwood_bark", "jotunheim_sunkenwood_bark");
         leaves("sunkenwood_leaves", "jotunheim_sunkenwood_leaves", "sunkenwood_sapling");
-        plant("sunkenwood_sapling", "jotunheim_sunkenwood_sapling", false);
+        sapling("sunkenwood_sapling", "jotunheim_sunkenwood_sapling", JotunheimFloraProfiles.Tree.SUNKENWOOD);
         leaves("white_crown_leaves", "jotunheim_white_crown_leaves", "jotunn_oak_sapling");
         log("charred_log", "jotunheim_charred_log");
         log("lightning_struck_log", "jotunheim_lightning_struck_log");
@@ -146,6 +148,9 @@ public final class JotunheimBlocks {
     private static void fungus(String key, String name, int light) {
         add(key, new BlockJotunheimNatural(name, Material.WOOD, SoundType.WOOD,
                 "axe", 0.4F, BlockRenderLayer.SOLID, false), light);
+    }
+    private static void sapling(String key, String name, JotunheimFloraProfiles.Tree tree) {
+        add(key, new BlockJotunheimSapling(name, tree), 0);
     }
     private static void plant(String key, String name, boolean rockPlant) {
         plant(key, name, rockPlant, 0);

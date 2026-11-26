@@ -428,3 +428,10 @@ tile.gctcore.jotunheim_fungal_fence.name=Giant Fungal Fence
 tile.gctcore.jotunheim_fungal_fence_gate.name=Giant Fungal Fence Gate
 tile.gctcore.jotunheim_fungal_double_slab.name=Giant Fungal Double Slab
 # END JOTUNHEIM WOOD PRODUCTS
+
+entity.ettin.name=Ettin
+subtitles.gctcore.ettin_ambient=Ettin growls
+subtitles.gctcore.ettin_hurt=Ettin is hurt
+subtitles.gctcore.ettin_death=Ettin dies
+subtitles.gctcore.ettin_attack=Ettin attacks
+subtitles.gctcore.ettin_roar=Ettin roars

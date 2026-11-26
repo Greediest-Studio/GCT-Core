@@ -11,6 +11,7 @@ import com.smd.gctcore.common.entity.EntityHillGiant;
 import com.smd.gctcore.common.entity.EntityFrostGiant;
 import com.smd.gctcore.common.entity.EntityFireGiant;
 import com.smd.gctcore.common.entity.EntityFireGiantChain;
+import com.smd.gctcore.common.entity.EntityEttin;
 import com.smd.gctcore.common.entity.EntityStoneGiant;
 import com.smd.gctcore.common.entity.EntityStoneGiantBoulder;
 import com.smd.gctcore.common.entity.EntityFomorianNoble;
@@ -49,6 +50,7 @@ public class EntityRegistrar {
     public static EntityEntry FROST_GIANT;
     public static EntityEntry FIRE_GIANT;
     public static EntityEntry FIRE_GIANT_CHAIN;
+    public static EntityEntry ETTIN;
 
     public static void init() {
         REVERSED_ALF_MASTER = EntityEntryBuilder.create()
@@ -200,6 +202,14 @@ public class EntityRegistrar {
                 .name("fire_giant_chain")
                 .tracker(128, 1, true)
                 .build();
+
+        ETTIN = EntityEntryBuilder.create()
+                .entity(EntityEttin.class)
+                .id(new ResourceLocation(Tags.MOD_ID, "ettin"), 21)
+                .name("ettin")
+                .tracker(128, 1, true)
+                .egg(0xA89C7D, 0x4C3D2C)
+                .build();
     }
 
     @SubscribeEvent
@@ -224,7 +234,8 @@ public class EntityRegistrar {
                 GIANT_SPELL,
                 FROST_GIANT,
                 FIRE_GIANT,
-                FIRE_GIANT_CHAIN
+                FIRE_GIANT_CHAIN,
+                ETTIN
         );
     }
 }

@@ -15,6 +15,7 @@ import com.smd.gctcore.client.render.entity.RenderHillGiant;
 import com.smd.gctcore.client.render.entity.RenderFrostGiant;
 import com.smd.gctcore.client.render.entity.RenderFireGiant;
 import com.smd.gctcore.client.render.entity.RenderFireGiantChain;
+import com.smd.gctcore.client.render.entity.RenderEttin;
 import com.smd.gctcore.client.render.entity.RenderStoneGiant;
 import com.smd.gctcore.client.render.entity.RenderStoneGiantBoulder;
 import com.smd.gctcore.client.render.entity.RenderFomorianNoble;
@@ -60,6 +61,7 @@ public class EntityRenders {
         RenderingRegistry.registerEntityRenderingHandler(EntityFrostGiant.class, RenderFrostGiant::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityFireGiant.class, RenderFireGiant::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityFireGiantChain.class, RenderFireGiantChain::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityEttin.class, RenderEttin::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityStoneGiantBoulder.class, RenderStoneGiantBoulder::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityFomorianNoble.class, RenderFomorianNoble::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityFomorianWarlock.class, RenderFomorianWarlock::new);

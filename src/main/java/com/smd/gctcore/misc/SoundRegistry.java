@@ -38,6 +38,11 @@ public class SoundRegistry {
     public static final SoundEvent FIRE_GIANT_AMBIENT = sound("fire_giant_ambient");
     public static final SoundEvent FIRE_GIANT_HURT = sound("fire_giant_hurt");
     public static final SoundEvent FIRE_GIANT_DEATH = sound("fire_giant_death");
+    public static final SoundEvent ETTIN_AMBIENT = sound("ettin_ambient");
+    public static final SoundEvent ETTIN_HURT = sound("ettin_hurt");
+    public static final SoundEvent ETTIN_DEATH = sound("ettin_death");
+    public static final SoundEvent ETTIN_ATTACK = sound("ettin_attack");
+    public static final SoundEvent ETTIN_ROAR = sound("ettin_roar");
     public static final SoundEvent FOMORIAN_NOBLE_AMBIENT = sound("fomorian_noble_ambient");
     public static final SoundEvent FOMORIAN_NOBLE_HURT = sound("fomorian_noble_hurt");
     public static final SoundEvent FOMORIAN_NOBLE_DEATH = sound("fomorian_noble_death");
@@ -81,6 +86,11 @@ public class SoundRegistry {
                 FIRE_GIANT_AMBIENT,
                 FIRE_GIANT_HURT,
                 FIRE_GIANT_DEATH,
+                ETTIN_AMBIENT,
+                ETTIN_HURT,
+                ETTIN_DEATH,
+                ETTIN_ATTACK,
+                ETTIN_ROAR,
                 FOMORIAN_NOBLE_AMBIENT,
                 FOMORIAN_NOBLE_HURT,
                 FOMORIAN_NOBLE_DEATH,

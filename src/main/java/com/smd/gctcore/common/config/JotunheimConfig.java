@@ -8,6 +8,14 @@ import net.minecraftforge.common.config.Config;
 /** Generation settings are snapshotted when a world provider is opened. */
 @Config(modid = Tags.MOD_ID, name = "GCTCore/Jotunheim")
 public final class JotunheimConfig {
+    @Config.Comment("One in this many otherwise valid giant natural-spawn attempts succeeds. Lower values spawn more giants; independent of species weights.")
+    @Config.RangeInt(min = 1, max = 128)
+    public static int giantSpawnRoll = 24;
+
+    @Config.Comment("Maximum living giants within 64 horizontal blocks and 24 vertical blocks of a natural-spawn candidate. Does not restrict eggs, commands or spawners.")
+    @Config.RangeInt(min = 1, max = 8)
+    public static int giantLocalLimit = 2;
+
     @Config.Comment("Base XZ biome region scale in blocks. Island coherence adds 160 * islandScale blocks. Restart the world; only new chunks change.")
     @Config.RangeDouble(min = 256, max = 4096)
     @Config.RequiresWorldRestart
