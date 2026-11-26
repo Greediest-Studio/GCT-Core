@@ -127,6 +127,8 @@ public final class JotunheimGiantSpawns {
 
         // Weights only select a species; an independent roll controls actual rarity.
         if (world.rand.nextInt(Math.max(1, JotunheimConfig.giantSpawnRoll)) != 0) return;
+        // Ettins pass only one in four of their formerly eligible natural spawn attempts.
+        if (giant instanceof EntityEttin && world.rand.nextInt(4) != 0) return;
         if (!giant.isNotColliding()) return;
         int nearby = world.getEntitiesWithinAABB(EntityLiving.class,
                 box.grow(LOCAL_RADIUS, LOCAL_HEIGHT, LOCAL_RADIUS), other -> other != giant
