@@ -1,5 +1,6 @@
 package com.smd.gctcore.common.mixin.aether;
 
+import com.gildedgames.the_aether.entities.hostile.EntityWhirlwind;
 import com.smd.gctcore.common.entity.EntityCloudGiantPriest;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -11,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mixin(targets = "com.gildedgames.the_aether.entities.hostile.EntityWhirlwind", remap = false)
+@Mixin(value = EntityWhirlwind.class, remap = false)
 public abstract class MixinWhirlwindImmunity {
 
     @Redirect(
