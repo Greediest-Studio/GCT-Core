@@ -6,6 +6,7 @@ import com.smd.gctcore.common.blocks.botania.BlockGctManaPylon;
 import com.smd.gctcore.common.blocks.botania.BlockGctManaRock;
 import com.smd.gctcore.common.blocks.botania.BlockGctManaSpreader;
 import com.smd.gctcore.common.blocks.botania.BlockGctManaWood;
+import com.smd.gctcore.common.blocks.jotunheim.BlockJotunheimPortalCore;
 import com.smd.gctcore.common.blocks.nilfheim.BlockGlassrock;
 import com.smd.gctcore.common.blocks.nilfheim.BlockHighcloudStone;
 import com.smd.gctcore.common.blocks.nilfheim.BlockHighcloudWall;
@@ -36,6 +37,7 @@ import com.smd.gctcore.common.items.ItemBlockNilfheimWall;
 import com.smd.gctcore.common.items.ItemBlockGctManaTiered;
 import com.smd.gctcore.common.items.ItemBlockGctManaWood;
 import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
+import com.smd.gctcore.common.tile.JotunheimPortalTileEntity;
 import com.smd.gctcore.common.tile.RadiantResonatorTileEntity;
 import com.smd.gctcore.common.tile.CloudGiantPriestSpawnerTileEntity;
 import com.smd.gctcore.common.tile.botania.TileGctManaPool;
@@ -126,6 +128,7 @@ public class BlockRegistry {
     public static BlockShadowberryBush SHADOWBERRY_BUSH;
     public static BlockNilfheimPlant ASHEN_MUSHROOM;
     public static BlockNilfheimPortalCore NILFHEIM_PORTAL_CORE;
+    public static BlockJotunheimPortalCore JOTUNHEIM_PORTAL_CORE;
     public static BlockGctManaRock GCT_MANA_ROCK;
     public static BlockGctManaPool GCT_MANA_POOL;
     public static BlockGctManaPylon GCT_MANA_PYLON;
@@ -220,6 +223,7 @@ public class BlockRegistry {
         SHADOWBERRY_BUSH = new BlockShadowberryBush();
         ASHEN_MUSHROOM = new BlockNilfheimPlant("ashen_mushroom", 0.2F);
         NILFHEIM_PORTAL_CORE = new BlockNilfheimPortalCore();
+        JOTUNHEIM_PORTAL_CORE = new BlockJotunheimPortalCore();
         GCT_MANA_ROCK = new BlockGctManaRock();
         GCT_MANA_POOL = new BlockGctManaPool();
         GCT_MANA_PYLON = new BlockGctManaPylon();
@@ -230,6 +234,7 @@ public class BlockRegistry {
     public static void registerTileEntities() {
         GameRegistry.registerTileEntity(RadiantResonatorTileEntity.class, new ResourceLocation(Tags.MOD_ID, "radiant_resonator"));
         GameRegistry.registerTileEntity(NilfheimPortalTileEntity.class, new ResourceLocation(Tags.MOD_ID, "nilfheim_portal_core"));
+        GameRegistry.registerTileEntity(JotunheimPortalTileEntity.class, new ResourceLocation(Tags.MOD_ID, "jotunheim_portal_core"));
         GameRegistry.registerTileEntity(CloudGiantPriestSpawnerTileEntity.class,
                 new ResourceLocation(Tags.MOD_ID, "cloud_giant_priest_spawner"));
         GameRegistry.registerTileEntity(TileGctManaPool.class, new ResourceLocation(Tags.MOD_ID, "gct_mana_pool"));
@@ -308,6 +313,7 @@ public class BlockRegistry {
                 SHADOWBERRY_BUSH,
                 ASHEN_MUSHROOM,
                 NILFHEIM_PORTAL_CORE,
+                JOTUNHEIM_PORTAL_CORE,
                 GCT_MANA_ROCK,
                 GCT_MANA_POOL,
                 GCT_MANA_PYLON,
@@ -388,6 +394,7 @@ public class BlockRegistry {
                 new ItemBlock(SHADOWBERRY_BUSH).setRegistryName(SHADOWBERRY_BUSH.getRegistryName()),
                 new ItemBlock(ASHEN_MUSHROOM).setRegistryName(ASHEN_MUSHROOM.getRegistryName()),
                 new ItemBlock(NILFHEIM_PORTAL_CORE).setRegistryName(NILFHEIM_PORTAL_CORE.getRegistryName()),
+                new ItemBlock(JOTUNHEIM_PORTAL_CORE).setRegistryName(JOTUNHEIM_PORTAL_CORE.getRegistryName()),
                 new ItemBlockGctManaTiered(GCT_MANA_ROCK).setRegistryName(GCT_MANA_ROCK.getRegistryName()),
                 new ItemBlockGctManaTiered(GCT_MANA_POOL).setRegistryName(GCT_MANA_POOL.getRegistryName()),
                 new ItemBlockGctManaTiered(GCT_MANA_PYLON).setRegistryName(GCT_MANA_PYLON.getRegistryName()),

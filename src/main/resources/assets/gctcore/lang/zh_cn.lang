@@ -486,3 +486,11 @@ tile.gctcore.dark_ymir_stone_stairs.name=暗色尤弥尔石砖楼梯
 tile.gctcore.dark_ymir_stone_slab.name=暗色尤弥尔石砖台阶
 tile.gctcore.dark_ymir_stone_double_slab.name=双层暗色尤弥尔石砖台阶
 tile.gctcore.dark_ymir_stone_wall.name=暗色尤弥尔石砖墙
+
+# Giant Gate
+tile.gctcore.jotunheim_portal_core.name=巨人之门核心
+item.gctcore.cloud_sacrificial_eye.name=云穹献祭之眼
+message.gctcore.jotunheim_portal.activated=约顿海姆传送门已激活。
+message.gctcore.jotunheim_portal.invalid_structure=传送门结构不完整。
+message.gctcore.jotunheim_portal.missing_pylons=至少需要四座约顿海姆水晶与对应的约顿海姆魔力池。
+message.gctcore.jotunheim_portal.not_enough_mana=魔力不足，开启巨人之门需要80,000,000魔力。

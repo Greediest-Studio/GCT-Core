@@ -4,6 +4,7 @@ import WayofTime.bloodmagic.client.IMeshProvider;
 import com.google.common.collect.Sets;
 import com.smd.gctcore.Tags;
 import com.smd.gctcore.client.render.tile.RenderNilfheimPortal;
+import com.smd.gctcore.client.render.tile.RenderJotunheimPortal;
 import com.smd.gctcore.client.render.tile.RenderGctManaSpreader;
 import com.smd.gctcore.client.render.tile.RenderGctManaPylon;
 import com.smd.gctcore.common.blocks.botania.BlockGctManaPool;
@@ -21,6 +22,7 @@ import com.smd.gctcore.client.YmirBlockModels;
 import com.smd.gctcore.client.YmirForceOverlay;
 import com.smd.gctcore.common.items.ItemGiantTalisman;
 import com.smd.gctcore.common.tile.NilfheimPortalTileEntity;
+import com.smd.gctcore.common.tile.JotunheimPortalTileEntity;
 import com.smd.gctcore.common.tile.botania.TileGctManaPool;
 import com.smd.gctcore.common.tile.botania.TileGctManaPylon;
 import com.smd.gctcore.common.tile.botania.TileGctManaSpreader;
@@ -75,6 +77,7 @@ public class ClientProxy extends CommonProxy {
         // 注册实体渲染器
         EntityRenders.registerEntityRenders();
         ClientRegistry.bindTileEntitySpecialRenderer(NilfheimPortalTileEntity.class, new RenderNilfheimPortal());
+        ClientRegistry.bindTileEntitySpecialRenderer(JotunheimPortalTileEntity.class, new RenderJotunheimPortal());
         ClientRegistry.bindTileEntitySpecialRenderer(TileGctManaPylon.class, new RenderGctManaPylon());
         if (com.smd.gctcore.misc.Mods.BOT.isLoading()) {
             ClientRegistry.bindTileEntitySpecialRenderer(TileGctManaPool.class, new RenderTilePool());
@@ -146,6 +149,7 @@ public class ClientProxy extends CommonProxy {
             registerItemModel(ItemRegistry.SHAPED_QUARTZ, "arcanearchives/shaped_quartz");
             registerItemModel(ItemRegistry.APATHY_INGOT);
             registerItemModel(ItemRegistry.IMAGINATIVE_SNOWBALL);
+            registerItemModel(ItemRegistry.CLOUD_SACRIFICIAL_EYE);
             registerItemModel(ItemRegistry.BIRD_OF_EDWIN);
             registerItemModel(ItemRegistry.TIME_ADJUSTER);
             registerItemModel(ItemRegistry.DIAMOND_DUNGEON_KEY);
@@ -210,6 +214,7 @@ public class ClientProxy extends CommonProxy {
         @SubscribeEvent
         public static void stitchTextures(TextureStitchEvent.Pre event) {
             RenderNilfheimPortal.registerTextures(event);
+            RenderJotunheimPortal.registerTextures(event);
         }
 
         private static void registerNilfheimBlockModels() {
@@ -274,6 +279,7 @@ public class ClientProxy extends CommonProxy {
             registerBlockModel(BlockRegistry.SHADOWBERRY_BUSH);
             registerBlockModel(BlockRegistry.ASHEN_MUSHROOM);
             registerBlockModel(BlockRegistry.NILFHEIM_PORTAL_CORE);
+            registerBlockModel(BlockRegistry.JOTUNHEIM_PORTAL_CORE);
         }
 
         private static void registerGctManaTierModels() {

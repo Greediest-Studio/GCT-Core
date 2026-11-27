@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "gctcore:jotunheim/jotunheim_portal_core"
+    },
+    "active=true": {
+      "model": "gctcore:jotunheim/jotunheim_portal_core_active"
+    },
+    "inventory": {
+      "model": "gctcore:jotunheim/jotunheim_portal_core"
+    }
+  }
+}

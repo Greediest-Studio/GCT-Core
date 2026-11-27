@@ -478,3 +478,11 @@ tile.gctcore.dark_ymir_stone_stairs.name=Dark Ymir Stone Brick Stairs
 tile.gctcore.dark_ymir_stone_slab.name=Dark Ymir Stone Brick Slab
 tile.gctcore.dark_ymir_stone_double_slab.name=Double Dark Ymir Stone Brick Slab
 tile.gctcore.dark_ymir_stone_wall.name=Dark Ymir Stone Brick Wall
+
+# Giant Gate
+tile.gctcore.jotunheim_portal_core.name=Giant Gate Core
+item.gctcore.cloud_sacrificial_eye.name=Cloudvault Sacrificial Eye
+message.gctcore.jotunheim_portal.activated=Jotunheim portal activated.
+message.gctcore.jotunheim_portal.invalid_structure=The portal structure is incomplete.
+message.gctcore.jotunheim_portal.missing_pylons=At least four Jotunheim pylons with Jotunheim mana pools are required.
+message.gctcore.jotunheim_portal.not_enough_mana=Opening the Giant Gate requires 80,000,000 mana.

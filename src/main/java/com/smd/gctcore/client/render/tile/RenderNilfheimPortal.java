@@ -41,7 +41,7 @@ public class RenderNilfheimPortal extends TileEntitySpecialRenderer<NilfheimPort
         GlStateManager.disableCull();
         GlStateManager.disableLighting();
         bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-        GlStateManager.color(0.58F, 0.84F, 1.0F, pulse);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, pulse);
 
         if (tile.getPortalAxisForRender() == 2) {
             GlStateManager.translate(1.25F, 0.0F, 1.75F);

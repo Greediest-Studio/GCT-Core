@@ -35,6 +35,7 @@ public class ItemRegistry {
     public static Item SHAPED_QUARTZ;
     public static Item APATHY_INGOT;
     public static Item IMAGINATIVE_SNOWBALL;
+    public static Item CLOUD_SACRIFICIAL_EYE;
     public static Item BIRD_OF_EDWIN;
     public static Item TIME_ADJUSTER;
     public static Item DIAMOND_DUNGEON_KEY;
@@ -61,6 +62,11 @@ public class ItemRegistry {
                 .setTranslationKey("gctcore.apathy_ingot")
                 .setCreativeTab(CreativeTabs.MATERIALS);
         IMAGINATIVE_SNOWBALL = new ImaginativeSnowballItem();
+        CLOUD_SACRIFICIAL_EYE = new Item()
+                .setRegistryName("cloud_sacrificial_eye")
+                .setTranslationKey("gctcore.cloud_sacrificial_eye")
+                .setCreativeTab(CreativeTabs.MISC)
+                .setMaxStackSize(16);
         BIRD_OF_EDWIN = new BirdOfEdwin();
         TIME_ADJUSTER = new TimeAdjusterItem();
         DIAMOND_DUNGEON_KEY = new Item()
@@ -97,6 +103,7 @@ public class ItemRegistry {
                 SHAPED_QUARTZ,
                 APATHY_INGOT,
                 IMAGINATIVE_SNOWBALL,
+                CLOUD_SACRIFICIAL_EYE,
                 BIRD_OF_EDWIN,
                 TIME_ADJUSTER,
                 DIAMOND_DUNGEON_KEY,
