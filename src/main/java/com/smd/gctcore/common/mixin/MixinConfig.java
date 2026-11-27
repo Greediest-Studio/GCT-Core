@@ -41,6 +41,8 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.endertweaker.json","endertweaker");
         addModdedMixinCFG("mixins.gctcore.thaumicadditions.json","thaumicadditions");
         addModdedMixinCFG("mixins.gctcore.nuclearcraft.json", "nuclearcraft");
+        addMixinCFG("mixins.gctcore.customloadingscreen.json",
+                () -> modLoaded("customloadingscreen") && GCTMixinConfig.enableCustomLoadingScreenResourceReloadOptimization);
         addMixinCFG("mixins.gctcore.geckolib.json",
                 () -> modLoaded("geckolib3") && GCTMixinConfig.enableGeckoHierarchyIndex);
         addMixinCFG("mixins.gctcore.jaopca.json",

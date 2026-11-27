@@ -17,6 +17,20 @@ public class GCTMixinConfig {
     @Config.RequiresMcRestart
     public static boolean enableNuclearCraftResourceMerge = true;
 
+    @Config.Comment({"是否跳过 NuclearCraft 在 postInit 阶段自动导出 config/nuclearcraft.ncpf.json",
+            "该文件仅供外部反应堆规划器使用，游戏运行时不会读取；跳过可减少约 1 秒启动耗时",
+            "需要重新生成时可临时关闭本项，或添加 JVM 参数 -Dgctcore.exportNcpf=true"})
+    @Config.Name("Disable NuclearCraft NCPF Auto Export")
+    @Config.RequiresMcRestart
+    public static boolean disableNuclearCraftNCPFExport = true;
+
+    @Config.Comment({"是否优化 CustomLoadingScreen 在 construct 阶段的资源重载",
+            "1) 跳过 MinecraftDisplayerRenderer 构造函数中重复触发的第二次全量 refreshResources()",
+            "2) 在 ClsManager.load() 首次刷新资源包时跳过耗时的全模组 LanguageManager 语言文件重载（留待后续 FML 初始化统一加载）"})
+    @Config.Name("Enable CustomLoadingScreen Resource Reload Optimization")
+    @Config.RequiresMcRestart
+    public static boolean enableCustomLoadingScreenResourceReloadOptimization = true;
+
     @Config.Comment({"是否缓存 JAOPCA 的资源存在性检查结果，避免流体渲染时反复查询纹理文件",
             "同时缓存不存在的资源，资源包重载开始时自动清空"})
     @Config.Name("Enable JAOPCA Resource Cache")
