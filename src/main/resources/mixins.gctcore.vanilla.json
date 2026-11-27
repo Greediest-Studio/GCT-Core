@@ -21,6 +21,7 @@
     "MixinTemplateFixScope",
     "MixinTemplateRecursiveFixer",
     "MixinAdvancementArchiveReuse",
+    "MixinModifiableAttributeInstance",
     "kirino.MixinClassScanUtils"
   ],
   "server": [],

@@ -1,0 +1,12 @@
+{
+  "package": "com.smd.gctcore.common.mixin.incontrol",
+  "plugin": "com.smd.gctcore.common.mixin.MixinPlugin",
+  "required": true,
+  "refmap": "mixins.gctcore.refmap.json",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8.5",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": ["MixinRuleCachePerWorld"],
+  "server": [],
+  "client": []
+}
