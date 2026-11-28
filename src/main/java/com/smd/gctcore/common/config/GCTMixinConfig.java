@@ -92,6 +92,12 @@ public class GCTMixinConfig {
     @Config.RequiresMcRestart
     public static boolean enableAE2CraftingRecipeCache = true;
 
+    @Config.Comment({"是否优化 RandomComplement 的 AE2 终端置顶排序",
+            "每轮只读取一次优先物品集合，集合为空时跳过置顶排序，保留原有排序与置顶规则"})
+    @Config.Name("Enable RandomComplement Terminal Sort Optimization")
+    @Config.RequiresMcRestart
+    public static boolean enableRandomComplementTerminalSortOptimization = true;
+
     @Config.Comment({"是否禁止 HammerLib 启动时联网拉取链接仓库",
             "关闭后不再请求 pastebin/gist/zeith.org，避免无网络或类加载异常导致启动崩溃"})
     @Config.Name("Disable HammerLib Link Repository Fetch")

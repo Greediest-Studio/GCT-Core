@@ -78,6 +78,9 @@ public class MixinConfig implements ILateMixinLoader {
                         && GCTMixinConfig.enableAE2CraftingRecipeCache);
         addMixinCFG("mixins.gctcore.ae2reid.json",
                 () -> modLoaded("appliedenergistics2") && modLoaded("jeid"));
+        addMixinCFG("mixins.gctcore.randomcomplement.json",
+                () -> modLoaded("appliedenergistics2") && modLoaded("random_complement")
+                        && GCTMixinConfig.enableRandomComplementTerminalSortOptimization);
         addMixinCFG("mixins.gctcore.fluxapplied.json",
                 () -> modLoaded("appliedenergistics2") && modLoaded("flux_applied"));
         addModdedMixinCFG("mixins.gctcore.botaniaapplie.json", "botania_applie");
