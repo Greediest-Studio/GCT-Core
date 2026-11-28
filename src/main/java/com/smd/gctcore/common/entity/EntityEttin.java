@@ -1,6 +1,6 @@
 package com.smd.gctcore.common.entity;
 
-import com.smd.gctcore.Tags;
+import com.smd.gctcore.misc.GiantLootTables;
 import com.smd.gctcore.misc.SoundRegistry;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -45,7 +45,6 @@ public class EntityEttin extends EntityAnimatedGiant {
     private static final double AXE_REACH = 5.5D;
     private static final double CLUB_REACH = 5.0D;
     private static final double DOUBLE_REACH = 5.5D;
-    private static final ResourceLocation LOOT = new ResourceLocation(Tags.MOD_ID, "entities/ettin");
     private static final DataParameter<Integer> HURT_START = EntityDataManager.createKey(
             EntityEttin.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DEATH_START = EntityDataManager.createKey(
@@ -303,7 +302,7 @@ public class EntityEttin extends EntityAnimatedGiant {
     public boolean isNonBoss() { return false; }
 
     @Override
-    protected ResourceLocation getLootTable() { return LOOT; }
+    protected ResourceLocation getLootTable() { return GiantLootTables.ETTIN; }
 
     @Override
     protected SoundEvent getAmbientSound() { return SoundRegistry.ETTIN_AMBIENT; }

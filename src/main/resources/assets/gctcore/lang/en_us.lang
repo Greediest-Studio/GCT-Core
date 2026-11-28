@@ -130,6 +130,7 @@ item.gctcore.bird_of_edwin.name=mc_Edwin's Bird
 item.gctcore.time_adjuster.name=Time Adjuster
 item.gctcore.diamond_dungeon_key.name=Diamond Key
 item.gctcore.highfield_gem.name=Highfield Gem
+item.gctcore.giant_spirit_dust.name=Giant Spirit Dust
 tooltip.gctcore.mining_level_upgrade.desc=Install in a Digital Miner to set its block harvest level
 tooltip.gctcore.mining_level_upgrade.level=Mining Level: %s
 tooltip.gctcore.mining_level_upgrade.install=Only installable on Digital Miner

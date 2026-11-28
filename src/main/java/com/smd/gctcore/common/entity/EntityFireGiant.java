@@ -1,11 +1,13 @@
 package com.smd.gctcore.common.entity;
 
 import com.smd.gctcore.misc.SoundRegistry;
+import com.smd.gctcore.misc.GiantLootTables;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -51,6 +53,11 @@ public class EntityFireGiant extends EntityFrostGiant {
         super(world);
         setSize(2.2F, 5.5F);
         isImmuneToFire = true;
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return GiantLootTables.FIRE;
     }
 
     @Override

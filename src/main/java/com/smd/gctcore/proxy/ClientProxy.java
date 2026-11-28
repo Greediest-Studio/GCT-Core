@@ -154,6 +154,7 @@ public class ClientProxy extends CommonProxy {
             registerItemModel(ItemRegistry.TIME_ADJUSTER);
             registerItemModel(ItemRegistry.DIAMOND_DUNGEON_KEY);
             registerItemModel(ItemRegistry.HIGHFIELD_GEM);
+            registerItemModel(ItemRegistry.GIANT_SPIRIT_DUST);
             for (int metadata = 0; metadata < ItemGiantTalisman.VARIANT_COUNT; metadata++) {
                 ModelLoader.setCustomModelResourceLocation(ItemRegistry.GIANT_TALISMAN, metadata,
                         new ModelResourceLocation(new ResourceLocation(Tags.MOD_ID,

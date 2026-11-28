@@ -1,6 +1,7 @@
 package com.smd.gctcore.common.entity;
 
 import com.smd.gctcore.misc.SoundRegistry;
+import com.smd.gctcore.misc.GiantLootTables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -17,6 +18,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -65,6 +67,11 @@ public class EntityCloudGiantCrossbowman extends EntityMob implements IAnimatabl
         setSize(1.0F, 4.0F);
         stepHeight = 1.0F;
         experienceValue = 10;
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return GiantLootTables.CLOUD_CROSSBOWMAN;
     }
 
     @Override

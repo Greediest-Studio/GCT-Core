@@ -1,6 +1,7 @@
 package com.smd.gctcore.common.entity;
 
 import com.smd.gctcore.misc.SoundRegistry;
+import com.smd.gctcore.misc.GiantLootTables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -19,6 +20,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import software.bernie.geckolib3.core.AnimationState;
 import software.bernie.geckolib3.core.IAnimatable;
@@ -55,6 +57,11 @@ public class EntityCloudGiantSentinel extends EntityMob implements IAnimatable, 
         setSize(1.0F, 4.0F);
         stepHeight = 1.0F;
         experienceValue = 10;
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return GiantLootTables.CLOUD_SENTINEL;
     }
 
     @Override

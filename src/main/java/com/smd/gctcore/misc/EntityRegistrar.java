@@ -53,6 +53,7 @@ public class EntityRegistrar {
     public static EntityEntry ETTIN;
 
     public static void init() {
+        GiantLootTables.init();
         REVERSED_ALF_MASTER = EntityEntryBuilder.create()
                 .entity(EntityReversedAlfMaster.class)
                 .id(new ResourceLocation(Tags.MOD_ID, "reversed_alf_master"), 1)

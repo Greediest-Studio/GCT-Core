@@ -1,6 +1,7 @@
 package com.smd.gctcore.common.entity;
 
 import com.smd.gctcore.misc.SoundRegistry;
+import com.smd.gctcore.misc.GiantLootTables;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.effect.EntityLightningBolt;
@@ -11,6 +12,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -45,6 +47,11 @@ public class EntityFomorianNoble extends EntityAnimatedGiant {
         setSize(1.6F, 5.0F);
         stepHeight = 1.0F;
         experienceValue = 30;
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return GiantLootTables.FOMORIAN_NOBLE;
     }
 
     @Override

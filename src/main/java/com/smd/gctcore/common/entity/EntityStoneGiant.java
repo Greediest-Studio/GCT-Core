@@ -1,11 +1,13 @@
 package com.smd.gctcore.common.entity;
 
 import com.smd.gctcore.misc.SoundRegistry;
+import com.smd.gctcore.misc.GiantLootTables;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -31,6 +33,11 @@ public class EntityStoneGiant extends EntityAnimatedGiant {
         setSize(1.8F, 5.5F);
         stepHeight = 1.0F;
         experienceValue = 20;
+    }
+
+    @Override
+    protected ResourceLocation getLootTable() {
+        return GiantLootTables.STONE;
     }
 
     @Override

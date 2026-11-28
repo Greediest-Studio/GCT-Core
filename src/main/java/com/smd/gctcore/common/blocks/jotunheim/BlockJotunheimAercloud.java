@@ -8,20 +8,32 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockJotunheimAercloud extends Block {
+    private static final String CONTACT_DATA = "gctcoreAercloudContact";
+    private static final ResourceLocation FROSTED = new ResourceLocation("twilightforest", "frosted");
+    private static final int CONTACT_EFFECT_TICKS = 100;
+
     public enum Variant implements IStringSerializable {
         FROSTBOUND, ASHEN, THUNDERING;
         @Override
@@ -66,6 +78,53 @@ public class BlockJotunheimAercloud extends Block {
     public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
         entity.fallDistance = 0.0F;
         if (entity.motionY < 0.0D) entity.motionY *= 0.005D;
+        if (world.isRemote || !(entity instanceof EntityLivingBase) || !entity.isEntityAlive()) return;
+        if (entity instanceof EntityPlayer
+                && (((EntityPlayer) entity).isCreative() || ((EntityPlayer) entity).isSpectator())) {
+            entity.getEntityData().removeTag(CONTACT_DATA);
+            return;
+        }
+
+        EntityLivingBase living = (EntityLivingBase) entity;
+        Variant variant = state.getValue(VARIANT);
+        NBTTagCompound data = entity.getEntityData().getCompoundTag(CONTACT_DATA);
+        NBTTagCompound contact = data.getCompoundTag(variant.getName());
+        long tick = world.getTotalWorldTime();
+        int dimension = world.provider.getDimension();
+        boolean sameDimension = contact.hasKey("dimension") && contact.getInteger("dimension") == dimension;
+        if (sameDimension && contact.getLong("lastTick") == tick) return;
+
+        int contactTicks = sameDimension && contact.getLong("lastTick") == tick - 1
+                ? contact.getInteger("ticks") + 1 : 1;
+        contact.setInteger("dimension", dimension);
+        contact.setLong("lastTick", tick);
+        contact.setInteger("ticks", contactTicks);
+        data.setTag(variant.getName(), contact);
+        entity.getEntityData().setTag(CONTACT_DATA, data);
+
+        switch (variant) {
+            case FROSTBOUND:
+                // Resolve optional mod effects only after registries have finished loading.
+                Potion frosted = Potion.REGISTRY.getObject(FROSTED);
+                if (frosted != null) living.addPotionEffect(new PotionEffect(frosted, CONTACT_EFFECT_TICKS, 2));
+                living.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, CONTACT_EFFECT_TICKS, 2));
+                break;
+            case ASHEN:
+                living.setFire(5);
+                break;
+            case THUNDERING:
+                if (contactTicks >= CONTACT_EFFECT_TICKS) {
+                    contact.setInteger("ticks", 0);
+                    // A visual bolt keeps vanilla thunder without repeatedly hitting nearby entities.
+                    EntityLightningBolt lightning = new EntityLightningBolt(world,
+                            living.posX, living.posY, living.posZ, true);
+                    world.addWeatherEffect(lightning);
+                    if (!ForgeEventFactory.onEntityStruckByLightning(living, lightning)) {
+                        living.onStruckByLightning(lightning);
+                    }
+                }
+                break;
+        }
     }
 
     @Override
