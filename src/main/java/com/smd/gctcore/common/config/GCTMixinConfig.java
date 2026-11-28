@@ -139,6 +139,12 @@ public class GCTMixinConfig {
     @Config.RequiresMcRestart
     public static boolean enableLostCitiesREIDFix = true;
 
+    @Config.Comment({"是否缓存 NetherEx PigtificateVillageManager 中不存在村庄数据的维度",
+            "避免主世界、末地等无村庄数据的维度在每个服务端 tick 都反复执行磁盘 File.exists() 检查"})
+    @Config.Name("Enable NetherEx Village Data Negative Cache")
+    @Config.RequiresMcRestart
+    public static boolean enableNetherExVillageDataNegativeCache = true;
+
     static {
         ConfigAnytime.register(GCTMixinConfig.class);
     }

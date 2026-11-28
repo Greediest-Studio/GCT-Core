@@ -117,6 +117,8 @@ public class MixinConfig implements ILateMixinLoader {
         addMixinCFG("mixins.gctcore.lostcities.json",
                 () -> modLoaded("lostcities") && (modLoaded("jeid") || modLoaded("neid"))
                         && GCTMixinConfig.enableLostCitiesREIDFix);
+        addMixinCFG("mixins.gctcore.netherex.json",
+                () -> modLoaded("netherex") && GCTMixinConfig.enableNetherExVillageDataNegativeCache);
     }
 
     @Override
