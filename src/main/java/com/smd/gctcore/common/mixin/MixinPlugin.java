@@ -55,6 +55,10 @@ public class MixinPlugin implements IMixinConfigPlugin {
                 () -> GCTMixinConfig.enableKirinoECSScanOptimization && isKirinoScanPresent(),
                 "kirino.MixinClassScanUtils"
         );
+        addMixinGroup(
+                () -> GCTMixinConfig.enableWorldEntitySpawnerLoadedChunkCheck,
+                "world.MixinWorldEntitySpawner"
+        );
     }
 
     private static boolean isKirinoScanPresent() {

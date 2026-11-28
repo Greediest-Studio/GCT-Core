@@ -22,7 +22,8 @@
     "MixinTemplateRecursiveFixer",
     "MixinAdvancementArchiveReuse",
     "MixinCommandHandler",
-    "kirino.MixinClassScanUtils"
+    "kirino.MixinClassScanUtils",
+    "world.MixinWorldEntitySpawner"
   ],
   "server": [],
   "client": [

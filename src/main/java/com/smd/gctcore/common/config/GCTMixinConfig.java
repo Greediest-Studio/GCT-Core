@@ -145,6 +145,12 @@ public class GCTMixinConfig {
     @Config.RequiresMcRestart
     public static boolean enableNetherExVillageDataNegativeCache = true;
 
+    @Config.Comment({"是否在原版 WorldEntitySpawner.canCreatureTypeSpawnAtLocation 入口检查目标方块所在区块是否已加载",
+            "避免刷怪偏移跨出已加载视距边界时触发同步磁盘区块加载 (ChunkIOExecutor.syncChunkLoad)"})
+    @Config.Name("Enable WorldEntitySpawner Loaded Chunk Check")
+    @Config.RequiresMcRestart
+    public static boolean enableWorldEntitySpawnerLoadedChunkCheck = true;
+
     static {
         ConfigAnytime.register(GCTMixinConfig.class);
     }
