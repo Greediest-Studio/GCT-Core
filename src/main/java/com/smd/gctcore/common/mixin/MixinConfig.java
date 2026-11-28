@@ -16,6 +16,9 @@ public class MixinConfig implements ILateMixinLoader {
         addModdedMixinCFG("mixins.gctcore.babymobs.json", "babymobs");
         addModdedMixinCFG("mixins.gctcore.aether.json", "aether_legacy");
         addModdedMixinCFG("mixins.gctcore.battletowers.json", "battletowers");
+        addModdedMixinCFG("mixins.gctcore.cyclopstek.json", "cyclopstek");
+        addMixinCFG("mixins.gctcore.cyclops_truce.json",
+                () -> modLoaded("cyclopstek") && modLoaded("iceandfire"));
         addModdedMixinCFG("mixins.gctcore.additions.json", "additions");
         addModdedMixinCFG("mixins.gctcore.avaritia.json", "avaritia");
         addModdedMixinCFG("mixins.gctcore.spiceoflife.json", "spiceoflife");

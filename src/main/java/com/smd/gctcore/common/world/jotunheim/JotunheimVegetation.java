@@ -30,13 +30,26 @@ public final class JotunheimVegetation {
     private static final HeightLayer[] LAYERS = HeightLayer.values();
     private final long seed;
     private final JotunheimTerrainKernel kernel;
+    private final JotunheimLakes lakes;
+    private final JotunheimCyclopsCaves caves;
     private final Map<Long, JotunheimTerrainKernel.SampledChunk> terrain = cache(64);
     private final Map<Long, List<Pond>> ponds = cache(96);
     private final Map<Long, List<JotunheimTreeShapes.Plan>> trees = cache(96);
 
     public JotunheimVegetation(long seed, JotunheimTerrainKernel kernel) {
+        this(seed, kernel, null);
+    }
+
+    public JotunheimVegetation(long seed, JotunheimTerrainKernel kernel, JotunheimLakes lakes) {
+        this(seed, kernel, lakes, null);
+    }
+
+    public JotunheimVegetation(long seed, JotunheimTerrainKernel kernel, JotunheimLakes lakes,
+                               JotunheimCyclopsCaves caves) {
         this.seed = seed;
         this.kernel = kernel;
+        this.lakes = lakes;
+        this.caves = caves;
     }
 
     private static <K, V> Map<K, V> cache(final int limit) {
@@ -184,10 +197,14 @@ public final class JotunheimVegetation {
     private boolean valid(JotunheimTreeShapes.Plan plan, int cx, int cz) {
         if (plan == null) return false;
         for (BlockPos support : plan.supports) {
+            if (lakes != null && lakes.blocksVegetation(support.getX(), support.getY(), support.getZ())) return false;
+            if (caves != null && caves.blocksVegetation(support.getX(), support.getY(), support.getZ())) return false;
             if (!solid(support.getX(), support.getY()-1, support.getZ())
                     || solid(support.getX(), support.getY(), support.getZ())) return false;
         }
         for (BlockPos pos : plan.structural) {
+            if (lakes != null && lakes.blocksVegetation(pos.getX(), pos.getY(), pos.getZ())) return false;
+            if (caves != null && caves.blocksVegetation(pos.getX(), pos.getY(), pos.getZ())) return false;
             if (solid(pos.getX(), pos.getY(), pos.getZ())) return false;
         }
         // A complete tree must not be cut in half by one of the globally planned pools.
@@ -229,6 +246,8 @@ public final class JotunheimVegetation {
             for (int dx = -radius-1; dx <= radius+1 && valid; dx++) for (int dz = -radius-1; dz <= radius+1; dz++) {
                 if (dx*dx + dz*dz > (radius+1)*(radius+1)) continue;
                 int top = topFeet(x+dx, z+dz, layer);
+                if (lakes != null && lakes.blocksVegetation(x+dx, top, z+dz)) { valid = false; break; }
+                if (caves != null && caves.blocksVegetation(x+dx, top, z+dz)) { valid = false; break; }
                 if (top < feet-1 || top > feet+2 || !solid(x+dx, waterY-2, z+dz)) { valid = false; break; }
             }
             if (!valid) continue;

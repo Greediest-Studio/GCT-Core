@@ -3,7 +3,6 @@ package com.smd.gctcore.common.entity;
 import com.smd.gctcore.misc.PotionsItemRegistry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IProjectile;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,13 +13,10 @@ import net.minecraft.network.play.server.SPacketEntityVelocity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
 
 import javax.annotation.Nullable;
 
@@ -198,18 +194,11 @@ public class EntityFireGiantChain extends Entity implements IProjectile {
         double dz = owner.posZ - target.posZ;
         double distance = Math.sqrt(dx * dx + dz * dz);
         if (distance <= STOP_DISTANCE) { setDead(); return; }
-        double desired = Math.min(0.55D, (distance - STOP_DISTANCE) * 0.35D);
-        LivingKnockBackEvent event = ForgeHooks.onLivingKnockBack(target, owner,
-                (float) desired, -dx, -dz);
-        if (event.isCanceled()) { setDead(); return; }
-        double resistance = MathHelper.clamp(target.getEntityAttribute(
-                SharedMonsterAttributes.KNOCKBACK_RESISTANCE).getAttributeValue(), 0.0D, 1.0D);
-        double strength = Math.max(0.0D, event.getStrength()) * (1.0D - resistance);
-        double ratioLength = Math.sqrt(event.getRatioX() * event.getRatioX()
-                + event.getRatioZ() * event.getRatioZ());
-        if (strength <= 0.0D || ratioLength < 1.0E-8D) { return; }
-        double nextX = target.motionX * 0.3D - event.getRatioX() / ratioLength * strength;
-        double nextZ = target.motionZ * 0.3D - event.getRatioZ() / ratioLength * strength;
+        // A latched chain reels its target in; it is not an impact knockback.
+        // Armor resistance and knockback-canceling effects must not erase its pull.
+        double strength = Math.min(0.55D, (distance - STOP_DISTANCE) * 0.35D);
+        double nextX = target.motionX * 0.3D + dx / distance * strength;
+        double nextZ = target.motionZ * 0.3D + dz / distance * strength;
         // Never force movement through terrain. Entity travel handles the actual movement.
         if (!world.getCollisionBoxes(target, target.getEntityBoundingBox()
                 .expand(nextX, 0.0D, nextZ)).isEmpty()) { setDead(); return; }

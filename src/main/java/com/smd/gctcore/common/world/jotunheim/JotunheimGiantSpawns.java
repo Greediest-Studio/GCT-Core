@@ -15,6 +15,7 @@ import com.smd.gctcore.common.world.biome.jotunheim.BiomeJotunheimBase;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
@@ -27,6 +28,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,6 +43,8 @@ public final class JotunheimGiantSpawns {
     private static final int RESIDENT_WEIGHT = 4;
     private static final int ELEMENTAL_WEIGHT = 12;
     private static final int VISITOR_WEIGHT = 1;
+    private static final int CYCLOPS_WEIGHT = 4;
+    private static final ResourceLocation CYCLOPS_ID = new ResourceLocation("iceandfire", "cyclops");
     private static final Biome.SpawnListEntry SENTINEL = entry(EntityCloudGiantSentinel.class);
     private static final Biome.SpawnListEntry CROSSBOWMAN = entry(EntityCloudGiantCrossbowman.class);
     private static final Biome.SpawnListEntry HILL = entry(EntityHillGiant.class);
@@ -50,6 +55,7 @@ public final class JotunheimGiantSpawns {
     private static final Biome.SpawnListEntry FROST = entry(EntityFrostGiant.class, ELEMENTAL_WEIGHT);
     private static final Biome.SpawnListEntry ETTIN = entry(EntityEttin.class);
     private static final List<List<List<Biome.SpawnListEntry>>> LISTS = createLists();
+    private static volatile CyclopsSpawns cyclopsSpawns;
 
     private JotunheimGiantSpawns() {}
 
@@ -106,10 +112,59 @@ public final class JotunheimGiantSpawns {
     public static List<Biome.SpawnListEntry> getPossibleCreatures(
             EnumCreatureType type, int biomeIndex, BlockPos pos) {
         if (type != EnumCreatureType.MONSTER || biomeIndex < 0
-                || biomeIndex >= JotunheimTerrainKernel.BIOME_COUNT) return Collections.emptyList();
+                || biomeIndex >= JotunheimTerrainKernel.BIOME_COUNT
+                || pos.getY() < 1 || pos.getY() >= 256) return Collections.emptyList();
         // An island's top block may occupy the last Y in its band; the mob stands above it.
         JotunheimTerrainKernel.HeightLayer layer = JotunheimTerrainKernel.layerAt(pos.getY() - 1);
+        CyclopsSpawns cyclops = getCyclopsSpawns();
+        if (cyclops != null) {
+            // Cyclopes may also stand on terrain/structures between the four altitude bands.
+            return layer == null ? cyclops.outsideLayers : cyclops.lists.get(biomeIndex).get(layer.ordinal());
+        }
         return layer == null ? Collections.emptyList() : LISTS.get(biomeIndex).get(layer.ordinal());
+    }
+
+    private static CyclopsSpawns getCyclopsSpawns() {
+        CyclopsSpawns cached = cyclopsSpawns;
+        if (cached != null) return cached;
+        // Resolve only after registration, without loading Ice and Fire classes at startup.
+        // Do not cache absence: an early query must not permanently disable this integration.
+        EntityEntry registered = ForgeRegistries.ENTITIES.getValue(CYCLOPS_ID);
+        if (registered == null || !EntityLiving.class.isAssignableFrom(registered.getEntityClass())) return null;
+        synchronized (JotunheimGiantSpawns.class) {
+            if (cyclopsSpawns == null) {
+                cyclopsSpawns = new CyclopsSpawns(registered.getEntityClass().asSubclass(EntityLiving.class));
+            }
+            return cyclopsSpawns;
+        }
+    }
+
+    private static boolean isCyclops(Class<?> type) {
+        CyclopsSpawns cyclops = getCyclopsSpawns();
+        return cyclops != null && type == cyclops.entityClass;
+    }
+
+    private static final class CyclopsSpawns {
+        final Class<? extends EntityLiving> entityClass;
+        final List<Biome.SpawnListEntry> outsideLayers;
+        final List<List<List<Biome.SpawnListEntry>>> lists;
+
+        CyclopsSpawns(Class<? extends EntityLiving> entityClass) {
+            this.entityClass = entityClass;
+            Biome.SpawnListEntry cyclops = entry(entityClass, CYCLOPS_WEIGHT);
+            outsideLayers = Collections.singletonList(cyclops);
+            List<List<List<Biome.SpawnListEntry>>> biomes = new ArrayList<>();
+            for (List<List<Biome.SpawnListEntry>> biome : LISTS) {
+                List<List<Biome.SpawnListEntry>> layers = new ArrayList<>();
+                for (List<Biome.SpawnListEntry> layer : biome) {
+                    List<Biome.SpawnListEntry> entries = new ArrayList<>(layer);
+                    entries.add(cyclops);
+                    layers.add(Collections.unmodifiableList(entries));
+                }
+                biomes.add(Collections.unmodifiableList(layers));
+            }
+            lists = Collections.unmodifiableList(biomes);
+        }
     }
 
     private static boolean isNaturalGiant(Class<?> type) {
@@ -117,7 +172,7 @@ public final class JotunheimGiantSpawns {
                 || type == EntityHillGiant.class || type == EntityStoneGiant.class
                 || type == EntityFomorianNoble.class || type == EntityFomorianWarlock.class
                 || type == EntityFireGiant.class || type == EntityFrostGiant.class
-                || type == EntityEttin.class;
+                || type == EntityEttin.class || isCyclops(type);
     }
 
     /** Rare, solitary giants may inhabit bright clouds and luminous undergrowth too. */
@@ -152,8 +207,9 @@ public final class JotunheimGiantSpawns {
                 || !floor.canEntitySpawn(giant)) return;
 
         // Weights only select a species; an independent roll controls actual rarity.
-        int spawnRoll = Math.max(1, JotunheimConfig.giantSpawnRoll);
-        if (isElementalResident(giant.getClass(), biomeIndex)) {
+        boolean cyclops = isCyclops(giant.getClass());
+        int spawnRoll = Math.max(1, cyclops ? JotunheimConfig.cyclopsSpawnRoll : JotunheimConfig.giantSpawnRoll);
+        if (!cyclops && isElementalResident(giant.getClass(), biomeIndex)) {
             spawnRoll = Math.max(1, (spawnRoll + 3) / 4);
         }
         if (world.rand.nextInt(spawnRoll) != 0) return;

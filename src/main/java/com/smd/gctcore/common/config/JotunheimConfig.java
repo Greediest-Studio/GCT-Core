@@ -12,6 +12,10 @@ public final class JotunheimConfig {
     @Config.RangeInt(min = 1, max = 128)
     public static int giantSpawnRoll = 24;
 
+    @Config.Comment("One in this many otherwise valid Ice and Fire cyclops natural-spawn attempts succeeds in Jotunheim, in any biome or altitude. Cyclopes also have spawn-list weight 4 and spawn alone. Requires iceandfire:cyclops to be registered.")
+    @Config.RangeInt(min = 1, max = 65536)
+    public static int cyclopsSpawnRoll = 256;
+
     @Config.Comment("Maximum living giants within 64 horizontal blocks and 24 vertical blocks of a natural-spawn candidate. Does not restrict eggs, commands or spawners.")
     @Config.RangeInt(min = 1, max = 8)
     public static int giantLocalLimit = 2;

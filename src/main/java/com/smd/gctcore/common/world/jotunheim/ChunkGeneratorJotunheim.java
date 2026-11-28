@@ -32,6 +32,8 @@ public final class ChunkGeneratorJotunheim implements IChunkGenerator {
     private final World world;
     private final JotunheimTerrainKernel kernel;
     private final JotunheimVegetation vegetation;
+    private final JotunheimLakes lakes;
+    private final JotunheimCyclopsCaves cyclopsCaves;
     private final JotunheimSkyFeatures skyFeatures;
     private final JotunheimYmirWells ymirWells;
     private final boolean structuresEnabled;
@@ -48,10 +50,14 @@ public final class ChunkGeneratorJotunheim implements IChunkGenerator {
     public ChunkGeneratorJotunheim(World world, JotunheimTerrainKernel kernel, JotunheimYmirWells wells) {
         this.world = world;
         this.kernel = kernel;
-        this.vegetation = new JotunheimVegetation(world.getSeed(), kernel);
-        this.skyFeatures = new JotunheimSkyFeatures(world.getSeed(), kernel);
         this.ymirWells = wells;
         this.structuresEnabled = world.getWorldInfo().isMapFeaturesEnabled();
+        this.lakes = new JotunheimLakes(world.getSeed(), kernel, structuresEnabled ? wells : null);
+        this.cyclopsCaves = new JotunheimCyclopsCaves(world.getSeed(), kernel,
+                structuresEnabled ? wells : null, lakes);
+        this.vegetation = new JotunheimVegetation(world.getSeed(), kernel, lakes,
+                structuresEnabled ? cyclopsCaves : null);
+        this.skyFeatures = new JotunheimSkyFeatures(world.getSeed(), kernel);
         Map<String, IBlockState> states = new HashMap<>();
         for (int biome = 0; biome < 8; biome++) {
             for (JotunheimTerrainKernel.HeightLayer layer : JotunheimTerrainKernel.HeightLayer.values()) {
@@ -107,9 +113,14 @@ public final class ChunkGeneratorJotunheim implements IChunkGenerator {
                 }
             }
         }
+        lakes.decorate(primer, chunkX, chunkZ, sampled);
         vegetation.decorate(primer, chunkX, chunkZ, sampled, biomeIndices);
+        lakes.decorate(primer, chunkX, chunkZ, sampled);
         skyFeatures.decorate(primer, chunkX, chunkZ);
-        if (structuresEnabled) ymirWells.decorate(primer, chunkX, chunkZ);
+        if (structuresEnabled) {
+            ymirWells.decorate(primer, chunkX, chunkZ);
+            cyclopsCaves.decorate(primer, chunkX, chunkZ);
+        }
         Chunk chunk = new Chunk(world, primer, chunkX, chunkZ);
         JotunheimBiomeStorage.write(chunk, biomes);
         chunk.generateSkylightMap();
@@ -119,7 +130,14 @@ public final class ChunkGeneratorJotunheim implements IChunkGenerator {
 
     @Override
     public void populate(int chunkX, int chunkZ) {
-        // Vegetation is already in the new chunk primer; never load neighbouring world chunks here.
+        // Terrain is already in the primer. Queue occupants only for newly populated cave centres;
+        // their individual spawns wait until the required surrounding chunks are already loaded.
+        if (world.isRemote || !structuresEnabled) return;
+        for (JotunheimCyclopsCaves.Plan cave : cyclopsCaves.plansForChunk(chunkX, chunkZ)) {
+            if (Math.floorDiv(cave.x, 16) == chunkX && Math.floorDiv(cave.z, 16) == chunkZ) {
+                CyclopsCaveData.get(world).register(cave.centerFeet(), cave.guardianFeet());
+            }
+        }
     }
 
     @Override
@@ -134,12 +152,50 @@ public final class ChunkGeneratorJotunheim implements IChunkGenerator {
     @Override public boolean generateStructures(Chunk chunk, int chunkX, int chunkZ) { return false; }
     @Override public void recreateStructures(Chunk chunk, int chunkX, int chunkZ) {}
     @Override public boolean isInsideStructure(World world, String name, BlockPos pos) {
-        return structuresEnabled && JotunheimYmirWells.acceptsName(name) && ymirWells.isInside(pos);
+        if (!structuresEnabled) return false;
+        if (JotunheimYmirWells.acceptsName(name)) return ymirWells.isInside(pos);
+        if (JotunheimCyclopsCaves.acceptsName(name)) {
+            for (JotunheimCyclopsCaves.Plan cave : cyclopsCaves.plansForChunk(
+                    Math.floorDiv(pos.getX(), 16), Math.floorDiv(pos.getZ(), 16))) {
+                if (cave.contains(pos.getX(), pos.getY(), pos.getZ())) return true;
+            }
+        }
+        return false;
     }
     @Override @Nullable
     public BlockPos getNearestStructurePos(World world, String name, BlockPos pos, boolean findUnexplored) {
-        return structuresEnabled && JotunheimYmirWells.acceptsName(name)
-                ? ymirWells.nearest(pos, findUnexplored, world) : null;
+        if (!structuresEnabled) return null;
+        if (JotunheimYmirWells.acceptsName(name)) return ymirWells.nearest(pos, findUnexplored, world);
+        return JotunheimCyclopsCaves.acceptsName(name)
+                ? nearestCyclopsCave(pos, findUnexplored) : null;
+    }
+
+    /** Predicts structure locations without loading or generating destination chunks. */
+    @Nullable
+    private BlockPos nearestCyclopsCave(BlockPos origin, boolean unexplored) {
+        int regionSize = JotunheimCyclopsCaves.REGION_CHUNKS * 16;
+        int rx = Math.floorDiv(origin.getX(), regionSize), rz = Math.floorDiv(origin.getZ(), regionSize);
+        BlockPos best = null;
+        double distance = Double.POSITIVE_INFINITY;
+        for (int ring = 0; ring <= 8; ring++) {
+            for (int dz = -ring; dz <= ring; dz++) for (int dx = -ring; dx <= ring; dx++) {
+                if (Math.max(Math.abs(dx), Math.abs(dz)) != ring) continue;
+                JotunheimCyclopsCaves.Plan cave = cyclopsCaves.planForRegion(rx + dx, rz + dz);
+                if (cave == null || !world.getWorldBorder().contains(cave.entrance())
+                        || unexplored && world.isChunkGeneratedAt(Math.floorDiv(cave.x, 16), Math.floorDiv(cave.z, 16))) continue;
+                BlockPos entrance = cave.entrance();
+                double next = origin.distanceSq(entrance);
+                if (next < distance) { distance = next; best = entrance; }
+            }
+            // Minimum XZ distance from origin to any not-yet-searched region.
+            long west = origin.getX() - (long) (rx - ring) * regionSize;
+            long east = (long) (rx + ring + 1) * regionSize - origin.getX();
+            long north = origin.getZ() - (long) (rz - ring) * regionSize;
+            long south = (long) (rz + ring + 1) * regionSize - origin.getZ();
+            long minimum = Math.min(Math.min(west, east), Math.min(north, south));
+            if (best != null && distance <= (double) minimum * minimum) break;
+        }
+        return best;
     }
 
     /** Current world blocks, rather than predicted terrain: honors edits and cached saves. No chunk loads. */
